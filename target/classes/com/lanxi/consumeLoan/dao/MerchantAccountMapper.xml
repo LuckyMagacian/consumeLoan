@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<mapper namespace="com.lanxi.consumeLoan.dao.MerchantAccountDao">
+	<insert id="addMerchantAccount" parameterType="com.lanxi.consumeLoan.entity.MerchantAccount">
+		insert into merchant_account
+		(merchant_id,brokerage,provisionsOfRisk,serviceCharge)
+		values
+		(
+			#{merchantId},#{brokerage},#{provisionsOfRisk},#{serviceCharge}
+		)
+	</insert>
+	<delete id="deleteMerchantAccountByClass" parameterType="com.lanxi.consumeLoan.entity.MerchantAccount">
+		delete from merchant_account
+		<where>
+			<if test="merchantId != null"> and merchant_id = #{merchantId}  </if>
+			<if test="brokerage != null"> and brokerage = #{brokerage}  </if>
+			<if test="provisionsOfRisk != null"> and provisionsOfRisk = #{provisionsOfRisk}  </if>
+			<if test="serviceCharge != null"> and serviceCharge = #{serviceCharge}  </if>
+		</where>
+	</delete>
+	<delete id="deleteMerchantAccountByUniqueIndexOnMerchantId">
+		delete from merchant_account
+		<where>
+			AND merchant_id = #{merchantId}
+		</where>
+	</delete>
+	<update id="updateMerchantAccountByClass">
+		update merchant_account
+		<set>
+			merchant_id=#{merchantAccount.merchantId},
+			brokerage=#{merchantAccount.brokerage},
+			provisionsOfRisk=#{merchantAccount.provisionsOfRisk},
+			serviceCharge=#{merchantAccount.serviceCharge}
+		</set>
+		<where>
+			<if test="param.merchantId != null"> AND merchant_id = #{param.merchantId}</if>
+			<if test="param.brokerage != null"> AND brokerage = #{param.brokerage}</if>
+			<if test="param.provisionsOfRisk != null"> AND provisionsOfRisk = #{param.provisionsOfRisk}</if>
+			<if test="param.serviceCharge != null"> AND serviceCharge = #{param.serviceCharge}</if>
+		</where>
+	</update>
+	<update id="updateMerchantAccountByUniqueIndexOnMerchantId">
+		update merchant_account
+		<set>
+			merchant_id=#{merchantAccount.merchantId},
+			brokerage=#{merchantAccount.brokerage},
+			provisionsOfRisk=#{merchantAccount.provisionsOfRisk},
+			serviceCharge=#{merchantAccount.serviceCharge}
+		</set>
+		<where>
+			AND merchant_id=#{merchantId}
+		</where>
+	</update>
+	<select id="selectMerchantAccountByClass" resultMap="merchantAccountMap"  resultType="com.lanxi.consumeLoan.entity.MerchantAccount" parameterType="com.lanxi.consumeLoan.entity.MerchantAccount">
+		select
+			merchant_id,brokerage,provisionsOfRisk,serviceCharge
+		from merchant_account
+		<where>
+			<if test="merchantId != null"> AND merchant_id = #{merchantId}</if>
+			<if test="brokerage != null"> AND brokerage = #{brokerage}</if>
+			<if test="provisionsOfRisk != null"> AND provisionsOfRisk = #{provisionsOfRisk}</if>
+			<if test="serviceCharge != null"> AND serviceCharge = #{serviceCharge}</if>
+		</where>
+	</select>
+	<select id="selectMerchantAccountByUniqueIndexOnMerchantId" resultType="com.lanxi.consumeLoan.entity.MerchantAccount" resultMap="merchantAccountMap" >
+		select
+			merchant_id,brokerage,provisionsOfRisk,serviceCharge
+		from merchant_account
+		<where>
+			AND merchant_id=#{merchantId}
+		</where>
+	</select>
+	<resultMap id="merchantAccountMap" type="com.lanxi.consumeLoan.entity.MerchantAccount">
+		<result property="merchantId" 			column="merchant_id"></result>
+		<result property="brokerage" 			column="brokerage"></result>
+		<result property="provisionsOfRisk" 			column="provisionsOfRisk"></result>
+		<result property="serviceCharge" 			column="serviceCharge"></result>
+	</resultMap>
+</mapper>

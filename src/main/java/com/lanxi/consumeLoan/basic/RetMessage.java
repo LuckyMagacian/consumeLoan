@@ -1,0 +1,47 @@
+package com.lanxi.consumeLoan.basic;
+
+import com.alibaba.fastjson.JSONObject;
+
+public class RetMessage {
+	private String code;
+	private String message;
+	private Object result;
+	public RetMessage() {}
+	public RetMessage(String code,String message,Object result) {
+		this.code=code;
+		this.message=message;
+		this.result=result;
+	}
+	public String getCode() {
+		return code;
+	}
+	public void setCode(String code) {
+		this.code = code;
+	}
+	public String getMessage() {
+		return message;
+	}
+	public void setMessage(String message) {
+		this.message = message;
+	}
+	public Object getResult() {
+		return result;
+	}
+	public void setResult(Object result) {
+		this.result = result;
+	}
+	public Class<?> getResultType(){
+		if(result!=null)
+			return result.getClass();
+		else
+			return null;
+	}
+	@Override
+	public String toString() {
+		return "RetMessage [code=" + code + ", message=" + message + ", result=" + result + "]";
+	}
+	
+	public String toJson(){
+		return JSONObject.toJSONString(this);
+	}
+}

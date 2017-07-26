@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<mapper namespace="com.lanxi.consumeLoan.dao.SystemAccountDao">
+	<insert id="addSystemAccount" parameterType="com.lanxi.consumeLoan.entity.SystemAccount">
+		insert into system_account
+		(account_id,brokerage,provisionsOfRisk,serviceCharge)
+		values
+		(
+			#{accountId},#{brokerage},#{provisionsOfRisk},#{serviceCharge}
+		)
+	</insert>
+	<delete id="deleteSystemAccountByClass" parameterType="com.lanxi.consumeLoan.entity.SystemAccount">
+		delete from system_account
+		<where>
+			<if test="accountId != null"> and account_id = #{accountId}  </if>
+			<if test="brokerage != null"> and brokerage = #{brokerage}  </if>
+			<if test="provisionsOfRisk != null"> and provisionsOfRisk = #{provisionsOfRisk}  </if>
+			<if test="serviceCharge != null"> and serviceCharge = #{serviceCharge}  </if>
+		</where>
+	</delete>
+	<delete id="deleteSystemAccountByUniqueIndexOnAccountId">
+		delete from system_account
+		<where>
+			AND account_id = #{accountId}
+		</where>
+	</delete>
+	<update id="updateSystemAccountByClass">
+		update system_account
+		<set>
+			account_id=#{systemAccount.accountId},
+			brokerage=#{systemAccount.brokerage},
+			provisionsOfRisk=#{systemAccount.provisionsOfRisk},
+			serviceCharge=#{systemAccount.serviceCharge}
+		</set>
+		<where>
+			<if test="param.accountId != null"> AND account_id = #{param.accountId}</if>
+			<if test="param.brokerage != null"> AND brokerage = #{param.brokerage}</if>
+			<if test="param.provisionsOfRisk != null"> AND provisionsOfRisk = #{param.provisionsOfRisk}</if>
+			<if test="param.serviceCharge != null"> AND serviceCharge = #{param.serviceCharge}</if>
+		</where>
+	</update>
+	<update id="updateSystemAccountByUniqueIndexOnAccountId">
+		update system_account
+		<set>
+			account_id=#{systemAccount.accountId},
+			brokerage=#{systemAccount.brokerage},
+			provisionsOfRisk=#{systemAccount.provisionsOfRisk},
+			serviceCharge=#{systemAccount.serviceCharge}
+		</set>
+		<where>
+			AND account_id=#{accountId}
+		</where>
+	</update>
+	<select id="selectSystemAccountByClass" resultMap="systemAccountMap"  resultType="com.lanxi.consumeLoan.entity.SystemAccount" parameterType="com.lanxi.consumeLoan.entity.SystemAccount">
+		select
+			account_id,brokerage,provisionsOfRisk,serviceCharge
+		from system_account
+		<where>
+			<if test="accountId != null"> AND account_id = #{accountId}</if>
+			<if test="brokerage != null"> AND brokerage = #{brokerage}</if>
+			<if test="provisionsOfRisk != null"> AND provisionsOfRisk = #{provisionsOfRisk}</if>
+			<if test="serviceCharge != null"> AND serviceCharge = #{serviceCharge}</if>
+		</where>
+	</select>
+	<select id="selectSystemAccountByUniqueIndexOnAccountId" resultType="com.lanxi.consumeLoan.entity.SystemAccount" resultMap="systemAccountMap" >
+		select
+			account_id,brokerage,provisionsOfRisk,serviceCharge
+		from system_account
+		<where>
+			AND account_id=#{accountId}
+		</where>
+	</select>
+	<resultMap id="systemAccountMap" type="com.lanxi.consumeLoan.entity.SystemAccount">
+		<result property="accountId" 			column="account_id"></result>
+		<result property="brokerage" 			column="brokerage"></result>
+		<result property="provisionsOfRisk" 			column="provisionsOfRisk"></result>
+		<result property="serviceCharge" 			column="serviceCharge"></result>
+	</resultMap>
+</mapper>

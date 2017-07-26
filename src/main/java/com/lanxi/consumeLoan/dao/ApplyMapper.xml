@@ -1,0 +1,231 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<mapper namespace="com.lanxi.consumeLoan.dao.ApplyDao">
+	<insert id="addApply" parameterType="com.lanxi.consumeLoan.entity.Apply">
+		insert into apply
+		(apply_id,name,sex,address,id_number,apply_money,phone,verify_code,merchant_id,sales_man_phone,apply_time,loan_time,loan_money,is_overdue,overdue_money,state,brokerage_rate,shared_rate,deposite_rate)
+		values
+		(
+			#{applyId},#{name},#{sex},#{address},#{idNumber},#{applyMoney},#{phone},#{verifyCode},#{merchantId},#{salesManPhone},#{applyTime},#{loanTime},#{loanMoney},#{isOverdue},#{overdueMoney},#{state},#{brokerageRate},#{sharedRate},#{depositeRate}
+		)
+	</insert>
+	<delete id="deleteApplyByClass" parameterType="com.lanxi.consumeLoan.entity.Apply">
+		delete from apply
+		<where>
+			<if test="applyId != null"> and apply_id = #{applyId}  </if>
+			<if test="name != null"> and name = #{name}  </if>
+			<if test="sex != null"> and sex = #{sex}  </if>
+			<if test="address != null"> and address = #{address}  </if>
+			<if test="idNumber != null"> and id_number = #{idNumber}  </if>
+			<if test="applyMoney != null"> and apply_money = #{applyMoney}  </if>
+			<if test="phone != null"> and phone = #{phone}  </if>
+			<if test="verifyCode != null"> and verify_code = #{verifyCode}  </if>
+			<if test="merchantId != null"> and merchant_id = #{merchantId}  </if>
+			<if test="salesManPhone != null"> and sales_man_phone = #{salesManPhone}  </if>
+			<if test="applyTime != null"> and apply_time = #{applyTime}  </if>
+			<if test="loanTime != null"> and loan_time = #{loanTime}  </if>
+			<if test="loanMoney != null"> and loan_money = #{loanMoney}  </if>
+			<if test="isOverdue != null"> and is_overdue = #{isOverdue}  </if>
+			<if test="overdueMoney != null"> and overdue_money = #{overdueMoney}  </if>
+			<if test="state != null"> and state = #{state}  </if>
+			<if test="brokerageRate != null"> and brokerage_rate = #{brokerageRate}  </if>
+			<if test="sharedRate != null"> and shared_rate = #{sharedRate}  </if>
+			<if test="depositeRate != null"> and deposite_rate = #{depositeRate}  </if>
+		</where>
+	</delete>
+	<delete id="deleteApplyByUniqueIndexOnApplyId">
+		delete from apply
+		<where>
+			AND apply_id = #{applyId}
+		</where>
+	</delete>
+	<delete id="deleteApplyByUniqueIndexOnIdNumberAndApplyTimeAndPhone">
+		delete from apply
+		<where>
+			AND id_number = #{idNumber}
+			AND apply_time = #{applyTime}
+			AND phone = #{phone}
+		</where>
+	</delete>
+	<update id="updateApplyByClass">
+		update apply
+		<set>
+			apply_id=#{apply.applyId},
+			name=#{apply.name},
+			sex=#{apply.sex},
+			address=#{apply.address},
+			id_number=#{apply.idNumber},
+			apply_money=#{apply.applyMoney},
+			phone=#{apply.phone},
+			verify_code=#{apply.verifyCode},
+			merchant_id=#{apply.merchantId},
+			sales_man_phone=#{apply.salesManPhone},
+			apply_time=#{apply.applyTime},
+			loan_time=#{apply.loanTime},
+			loan_money=#{apply.loanMoney},
+			is_overdue=#{apply.isOverdue},
+			overdue_money=#{apply.overdueMoney},
+			state=#{apply.state},
+			brokerage_rate=#{apply.brokerageRate},
+			shared_rate=#{apply.sharedRate},
+			deposite_rate=#{apply.depositeRate}
+		</set>
+		<where>
+			<if test="param.applyId != null"> AND apply_id = #{param.applyId}</if>
+			<if test="param.name != null"> AND name = #{param.name}</if>
+			<if test="param.sex != null"> AND sex = #{param.sex}</if>
+			<if test="param.address != null"> AND address = #{param.address}</if>
+			<if test="param.idNumber != null"> AND id_number = #{param.idNumber}</if>
+			<if test="param.applyMoney != null"> AND apply_money = #{param.applyMoney}</if>
+			<if test="param.phone != null"> AND phone = #{param.phone}</if>
+			<if test="param.verifyCode != null"> AND verify_code = #{param.verifyCode}</if>
+			<if test="param.merchantId != null"> AND merchant_id = #{param.merchantId}</if>
+			<if test="param.salesManPhone != null"> AND sales_man_phone = #{param.salesManPhone}</if>
+			<if test="param.applyTime != null"> AND apply_time = #{param.applyTime}</if>
+			<if test="param.loanTime != null"> AND loan_time = #{param.loanTime}</if>
+			<if test="param.loanMoney != null"> AND loan_money = #{param.loanMoney}</if>
+			<if test="param.isOverdue != null"> AND is_overdue = #{param.isOverdue}</if>
+			<if test="param.overdueMoney != null"> AND overdue_money = #{param.overdueMoney}</if>
+			<if test="param.state != null"> AND state = #{param.state}</if>
+			<if test="param.brokerageRate != null"> AND brokerage_rate = #{param.brokerageRate}</if>
+			<if test="param.sharedRate != null"> AND shared_rate = #{param.sharedRate}</if>
+			<if test="param.depositeRate != null"> AND deposite_rate = #{param.depositeRate}</if>
+		</where>
+	</update>
+	<update id="updateApplyByUniqueIndexOnApplyId">
+		update apply
+		<set>
+			apply_id=#{apply.applyId},
+			name=#{apply.name},
+			sex=#{apply.sex},
+			address=#{apply.address},
+			id_number=#{apply.idNumber},
+			apply_money=#{apply.applyMoney},
+			phone=#{apply.phone},
+			verify_code=#{apply.verifyCode},
+			merchant_id=#{apply.merchantId},
+			sales_man_phone=#{apply.salesManPhone},
+			apply_time=#{apply.applyTime},
+			loan_time=#{apply.loanTime},
+			loan_money=#{apply.loanMoney},
+			is_overdue=#{apply.isOverdue},
+			overdue_money=#{apply.overdueMoney},
+			state=#{apply.state},
+			brokerage_rate=#{apply.brokerageRate},
+			shared_rate=#{apply.sharedRate},
+			deposite_rate=#{apply.depositeRate}
+		</set>
+		<where>
+			AND apply_id=#{applyId}
+		</where>
+	</update>
+	<update id="updateApplyByUniqueIndexOnIdNumberAndApplyTimeAndPhone">
+		update apply
+		<set>
+			apply_id=#{apply.applyId},
+			name=#{apply.name},
+			sex=#{apply.sex},
+			address=#{apply.address},
+			id_number=#{apply.idNumber},
+			apply_money=#{apply.applyMoney},
+			phone=#{apply.phone},
+			verify_code=#{apply.verifyCode},
+			merchant_id=#{apply.merchantId},
+			sales_man_phone=#{apply.salesManPhone},
+			apply_time=#{apply.applyTime},
+			loan_time=#{apply.loanTime},
+			loan_money=#{apply.loanMoney},
+			is_overdue=#{apply.isOverdue},
+			overdue_money=#{apply.overdueMoney},
+			state=#{apply.state},
+			brokerage_rate=#{apply.brokerageRate},
+			shared_rate=#{apply.sharedRate},
+			deposite_rate=#{apply.depositeRate}
+		</set>
+		<where>
+			AND id_number=#{idNumber}
+			AND apply_time=#{applyTime}
+			AND phone=#{phone}
+		</where>
+	</update>
+	<select id="selectApplyByClass" resultMap="applyMap"  resultType="com.lanxi.consumeLoan.entity.Apply" parameterType="com.lanxi.consumeLoan.entity.Apply">
+		select
+			apply_id,name,sex,address,id_number,apply_money,phone,verify_code,merchant_id,sales_man_phone,apply_time,loan_time,loan_money,is_overdue,overdue_money,state,brokerage_rate,shared_rate,deposite_rate
+		from apply
+		<where>
+			<if test="applyId != null"> AND apply_id = #{applyId}</if>
+			<if test="name != null"> AND name = #{name}</if>
+			<if test="sex != null"> AND sex = #{sex}</if>
+			<if test="address != null"> AND address = #{address}</if>
+			<if test="idNumber != null"> AND id_number = #{idNumber}</if>
+			<if test="applyMoney != null"> AND apply_money = #{applyMoney}</if>
+			<if test="phone != null"> AND phone = #{phone}</if>
+			<if test="verifyCode != null"> AND verify_code = #{verifyCode}</if>
+			<if test="merchantId != null"> AND merchant_id = #{merchantId}</if>
+			<if test="salesManPhone != null"> AND sales_man_phone = #{salesManPhone}</if>
+			<if test="applyTime != null"> AND apply_time = #{applyTime}</if>
+			<if test="loanTime != null"> AND loan_time = #{loanTime}</if>
+			<if test="loanMoney != null"> AND loan_money = #{loanMoney}</if>
+			<if test="isOverdue != null"> AND is_overdue = #{isOverdue}</if>
+			<if test="overdueMoney != null"> AND overdue_money = #{overdueMoney}</if>
+			<if test="state != null"> AND state = #{state}</if>
+			<if test="brokerageRate != null"> AND brokerage_rate = #{brokerageRate}</if>
+			<if test="sharedRate != null"> AND shared_rate = #{sharedRate}</if>
+			<if test="depositeRate != null"> AND deposite_rate = #{depositeRate}</if>
+		</where>
+	</select>
+	<select id="selectApplyByUniqueIndexOnApplyId" resultType="com.lanxi.consumeLoan.entity.Apply" resultMap="applyMap" >
+		select
+			apply_id,name,sex,address,id_number,apply_money,phone,verify_code,merchant_id,sales_man_phone,apply_time,loan_time,loan_money,is_overdue,overdue_money,state,brokerage_rate,shared_rate,deposite_rate
+		from apply
+		<where>
+			AND apply_id=#{applyId}
+		</where>
+	</select>
+	<select id="selectApplyByUniqueIndexOnIdNumberAndApplyTimeAndPhone" resultType="com.lanxi.consumeLoan.entity.Apply" resultMap="applyMap" >
+		select
+			apply_id,name,sex,address,id_number,apply_money,phone,verify_code,merchant_id,sales_man_phone,apply_time,loan_time,loan_money,is_overdue,overdue_money,state,brokerage_rate,shared_rate,deposite_rate
+		from apply
+		<where>
+            <if test="userPhone != null"> AND phone = #{userPhone}</if>
+            <if test="startTime != null and endTime != null"> AND apply_time between #{startTime} AND #{endTime}</if>
+            <if test="startTime != null and endTime == null"> AND apply_time = #{startTime}</if>
+            <if test="startTime == null and endTime != null"> AND apply_time = #{endTime}</if>
+            <if test="state != null"> AND state = #{state}</if>
+        </where>
+	</select>
+	
+	<select id="selectApplyByParam" resultType="com.lanxi.consumeLoan.entity.Apply" resultMap="applyMap" >
+        select
+            apply_id,name,sex,address,id_number,apply_money,phone,verify_code,merchant_id,sales_man_phone,apply_time,loan_time,loan_money,is_overdue,overdue_money,state,brokerage_rate,shared_rate,deposite_rate
+        from apply
+        <where>
+            AND id_number=#{idNumber}
+            AND apply_time=#{applyTime}
+            AND phone=#{phone}
+        </where>
+    </select>
+	
+	
+	<resultMap id="applyMap" type="com.lanxi.consumeLoan.entity.Apply">
+		<result property="applyId" 			column="apply_id"></result>
+		<result property="name" 			column="name"></result>
+		<result property="sex" 			column="sex"></result>
+		<result property="address" 			column="address"></result>
+		<result property="idNumber" 			column="id_number"></result>
+		<result property="applyMoney" 			column="apply_money"></result>
+		<result property="phone" 			column="phone"></result>
+		<result property="verifyCode" 			column="verify_code"></result>
+		<result property="merchantId" 			column="merchant_id"></result>
+		<result property="salesManPhone" 			column="sales_man_phone"></result>
+		<result property="applyTime" 			column="apply_time"></result>
+		<result property="loanTime" 			column="loan_time"></result>
+		<result property="loanMoney" 			column="loan_money"></result>
+		<result property="isOverdue" 			column="is_overdue"></result>
+		<result property="overdueMoney" 			column="overdue_money"></result>
+		<result property="state" 			column="state"></result>
+		<result property="brokerageRate" 			column="brokerage_rate"></result>
+		<result property="sharedRate" 			column="shared_rate"></result>
+		<result property="depositeRate" 			column="deposite_rate"></result>
+	</resultMap>
+</mapper>
