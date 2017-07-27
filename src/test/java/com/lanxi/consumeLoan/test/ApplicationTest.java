@@ -23,17 +23,24 @@ import com.lanxi.consumeLoan.consts.ConstParam;
 import com.lanxi.consumeLoan.controller.TestController;
 import com.lanxi.consumeLoan.dao.RoleDao;
 import com.lanxi.consumeLoan.dao.UserDao;
+import com.lanxi.consumeLoan.entity.Apply;
 import com.lanxi.consumeLoan.entity.Role;
 import com.lanxi.consumeLoan.entity.User;
+import com.lanxi.consumeLoan.functions.ApplyOrderAddFunction;
 import com.lanxi.consumeLoan.functions.LoginFunction;
+import com.lanxi.consumeLoan.functions.LogoutFunction;
+import com.lanxi.consumeLoan.functions.MakeValidateCodePicFunction;
+import com.lanxi.consumeLoan.functions.MerchantHomeFunction;
 import com.lanxi.consumeLoan.functions.RoleAddFunction;
 import com.lanxi.consumeLoan.functions.UserAddFunction;
+import com.lanxi.consumeLoan.functions.ValidateCodeSendFunction;
 import com.lanxi.consumeLoan.manager.ApplicationContextProxy;
 import com.lanxi.consumeLoan.service.DaoService;
 import com.lanxi.consumeLoan.service.DaoServiceImpl;
 import com.lanxi.util.utils.FileUtil;
 import com.lanxi.util.utils.LoggerUtil;
 import com.lanxi.util.utils.SqlUtilForDB;
+import com.lanxi.util.utils.TimeUtil;
 
 public class ApplicationTest {
 	private ApplicationContext ac;
@@ -72,6 +79,11 @@ public class ApplicationTest {
 		args.put("name", "salesMan");
 		List<String> list=new ArrayList<>();
 		list.add(LoginFunction.class.getName());
+		list.add(MerchantHomeFunction.class.getName());
+		list.add(ApplyOrderAddFunction.class.getName());
+		list.add(MakeValidateCodePicFunction.class.getName());
+		list.add(LogoutFunction.class.getName());
+		list.add(ValidateCodeSendFunction.class.getName());
 //		Map<String, Function> funs=ac.getBeansOfType(Function.class);
 //		for(Entry<String, Function> each:funs.entrySet())
 //			list.add(each.getValue().getClass().getName());
@@ -105,14 +117,21 @@ public class ApplicationTest {
 	@Test
 	public void test11(){
 		SetEncodeUtf8 set=ac.getBean(SetEncodeUtf8.class);
-		ac.getBean(TestController.class).login(null, null);
 		ac.getBean(TestController.class).getPic(null, null);
 		System.out.println(set);
 	}
 	
 	@Test
 	public void test4(){
-		SqlUtilForDB.makeOne(SqlUtilForDB.getTable(SqlUtilForDB.getConnection(), "merchant"), "", "", false,false);;
+		SqlUtilForDB.makeOne(SqlUtilForDB.getTable(SqlUtilForDB.getConnection(), "merchant_account"), "", "", false,false);;
 	}
 	
+	@Test
+	public void test55(){
+		DaoService dao=ac.getBean(DaoService.class);
+		Apply app=(dao.getApplyDao().selectApplyByUniqueIndexOnApplyId("1001"));
+		app.setBreakTime(TimeUtil.getPreferDateTime());
+		dao.getApplyDao().updateApplyByUniqueIndexOnApplyId(app, app.getApplyId());
+		System.out.println((dao.getApplyDao().selectApplyByUniqueIndexOnApplyId("1001")));
+	}
 }

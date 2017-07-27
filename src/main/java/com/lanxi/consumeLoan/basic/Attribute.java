@@ -1,8 +1,10 @@
 package com.lanxi.consumeLoan.basic;
 
 import com.alibaba.fastjson.JSONObject;
+import com.lanxi.util.interfaces.ToJson;
 
-public class Attribute<T> {
+
+public class Attribute<T> implements ToJson{
 	private String name;
 	private T value;
 	private String type;
@@ -51,7 +53,10 @@ public class Attribute<T> {
 		} catch (ClassNotFoundException e) {
 			throw new RuntimeException(e);
 		}
-		this.value=(T)JSONObject.parseObject(jObj.getString("value"),clazz);
+		if(type.equals("java.lang.String"))
+			value=(T) jObj.getString("value");
+		else
+			this.value=(T)JSONObject.parseObject(jObj.getString("value"),clazz);
 		return this;
 	}
 	

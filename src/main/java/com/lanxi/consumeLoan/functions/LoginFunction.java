@@ -20,8 +20,8 @@ import com.lanxi.util.utils.TimeUtil;
 @Service
 public class LoginFunction extends AbstractFunction{
     public LoginFunction(){
-        setName("loginFunction");
         addAttribute(new Attribute<String>("password","123456"));
+        addAttribute(new Attribute<String>("name", ""));
     }
 
     @Override
@@ -52,11 +52,11 @@ public class LoginFunction extends AbstractFunction{
         }
         LogFactory.info(this, "手机号["+phone+"],密码["+password+"],验证码["+validateCode+"]非空校验通过!");
         User user=dao.getUserDao().selectUserByUniqueIndexOnPhone(phone);
-        if(user==null){
-        	LogFactory.info(this, "用户["+phone+"]不存在!");
-        	return new RetMessage(RetCodeEnum.FAIL.toString(),"用户不存在!请检查帐号是否正确!",null);
-        }
-        LogFactory.info(this, "用户["+phone+"]存在性校验通过!");
+//        if(user==null){
+//        	LogFactory.info(this, "用户["+phone+"]不存在!");
+//        	return new RetMessage(RetCodeEnum.FAIL.toString(),"用户不存在!请检查帐号是否正确!",null);
+//        }
+//        LogFactory.info(this, "用户["+phone+"]存在性校验通过!");
         String code=redisService.get(ConstParam.FUNCTION_NAME_LOGIN+phone);
         if(!validateCode.equals(code)){
         	LogFactory.info(this, "验证码错误!输入验证码["+validateCode+"],缓存验证码["+code+"]");
@@ -68,13 +68,13 @@ public class LoginFunction extends AbstractFunction{
         	LogFactory.info(this, "密码错误!输入密码["+password+"],真实密码["+user.get("password").getValue()+"]");
         	return new RetMessage(RetCodeEnum.FAIL.toString(),"密码错误!",null);
         }
-        LogFactory.info(this, "用户密码校验通过!");
+        LogFactory.info(this, "用户["+phone+"]密码校验通过!");
         String ip=(String) args.get("ip");
         if(ip==null){
         	throw new RuntimeException("user ip can't be null !");
         }
         redisService.set(ConstParam.USER_STATE_LOGIN+phone, ip);
-        LogFactory.info(this, "用户ip锁定["+ip+"]!");
+        LogFactory.info(this, "用户["+phone+"]ip锁定["+ip+"]!");
         LogFactory.info(this, "用户["+phone+"]于["+TimeUtil.getPreferDateTime()+"]登录本系统!");
         return new RetMessage(RetCodeEnum.SUCCESS.toString(),"登录成功!",null);
     }

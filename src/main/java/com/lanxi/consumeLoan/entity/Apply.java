@@ -7,7 +7,7 @@ import java.lang.Byte;
 /**
  * no comment
  * @author yyj | auto generator
- * @version 1.0.0 2017-07-24 10:25:36
+ * @version 1.0.0 2017-07-26 17:30:57
  */
 
 public class Apply{
@@ -67,6 +67,12 @@ public class Apply{
 	
 	/**担保比例*/
 	private BigDecimal depositeRate;
+	
+	/**违约时间*/
+	private String breakTime;
+	
+	/**违约金额*/
+	private BigDecimal breakMoney;
 	
 	/**获取申请编号*/
 	public String getApplyId(){
@@ -258,8 +264,28 @@ public class Apply{
 		this.depositeRate=depositeRate;
 		
 	}
+	/**获取违约时间*/
+	public String getBreakTime(){
+		return this.breakTime;
+	}
+	
+	/**设置违约时间*/
+	public void setBreakTime(String breakTime){
+		this.breakTime=breakTime;
+		
+	}
+	/**获取违约金额*/
+	public BigDecimal getBreakMoney(){
+		return this.breakMoney;
+	}
+	
+	/**设置违约金额*/
+	public void setBreakMoney(BigDecimal breakMoney){
+		this.breakMoney=breakMoney;
+		
+	}
 	@Override
 	public String toString(){
-		return "com.lanxi.consumeLoan.entity.Apply:["+"applyId="+applyId+","+"name="+name+","+"sex="+sex+","+"address="+address+","+"idNumber="+idNumber+","+"applyMoney="+applyMoney+","+"phone="+phone+","+"verifyCode="+verifyCode+","+"merchantId="+merchantId+","+"salesManPhone="+salesManPhone+","+"applyTime="+applyTime+","+"loanTime="+loanTime+","+"loanMoney="+loanMoney+","+"isOverdue="+isOverdue+","+"overdueMoney="+overdueMoney+","+"state="+state+","+"brokerageRate="+brokerageRate+","+"sharedRate="+sharedRate+","+"depositeRate="+depositeRate+"]";
+		return "com.lanxi.consumeLoan.entity.Apply:["+"applyId="+applyId+","+"name="+name+","+"sex="+sex+","+"address="+address+","+"idNumber="+idNumber+","+"applyMoney="+applyMoney+","+"phone="+phone+","+"verifyCode="+verifyCode+","+"merchantId="+merchantId+","+"salesManPhone="+salesManPhone+","+"applyTime="+applyTime+","+"loanTime="+loanTime+","+"loanMoney="+loanMoney+","+"isOverdue="+isOverdue+","+"overdueMoney="+overdueMoney+","+"state="+state+","+"brokerageRate="+brokerageRate+","+"sharedRate="+sharedRate+","+"depositeRate="+depositeRate+","+"breakTime="+breakTime+","+"breakMoney="+breakMoney+"]";
 	}
 }

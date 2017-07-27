@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//ibatis.apache.org//DTD Mapper 3.0//EN" "http://ibatis.apache.org/dtd/ibatis-3-mapper.dtd">
+<mapper namespace="com.lanxi.consumeLoan.dao.MerchantAccountRecordDao">
+	<insert id="addMerchantAccountRecord" parameterType="com.lanxi.consumeLoan.entity.MerchantAccountRecord">
+		insert into merchant_account_record
+		(nano_time,merchant_id,is_add,monety_change,record_time,money_type,reason)
+		values
+		(
+			#{nanoTime},#{merchantId},#{isAdd},#{monetyChange},#{recordTime},#{moneyType},#{reason}
+		)
+	</insert>
+	<delete id="deleteMerchantAccountRecordByClass" parameterType="com.lanxi.consumeLoan.entity.MerchantAccountRecord">
+		delete from merchant_account_record
+		<where>
+			<if test="nanoTime != null"> and nano_time = #{nanoTime}  </if>
+			<if test="merchantId != null"> and merchant_id = #{merchantId}  </if>
+			<if test="isAdd != null"> and is_add = #{isAdd}  </if>
+			<if test="monetyChange != null"> and monety_change = #{monetyChange}  </if>
+			<if test="recordTime != null"> and record_time = #{recordTime}  </if>
+			<if test="moneyType != null"> and money_type = #{moneyType}  </if>
+			<if test="reason != null"> and reason = #{reason}  </if>
+		</where>
+	</delete>
+	<delete id="deleteMerchantAccountRecordByUniqueIndexOnNanoTime">
+		delete from merchant_account_record
+		<where>
+			AND nano_time = #{nanoTime}
+		</where>
+	</delete>
+	<update id="updateMerchantAccountRecordByClass">
+		update merchant_account_record
+		<set>
+			nano_time=#{merchantAccountRecord.nanoTime},
+			merchant_id=#{merchantAccountRecord.merchantId},
+			is_add=#{merchantAccountRecord.isAdd},
+			monety_change=#{merchantAccountRecord.monetyChange},
+			record_time=#{merchantAccountRecord.recordTime},
+			money_type=#{merchantAccountRecord.moneyType},
+			reason=#{merchantAccountRecord.reason}
+		</set>
+		<where>
+			<if test="param.nanoTime != null"> AND nano_time = #{param.nanoTime}</if>
+			<if test="param.merchantId != null"> AND merchant_id = #{param.merchantId}</if>
+			<if test="param.isAdd != null"> AND is_add = #{param.isAdd}</if>
+			<if test="param.monetyChange != null"> AND monety_change = #{param.monetyChange}</if>
+			<if test="param.recordTime != null"> AND record_time = #{param.recordTime}</if>
+			<if test="param.moneyType != null"> AND money_type = #{param.moneyType}</if>
+			<if test="param.reason != null"> AND reason = #{param.reason}</if>
+		</where>
+	</update>
+	<update id="updateMerchantAccountRecordByUniqueIndexOnNanoTime">
+		update merchant_account_record
+		<set>
+			nano_time=#{merchantAccountRecord.nanoTime},
+			merchant_id=#{merchantAccountRecord.merchantId},
+			is_add=#{merchantAccountRecord.isAdd},
+			monety_change=#{merchantAccountRecord.monetyChange},
+			record_time=#{merchantAccountRecord.recordTime},
+			money_type=#{merchantAccountRecord.moneyType},
+			reason=#{merchantAccountRecord.reason}
+		</set>
+		<where>
+			AND nano_time=#{nanoTime}
+		</where>
+	</update>
+	<select id="selectMerchantAccountRecordByClass" resultMap="merchantAccountRecordMap"  resultType="com.lanxi.consumeLoan.entity.MerchantAccountRecord" parameterType="com.lanxi.consumeLoan.entity.MerchantAccountRecord">
+		select
+			nano_time,merchant_id,is_add,monety_change,record_time,money_type,reason
+		from merchant_account_record
+		<where>
+			<if test="nanoTime != null"> AND nano_time = #{nanoTime}</if>
+			<if test="merchantId != null"> AND merchant_id = #{merchantId}</if>
+			<if test="isAdd != null"> AND is_add = #{isAdd}</if>
+			<if test="monetyChange != null"> AND monety_change = #{monetyChange}</if>
+			<if test="recordTime != null"> AND record_time = #{recordTime}</if>
+			<if test="moneyType != null"> AND money_type = #{moneyType}</if>
+			<if test="reason != null"> AND reason = #{reason}</if>
+		</where>
+	</select>
+	<select id="selectMerchantAccountRecordByUniqueIndexOnNanoTime" resultType="com.lanxi.consumeLoan.entity.MerchantAccountRecord" resultMap="merchantAccountRecordMap" >
+		select
+			nano_time,merchant_id,is_add,monety_change,record_time,money_type,reason
+		from merchant_account_record
+		<where>
+			AND nano_time=#{nanoTime}
+		</where>
+	</select>
+	<resultMap id="merchantAccountRecordMap" type="com.lanxi.consumeLoan.entity.MerchantAccountRecord">
+		<result property="nanoTime" 			column="nano_time"></result>
+		<result property="merchantId" 			column="merchant_id"></result>
+		<result property="isAdd" 			column="is_add"></result>
+		<result property="monetyChange" 			column="monety_change"></result>
+		<result property="recordTime" 			column="record_time"></result>
+		<result property="moneyType" 			column="money_type"></result>
+		<result property="reason" 			column="reason"></result>
+	</resultMap>
+</mapper>

@@ -1,6 +1,5 @@
 package com.lanxi.consumeLoan.entity;
 
-import java.lang.String;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -8,7 +7,7 @@ import java.util.Map.Entry;
 
 import com.alibaba.fastjson.JSONObject;
 import com.lanxi.consumeLoan.basic.Attribute;
-import com.sun.swing.internal.plaf.synth.resources.synth_it;
+import com.lanxi.consumeLoan.basic.UserProxy;
 
 /**
  * no comment
@@ -162,5 +161,15 @@ public class User{
 	@Override
 	public String toString(){
 		return "com.lanxi.consumeLoan.entity.User:["+"phone="+phone+","+"roleName="+roleName+","+"attributes="+attributes+"]";
+	}
+	
+	@SuppressWarnings("unchecked")
+	public UserProxy toProxy(){
+		UserProxy proxy=new UserProxy();
+		Attribute<String> name=(Attribute<String>) get("name");
+		if(name!=null)
+			proxy.setName(name.getValue());
+		proxy.setPhone(getPhone());
+		return proxy;
 	}
 }

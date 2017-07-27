@@ -1,6 +1,7 @@
 package com.lanxi.consumeLoan.functions;
 
 import com.lanxi.consumeLoan.basic.AbstractFunction;
+import com.lanxi.consumeLoan.basic.Attribute;
 import com.lanxi.consumeLoan.basic.RetMessage;
 
 import java.util.Map;
@@ -30,6 +31,9 @@ public class MerchantDetailQueryFunction extends AbstractFunction {
 
     @Override
     public RetMessage excuted(Map<String, Object> args) {
+    	Attribute<String> attr=new Attribute<String>("merchanId", "1001");
+    	String  str=attr.toJson();
+    	
         return null;
     }
 }

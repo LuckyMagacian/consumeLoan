@@ -53,6 +53,7 @@ public class LoanFunction extends AbstractFunction {
 		apply.setLoanTime(TimeUtil.getDateTime());
 		apply.setState(ConstParam.APPLY_STATE_LOAN);
 		dao.getApplyDao().updateApplyByUniqueIndexOnApplyId(apply, applyId);
+		
 		return null;
 	}
 

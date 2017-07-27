@@ -3,10 +3,10 @@
 <mapper namespace="com.lanxi.consumeLoan.dao.SystemAccountDao">
 	<insert id="addSystemAccount" parameterType="com.lanxi.consumeLoan.entity.SystemAccount">
 		insert into system_account
-		(account_id,brokerage,provisionsOfRisk,serviceCharge)
+		(account_id,brokerage,provisions_of_risk,service_charge,brokerage_rate,provisions_of_risk_rate,service_charge_rate,provisions_of_risk_max)
 		values
 		(
-			#{accountId},#{brokerage},#{provisionsOfRisk},#{serviceCharge}
+			#{accountId},#{brokerage},#{provisionsOfRisk},#{serviceCharge},#{brokerageRate},#{provisionsOfRiskRate},#{serviceChargeRate},#{provisionsOfRiskMax}
 		)
 	</insert>
 	<delete id="deleteSystemAccountByClass" parameterType="com.lanxi.consumeLoan.entity.SystemAccount">
@@ -14,8 +14,12 @@
 		<where>
 			<if test="accountId != null"> and account_id = #{accountId}  </if>
 			<if test="brokerage != null"> and brokerage = #{brokerage}  </if>
-			<if test="provisionsOfRisk != null"> and provisionsOfRisk = #{provisionsOfRisk}  </if>
-			<if test="serviceCharge != null"> and serviceCharge = #{serviceCharge}  </if>
+			<if test="provisionsOfRisk != null"> and provisions_of_risk = #{provisionsOfRisk}  </if>
+			<if test="serviceCharge != null"> and service_charge = #{serviceCharge}  </if>
+			<if test="brokerageRate != null"> and brokerage_rate = #{brokerageRate}  </if>
+			<if test="provisionsOfRiskRate != null"> and provisions_of_risk_rate = #{provisionsOfRiskRate}  </if>
+			<if test="serviceChargeRate != null"> and service_charge_rate = #{serviceChargeRate}  </if>
+			<if test="provisionsOfRiskMax != null"> and provisions_of_risk_max = #{provisionsOfRiskMax}  </if>
 		</where>
 	</delete>
 	<delete id="deleteSystemAccountByUniqueIndexOnAccountId">
@@ -29,14 +33,22 @@
 		<set>
 			account_id=#{systemAccount.accountId},
 			brokerage=#{systemAccount.brokerage},
-			provisionsOfRisk=#{systemAccount.provisionsOfRisk},
-			serviceCharge=#{systemAccount.serviceCharge}
+			provisions_of_risk=#{systemAccount.provisionsOfRisk},
+			service_charge=#{systemAccount.serviceCharge},
+			brokerage_rate=#{systemAccount.brokerageRate},
+			provisions_of_risk_rate=#{systemAccount.provisionsOfRiskRate},
+			service_charge_rate=#{systemAccount.serviceChargeRate},
+			provisions_of_risk_max=#{systemAccount.provisionsOfRiskMax}
 		</set>
 		<where>
 			<if test="param.accountId != null"> AND account_id = #{param.accountId}</if>
 			<if test="param.brokerage != null"> AND brokerage = #{param.brokerage}</if>
-			<if test="param.provisionsOfRisk != null"> AND provisionsOfRisk = #{param.provisionsOfRisk}</if>
-			<if test="param.serviceCharge != null"> AND serviceCharge = #{param.serviceCharge}</if>
+			<if test="param.provisionsOfRisk != null"> AND provisions_of_risk = #{param.provisionsOfRisk}</if>
+			<if test="param.serviceCharge != null"> AND service_charge = #{param.serviceCharge}</if>
+			<if test="param.brokerageRate != null"> AND brokerage_rate = #{param.brokerageRate}</if>
+			<if test="param.provisionsOfRiskRate != null"> AND provisions_of_risk_rate = #{param.provisionsOfRiskRate}</if>
+			<if test="param.serviceChargeRate != null"> AND service_charge_rate = #{param.serviceChargeRate}</if>
+			<if test="param.provisionsOfRiskMax != null"> AND provisions_of_risk_max = #{param.provisionsOfRiskMax}</if>
 		</where>
 	</update>
 	<update id="updateSystemAccountByUniqueIndexOnAccountId">
@@ -44,8 +56,12 @@
 		<set>
 			account_id=#{systemAccount.accountId},
 			brokerage=#{systemAccount.brokerage},
-			provisionsOfRisk=#{systemAccount.provisionsOfRisk},
-			serviceCharge=#{systemAccount.serviceCharge}
+			provisions_of_risk=#{systemAccount.provisionsOfRisk},
+			service_charge=#{systemAccount.serviceCharge},
+			brokerage_rate=#{systemAccount.brokerageRate},
+			provisions_of_risk_rate=#{systemAccount.provisionsOfRiskRate},
+			service_charge_rate=#{systemAccount.serviceChargeRate},
+			provisions_of_risk_max=#{systemAccount.provisionsOfRiskMax}
 		</set>
 		<where>
 			AND account_id=#{accountId}
@@ -53,18 +69,22 @@
 	</update>
 	<select id="selectSystemAccountByClass" resultMap="systemAccountMap"  resultType="com.lanxi.consumeLoan.entity.SystemAccount" parameterType="com.lanxi.consumeLoan.entity.SystemAccount">
 		select
-			account_id,brokerage,provisionsOfRisk,serviceCharge
+			account_id,brokerage,provisions_of_risk,service_charge,brokerage_rate,provisions_of_risk_rate,service_charge_rate,provisions_of_risk_max
 		from system_account
 		<where>
 			<if test="accountId != null"> AND account_id = #{accountId}</if>
 			<if test="brokerage != null"> AND brokerage = #{brokerage}</if>
-			<if test="provisionsOfRisk != null"> AND provisionsOfRisk = #{provisionsOfRisk}</if>
-			<if test="serviceCharge != null"> AND serviceCharge = #{serviceCharge}</if>
+			<if test="provisionsOfRisk != null"> AND provisions_of_risk = #{provisionsOfRisk}</if>
+			<if test="serviceCharge != null"> AND service_charge = #{serviceCharge}</if>
+			<if test="brokerageRate != null"> AND brokerage_rate = #{brokerageRate}</if>
+			<if test="provisionsOfRiskRate != null"> AND provisions_of_risk_rate = #{provisionsOfRiskRate}</if>
+			<if test="serviceChargeRate != null"> AND service_charge_rate = #{serviceChargeRate}</if>
+			<if test="provisionsOfRiskMax != null"> AND provisions_of_risk_max = #{provisionsOfRiskMax}</if>
 		</where>
 	</select>
 	<select id="selectSystemAccountByUniqueIndexOnAccountId" resultType="com.lanxi.consumeLoan.entity.SystemAccount" resultMap="systemAccountMap" >
 		select
-			account_id,brokerage,provisionsOfRisk,serviceCharge
+			account_id,brokerage,provisions_of_risk,service_charge,brokerage_rate,provisions_of_risk_rate,service_charge_rate,provisions_of_risk_max
 		from system_account
 		<where>
 			AND account_id=#{accountId}
@@ -73,7 +93,11 @@
 	<resultMap id="systemAccountMap" type="com.lanxi.consumeLoan.entity.SystemAccount">
 		<result property="accountId" 			column="account_id"></result>
 		<result property="brokerage" 			column="brokerage"></result>
-		<result property="provisionsOfRisk" 			column="provisionsOfRisk"></result>
-		<result property="serviceCharge" 			column="serviceCharge"></result>
+		<result property="provisionsOfRisk" 			column="provisions_of_risk"></result>
+		<result property="serviceCharge" 			column="service_charge"></result>
+		<result property="brokerageRate" 			column="brokerage_rate"></result>
+		<result property="provisionsOfRiskRate" 			column="provisions_of_risk_rate"></result>
+		<result property="serviceChargeRate" 			column="service_charge_rate"></result>
+		<result property="provisionsOfRiskMax" 			column="provisions_of_risk_max"></result>
 	</resultMap>
 </mapper>

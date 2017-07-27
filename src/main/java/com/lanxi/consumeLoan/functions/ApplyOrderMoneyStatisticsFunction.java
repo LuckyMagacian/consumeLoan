@@ -30,9 +30,9 @@ public class ApplyOrderMoneyStatisticsFunction extends AbstractFunction {
     @Override
     public RetMessage excuted(Map<String, Object> args) {
     	String phone=(String) args.get("phone");
-    	if(!checkService.checkAuthority(phone, this.getClass().getName()))
-    		return failNotice();
-    	
+//    	if(!checkService.checkAuthority(phone, this.getClass().getName()))
+//    		return failNotice();
+//    	
         return null;
     }
 }

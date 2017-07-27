@@ -36,7 +36,9 @@ public class UserAddFunction extends AbstractFunction {
 
     @Override
     public RetMessage excuted(Map<String, Object> args) {
+    	String userphone=(String) args.get("userPhone");
     	String roleName=(String) args.get("roleName");
+    	String userName=(String) args.get("userName");
     	Role role=dao.getRoleDao().selectRoleByUniqueIndexOnRoleName(roleName);
     	if(role==null){
     		LogFactory.info(this, "角色["+roleName+"]不存在!");
@@ -44,11 +46,12 @@ public class UserAddFunction extends AbstractFunction {
     	}
     	User user=new User();
     	user.setRoleName(role.getRoleName());
-    	user.setPhone(args.get("phone")+"");
+    	user.setPhone(userphone);
     	for(String each:role.getAuthorityObject()){
     		Function fun=(Function) applicationContextProxy.getBean(each);
     		user.addAttribute(fun.getAttributes());
     	}
+    	user.set("userName", userName);
     	dao.getUserDao().addUser(user);
         return successNotice();
     }

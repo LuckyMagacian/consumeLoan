@@ -45,7 +45,7 @@ public class ApplyOrderQueryFunction extends AbstractFunction {
     	String state = (String) args.get("state");
     	String startTime= (String) args.get("startTime");
     	String endTime=(String) args.get("endTime");
-    	Map<String, String> map=new HashMap<>();
+    	Map<String, Object> map=new HashMap<>();
     	map.put("userPhone",userPhone);
     	map.put("state", state);
     	map.put("startTime", startTime);
