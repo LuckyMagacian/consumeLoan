@@ -31,7 +31,7 @@
         http://www.springframework.org/schema/data/jpa/spring-jpa-1.3.xsd"
 >
 	<!-- 数据库配置文件 -->
-	<util:properties id="dbconfig" location="classpath:properties/configMysql.properties"></util:properties>
+	<!--<util:properties id="dbconfig" location="classpath:properties/configMysql.properties"></util:properties>-->
 	<!-- 数据库配置 -->
 	<util:properties id="dbconfig" location="classpath:properties/jdbc.properties"></util:properties>
 	<bean id="ds" class="org.apache.commons.dbcp.BasicDataSource">

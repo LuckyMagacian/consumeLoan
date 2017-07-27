@@ -1,9 +1,8 @@
 package com.lanxi.consumeLoan.entity;
 
+import com.alibaba.fastjson.JSONObject;
+
 import java.math.BigDecimal;
-import java.lang.String;
-import java.lang.Byte;
-import java.lang.Integer;
 
 /**
  * no comment
@@ -301,5 +300,8 @@ public class Merchant{
 	@Override
 	public String toString(){
 		return "com.lanxi.consumeLoan.entity.Merchant:["+"merchantId="+merchantId+","+"merchantName="+merchantName+","+"merchantType="+merchantType+","+"merchantAddress="+merchantAddress+","+"isAssurance="+isAssurance+","+"depositeAmount="+depositeAmount+","+"depositeRate="+depositeRate+","+"depositeBalance="+depositeBalance+","+"isShared="+isShared+","+"sharedRate="+sharedRate+","+"brokerageRate="+brokerageRate+","+"brokerageAmount="+brokerageAmount+","+"brokerageLess="+brokerageLess+","+"applyAmount="+applyAmount+","+"applyMoneyAmount="+applyMoneyAmount+","+"loanAmount="+loanAmount+","+"loanMoneyAmount="+loanMoneyAmount+","+"breakAmount="+breakAmount+","+"breakMoneyAmount="+breakMoneyAmount+","+"partnerTime="+partnerTime+","+"stopTime="+stopTime+","+"state="+state+"]";
+	}
+	public String toJson(){
+		return JSONObject.toJSONString(this);
 	}
 }

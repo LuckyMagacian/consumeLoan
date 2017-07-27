@@ -4,14 +4,12 @@ import com.alibaba.fastjson.JSONObject;
 import com.lanxi.consumeLoan.basic.AbstractFunction;
 import com.lanxi.consumeLoan.basic.RetMessage;
 import com.lanxi.consumeLoan.entity.Apply;
+import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import org.jboss.resteasy.annotations.Suspend;
-import org.springframework.stereotype.Service;
 
 /**
  * Created by yangyuanjian on 2017/7/13.
@@ -45,7 +43,7 @@ public class ApplyOrderQueryFunction extends AbstractFunction {
     	String state = (String) args.get("state");
     	String startTime= (String) args.get("startTime");
     	String endTime=(String) args.get("endTime");
-    	Map<String, String> map=new HashMap<>();
+    	Map<String, Object> map=new HashMap<>();
     	map.put("userPhone",userPhone);
     	map.put("state", state);
     	map.put("startTime", startTime);
@@ -56,7 +54,7 @@ public class ApplyOrderQueryFunction extends AbstractFunction {
     	for(Apply each:applys){
     		moneyAmount.add(each.getApplyMoney());
     	}
-    	String result=JSONObject.toJSONString(applys);
+    	String result= JSONObject.toJSONString(applys);
         return successNotice();
     }
 }

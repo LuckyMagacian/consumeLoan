@@ -6,7 +6,7 @@ import java.util.*;
 /**
  * no comment
  * @author yyj | auto generator
- * @version 1.0.0 2017-07-24 10:25:36
+ * @version 1.0.0 2017-07-27 10:08:21
  */
 
 public interface ApplyDao{
@@ -61,11 +61,7 @@ public interface ApplyDao{
 	 * @param phone 索引:申请者手机号码
 	 * @return 符合条件的数据对象 */
 	public Apply selectApplyByUniqueIndexOnIdNumberAndApplyTimeAndPhone(@Param(value="idNumber")String idNumber,@Param(value="applyTime")String applyTime,@Param(value="phone")String phone);
-	
-	/**
-	 * 根据条件筛选订单
-	 * @param args 条件
-	 * @return 订单列表
-	 */
-	public List<Apply> selectApplyByParam(Map<String,String> args);
+
+
+	public List<Apply> selectApplyByParam(Map<String, Object> map);
 }

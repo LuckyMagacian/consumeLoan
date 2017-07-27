@@ -1,39 +1,33 @@
 package com.lanxi.consumeLoan.test;
 
-import java.io.File;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
-
-import javax.annotation.Resource;
-
+import com.lanxi.common.interfaces.RedisCacheServiceInterface;
+import com.lanxi.consumeLoan.aop.SetEncodeUtf8;
+import com.lanxi.consumeLoan.basic.Function;
+import com.lanxi.consumeLoan.basic.RetMessage;
+import com.lanxi.consumeLoan.consts.ConstParam;
+import com.lanxi.consumeLoan.controller.TestController;
+import com.lanxi.consumeLoan.dao.ApplyDao;
+import com.lanxi.consumeLoan.dao.RoleDao;
+import com.lanxi.consumeLoan.dao.UserDao;
+import com.lanxi.consumeLoan.entity.Apply;
+import com.lanxi.consumeLoan.entity.Merchant;
+import com.lanxi.consumeLoan.entity.User;
+import com.lanxi.consumeLoan.functions.*;
+import com.lanxi.consumeLoan.manager.ApplicationContextProxy;
+import com.lanxi.util.utils.LoggerUtil;
+import com.lanxi.util.utils.SqlUtilForDB;
+import com.lanxi.util.utils.TimeUtil;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
-import org.springframework.stereotype.Controller;
-import org.springframework.stereotype.Service;
 
-import com.lanxi.common.interfaces.RedisCacheServiceInterface;
-import com.lanxi.consumeLoan.aop.SetEncodeUtf8;
-import com.lanxi.consumeLoan.basic.Function;
-import com.lanxi.consumeLoan.consts.ConstParam;
-import com.lanxi.consumeLoan.controller.TestController;
-import com.lanxi.consumeLoan.dao.RoleDao;
-import com.lanxi.consumeLoan.dao.UserDao;
-import com.lanxi.consumeLoan.entity.Role;
-import com.lanxi.consumeLoan.entity.User;
-import com.lanxi.consumeLoan.functions.LoginFunction;
-import com.lanxi.consumeLoan.functions.RoleAddFunction;
-import com.lanxi.consumeLoan.functions.UserAddFunction;
-import com.lanxi.consumeLoan.manager.ApplicationContextProxy;
-import com.lanxi.consumeLoan.service.DaoService;
-import com.lanxi.consumeLoan.service.DaoServiceImpl;
-import com.lanxi.util.utils.FileUtil;
-import com.lanxi.util.utils.LoggerUtil;
-import com.lanxi.util.utils.SqlUtilForDB;
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 
 public class ApplicationTest {
 	private ApplicationContext ac;
@@ -69,12 +63,12 @@ public class ApplicationTest {
 	public void test5(){
 		RoleAddFunction fun=ac.getBean(RoleAddFunction.class);
 		Map<String, Object> args=new HashMap<>();
-		args.put("name", "salesMan");
+		args.put("name", "admin");
 		List<String> list=new ArrayList<>();
-		list.add(LoginFunction.class.getName());
-//		Map<String, Function> funs=ac.getBeansOfType(Function.class);
-//		for(Entry<String, Function> each:funs.entrySet())
-//			list.add(each.getValue().getClass().getName());
+
+		Map<String, Function> funs=ac.getBeansOfType(Function.class);
+		for(Map.Entry<String, Function> each:funs.entrySet())
+			list.add(each.getValue().getClass().getName());
 		args.put("authority", list);
 		fun.excuted(args);
 	}
@@ -112,7 +106,75 @@ public class ApplicationTest {
 	
 	@Test
 	public void test4(){
-		SqlUtilForDB.makeOne(SqlUtilForDB.getTable(SqlUtilForDB.getConnection(), "merchant"), "", "", false,false);;
+		SqlUtilForDB.makeOne(SqlUtilForDB.getTable(SqlUtilForDB.getConnection(), "apply"), "", "", false,false);;
 	}
-	
+
+	@Test
+    public void testMerchantDeleteFunction(){
+	    	MerchantDeleteFunction bean = ac.getBean(MerchantDeleteFunction.class);
+			Map<String,Object> map =new HashMap<>();
+        	map.put("phone","15068610940");
+			map.put("merchat_id","1001");
+			RetMessage excuted = bean.excuted(map);
+			System.out.println(excuted);
+    }
+
+	@Test
+	public void testMerchantUnsheleveFunction(){
+		MerchantUnsheleveFunction bean = ac.getBean(MerchantUnsheleveFunction.class);
+		Map<String,Object> map =new HashMap<>();
+		map.put("phone","15068610940");
+		map.put("merchat_id","1001");
+		RetMessage excuted = bean.excuted(map);
+		System.out.println(excuted);
+	}
+
+	@Test
+	public void testMerchantShelveFunction(){
+		MerchantShelveFunction bean = ac.getBean(MerchantShelveFunction.class);
+		Map<String,Object> map =new HashMap<>();
+		map.put("phone","15068610940");
+		map.put("merchat_id","1001");
+		RetMessage excuted = bean.excuted(map);
+		System.out.println(excuted);
+	}
+
+	@Test
+	public void tesMerchantModifyFunctionFunction(){
+		MerchantModifyFunction bean = ac.getBean(MerchantModifyFunction.class);
+		Merchant merchant = new Merchant();
+		merchant.setMerchantId("1001");
+		merchant.setMerchantAddress("aaa");
+		Map<String,Object> map =new HashMap<>();
+		map.put("phone","15068610940");
+		map.put("merchant",merchant.toJson());
+		RetMessage excuted = bean.excuted(map);
+		System.out.println(excuted);
+	}
+
+	@Test
+	public void OverdueRecordFunction(){
+		OverdueRecordFunction bean = ac.getBean(OverdueRecordFunction.class);
+		Map<String,Object> map =new HashMap<>();
+		map.put("phone","15068610940");
+		map.put("applyId","1001");
+		map.put("breakMoney","100");
+		map.put("breakTime","aaa");
+		RetMessage excuted = bean.excuted(map);
+		System.out.println(excuted);
+	}
+	@Test
+	public void ApplyDao() {
+		ApplyDao bean = ac.getBean(ApplyDao.class);
+		Apply apply = bean.selectApplyByUniqueIndexOnApplyId("1001");
+		System.err.println(apply);
+		apply.setBreakTime(TimeUtil.getPreferDateTime());
+		apply.setAddress("10000000000");
+		apply.setBreakMoney(new BigDecimal(100));
+		System.err.println(apply);
+		bean.updateApplyByUniqueIndexOnApplyId(apply,apply.getApplyId());
+		System.err.println(bean.selectApplyByUniqueIndexOnApplyId(apply.getApplyId()));
+	}
+
+
 }
