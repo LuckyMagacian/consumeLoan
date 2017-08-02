@@ -43,4 +43,7 @@ public interface UserDao{
 	 * @return 符合条件的数据对象 */
 	public User selectUserByUniqueIndexOnPhone(@Param(value="phone")String phone);
 	
+	
+	public List<User> selectUserByAttibute(@Param(value="attribute")String attribute);
+	
 }

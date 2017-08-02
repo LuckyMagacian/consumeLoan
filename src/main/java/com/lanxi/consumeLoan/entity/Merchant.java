@@ -1,16 +1,19 @@
 package com.lanxi.consumeLoan.entity;
 
-import com.alibaba.fastjson.JSONObject;
-
 import java.math.BigDecimal;
+import java.lang.String;
+import java.lang.Integer;
+
+import com.lanxi.util.interfaces.ToJson;
+import com.lanxi.util.interfaces.ToMap;
 
 /**
  * no comment
  * @author yyj | auto generator
- * @version 1.0.0 2017-07-25 15:09:08
+ * @version 1.0.0 2017-07-31 14:10:11
  */
 
-public class Merchant{
+public class Merchant implements ToJson,ToMap{
 	/**商户编号*/
 	private String merchantId;
 	
@@ -24,7 +27,7 @@ public class Merchant{
 	private String merchantAddress;
 	
 	/**是否担保*/
-	private Byte[] isAssurance;
+	private String isAssurance;
 	
 	/**担保总额*/
 	private BigDecimal depositeAmount;
@@ -36,7 +39,7 @@ public class Merchant{
 	private BigDecimal depositeBalance;
 	
 	/**是否合作分润*/
-	private Byte[] isShared;
+	private String isShared;
 	
 	/**分润比例*/
 	private BigDecimal sharedRate;
@@ -76,6 +79,12 @@ public class Merchant{
 	
 	/**商户状态*/
 	private String state;
+	
+	/**负责客户经理手机号*/
+	private String customerManagerPhone;
+	
+	/**客户经理名称*/
+	private String customerManagerName;
 	
 	/**获取商户编号*/
 	public String getMerchantId(){
@@ -118,12 +127,12 @@ public class Merchant{
 		
 	}
 	/**获取是否担保*/
-	public Byte[] getIsAssurance(){
+	public String getIsAssurance(){
 		return this.isAssurance;
 	}
 	
 	/**设置是否担保*/
-	public void setIsAssurance(Byte[] isAssurance){
+	public void setIsAssurance(String isAssurance){
 		this.isAssurance=isAssurance;
 		
 	}
@@ -158,12 +167,12 @@ public class Merchant{
 		
 	}
 	/**获取是否合作分润*/
-	public Byte[] getIsShared(){
+	public String getIsShared(){
 		return this.isShared;
 	}
 	
 	/**设置是否合作分润*/
-	public void setIsShared(Byte[] isShared){
+	public void setIsShared(String isShared){
 		this.isShared=isShared;
 		
 	}
@@ -297,11 +306,28 @@ public class Merchant{
 		this.state=state;
 		
 	}
+	/**获取负责客户经理手机号*/
+	public String getCustomerManagerPhone(){
+		return this.customerManagerPhone;
+	}
+	
+	/**设置负责客户经理手机号*/
+	public void setCustomerManagerPhone(String customerManagerPhone){
+		this.customerManagerPhone=customerManagerPhone;
+		
+	}
+	/**获取客户经理名称*/
+	public String getCustomerManagerName(){
+		return this.customerManagerName;
+	}
+	
+	/**设置客户经理名称*/
+	public void setCustomerManagerName(String customerManagerName){
+		this.customerManagerName=customerManagerName;
+		
+	}
 	@Override
 	public String toString(){
-		return "com.lanxi.consumeLoan.entity.Merchant:["+"merchantId="+merchantId+","+"merchantName="+merchantName+","+"merchantType="+merchantType+","+"merchantAddress="+merchantAddress+","+"isAssurance="+isAssurance+","+"depositeAmount="+depositeAmount+","+"depositeRate="+depositeRate+","+"depositeBalance="+depositeBalance+","+"isShared="+isShared+","+"sharedRate="+sharedRate+","+"brokerageRate="+brokerageRate+","+"brokerageAmount="+brokerageAmount+","+"brokerageLess="+brokerageLess+","+"applyAmount="+applyAmount+","+"applyMoneyAmount="+applyMoneyAmount+","+"loanAmount="+loanAmount+","+"loanMoneyAmount="+loanMoneyAmount+","+"breakAmount="+breakAmount+","+"breakMoneyAmount="+breakMoneyAmount+","+"partnerTime="+partnerTime+","+"stopTime="+stopTime+","+"state="+state+"]";
-	}
-	public String toJson(){
-		return JSONObject.toJSONString(this);
+		return "com.lanxi.consumeLoan.entity.Merchant:["+"merchantId="+merchantId+","+"merchantName="+merchantName+","+"merchantType="+merchantType+","+"merchantAddress="+merchantAddress+","+"isAssurance="+isAssurance+","+"depositeAmount="+depositeAmount+","+"depositeRate="+depositeRate+","+"depositeBalance="+depositeBalance+","+"isShared="+isShared+","+"sharedRate="+sharedRate+","+"brokerageRate="+brokerageRate+","+"brokerageAmount="+brokerageAmount+","+"brokerageLess="+brokerageLess+","+"applyAmount="+applyAmount+","+"applyMoneyAmount="+applyMoneyAmount+","+"loanAmount="+loanAmount+","+"loanMoneyAmount="+loanMoneyAmount+","+"breakAmount="+breakAmount+","+"breakMoneyAmount="+breakMoneyAmount+","+"partnerTime="+partnerTime+","+"stopTime="+stopTime+","+"state="+state+","+"customerManagerPhone="+customerManagerPhone+","+"customerManagerName="+customerManagerName+"]";
 	}
 }

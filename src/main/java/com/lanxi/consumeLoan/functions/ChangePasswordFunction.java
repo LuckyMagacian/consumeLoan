@@ -3,7 +3,9 @@ package com.lanxi.consumeLoan.functions;
 import com.lanxi.consumeLoan.basic.AbstractFunction;
 import com.lanxi.consumeLoan.basic.RetMessage;
 import com.lanxi.consumeLoan.entity.User;
+import com.lanxi.util.consts.RetCodeEnum;
 import com.lanxi.util.entity.LogFactory;
+import com.lanxi.util.utils.TimeUtil;
 
 import java.util.Map;
 
@@ -38,10 +40,10 @@ public class ChangePasswordFunction extends AbstractFunction {
     	String newPassword=(String) args.get("newPassword");
     	String passwordRepeat=(String) args.get("passwordRepeat");
     	User user=dao.getUserDao().selectUserByUniqueIndexOnPhone(phone);
-    	if(user==null){    		
-    		LogFactory.info(this, "用户["+phone+"]不存在");
-    		return failNotice();
-    	}
+//    	if(user==null){    		
+//    		LogFactory.info(this, "用户["+phone+"]不存在");
+//    		return failNotice();
+//    	}
     	if(newPassword==null||passwordRepeat==null){
     		LogFactory.info(this, "新密码["+newPassword+"]或重复密码["+passwordRepeat+"]为空");
     		return failNotice();
@@ -50,8 +52,9 @@ public class ChangePasswordFunction extends AbstractFunction {
     		LogFactory.info(this, "新密码["+newPassword+"]重复密码["+passwordRepeat+"]不一致");
     		return failNotice();
     	}
+    	LogFactory.info(this, "用户["+phone+"]于["+TimeUtil.getPreferDateTime()+"]修改密码["+user.get("password").getValue()+"]为["+newPassword+"]!");
     	user.set("password", newPassword);
     	dao.getUserDao().updateUserByUniqueIndexOnPhone(user, phone);
-    	return successNotice();
+    	return new RetMessage(RetCodeEnum.SUCCESS.toString(),"密码修改成功!",null);
     }
 }

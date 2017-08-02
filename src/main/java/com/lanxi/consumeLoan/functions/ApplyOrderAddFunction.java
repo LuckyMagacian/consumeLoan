@@ -43,8 +43,8 @@ public class ApplyOrderAddFunction extends AbstractFunction{
 	@Override
     public RetMessage excuted(Map<String, Object> args) {
     	String phone=(String) args.get("phone");
-    	if(!checkService.checkAuthority(phone, this.getClass().getName()))
-    		return failNotice();
+//    	if(!checkService.checkAuthority(phone, this.getClass().getName()))
+//    		return failNotice();
     	String applyJson=(String) args.get("apply");
     	User user=dao.getUserDao().selectUserByUniqueIndexOnPhone(phone);
     	Attribute<String> merchantId=(Attribute<String>) user.get("merchantId");
@@ -63,7 +63,6 @@ public class ApplyOrderAddFunction extends AbstractFunction{
     	apply.setSalesManPhone(phone);
     	apply.setBrokerageRate(merchant.getBrokerageRate());
     	apply.setDepositeRate(merchant.getDepositeRate());
-    	apply.setSharedRate(merchant.getSharedRate());
     	
     	merchant.setApplyAmount(merchant.getApplyAmount()+1);
     	merchant.setApplyMoneyAmount(merchant.getApplyMoneyAmount().add(apply.getApplyMoney()));

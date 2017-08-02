@@ -6,7 +6,7 @@ import java.lang.String;
 /**
  * no comment
  * @author yyj | auto generator
- * @version 1.0.0 2017-07-24 10:25:36
+ * @version 1.0.0 2017-07-27 11:30:11
  */
 
 public class MerchantAccount{

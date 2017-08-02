@@ -3,36 +3,44 @@
 <mapper namespace="com.lanxi.consumeLoan.dao.ApplyDao">
 	<insert id="addApply" parameterType="com.lanxi.consumeLoan.entity.Apply">
 		insert into apply
-		(apply_id,name,sex,address,id_number,apply_money,phone,verify_code,merchant_id,sales_man_phone,apply_time,loan_time,loan_money,is_overdue,overdue_money,state,brokerage_rate,shared_rate,deposite_rate,break_time,break_money)
+		(apply_id,name,sex,address,id_number,apply_money,phone,verify_code,merchant_id,sales_man_phone,apply_time,loan_time,loan_money,is_overdue,overdue_money,state,brokerage_rate,brokerage,service_rate,service_charge,deposite_rate,break_time,break_money,merchant_name,merchant_type,is_assurance,customer_manager_phone,customer_manager_name,reason)
 		values
 		(
-			#{applyId},#{name},#{sex},#{address},#{idNumber},#{applyMoney},#{phone},#{verifyCode},#{merchantId},#{salesManPhone},#{applyTime},#{loanTime},#{loanMoney},#{isOverdue},#{overdueMoney},#{state},#{brokerageRate},#{sharedRate},#{depositeRate},#{breakTime},#{breakMoney}
+			#{applyId},#{name},#{sex},#{address},#{idNumber},#{applyMoney},#{phone},#{verifyCode},#{merchantId},#{salesManPhone},#{applyTime},#{loanTime},#{loanMoney},#{isOverdue},#{overdueMoney},#{state},#{brokerageRate},#{brokerage},#{serviceRate},#{serviceCharge},#{depositeRate},#{breakTime},#{breakMoney},#{merchantName},#{merchantType},#{isAssurance},#{customerManagerPhone},#{customerManagerName},#{reason}
 		)
 	</insert>
 	<delete id="deleteApplyByClass" parameterType="com.lanxi.consumeLoan.entity.Apply">
 		delete from apply
 		<where>
-			<if test="applyId != null"> and apply_id = #{applyId}  </if>
-			<if test="name != null"> and name = #{name}  </if>
-			<if test="sex != null"> and sex = #{sex}  </if>
-			<if test="address != null"> and address = #{address}  </if>
-			<if test="idNumber != null"> and id_number = #{idNumber}  </if>
-			<if test="applyMoney != null"> and apply_money = #{applyMoney}  </if>
-			<if test="phone != null"> and phone = #{phone}  </if>
-			<if test="verifyCode != null"> and verify_code = #{verifyCode}  </if>
-			<if test="merchantId != null"> and merchant_id = #{merchantId}  </if>
-			<if test="salesManPhone != null"> and sales_man_phone = #{salesManPhone}  </if>
-			<if test="applyTime != null"> and apply_time = #{applyTime}  </if>
-			<if test="loanTime != null"> and loan_time = #{loanTime}  </if>
-			<if test="loanMoney != null"> and loan_money = #{loanMoney}  </if>
-			<if test="isOverdue != null"> and is_overdue = #{isOverdue}  </if>
-			<if test="overdueMoney != null"> and overdue_money = #{overdueMoney}  </if>
-			<if test="state != null"> and state = #{state}  </if>
-			<if test="brokerageRate != null"> and brokerage_rate = #{brokerageRate}  </if>
-			<if test="sharedRate != null"> and shared_rate = #{sharedRate}  </if>
-			<if test="depositeRate != null"> and deposite_rate = #{depositeRate}  </if>
-			<if test="breakTime != null"> and break_time = #{breakTime}  </if>
-			<if test="breakMoney != null"> and break_money = #{breakMoney}  </if>
+			<if test="apply.applyId != null"> and apply_id = #{apply.applyId}  </if>
+			<if test="apply.name != null"> and name = #{apply.name}  </if>
+			<if test="apply.sex != null"> and sex = #{apply.sex}  </if>
+			<if test="apply.address != null"> and address = #{apply.address}  </if>
+			<if test="apply.idNumber != null"> and id_number = #{apply.idNumber}  </if>
+			<if test="apply.applyMoney != null"> and apply_money = #{apply.applyMoney}  </if>
+			<if test="apply.phone != null"> and phone = #{apply.phone}  </if>
+			<if test="apply.verifyCode != null"> and verify_code = #{apply.verifyCode}  </if>
+			<if test="apply.merchantId != null"> and merchant_id = #{apply.merchantId}  </if>
+			<if test="apply.salesManPhone != null"> and sales_man_phone = #{apply.salesManPhone}  </if>
+			<if test="apply.applyTime != null"> and apply_time = #{apply.applyTime}  </if>
+			<if test="apply.loanTime != null"> and loan_time = #{apply.loanTime}  </if>
+			<if test="apply.loanMoney != null"> and loan_money = #{apply.loanMoney}  </if>
+			<if test="apply.isOverdue != null"> and is_overdue = #{apply.isOverdue}  </if>
+			<if test="apply.overdueMoney != null"> and overdue_money = #{apply.overdueMoney}  </if>
+			<if test="apply.state != null"> and state = #{apply.state}  </if>
+			<if test="apply.brokerageRate != null"> and brokerage_rate = #{apply.brokerageRate}  </if>
+			<if test="apply.brokerage != null"> and brokerage = #{apply.brokerage}  </if>
+			<if test="apply.serviceRate != null"> and service_rate = #{apply.serviceRate}  </if>
+			<if test="apply.serviceCharge != null"> and service_charge = #{apply.serviceCharge}  </if>
+			<if test="apply.depositeRate != null"> and deposite_rate = #{apply.depositeRate}  </if>
+			<if test="apply.breakTime != null"> and break_time = #{apply.breakTime}  </if>
+			<if test="apply.breakMoney != null"> and break_money = #{apply.breakMoney}  </if>
+			<if test="apply.merchantName != null"> and merchant_name = #{apply.merchantName}  </if>
+			<if test="apply.merchantType != null"> and merchant_type = #{apply.merchantType}  </if>
+			<if test="apply.isAssurance != null"> and is_assurance = #{apply.isAssurance}  </if>
+			<if test="apply.customerManagerPhone != null"> and customer_manager_phone = #{apply.customerManagerPhone}  </if>
+			<if test="apply.customerManagerName != null"> and customer_manager_name = #{apply.customerManagerName}  </if>
+			<if test="apply.reason != null"> and reason = #{apply.reason}  </if>
 		</where>
 	</delete>
 	<delete id="deleteApplyByUniqueIndexOnApplyId">
@@ -69,10 +77,18 @@
 			overdue_money=#{apply.overdueMoney},
 			state=#{apply.state},
 			brokerage_rate=#{apply.brokerageRate},
-			shared_rate=#{apply.sharedRate},
+			brokerage=#{apply.brokerage},
+			service_rate=#{apply.serviceRate},
+			service_charge=#{apply.serviceCharge},
 			deposite_rate=#{apply.depositeRate},
 			break_time=#{apply.breakTime},
-			break_money=#{apply.breakMoney}
+			break_money=#{apply.breakMoney},
+			merchant_name=#{apply.merchantName},
+			merchant_type=#{apply.merchantType},
+			is_assurance=#{apply.isAssurance},
+			customer_manager_phone=#{apply.customerManagerPhone},
+			customer_manager_name=#{apply.customerManagerName},
+			reason=#{apply.reason}
 		</set>
 		<where>
 			<if test="param.applyId != null"> AND apply_id = #{param.applyId}</if>
@@ -87,15 +103,23 @@
 			<if test="param.salesManPhone != null"> AND sales_man_phone = #{param.salesManPhone}</if>
 			<if test="param.applyTime != null"> AND apply_time = #{param.applyTime}</if>
 			<if test="param.loanTime != null"> AND loan_time = #{param.loanTime}</if>
-			<if test="param.loanMoney != null"> AND loan_money = #{p aram.loanMoney}</if>
+			<if test="param.loanMoney != null"> AND loan_money = #{param.loanMoney}</if>
 			<if test="param.isOverdue != null"> AND is_overdue = #{param.isOverdue}</if>
 			<if test="param.overdueMoney != null"> AND overdue_money = #{param.overdueMoney}</if>
 			<if test="param.state != null"> AND state = #{param.state}</if>
 			<if test="param.brokerageRate != null"> AND brokerage_rate = #{param.brokerageRate}</if>
-			<if test="param.sharedRate != null"> AND shared_rate = #{param.sharedRate}</if>
+			<if test="param.brokerage != null"> AND brokerage = #{param.brokerage}</if>
+			<if test="param.serviceRate != null"> AND service_rate = #{param.serviceRate}</if>
+			<if test="param.serviceCharge != null"> AND service_charge = #{param.serviceCharge}</if>
 			<if test="param.depositeRate != null"> AND deposite_rate = #{param.depositeRate}</if>
 			<if test="param.breakTime != null"> AND break_time = #{param.breakTime}</if>
 			<if test="param.breakMoney != null"> AND break_money = #{param.breakMoney}</if>
+			<if test="param.merchantName != null"> AND merchant_name = #{param.merchantName}</if>
+			<if test="param.merchantType != null"> AND merchant_type = #{param.merchantType}</if>
+			<if test="param.isAssurance != null"> AND is_assurance = #{param.isAssurance}</if>
+			<if test="param.customerManagerPhone != null"> AND customer_manager_phone = #{param.customerManagerPhone}</if>
+			<if test="param.customerManagerName != null"> AND customer_manager_name = #{param.customerManagerName}</if>
+			<if test="param.reason != null"> AND reason = #{param.reason}</if>
 		</where>
 	</update>
 	<update id="updateApplyByUniqueIndexOnApplyId">
@@ -118,10 +142,18 @@
 			overdue_money=#{apply.overdueMoney},
 			state=#{apply.state},
 			brokerage_rate=#{apply.brokerageRate},
-			shared_rate=#{apply.sharedRate},
+			brokerage=#{apply.brokerage},
+			service_rate=#{apply.serviceRate},
+			service_charge=#{apply.serviceCharge},
 			deposite_rate=#{apply.depositeRate},
 			break_time=#{apply.breakTime},
-			break_money=#{apply.breakMoney}
+			break_money=#{apply.breakMoney},
+			merchant_name=#{apply.merchantName},
+			merchant_type=#{apply.merchantType},
+			is_assurance=#{apply.isAssurance},
+			customer_manager_phone=#{apply.customerManagerPhone},
+			customer_manager_name=#{apply.customerManagerName},
+			reason=#{apply.reason}
 		</set>
 		<where>
 			AND apply_id=#{applyId}
@@ -147,10 +179,18 @@
 			overdue_money=#{apply.overdueMoney},
 			state=#{apply.state},
 			brokerage_rate=#{apply.brokerageRate},
-			shared_rate=#{apply.sharedRate},
+			brokerage=#{apply.brokerage},
+			service_rate=#{apply.serviceRate},
+			service_charge=#{apply.serviceCharge},
 			deposite_rate=#{apply.depositeRate},
 			break_time=#{apply.breakTime},
-			break_money=#{apply.breakMoney}
+			break_money=#{apply.breakMoney},
+			merchant_name=#{apply.merchantName},
+			merchant_type=#{apply.merchantType},
+			is_assurance=#{apply.isAssurance},
+			customer_manager_phone=#{apply.customerManagerPhone},
+			customer_manager_name=#{apply.customerManagerName},
+			reason=#{apply.reason}
 		</set>
 		<where>
 			AND id_number=#{idNumber}
@@ -160,35 +200,43 @@
 	</update>
 	<select id="selectApplyByClass" resultMap="applyMap"  resultType="com.lanxi.consumeLoan.entity.Apply" parameterType="com.lanxi.consumeLoan.entity.Apply">
 		select
-			apply_id,name,sex,address,id_number,apply_money,phone,verify_code,merchant_id,sales_man_phone,apply_time,loan_time,loan_money,is_overdue,overdue_money,state,brokerage_rate,shared_rate,deposite_rate,break_time,break_money
+			apply_id,name,sex,address,id_number,apply_money,phone,verify_code,merchant_id,sales_man_phone,apply_time,loan_time,loan_money,is_overdue,overdue_money,state,brokerage_rate,brokerage,service_rate,service_charge,deposite_rate,break_time,break_money,merchant_name,merchant_type,is_assurance,customer_manager_phone,customer_manager_name,reason
 		from apply
 		<where>
-			<if test="applyId != null"> AND apply_id = #{applyId}</if>
-			<if test="name != null"> AND name = #{name}</if>
-			<if test="sex != null"> AND sex = #{sex}</if>
-			<if test="address != null"> AND address = #{address}</if>
-			<if test="idNumber != null"> AND id_number = #{idNumber}</if>
-			<if test="applyMoney != null"> AND apply_money = #{applyMoney}</if>
-			<if test="phone != null"> AND phone = #{phone}</if>
-			<if test="verifyCode != null"> AND verify_code = #{verifyCode}</if>
-			<if test="merchantId != null"> AND merchant_id = #{merchantId}</if>
-			<if test="salesManPhone != null"> AND sales_man_phone = #{salesManPhone}</if>
-			<if test="applyTime != null"> AND apply_time = #{applyTime}</if>
-			<if test="loanTime != null"> AND loan_time = #{loanTime}</if>
-			<if test="loanMoney != null"> AND loan_money = #{loanMoney}</if>
-			<if test="isOverdue != null"> AND is_overdue = #{isOverdue}</if>
-			<if test="overdueMoney != null"> AND overdue_money = #{overdueMoney}</if>
-			<if test="state != null"> AND state = #{state}</if>
-			<if test="brokerageRate != null"> AND brokerage_rate = #{brokerageRate}</if>
-			<if test="sharedRate != null"> AND shared_rate = #{sharedRate}</if>
-			<if test="depositeRate != null"> AND deposite_rate = #{depositeRate}</if>
-			<if test="breakTime != null"> AND break_time = #{breakTime}</if>
-			<if test="breakMoney != null"> AND break_money = #{breakMoney}</if>
+			<if test="apply.applyId != null"> AND apply_id = #{apply.applyId}</if>
+			<if test="apply.name != null"> AND name = #{apply.name}</if>
+			<if test="apply.sex != null"> AND sex = #{apply.sex}</if>
+			<if test="apply.address != null"> AND address = #{apply.address}</if>
+			<if test="apply.idNumber != null"> AND id_number = #{apply.idNumber}</if>
+			<if test="apply.applyMoney != null"> AND apply_money = #{apply.applyMoney}</if>
+			<if test="apply.phone != null"> AND phone = #{apply.phone}</if>
+			<if test="apply.verifyCode != null"> AND verify_code = #{apply.verifyCode}</if>
+			<if test="apply.merchantId != null"> AND merchant_id = #{apply.merchantId}</if>
+			<if test="apply.salesManPhone != null"> AND sales_man_phone = #{apply.salesManPhone}</if>
+			<if test="apply.applyTime != null"> AND apply_time = #{apply.applyTime}</if>
+			<if test="apply.loanTime != null"> AND loan_time = #{apply.loanTime}</if>
+			<if test="apply.loanMoney != null"> AND loan_money = #{apply.loanMoney}</if>
+			<if test="apply.isOverdue != null"> AND is_overdue = #{apply.isOverdue}</if>
+			<if test="apply.overdueMoney != null"> AND overdue_money = #{apply.overdueMoney}</if>
+			<if test="apply.state != null"> AND state = #{apply.state}</if>
+			<if test="apply.brokerageRate != null"> AND brokerage_rate = #{apply.brokerageRate}</if>
+			<if test="apply.brokerage != null"> AND brokerage = #{apply.brokerage}</if>
+			<if test="apply.serviceRate != null"> AND service_rate = #{apply.serviceRate}</if>
+			<if test="apply.serviceCharge != null"> AND service_charge = #{apply.serviceCharge}</if>
+			<if test="apply.depositeRate != null"> AND deposite_rate = #{apply.depositeRate}</if>
+			<if test="apply.breakTime != null"> AND break_time = #{apply.breakTime}</if>
+			<if test="apply.breakMoney != null"> AND break_money = #{apply.breakMoney}</if>
+			<if test="apply.merchantName != null"> AND merchant_name = #{apply.merchantName}</if>
+			<if test="apply.merchantType != null"> AND merchant_type = #{apply.merchantType}</if>
+			<if test="apply.isAssurance != null"> AND is_assurance = #{apply.isAssurance}</if>
+			<if test="apply.customerManagerPhone != null"> AND customer_manager_phone = #{apply.customerManagerPhone}</if>
+			<if test="apply.customerManagerName != null"> AND customer_manager_name = #{apply.customerManagerName}</if>
+			<if test="apply.reason != null"> AND reason = #{apply.reason}</if>
 		</where>
 	</select>
 	<select id="selectApplyByUniqueIndexOnApplyId" resultType="com.lanxi.consumeLoan.entity.Apply" resultMap="applyMap" >
 		select
-			apply_id,name,sex,address,id_number,apply_money,phone,verify_code,merchant_id,sales_man_phone,apply_time,loan_time,loan_money,is_overdue,overdue_money,state,brokerage_rate,shared_rate,deposite_rate,break_time,break_money
+			apply_id,name,sex,address,id_number,apply_money,phone,verify_code,merchant_id,sales_man_phone,apply_time,loan_time,loan_money,is_overdue,overdue_money,state,brokerage_rate,brokerage,service_rate,service_charge,deposite_rate,break_time,break_money,merchant_name,merchant_type,is_assurance,customer_manager_phone,customer_manager_name,reason
 		from apply
 		<where>
 			AND apply_id=#{applyId}
@@ -196,7 +244,7 @@
 	</select>
 	<select id="selectApplyByUniqueIndexOnIdNumberAndApplyTimeAndPhone" resultType="com.lanxi.consumeLoan.entity.Apply" resultMap="applyMap" >
 		select
-			apply_id,name,sex,address,id_number,apply_money,phone,verify_code,merchant_id,sales_man_phone,apply_time,loan_time,loan_money,is_overdue,overdue_money,state,brokerage_rate,shared_rate,deposite_rate,break_time,break_money
+			apply_id,name,sex,address,id_number,apply_money,phone,verify_code,merchant_id,sales_man_phone,apply_time,loan_time,loan_money,is_overdue,overdue_money,state,brokerage_rate,brokerage,service_rate,service_charge,deposite_rate,break_time,break_money,merchant_name,merchant_type,is_assurance,customer_manager_phone,customer_manager_name,reason
 		from apply
 		<where>
 			AND id_number=#{idNumber}
@@ -205,18 +253,22 @@
 		</where>
 	</select>
 	<select id="selectApplyByParam" resultMap="applyMap"  resultType="com.lanxi.consumeLoan.entity.Apply" parameterType="java.util.Map">
-		select
-		apply_id,name,sex,address,id_number,apply_money,phone,verify_code,merchant_id,sales_man_phone,apply_time,loan_time,loan_money,is_overdue,overdue_money,state,brokerage_rate,shared_rate,deposite_rate,break_time,break_money
+        select
+            apply_id,name,sex,address,id_number,apply_money,phone,verify_code,merchant_id,sales_man_phone,apply_time,loan_time,loan_money,is_overdue,overdue_money,state,brokerage_rate,brokerage,service_rate,service_charge,deposite_rate,break_time,break_money,merchant_name,merchant_type,is_assurance,customer_manager_phone,customer_manager_name,reason
 		from apply
-		<where>
-			<if test="userPhone != null"> AND phone = #{userPhone}</if>
-			<if test="state != null"> AND state = #{state}</if>
-			<if test="startTime != null and endTime !=null"> AND applyTime between #{startTime} AND #{endTime}</if>
-			<if test="startTime !=null and endTime ==null">AND applyTime &gt;= #{startTime}</if>
-			<if test="startTime ==null and endTime !=null">AND applyTime &lt;= #{endTime}</if>
-		</where>
-	</select>
-
+       <where>
+            <if test="userPhone != null"> AND phone = #{userPhone}</if>
+            <if test="state != null"> AND state = #{state}</if>
+            <if test="name != null"> AND name = #{name}</if>
+            <if test="merchantName != null"> AND merchant_name = #{merchantName}</if>
+            <if test="merchantType != null"> AND merchant_type = #{merchantType}</if>
+            <if test="start_time !=null ">AND apply_time &gt;= #{startTime}</if>
+            <if test="end_time !=null ">AND apply_time &lt;= #{endTime}</if>
+            <if test="isAssurance !=null ">AND is_assurance &lt;= #{isAssurance}</if>
+            <if test="customerPhone !=null ">AND phone= #{customerPhone} or customer_manager_phone=#{customerPhone}</if>
+            <!--             <if test="startTime != null and endTime !=null"> AND apply_time between #{startTime} AND #{endTime}</if> -->
+        </where>
+    </select>
 	<resultMap id="applyMap" type="com.lanxi.consumeLoan.entity.Apply">
 		<result property="applyId" 			column="apply_id"></result>
 		<result property="name" 			column="name"></result>
@@ -235,9 +287,17 @@
 		<result property="overdueMoney" 			column="overdue_money"></result>
 		<result property="state" 			column="state"></result>
 		<result property="brokerageRate" 			column="brokerage_rate"></result>
-		<result property="sharedRate" 			column="shared_rate"></result>
+		<result property="brokerage" 			column="brokerage"></result>
+		<result property="serviceRate" 			column="service_rate"></result>
+		<result property="serviceCharge" 			column="service_charge"></result>
 		<result property="depositeRate" 			column="deposite_rate"></result>
 		<result property="breakTime" 			column="break_time"></result>
 		<result property="breakMoney" 			column="break_money"></result>
+		<result property="merchantName" 			column="merchant_name"></result>
+		<result property="merchantType" 			column="merchant_type"></result>
+		<result property="isAssurance" 			column="is_assurance"></result>
+		<result property="customerManagerPhone" 			column="customer_manager_phone"></result>
+		<result property="customerManagerName" 			column="customer_manager_name"></result>
+		<result property="reason" 			column="reason"></result>
 	</resultMap>
 </mapper>

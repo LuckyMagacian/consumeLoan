@@ -2,21 +2,24 @@ package com.lanxi.consumeLoan.test;
 
 import com.lanxi.common.interfaces.RedisCacheServiceInterface;
 import com.lanxi.consumeLoan.aop.SetEncodeUtf8;
-import com.lanxi.consumeLoan.basic.Function;
 import com.lanxi.consumeLoan.basic.RetMessage;
 import com.lanxi.consumeLoan.consts.ConstParam;
 import com.lanxi.consumeLoan.controller.TestController;
 import com.lanxi.consumeLoan.dao.ApplyDao;
+import com.lanxi.consumeLoan.dao.MerchantDao;
 import com.lanxi.consumeLoan.dao.RoleDao;
 import com.lanxi.consumeLoan.dao.UserDao;
 import com.lanxi.consumeLoan.entity.Apply;
 import com.lanxi.consumeLoan.entity.Merchant;
+import com.lanxi.consumeLoan.entity.Role;
 import com.lanxi.consumeLoan.entity.User;
 import com.lanxi.consumeLoan.functions.*;
 import com.lanxi.consumeLoan.manager.ApplicationContextProxy;
+import com.lanxi.consumeLoan.service.DaoService;
 import com.lanxi.util.utils.LoggerUtil;
 import com.lanxi.util.utils.SqlUtilForDB;
 import com.lanxi.util.utils.TimeUtil;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.context.ApplicationContext;
@@ -59,19 +62,7 @@ public class ApplicationTest {
 		System.out.println(user.selectUserByClass(user2).get(0).get("password").getValue());
 	}
 	
-	@Test 
-	public void test5(){
-		RoleAddFunction fun=ac.getBean(RoleAddFunction.class);
-		Map<String, Object> args=new HashMap<>();
-		args.put("name", "admin");
-		List<String> list=new ArrayList<>();
 
-		Map<String, Function> funs=ac.getBeansOfType(Function.class);
-		for(Map.Entry<String, Function> each:funs.entrySet())
-			list.add(each.getValue().getClass().getName());
-		args.put("authority", list);
-		fun.excuted(args);
-	}
 	
 	@Test
 	public void test3(){
@@ -84,6 +75,18 @@ public class ApplicationTest {
 		args.put("validateCode", "123456");
 		login.excuted(args);
 	}
+	
+	/**
+	 *	修改权限
+	 */
+	@Test 
+	public void test5(){
+		DaoService dao=ac.getBean(DaoService.class);
+		Role role=dao.getRoleDao().selectRoleByUniqueIndexOnRoleName("admin");
+		role.addAuthority(CustomerManagerApplyOrderQueryFunction.class);
+		dao.getRoleDao().updateRoleByUniqueIndexOnRoleName(role, role.getRoleName());
+	}
+	
 	
 	@Test
 	public void test10(){
@@ -99,22 +102,17 @@ public class ApplicationTest {
 	@Test
 	public void test11(){
 		SetEncodeUtf8 set=ac.getBean(SetEncodeUtf8.class);
-		ac.getBean(TestController.class).login(null, null);
 		ac.getBean(TestController.class).getPic(null, null);
 		System.out.println(set);
 	}
 	
-	@Test
-	public void test4(){
-		SqlUtilForDB.makeOne(SqlUtilForDB.getTable(SqlUtilForDB.getConnection(), "apply"), "", "", false,false);;
-	}
 
 	@Test
     public void testMerchantDeleteFunction(){
 	    	MerchantDeleteFunction bean = ac.getBean(MerchantDeleteFunction.class);
 			Map<String,Object> map =new HashMap<>();
         	map.put("phone","15068610940");
-			map.put("merchat_id","1001");
+			map.put("merchant_id","1001");
 			RetMessage excuted = bean.excuted(map);
 			System.out.println(excuted);
     }
@@ -124,7 +122,7 @@ public class ApplicationTest {
 		MerchantUnsheleveFunction bean = ac.getBean(MerchantUnsheleveFunction.class);
 		Map<String,Object> map =new HashMap<>();
 		map.put("phone","15068610940");
-		map.put("merchat_id","1001");
+		map.put("merchant_id","1001");
 		RetMessage excuted = bean.excuted(map);
 		System.out.println(excuted);
 	}
@@ -134,7 +132,7 @@ public class ApplicationTest {
 		MerchantShelveFunction bean = ac.getBean(MerchantShelveFunction.class);
 		Map<String,Object> map =new HashMap<>();
 		map.put("phone","15068610940");
-		map.put("merchat_id","1001");
+		map.put("merchant_id","1001");
 		RetMessage excuted = bean.excuted(map);
 		System.out.println(excuted);
 	}
@@ -175,6 +173,46 @@ public class ApplicationTest {
 		bean.updateApplyByUniqueIndexOnApplyId(apply,apply.getApplyId());
 		System.err.println(bean.selectApplyByUniqueIndexOnApplyId(apply.getApplyId()));
 	}
-
-
+	@Test
+	public void testMerchantDetailQueryFunction() {
+		MerchantDetailQueryFunction bean = ac.getBean(MerchantDetailQueryFunction.class);
+		Map<String,Object> map =new HashMap<>();
+		map.put("phone","15068610940");
+		map.put("merchant_id","1001");
+		RetMessage retMessage = bean.excuted(map);
+		System.out.println(retMessage);
+	}
+	@Test
+	public void testMerchantQueryFunction(){
+		Map<String , Object> map = new HashMap<String, Object>();
+		map.put("phone", "15068610940");
+		map.put("state", "20");
+		MerchantQueryFunction bean = ac.getBean(MerchantQueryFunction.class);
+		RetMessage message = bean.excuted(map);
+			
+		System.out.println(message);
+	}
+	@Test
+	public void testMerchantDao(){
+		MerchantDao bean = ac.getBean(MerchantDao.class);
+		Map<String, Object> parm = new HashMap<String, Object>();
+		parm.put("start_time", "20170720");
+		parm.put("end_time", "20170727");
+		List<Merchant> list = bean.selectMerchantByParm(parm);
+		System.out.println(list);
+		
+	}
+	@Test
+	public void testCustomerManagerApplyOrderQueryFunction(){
+		DaoService dao=ac.getBean(DaoService.class);
+		Map<String, Object> map = new HashMap<>();
+		map.put("state", "01");
+		List<Merchant> list = dao.getMerchantDao().selectAdminMerchantByParm(map);
+		System.err.println(list);
+		
+	}
+	@Test
+	public void make(){
+		SqlUtilForDB.makeOne(SqlUtilForDB.getTable(SqlUtilForDB.getConnection(), "apply"), "", "", false, false);
+	}
 }

@@ -4,8 +4,10 @@ import com.alibaba.fastjson.JSONObject;
 import com.lanxi.consumeLoan.basic.AbstractFunction;
 import com.lanxi.consumeLoan.basic.Attribute;
 import com.lanxi.consumeLoan.basic.RetMessage;
+import com.lanxi.consumeLoan.basic.UserProxy;
 import com.lanxi.consumeLoan.entity.Merchant;
 import com.lanxi.consumeLoan.entity.User;
+import com.lanxi.util.consts.RetCodeEnum;
 import com.lanxi.util.entity.LogFactory;
 
 import java.util.Map;
@@ -42,22 +44,23 @@ public class MerchantHomeFunction extends AbstractFunction {
     public RetMessage excuted(Map<String, Object> args) {
     	String phone=(String) args.get("phone");
     	User user=dao.getUserDao().selectUserByUniqueIndexOnPhone(phone);
-    	if(user==null){
-    		LogFactory.info(this, "用户["+phone+"]不存在!");
-    		return failNotice();
-    	}
+//    	if(user==null){
+//    		LogFactory.info(this, "用户["+phone+"]不存在!");
+//    		return failNotice();
+//    	}
     	Attribute<?> merchantId=user.get("merchantId");
-    	Attribute<?> shopkeeperId=user.get("shopkeeperId");
     	if(merchantId==null){
     		LogFactory.info(this, "用户["+phone+"]尚未绑定商户!");
     		return failNotice();
     	}
-    	if(shopkeeperId==null){
-    		LogFactory.info(this, "用户["+phone+"]不是店长!");
-    		return failNotice();
-    	}
+//    	if(shopkeeperId==null){
+//    		LogFactory.info(this, "用户["+phone+"]不是店长!");
+//    		return failNotice();
+//    	}
     	Merchant merchant=dao.getMerchantDao().selectMerchantByUniqueIndexOnMerchantId((String) merchantId.getValue());
-    	String result=JSONObject.toJSONString(merchant);
-        return successNotice();
+    	UserProxy proxy=user.toProxy();
+    	Object[] objects=new Object[]{merchant,proxy};
+    	String result=JSONObject.toJSONString(objects);
+        return new RetMessage(RetCodeEnum.SUCCESS.toString(),"获取商户主页信息成功！", result);
     }
 }

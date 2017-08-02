@@ -19,8 +19,7 @@ public class MerchantShelveFunction extends AbstractFunction {
 
 	@Override
 	public RetMessage successNotice() {
-        LogFactory.info(this, "商户上架成功!");
-        return new RetMessage(RetCodeEnum.SUCCESS.toString(),"商户上架成功!",null);
+		return null;
 	}
 
 	@Override
@@ -38,7 +37,7 @@ public class MerchantShelveFunction extends AbstractFunction {
 	@Override
 	public RetMessage excuted(Map<String, Object> args) {
 		String phone=(String) args.get("phone");
-		String merchant_id = (String) args.get("merchat_id");
+		String merchant_id = (String) args.get("merchantId");
 		if(!checkService.checkAuthority(phone, this.getClass().getName())){
 			LogFactory.info(this,"没有权限执行该操作!");
 			return new RetMessage(RetCodeEnum.FAIL.toString(),"没有权限!",null);
@@ -57,7 +56,8 @@ public class MerchantShelveFunction extends AbstractFunction {
             LogFactory.info(this,"商户["+merchant_id+"]不满足上架条件!");
             return new RetMessage(RetCodeEnum.FAIL.toString(),"商户不满足上架条件!",null);
         }
-        return successNotice();
+        LogFactory.info(this, "商户上架成功!");
+        return new RetMessage(RetCodeEnum.SUCCESS.toString(),"商户上架成功!",null);
 	}
 
 }

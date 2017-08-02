@@ -3,37 +3,39 @@
 <mapper namespace="com.lanxi.consumeLoan.dao.MerchantDao">
 	<insert id="addMerchant" parameterType="com.lanxi.consumeLoan.entity.Merchant">
 		insert into merchant
-		(merchant_id,merchant_name,merchant_type,merchant_address,is_assurance,deposite_amount,deposite_rate,deposite_balance,is_shared,shared_rate,brokerage_rate,brokerage_amount,brokerage_less,apply_amount,apply_money_amount,loan_amount,loan_money_amount,break_amount,break_money_amount,partner_time,stop_time,state)
+		(merchant_id,merchant_name,merchant_type,merchant_address,is_assurance,deposite_amount,deposite_rate,deposite_balance,is_shared,shared_rate,brokerage_rate,brokerage_amount,brokerage_less,apply_amount,apply_money_amount,loan_amount,loan_money_amount,break_amount,break_money_amount,partner_time,stop_time,state,customer_manager_phone,customer_manager_name)
 		values
 		(
-			#{merchantId},#{merchantName},#{merchantType},#{merchantAddress},#{isAssurance},#{depositeAmount},#{depositeRate},#{depositeBalance},#{isShared},#{sharedRate},#{brokerageRate},#{brokerageAmount},#{brokerageLess},#{applyAmount},#{applyMoneyAmount},#{loanAmount},#{loanMoneyAmount},#{breakAmount},#{breakMoneyAmount},#{partnerTime},#{stopTime},#{state}
+			#{merchantId},#{merchantName},#{merchantType},#{merchantAddress},#{isAssurance},#{depositeAmount},#{depositeRate},#{depositeBalance},#{isShared},#{sharedRate},#{brokerageRate},#{brokerageAmount},#{brokerageLess},#{applyAmount},#{applyMoneyAmount},#{loanAmount},#{loanMoneyAmount},#{breakAmount},#{breakMoneyAmount},#{partnerTime},#{stopTime},#{state},#{customerManagerPhone},#{customerManagerName}
 		)
 	</insert>
 	<delete id="deleteMerchantByClass" parameterType="com.lanxi.consumeLoan.entity.Merchant">
 		delete from merchant
 		<where>
-			<if test="merchantId != null"> and merchant_id = #{merchantId}  </if>
-			<if test="merchantName != null"> and merchant_name = #{merchantName}  </if>
-			<if test="merchantType != null"> and merchant_type = #{merchantType}  </if>
-			<if test="merchantAddress != null"> and merchant_address = #{merchantAddress}  </if>
-			<if test="isAssurance != null"> and is_assurance = #{isAssurance}  </if>
-			<if test="depositeAmount != null"> and deposite_amount = #{depositeAmount}  </if>
-			<if test="depositeRate != null"> and deposite_rate = #{depositeRate}  </if>
-			<if test="depositeBalance != null"> and deposite_balance = #{depositeBalance}  </if>
-			<if test="isShared != null"> and is_shared = #{isShared}  </if>
-			<if test="sharedRate != null"> and shared_rate = #{sharedRate}  </if>
-			<if test="brokerageRate != null"> and brokerage_rate = #{brokerageRate}  </if>
-			<if test="brokerageAmount != null"> and brokerage_amount = #{brokerageAmount}  </if>
-			<if test="brokerageLess != null"> and brokerage_less = #{brokerageLess}  </if>
-			<if test="applyAmount != null"> and apply_amount = #{applyAmount}  </if>
-			<if test="applyMoneyAmount != null"> and apply_money_amount = #{applyMoneyAmount}  </if>
-			<if test="loanAmount != null"> and loan_amount = #{loanAmount}  </if>
-			<if test="loanMoneyAmount != null"> and loan_money_amount = #{loanMoneyAmount}  </if>
-			<if test="breakAmount != null"> and break_amount = #{breakAmount}  </if>
-			<if test="breakMoneyAmount != null"> and break_money_amount = #{breakMoneyAmount}  </if>
-			<if test="partnerTime != null"> and partner_time = #{partnerTime}  </if>
-			<if test="stopTime != null"> and stop_time = #{stopTime}  </if>
-			<if test="state != null"> and state = #{state}  </if>
+			<if test="merchant.merchantId != null"> and merchant_id = #{merchant.merchantId}  </if>
+			<if test="merchant.merchantName != null"> and merchant_name = #{merchant.merchantName}  </if>
+			<if test="merchant.merchantType != null"> and merchant_type = #{merchant.merchantType}  </if>
+			<if test="merchant.merchantAddress != null"> and merchant_address = #{merchant.merchantAddress}  </if>
+			<if test="merchant.isAssurance != null"> and is_assurance = #{merchant.isAssurance}  </if>
+			<if test="merchant.depositeAmount != null"> and deposite_amount = #{merchant.depositeAmount}  </if>
+			<if test="merchant.depositeRate != null"> and deposite_rate = #{merchant.depositeRate}  </if>
+			<if test="merchant.depositeBalance != null"> and deposite_balance = #{merchant.depositeBalance}  </if>
+			<if test="merchant.isShared != null"> and is_shared = #{merchant.isShared}  </if>
+			<if test="merchant.sharedRate != null"> and shared_rate = #{merchant.sharedRate}  </if>
+			<if test="merchant.brokerageRate != null"> and brokerage_rate = #{merchant.brokerageRate}  </if>
+			<if test="merchant.brokerageAmount != null"> and brokerage_amount = #{merchant.brokerageAmount}  </if>
+			<if test="merchant.brokerageLess != null"> and brokerage_less = #{merchant.brokerageLess}  </if>
+			<if test="merchant.applyAmount != null"> and apply_amount = #{merchant.applyAmount}  </if>
+			<if test="merchant.applyMoneyAmount != null"> and apply_money_amount = #{merchant.applyMoneyAmount}  </if>
+			<if test="merchant.loanAmount != null"> and loan_amount = #{merchant.loanAmount}  </if>
+			<if test="merchant.loanMoneyAmount != null"> and loan_money_amount = #{merchant.loanMoneyAmount}  </if>
+			<if test="merchant.breakAmount != null"> and break_amount = #{merchant.breakAmount}  </if>
+			<if test="merchant.breakMoneyAmount != null"> and break_money_amount = #{merchant.breakMoneyAmount}  </if>
+			<if test="merchant.partnerTime != null"> and partner_time = #{merchant.partnerTime}  </if>
+			<if test="merchant.stopTime != null"> and stop_time = #{merchant.stopTime}  </if>
+			<if test="merchant.state != null"> and state = #{merchant.state}  </if>
+			<if test="merchant.customerManagerPhone != null"> and customer_manager_phone = #{merchant.customerManagerPhone}  </if>
+			<if test="merchant.customerManagerName != null"> and customer_manager_name = #{merchant.customerManagerName}  </if>
 		</where>
 	</delete>
 	<delete id="deleteMerchantByUniqueIndexOnMerchantId">
@@ -74,7 +76,9 @@
 			break_money_amount=#{merchant.breakMoneyAmount},
 			partner_time=#{merchant.partnerTime},
 			stop_time=#{merchant.stopTime},
-			state=#{merchant.state}
+			state=#{merchant.state},
+			customer_manager_phone=#{merchant.customerManagerPhone},
+			customer_manager_name=#{merchant.customerManagerName}
 		</set>
 		<where>
 			<if test="param.merchantId != null"> AND merchant_id = #{param.merchantId}</if>
@@ -99,6 +103,8 @@
 			<if test="param.partnerTime != null"> AND partner_time = #{param.partnerTime}</if>
 			<if test="param.stopTime != null"> AND stop_time = #{param.stopTime}</if>
 			<if test="param.state != null"> AND state = #{param.state}</if>
+			<if test="param.customerManagerPhone != null"> AND customer_manager_phone = #{param.customerManagerPhone}</if>
+			<if test="param.customerManagerName != null"> AND customer_manager_name = #{param.customerManagerName}</if>
 		</where>
 	</update>
 	<update id="updateMerchantByUniqueIndexOnMerchantId">
@@ -125,7 +131,9 @@
 			break_money_amount=#{merchant.breakMoneyAmount},
 			partner_time=#{merchant.partnerTime},
 			stop_time=#{merchant.stopTime},
-			state=#{merchant.state}
+			state=#{merchant.state},
+			customer_manager_phone=#{merchant.customerManagerPhone},
+			customer_manager_name=#{merchant.customerManagerName}
 		</set>
 		<where>
 			AND merchant_id=#{merchantId}
@@ -155,7 +163,9 @@
 			break_money_amount=#{merchant.breakMoneyAmount},
 			partner_time=#{merchant.partnerTime},
 			stop_time=#{merchant.stopTime},
-			state=#{merchant.state}
+			state=#{merchant.state},
+			customer_manager_phone=#{merchant.customerManagerPhone},
+			customer_manager_name=#{merchant.customerManagerName}
 		</set>
 		<where>
 			AND merchant_name=#{merchantName}
@@ -165,36 +175,38 @@
 	</update>
 	<select id="selectMerchantByClass" resultMap="merchantMap"  resultType="com.lanxi.consumeLoan.entity.Merchant" parameterType="com.lanxi.consumeLoan.entity.Merchant">
 		select
-			merchant_id,merchant_name,merchant_type,merchant_address,is_assurance,deposite_amount,deposite_rate,deposite_balance,is_shared,shared_rate,brokerage_rate,brokerage_amount,brokerage_less,apply_amount,apply_money_amount,loan_amount,loan_money_amount,break_amount,break_money_amount,partner_time,stop_time,state
+			merchant_id,merchant_name,merchant_type,merchant_address,is_assurance,deposite_amount,deposite_rate,deposite_balance,is_shared,shared_rate,brokerage_rate,brokerage_amount,brokerage_less,apply_amount,apply_money_amount,loan_amount,loan_money_amount,break_amount,break_money_amount,partner_time,stop_time,state,customer_manager_phone,customer_manager_name
 		from merchant
 		<where>
-			<if test="merchantId != null"> AND merchant_id = #{merchantId}</if>
-			<if test="merchantName != null"> AND merchant_name = #{merchantName}</if>
-			<if test="merchantType != null"> AND merchant_type = #{merchantType}</if>
-			<if test="merchantAddress != null"> AND merchant_address = #{merchantAddress}</if>
-			<if test="isAssurance != null"> AND is_assurance = #{isAssurance}</if>
-			<if test="depositeAmount != null"> AND deposite_amount = #{depositeAmount}</if>
-			<if test="depositeRate != null"> AND deposite_rate = #{depositeRate}</if>
-			<if test="depositeBalance != null"> AND deposite_balance = #{depositeBalance}</if>
-			<if test="isShared != null"> AND is_shared = #{isShared}</if>
-			<if test="sharedRate != null"> AND shared_rate = #{sharedRate}</if>
-			<if test="brokerageRate != null"> AND brokerage_rate = #{brokerageRate}</if>
-			<if test="brokerageAmount != null"> AND brokerage_amount = #{brokerageAmount}</if>
-			<if test="brokerageLess != null"> AND brokerage_less = #{brokerageLess}</if>
-			<if test="applyAmount != null"> AND apply_amount = #{applyAmount}</if>
-			<if test="applyMoneyAmount != null"> AND apply_money_amount = #{applyMoneyAmount}</if>
-			<if test="loanAmount != null"> AND loan_amount = #{loanAmount}</if>
-			<if test="loanMoneyAmount != null"> AND loan_money_amount = #{loanMoneyAmount}</if>
-			<if test="breakAmount != null"> AND break_amount = #{breakAmount}</if>
-			<if test="breakMoneyAmount != null"> AND break_money_amount = #{breakMoneyAmount}</if>
-			<if test="partnerTime != null"> AND partner_time = #{partnerTime}</if>
-			<if test="stopTime != null"> AND stop_time = #{stopTime}</if>
-			<if test="state != null"> AND state = #{state}</if>
+			<if test="merchant.merchantId != null"> AND merchant_id = #{merchant.merchantId}</if>
+			<if test="merchant.merchantName != null"> AND merchant_name = #{merchant.merchantName}</if>
+			<if test="merchant.merchantType != null"> AND merchant_type = #{merchant.merchantType}</if>
+			<if test="merchant.merchantAddress != null"> AND merchant_address = #{merchant.merchantAddress}</if>
+			<if test="merchant.isAssurance != null"> AND is_assurance = #{merchant.isAssurance}</if>
+			<if test="merchant.depositeAmount != null"> AND deposite_amount = #{merchant.depositeAmount}</if>
+			<if test="merchant.depositeRate != null"> AND deposite_rate = #{merchant.depositeRate}</if>
+			<if test="merchant.depositeBalance != null"> AND deposite_balance = #{merchant.depositeBalance}</if>
+			<if test="merchant.isShared != null"> AND is_shared = #{merchant.isShared}</if>
+			<if test="merchant.sharedRate != null"> AND shared_rate = #{merchant.sharedRate}</if>
+			<if test="merchant.brokerageRate != null"> AND brokerage_rate = #{merchant.brokerageRate}</if>
+			<if test="merchant.brokerageAmount != null"> AND brokerage_amount = #{merchant.brokerageAmount}</if>
+			<if test="merchant.brokerageLess != null"> AND brokerage_less = #{merchant.brokerageLess}</if>
+			<if test="merchant.applyAmount != null"> AND apply_amount = #{merchant.applyAmount}</if>
+			<if test="merchant.applyMoneyAmount != null"> AND apply_money_amount = #{merchant.applyMoneyAmount}</if>
+			<if test="merchant.loanAmount != null"> AND loan_amount = #{merchant.loanAmount}</if>
+			<if test="merchant.loanMoneyAmount != null"> AND loan_money_amount = #{merchant.loanMoneyAmount}</if>
+			<if test="merchant.breakAmount != null"> AND break_amount = #{merchant.breakAmount}</if>
+			<if test="merchant.breakMoneyAmount != null"> AND break_money_amount = #{merchant.breakMoneyAmount}</if>
+			<if test="merchant.partnerTime != null"> AND partner_time = #{merchant.partnerTime}</if>
+			<if test="merchant.stopTime != null"> AND stop_time = #{merchant.stopTime}</if>
+			<if test="merchant.state != null"> AND state = #{merchant.state}</if>
+			<if test="merchant.customerManagerPhone != null"> AND customer_manager_phone = #{merchant.customerManagerPhone}</if>
+			<if test="merchant.customerManagerName != null"> AND customer_manager_name = #{merchant.customerManagerName}</if>
 		</where>
 	</select>
 	<select id="selectMerchantByUniqueIndexOnMerchantId" resultType="com.lanxi.consumeLoan.entity.Merchant" resultMap="merchantMap" >
 		select
-			merchant_id,merchant_name,merchant_type,merchant_address,is_assurance,deposite_amount,deposite_rate,deposite_balance,is_shared,shared_rate,brokerage_rate,brokerage_amount,brokerage_less,apply_amount,apply_money_amount,loan_amount,loan_money_amount,break_amount,break_money_amount,partner_time,stop_time,state
+			merchant_id,merchant_name,merchant_type,merchant_address,is_assurance,deposite_amount,deposite_rate,deposite_balance,is_shared,shared_rate,brokerage_rate,brokerage_amount,brokerage_less,apply_amount,apply_money_amount,loan_amount,loan_money_amount,break_amount,break_money_amount,partner_time,stop_time,state,customer_manager_phone,customer_manager_name
 		from merchant
 		<where>
 			AND merchant_id=#{merchantId}
@@ -202,12 +214,43 @@
 	</select>
 	<select id="selectMerchantByUniqueIndexOnMerchantNameAndMerchantAddressAndMerchantType" resultType="com.lanxi.consumeLoan.entity.Merchant" resultMap="merchantMap" >
 		select
-			merchant_id,merchant_name,merchant_type,merchant_address,is_assurance,deposite_amount,deposite_rate,deposite_balance,is_shared,shared_rate,brokerage_rate,brokerage_amount,brokerage_less,apply_amount,apply_money_amount,loan_amount,loan_money_amount,break_amount,break_money_amount,partner_time,stop_time,state
+			merchant_id,merchant_name,merchant_type,merchant_address,is_assurance,deposite_amount,deposite_rate,deposite_balance,is_shared,shared_rate,brokerage_rate,brokerage_amount,brokerage_less,apply_amount,apply_money_amount,loan_amount,loan_money_amount,break_amount,break_money_amount,partner_time,stop_time,state,customer_manager_phone,customer_manager_name
 		from merchant
 		<where>
 			AND merchant_name=#{merchantName}
 			AND merchant_address=#{merchantAddress}
 			AND merchant_type=#{merchantType}
+		</where>
+	</select>
+	
+	
+	<select id="selectMerchantByParm" resultMap="merchantMap" parameterType="map">
+		select
+			merchant_id,merchant_name,merchant_type,merchant_address,is_assurance,deposite_amount,deposite_rate,deposite_balance,is_shared,shared_rate,brokerage_rate,brokerage_amount,brokerage_less,apply_amount,apply_money_amount,loan_amount,loan_money_amount,break_amount,break_money_amount,partner_time,stop_time,state,customer_manager_phone,customer_manager_name
+		from merchant
+		<where>
+				customer_manager_phone != null or customer_manager_phone !=''
+				<if test="state != null"> AND state = #{state}</if>
+				<if test="merchantName != null"> AND merchant_name = #{merchantName}</if>
+				<if test="merchantType != null"> AND merchant_type = #{merchantType}</if>
+				<if test="isAssurance != null"> AND is_assurance = #{isShared}</if>
+				<if test="start_time != null"> AND partner_time &gt;= #{start_time}</if>
+				<if test="end_time != null"> AND partner_time &lt;= #{end_time}</if>
+		</where>
+	</select>
+	
+		<select id="selectAdminMerchantByParm" resultMap="merchantMap" parameterType="map">
+		select
+			merchant_id,merchant_name,merchant_type,merchant_address,is_assurance,deposite_amount,deposite_rate,deposite_balance,is_shared,shared_rate,brokerage_rate,brokerage_amount,brokerage_less,apply_amount,apply_money_amount,loan_amount,loan_money_amount,break_amount,break_money_amount,partner_time,stop_time,state,customer_manager_phone,customer_manager_name
+		from merchant 
+		<where>
+				<if test="state != null"> AND state = #{state}</if>
+				<if test="merchantName != null"> AND merchant_name = #{merchantName}</if>
+				<if test="merchantType != null"> AND merchant_type = #{merchantType}</if>
+				<if test="isAssurance != null"> AND is_assurance = #{isShared}</if>
+				<if test="start_time != null"> AND partner_time &gt;= #{start_time}</if>
+				<if test="end_time != null"> AND partner_time &lt;= #{end_time}</if>
+				<if test="customerManagerPhone != null"> AND customer_manager_phone = #{customerManagerPhone}</if>
 		</where>
 	</select>
 	<resultMap id="merchantMap" type="com.lanxi.consumeLoan.entity.Merchant">
@@ -233,5 +276,7 @@
 		<result property="partnerTime" 			column="partner_time"></result>
 		<result property="stopTime" 			column="stop_time"></result>
 		<result property="state" 			column="state"></result>
+		<result property="customerManagerPhone" 			column="customer_manager_phone"></result>
+		<result property="customerManagerName" 			column="customer_manager_name"></result>
 	</resultMap>
 </mapper>

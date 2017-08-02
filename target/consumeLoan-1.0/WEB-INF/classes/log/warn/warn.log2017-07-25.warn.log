@@ -1,0 +1,35 @@
+2017-07-27 11:22:29,416 WARN [org.apache.zookeeper.ClientCnxn] - <Client session timed out, have not heard from server in 23837ms for sessionid 0x10011ad4d400216>
+2017-07-27 11:22:48,740 WARN [org.apache.zookeeper.ClientCnxn] - <Unable to reconnect to ZooKeeper service, session 0x10011ad4d400216 has expired>
+2017-07-27 11:22:58,489 WARN [com.alibaba.dubbo.registry.zookeeper.ZookeeperRegistry] - < [DUBBO] Failed to retry subscribe {consumer://192.168.17.107/com.lanxi.common.interfaces.RedisCacheServiceInterface?application=consume-loan&category=providers,configurators,routers&check=false&dubbo=2.5.3&interface=com.lanxi.common.interfaces.RedisCacheServiceInterface&methods=getMapOne,set,delete,getMap,get,setMap,setKeyLife,has,setMapOne,getRedisConn&pid=8296&revision=1.0&side=consumer&timestamp=1501125670091=[], consumer://192.168.17.107/com.lanxi.common.interfaces.SmsSendServiceInterface?application=consume-loan&category=providers,configurators,routers&check=false&dubbo=2.5.3&interface=com.lanxi.common.interfaces.SmsSendServiceInterface&methods=sendSms,sendVerifySms,sendSmsReplace&pid=8296&revision=1.0&side=consumer&timestamp=1501125670757=[]}, waiting for again, cause: Failed to subscribe consumer://192.168.17.107/com.lanxi.common.interfaces.RedisCacheServiceInterface?application=consume-loan&category=providers,configurators,routers&check=false&dubbo=2.5.3&interface=com.lanxi.common.interfaces.RedisCacheServiceInterface&methods=getMapOne,set,delete,getMap,get,setMap,setKeyLife,has,setMapOne,getRedisConn&pid=8296&revision=1.0&side=consumer&timestamp=1501125670091 to zookeeper zookeeper://192.168.17.186:2181/com.alibaba.dubbo.registry.RegistryService?application=consume-loan&dubbo=2.5.3&interface=com.alibaba.dubbo.registry.RegistryService&pid=8296&timestamp=1501125670138, cause: java.lang.InterruptedException, dubbo version: 2.5.3, current host: 192.168.17.107>
+com.alibaba.dubbo.rpc.RpcException: Failed to subscribe consumer://192.168.17.107/com.lanxi.common.interfaces.RedisCacheServiceInterface?application=consume-loan&category=providers,configurators,routers&check=false&dubbo=2.5.3&interface=com.lanxi.common.interfaces.RedisCacheServiceInterface&methods=getMapOne,set,delete,getMap,get,setMap,setKeyLife,has,setMapOne,getRedisConn&pid=8296&revision=1.0&side=consumer&timestamp=1501125670091 to zookeeper zookeeper://192.168.17.186:2181/com.alibaba.dubbo.registry.RegistryService?application=consume-loan&dubbo=2.5.3&interface=com.alibaba.dubbo.registry.RegistryService&pid=8296&timestamp=1501125670138, cause: java.lang.InterruptedException
+	at com.alibaba.dubbo.registry.zookeeper.ZookeeperRegistry.doSubscribe(ZookeeperRegistry.java:173)
+	at com.alibaba.dubbo.registry.support.FailbackRegistry.retry(FailbackRegistry.java:362)
+	at com.alibaba.dubbo.registry.support.FailbackRegistry$1.run(FailbackRegistry.java:67)
+	at java.util.concurrent.Executors$RunnableAdapter.call(Executors.java:511)
+	at java.util.concurrent.FutureTask.runAndReset(FutureTask.java:308)
+	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.access$301(ScheduledThreadPoolExecutor.java:180)
+	at java.util.concurrent.ScheduledThreadPoolExecutor$ScheduledFutureTask.run(ScheduledThreadPoolExecutor.java:294)
+	at java.util.concurrent.ThreadPoolExecutor.runWorker(ThreadPoolExecutor.java:1142)
+	at java.util.concurrent.ThreadPoolExecutor$Worker.run(ThreadPoolExecutor.java:617)
+	at java.lang.Thread.run(Thread.java:745)
+Caused by: org.I0Itec.zkclient.exception.ZkInterruptedException: java.lang.InterruptedException
+	at org.I0Itec.zkclient.ZkClient.retryUntilConnected(ZkClient.java:1003)
+	at org.I0Itec.zkclient.ZkClient.create(ZkClient.java:528)
+	at org.I0Itec.zkclient.ZkClient.createPersistent(ZkClient.java:294)
+	at org.I0Itec.zkclient.ZkClient.createPersistent(ZkClient.java:271)
+	at com.alibaba.dubbo.remoting.zookeeper.zkclient.ZkclientZookeeperClient.createPersistent(ZkclientZookeeperClient.java:43)
+	at com.alibaba.dubbo.remoting.zookeeper.support.AbstractZookeeperClient.create(AbstractZookeeperClient.java:44)
+	at com.alibaba.dubbo.registry.zookeeper.ZookeeperRegistry.doSubscribe(ZookeeperRegistry.java:164)
+	... 9 more
+Caused by: java.lang.InterruptedException
+	at java.lang.Object.wait(Native Method)
+	at java.lang.Object.wait(Object.java:502)
+	at org.apache.zookeeper.ClientCnxn.submitRequest(ClientCnxn.java:1406)
+	at org.apache.zookeeper.ZooKeeper.create(ZooKeeper.java:781)
+	at org.I0Itec.zkclient.ZkConnection.create(ZkConnection.java:100)
+	at org.I0Itec.zkclient.ZkClient$3.call(ZkClient.java:531)
+	at org.I0Itec.zkclient.ZkClient$3.call(ZkClient.java:528)
+	at org.I0Itec.zkclient.ZkClient.retryUntilConnected(ZkClient.java:991)
+	... 15 more
+2017-07-27 11:34:17,167 WARN [org.mybatis.spring.mapper.ClassPathMapperScanner] - <No MyBatis mapper was found in '[com.lanxi.consumeLoan.dao.*]' package. Please check your configuration.>
+2017-07-27 11:34:17,821 WARN [org.springframework.context.support.ClassPathXmlApplicationContext] - <Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'authorityCheck': Injection of resource dependencies failed; nested exception is org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'daoServiceImpl': Injection of resource dependencies failed; nested exception is org.springframework.beans.factory.NoSuchBeanDefinitionException: No qualifying bean of type 'com.lanxi.consumeLoan.dao.RoleDao' available: expected at least 1 bean which qualifies as autowire candidate. Dependency annotations: {@javax.annotation.Resource(shareable=true, lookup=, name=, description=, authenticationType=CONTAINER, type=class java.lang.Object, mappedName=)}>

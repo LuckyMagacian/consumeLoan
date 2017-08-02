@@ -2,12 +2,11 @@ package com.lanxi.consumeLoan.entity;
 
 import java.math.BigDecimal;
 import java.lang.String;
-import java.lang.Byte;
 
 /**
  * no comment
  * @author yyj | auto generator
- * @version 1.0.0 2017-07-24 10:25:36
+ * @version 1.0.0 2017-07-27 15:40:36
  */
 
 public class MerchantAccountRecord{
@@ -18,7 +17,7 @@ public class MerchantAccountRecord{
 	private String merchantId;
 	
 	/**是否增加*/
-	private Byte[] isAdd;
+	private String isAdd;
 	
 	/**金额变动*/
 	private BigDecimal monetyChange;
@@ -53,12 +52,12 @@ public class MerchantAccountRecord{
 		
 	}
 	/**获取是否增加*/
-	public Byte[] getIsAdd(){
+	public String getIsAdd(){
 		return this.isAdd;
 	}
 	
 	/**设置是否增加*/
-	public void setIsAdd(Byte[] isAdd){
+	public void setIsAdd(String isAdd){
 		this.isAdd=isAdd;
 		
 	}

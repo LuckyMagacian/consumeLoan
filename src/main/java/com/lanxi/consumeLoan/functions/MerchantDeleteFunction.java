@@ -34,7 +34,7 @@ public class MerchantDeleteFunction extends AbstractFunction {
     @Override
     public RetMessage excuted(Map<String, Object> args) {
         String phone=(String) args.get("phone");
-        String merchant_id = (String) args.get("merchat_id");
+        String merchant_id = (String) args.get("merchantId");
         if(!checkService.checkAuthority(phone, this.getClass().getName())){
             LogFactory.info(this,"没有权限执行该操作!");
             return new RetMessage(RetCodeEnum.FAIL.toString(),"没有权限!",null);

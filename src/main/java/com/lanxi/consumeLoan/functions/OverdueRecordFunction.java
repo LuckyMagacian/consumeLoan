@@ -39,7 +39,7 @@ public class OverdueRecordFunction extends AbstractFunction {
         System.out.println(args.toString());
         String phone=(String) args.get("phone");
         BigDecimal breakMoney = new BigDecimal((String) args.get("breakMoney"));
-        String merchantId  = (String)args.get("merchant_id");
+        String merchantId  = (String)args.get("merchantId");
         String applyId  = (String) args.get("applyId");
         String breakTime = (String)args.get("breakTime");
         if(!checkService.checkAuthority(phone, this.getClass().getName())){
@@ -48,7 +48,7 @@ public class OverdueRecordFunction extends AbstractFunction {
         }
         Apply apply = dao.getApplyDao().selectApplyByUniqueIndexOnApplyId(applyId);
         if (apply == null ){
-            LogFactory.info(this,"申请["+apply.getApplyId()+"]不存在!");
+            LogFactory.info(this,"申请["+applyId+"]不存在!");
             return new RetMessage(RetCodeEnum.FAIL.toString(),"申请不存在!",null);
         }
         apply.setBreakTime(breakTime);
@@ -60,8 +60,13 @@ public class OverdueRecordFunction extends AbstractFunction {
         if(breakAmount == null){
         	breakAmount = 0;
         }
+        LogFactory.info(this,"修改之钱的违约总金额为：" + breakMoneyAmount+ ",修改之前的违约总人数为："+(breakAmount+ 1));
+    
+        breakMoneyAmount = breakMoneyAmount.add(breakMoney);
+       
         merchant.setBreakAmount(breakAmount + 1);
-        merchant.setBreakMoneyAmount(breakMoneyAmount.add(breakMoney));
+        merchant.setBreakMoneyAmount(breakMoneyAmount);
+        LogFactory.info(this,"修改之后的违约总金额为：" + breakMoneyAmount+ ",修改之后的违约总人数为："+(breakAmount+ 1));
         dao.getMerchantDao().updateMerchantByUniqueIndexOnMerchantId(merchant, merchantId);
         return successNotice();
     }
