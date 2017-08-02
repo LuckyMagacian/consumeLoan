@@ -12,14 +12,14 @@
 	<delete id="deleteSystemAccountByClass" parameterType="com.lanxi.consumeLoan.entity.SystemAccount">
 		delete from system_account
 		<where>
-			<if test="accountId != null"> and account_id = #{accountId}  </if>
-			<if test="brokerage != null"> and brokerage = #{brokerage}  </if>
-			<if test="provisionsOfRisk != null"> and provisions_of_risk = #{provisionsOfRisk}  </if>
-			<if test="serviceCharge != null"> and service_charge = #{serviceCharge}  </if>
-			<if test="brokerageRate != null"> and brokerage_rate = #{brokerageRate}  </if>
-			<if test="provisionsOfRiskRate != null"> and provisions_of_risk_rate = #{provisionsOfRiskRate}  </if>
-			<if test="serviceChargeRate != null"> and service_charge_rate = #{serviceChargeRate}  </if>
-			<if test="provisionsOfRiskMax != null"> and provisions_of_risk_max = #{provisionsOfRiskMax}  </if>
+			<if test="systemAccount.accountId != null"> and account_id = #{systemAccount.accountId}  </if>
+			<if test="systemAccount.brokerage != null"> and brokerage = #{systemAccount.brokerage}  </if>
+			<if test="systemAccount.provisionsOfRisk != null"> and provisions_of_risk = #{systemAccount.provisionsOfRisk}  </if>
+			<if test="systemAccount.serviceCharge != null"> and service_charge = #{systemAccount.serviceCharge}  </if>
+			<if test="systemAccount.brokerageRate != null"> and brokerage_rate = #{systemAccount.brokerageRate}  </if>
+			<if test="systemAccount.provisionsOfRiskRate != null"> and provisions_of_risk_rate = #{systemAccount.provisionsOfRiskRate}  </if>
+			<if test="systemAccount.serviceChargeRate != null"> and service_charge_rate = #{systemAccount.serviceChargeRate}  </if>
+			<if test="systemAccount.provisionsOfRiskMax != null"> and provisions_of_risk_max = #{systemAccount.provisionsOfRiskMax}  </if>
 		</where>
 	</delete>
 	<delete id="deleteSystemAccountByUniqueIndexOnAccountId">
@@ -72,14 +72,14 @@
 			account_id,brokerage,provisions_of_risk,service_charge,brokerage_rate,provisions_of_risk_rate,service_charge_rate,provisions_of_risk_max
 		from system_account
 		<where>
-			<if test="accountId != null"> AND account_id = #{accountId}</if>
-			<if test="brokerage != null"> AND brokerage = #{brokerage}</if>
-			<if test="provisionsOfRisk != null"> AND provisions_of_risk = #{provisionsOfRisk}</if>
-			<if test="serviceCharge != null"> AND service_charge = #{serviceCharge}</if>
-			<if test="brokerageRate != null"> AND brokerage_rate = #{brokerageRate}</if>
-			<if test="provisionsOfRiskRate != null"> AND provisions_of_risk_rate = #{provisionsOfRiskRate}</if>
-			<if test="serviceChargeRate != null"> AND service_charge_rate = #{serviceChargeRate}</if>
-			<if test="provisionsOfRiskMax != null"> AND provisions_of_risk_max = #{provisionsOfRiskMax}</if>
+			<if test="systemAccount.accountId != null"> AND account_id = #{systemAccount.accountId}</if>
+			<if test="systemAccount.brokerage != null"> AND brokerage = #{systemAccount.brokerage}</if>
+			<if test="systemAccount.provisionsOfRisk != null"> AND provisions_of_risk = #{systemAccount.provisionsOfRisk}</if>
+			<if test="systemAccount.serviceCharge != null"> AND service_charge = #{systemAccount.serviceCharge}</if>
+			<if test="systemAccount.brokerageRate != null"> AND brokerage_rate = #{systemAccount.brokerageRate}</if>
+			<if test="systemAccount.provisionsOfRiskRate != null"> AND provisions_of_risk_rate = #{systemAccount.provisionsOfRiskRate}</if>
+			<if test="systemAccount.serviceChargeRate != null"> AND service_charge_rate = #{systemAccount.serviceChargeRate}</if>
+			<if test="systemAccount.provisionsOfRiskMax != null"> AND provisions_of_risk_max = #{systemAccount.provisionsOfRiskMax}</if>
 		</where>
 	</select>
 	<select id="selectSystemAccountByUniqueIndexOnAccountId" resultType="com.lanxi.consumeLoan.entity.SystemAccount" resultMap="systemAccountMap" >

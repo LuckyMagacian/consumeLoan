@@ -1,15 +1,19 @@
-package com.lanxi.consumeLoan.entity;
+package com.lanxi.consumeLoan.backup;
 
 import java.math.BigDecimal;
+
+import com.lanxi.util.interfaces.ToJson;
+import com.lanxi.util.interfaces.ToMap;
+
 import java.lang.String;
 
 /**
  * no comment
  * @author yyj | auto generator
- * @version 1.0.0 2017-07-31 16:45:13
+ * @version 1.0.0 2017-07-31 15:35:19
  */
 
-public class Apply{
+public class Apply implements ToMap,ToJson{
 	/**申请编号*/
 	private String applyId;
 	
@@ -87,12 +91,6 @@ public class Apply{
 	
 	/**是否担保*/
 	private String isAssurance;
-	
-	/**客户经理手机号*/
-	private String customerManagerPhone;
-	
-	/**客户经理名称*/
-	private String customerManagerName;
 	
 	/**获取申请编号*/
 	public String getApplyId(){
@@ -354,29 +352,9 @@ public class Apply{
 		this.isAssurance=isAssurance;
 		
 	}
-	/**获取客户经理手机号*/
-	public String getCustomerManagerPhone(){
-		return this.customerManagerPhone;
-	}
-	
-	/**设置客户经理手机号*/
-	public void setCustomerManagerPhone(String customerManagerPhone){
-		this.customerManagerPhone=customerManagerPhone;
-		
-	}
-	/**获取客户经理名称*/
-	public String getCustomerManagerName(){
-		return this.customerManagerName;
-	}
-	
-	/**设置客户经理名称*/
-	public void setCustomerManagerName(String customerManagerName){
-		this.customerManagerName=customerManagerName;
-		
-	}
 	@Override
 	public String toString(){
-		return "com.lanxi.consumeLoan.entity.Apply:["+"applyId="+applyId+","+"name="+name+","+"sex="+sex+","+"address="+address+","+"idNumber="+idNumber+","+"applyMoney="+applyMoney+","+"phone="+phone+","+"verifyCode="+verifyCode+","+"merchantId="+merchantId+","+"salesManPhone="+salesManPhone+","+"applyTime="+applyTime+","+"loanTime="+loanTime+","+"loanMoney="+loanMoney+","+"isOverdue="+isOverdue+","+"overdueMoney="+overdueMoney+","+"state="+state+","+"brokerageRate="+brokerageRate+","+"brokerage="+brokerage+","+"serviceRate="+serviceRate+","+"serviceCharge="+serviceCharge+","+"depositeRate="+depositeRate+","+"breakTime="+breakTime+","+"breakMoney="+breakMoney+","+"merchantName="+merchantName+","+"merchantType="+merchantType+","+"isAssurance="+isAssurance+","+"customerManagerPhone="+customerManagerPhone+","+"customerManagerName="+customerManagerName+"]";
+		return "com.lanxi.consumeLoan.entity.Apply:["+"applyId="+applyId+","+"name="+name+","+"sex="+sex+","+"address="+address+","+"idNumber="+idNumber+","+"applyMoney="+applyMoney+","+"phone="+phone+","+"verifyCode="+verifyCode+","+"merchantId="+merchantId+","+"salesManPhone="+salesManPhone+","+"applyTime="+applyTime+","+"loanTime="+loanTime+","+"loanMoney="+loanMoney+","+"isOverdue="+isOverdue+","+"overdueMoney="+overdueMoney+","+"state="+state+","+"brokerageRate="+brokerageRate+","+"brokerage="+brokerage+","+"serviceRate="+serviceRate+","+"serviceCharge="+serviceCharge+","+"depositeRate="+depositeRate+","+"breakTime="+breakTime+","+"breakMoney="+breakMoney+","+"merchantName="+merchantName+","+"merchantType="+merchantType+","+"isAssurance="+isAssurance+"]";
 	}
 	/**
 	 * 商户佣金查询时隐藏信息
@@ -416,6 +394,6 @@ public class Apply{
 		this.setDepositeRate(null);
 		this.setBreakMoney(null);
 		this.setBreakTime(null);
-		this.setMerchantName(null);
+		this.setMerchantName(null);;
 	}
 }

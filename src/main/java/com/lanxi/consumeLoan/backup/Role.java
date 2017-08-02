@@ -86,6 +86,7 @@ public class Role{
 			authority=new ArrayList<>();
 		authority.remove(funName);
 	}
+	
 	@Override
 	public String toString(){
 		return "com.lanxi.consumeLoan.entity.Role:["+"roleName="+roleName+","+"authority="+authority+"]";

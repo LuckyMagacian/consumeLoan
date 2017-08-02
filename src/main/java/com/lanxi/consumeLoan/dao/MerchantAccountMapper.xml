@@ -12,10 +12,10 @@
 	<delete id="deleteMerchantAccountByClass" parameterType="com.lanxi.consumeLoan.entity.MerchantAccount">
 		delete from merchant_account
 		<where>
-			<if test="merchantId != null"> and merchant_id = #{merchantId}  </if>
-			<if test="brokerage != null"> and brokerage = #{brokerage}  </if>
-			<if test="provisionsOfRisk != null"> and provisions_of_risk = #{provisionsOfRisk}  </if>
-			<if test="serviceCharge != null"> and service_charge = #{serviceCharge}  </if>
+			<if test="merchantAccount.merchantId != null"> and merchant_id = #{merchantAccount.merchantId}  </if>
+			<if test="merchantAccount.brokerage != null"> and brokerage = #{merchantAccount.brokerage}  </if>
+			<if test="merchantAccount.provisionsOfRisk != null"> and provisions_of_risk = #{merchantAccount.provisionsOfRisk}  </if>
+			<if test="merchantAccount.serviceCharge != null"> and service_charge = #{merchantAccount.serviceCharge}  </if>
 		</where>
 	</delete>
 	<delete id="deleteMerchantAccountByUniqueIndexOnMerchantId">
@@ -56,10 +56,10 @@
 			merchant_id,brokerage,provisions_of_risk,service_charge
 		from merchant_account
 		<where>
-			<if test="merchantId != null"> AND merchant_id = #{merchantId}</if>
-			<if test="brokerage != null"> AND brokerage = #{brokerage}</if>
-			<if test="provisionsOfRisk != null"> AND provisions_of_risk = #{provisionsOfRisk}</if>
-			<if test="serviceCharge != null"> AND service_charge = #{serviceCharge}</if>
+			<if test="merchantAccount.merchantId != null"> AND merchant_id = #{merchantAccount.merchantId}</if>
+			<if test="merchantAccount.brokerage != null"> AND brokerage = #{merchantAccount.brokerage}</if>
+			<if test="merchantAccount.provisionsOfRisk != null"> AND provisions_of_risk = #{merchantAccount.provisionsOfRisk}</if>
+			<if test="merchantAccount.serviceCharge != null"> AND service_charge = #{merchantAccount.serviceCharge}</if>
 		</where>
 	</select>
 	<select id="selectMerchantAccountByUniqueIndexOnMerchantId" resultType="com.lanxi.consumeLoan.entity.MerchantAccount" resultMap="merchantAccountMap" >

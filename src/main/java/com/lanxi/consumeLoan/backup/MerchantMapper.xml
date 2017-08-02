@@ -3,10 +3,10 @@
 <mapper namespace="com.lanxi.consumeLoan.dao.MerchantDao">
 	<insert id="addMerchant" parameterType="com.lanxi.consumeLoan.entity.Merchant">
 		insert into merchant
-		(merchant_id,merchant_name,merchant_type,merchant_address,is_assurance,deposite_amount,deposite_rate,deposite_balance,is_shared,shared_rate,brokerage_rate,brokerage_amount,brokerage_less,apply_amount,apply_money_amount,loan_amount,loan_money_amount,break_amount,break_money_amount,partner_time,stop_time,state,customer_manager_phone,customer_manager_name)
+		(merchant_id,merchant_name,merchant_type,merchant_address,is_assurance,deposite_amount,deposite_rate,deposite_balance,is_shared,shared_rate,brokerage_rate,brokerage_amount,brokerage_less,apply_amount,apply_money_amount,loan_amount,loan_money_amount,break_amount,break_money_amount,partner_time,stop_time,state)
 		values
 		(
-			#{merchantId},#{merchantName},#{merchantType},#{merchantAddress},#{isAssurance},#{depositeAmount},#{depositeRate},#{depositeBalance},#{isShared},#{sharedRate},#{brokerageRate},#{brokerageAmount},#{brokerageLess},#{applyAmount},#{applyMoneyAmount},#{loanAmount},#{loanMoneyAmount},#{breakAmount},#{breakMoneyAmount},#{partnerTime},#{stopTime},#{state},#{customerManagerPhone},#{customerManagerName}
+			#{merchantId},#{merchantName},#{merchantType},#{merchantAddress},#{isAssurance},#{depositeAmount},#{depositeRate},#{depositeBalance},#{isShared},#{sharedRate},#{brokerageRate},#{brokerageAmount},#{brokerageLess},#{applyAmount},#{applyMoneyAmount},#{loanAmount},#{loanMoneyAmount},#{breakAmount},#{breakMoneyAmount},#{partnerTime},#{stopTime},#{state}
 		)
 	</insert>
 	<delete id="deleteMerchantByClass" parameterType="com.lanxi.consumeLoan.entity.Merchant">
@@ -34,8 +34,6 @@
 			<if test="merchant.partnerTime != null"> and partner_time = #{merchant.partnerTime}  </if>
 			<if test="merchant.stopTime != null"> and stop_time = #{merchant.stopTime}  </if>
 			<if test="merchant.state != null"> and state = #{merchant.state}  </if>
-			<if test="merchant.customerManagerPhone != null"> and customer_manager_phone = #{merchant.customerManagerPhone}  </if>
-			<if test="merchant.customerManagerName != null"> and customer_manager_name = #{merchant.customerManagerName}  </if>
 		</where>
 	</delete>
 	<delete id="deleteMerchantByUniqueIndexOnMerchantId">
@@ -76,9 +74,7 @@
 			break_money_amount=#{merchant.breakMoneyAmount},
 			partner_time=#{merchant.partnerTime},
 			stop_time=#{merchant.stopTime},
-			state=#{merchant.state},
-			customer_manager_phone=#{merchant.customerManagerPhone},
-			customer_manager_name=#{merchant.customerManagerName}
+			state=#{merchant.state}
 		</set>
 		<where>
 			<if test="param.merchantId != null"> AND merchant_id = #{param.merchantId}</if>
@@ -103,8 +99,6 @@
 			<if test="param.partnerTime != null"> AND partner_time = #{param.partnerTime}</if>
 			<if test="param.stopTime != null"> AND stop_time = #{param.stopTime}</if>
 			<if test="param.state != null"> AND state = #{param.state}</if>
-			<if test="param.customerManagerPhone != null"> AND customer_manager_phone = #{param.customerManagerPhone}</if>
-			<if test="param.customerManagerName != null"> AND customer_manager_name = #{param.customerManagerName}</if>
 		</where>
 	</update>
 	<update id="updateMerchantByUniqueIndexOnMerchantId">
@@ -131,9 +125,7 @@
 			break_money_amount=#{merchant.breakMoneyAmount},
 			partner_time=#{merchant.partnerTime},
 			stop_time=#{merchant.stopTime},
-			state=#{merchant.state},
-			customer_manager_phone=#{merchant.customerManagerPhone},
-			customer_manager_name=#{merchant.customerManagerName}
+			state=#{merchant.state}
 		</set>
 		<where>
 			AND merchant_id=#{merchantId}
@@ -163,9 +155,7 @@
 			break_money_amount=#{merchant.breakMoneyAmount},
 			partner_time=#{merchant.partnerTime},
 			stop_time=#{merchant.stopTime},
-			state=#{merchant.state},
-			customer_manager_phone=#{merchant.customerManagerPhone},
-			customer_manager_name=#{merchant.customerManagerName}
+			state=#{merchant.state}
 		</set>
 		<where>
 			AND merchant_name=#{merchantName}
@@ -175,7 +165,7 @@
 	</update>
 	<select id="selectMerchantByClass" resultMap="merchantMap"  resultType="com.lanxi.consumeLoan.entity.Merchant" parameterType="com.lanxi.consumeLoan.entity.Merchant">
 		select
-			merchant_id,merchant_name,merchant_type,merchant_address,is_assurance,deposite_amount,deposite_rate,deposite_balance,is_shared,shared_rate,brokerage_rate,brokerage_amount,brokerage_less,apply_amount,apply_money_amount,loan_amount,loan_money_amount,break_amount,break_money_amount,partner_time,stop_time,state,customer_manager_phone,customer_manager_name
+			merchant_id,merchant_name,merchant_type,merchant_address,is_assurance,deposite_amount,deposite_rate,deposite_balance,is_shared,shared_rate,brokerage_rate,brokerage_amount,brokerage_less,apply_amount,apply_money_amount,loan_amount,loan_money_amount,break_amount,break_money_amount,partner_time,stop_time,state
 		from merchant
 		<where>
 			<if test="merchant.merchantId != null"> AND merchant_id = #{merchant.merchantId}</if>
@@ -200,13 +190,11 @@
 			<if test="merchant.partnerTime != null"> AND partner_time = #{merchant.partnerTime}</if>
 			<if test="merchant.stopTime != null"> AND stop_time = #{merchant.stopTime}</if>
 			<if test="merchant.state != null"> AND state = #{merchant.state}</if>
-			<if test="merchant.customerManagerPhone != null"> AND customer_manager_phone = #{merchant.customerManagerPhone}</if>
-			<if test="merchant.customerManagerName != null"> AND customer_manager_name = #{merchant.customerManagerName}</if>
 		</where>
 	</select>
 	<select id="selectMerchantByUniqueIndexOnMerchantId" resultType="com.lanxi.consumeLoan.entity.Merchant" resultMap="merchantMap" >
 		select
-			merchant_id,merchant_name,merchant_type,merchant_address,is_assurance,deposite_amount,deposite_rate,deposite_balance,is_shared,shared_rate,brokerage_rate,brokerage_amount,brokerage_less,apply_amount,apply_money_amount,loan_amount,loan_money_amount,break_amount,break_money_amount,partner_time,stop_time,state,customer_manager_phone,customer_manager_name
+			merchant_id,merchant_name,merchant_type,merchant_address,is_assurance,deposite_amount,deposite_rate,deposite_balance,is_shared,shared_rate,brokerage_rate,brokerage_amount,brokerage_less,apply_amount,apply_money_amount,loan_amount,loan_money_amount,break_amount,break_money_amount,partner_time,stop_time,state
 		from merchant
 		<where>
 			AND merchant_id=#{merchantId}
@@ -214,7 +202,7 @@
 	</select>
 	<select id="selectMerchantByUniqueIndexOnMerchantNameAndMerchantAddressAndMerchantType" resultType="com.lanxi.consumeLoan.entity.Merchant" resultMap="merchantMap" >
 		select
-			merchant_id,merchant_name,merchant_type,merchant_address,is_assurance,deposite_amount,deposite_rate,deposite_balance,is_shared,shared_rate,brokerage_rate,brokerage_amount,brokerage_less,apply_amount,apply_money_amount,loan_amount,loan_money_amount,break_amount,break_money_amount,partner_time,stop_time,state,customer_manager_phone,customer_manager_name
+			merchant_id,merchant_name,merchant_type,merchant_address,is_assurance,deposite_amount,deposite_rate,deposite_balance,is_shared,shared_rate,brokerage_rate,brokerage_amount,brokerage_less,apply_amount,apply_money_amount,loan_amount,loan_money_amount,break_amount,break_money_amount,partner_time,stop_time,state
 		from merchant
 		<where>
 			AND merchant_name=#{merchantName}
@@ -245,7 +233,5 @@
 		<result property="partnerTime" 			column="partner_time"></result>
 		<result property="stopTime" 			column="stop_time"></result>
 		<result property="state" 			column="state"></result>
-		<result property="customerManagerPhone" 			column="customer_manager_phone"></result>
-		<result property="customerManagerName" 			column="customer_manager_name"></result>
 	</resultMap>
 </mapper>

@@ -12,13 +12,13 @@
 	<delete id="deleteSystemAccountRecordByClass" parameterType="com.lanxi.consumeLoan.entity.SystemAccountRecord">
 		delete from system_account_record
 		<where>
-			<if test="nanoTime != null"> and nano_time = #{nanoTime}  </if>
-			<if test="accountId != null"> and account_id = #{accountId}  </if>
-			<if test="isAdd != null"> and is_add = #{isAdd}  </if>
-			<if test="monetyChange != null"> and monety_change = #{monetyChange}  </if>
-			<if test="recordTime != null"> and record_time = #{recordTime}  </if>
-			<if test="moneyType != null"> and money_type = #{moneyType}  </if>
-			<if test="reason != null"> and reason = #{reason}  </if>
+			<if test="systemAccountRecord.nanoTime != null"> and nano_time = #{systemAccountRecord.nanoTime}  </if>
+			<if test="systemAccountRecord.accountId != null"> and account_id = #{systemAccountRecord.accountId}  </if>
+			<if test="systemAccountRecord.isAdd != null"> and is_add = #{systemAccountRecord.isAdd}  </if>
+			<if test="systemAccountRecord.monetyChange != null"> and monety_change = #{systemAccountRecord.monetyChange}  </if>
+			<if test="systemAccountRecord.recordTime != null"> and record_time = #{systemAccountRecord.recordTime}  </if>
+			<if test="systemAccountRecord.moneyType != null"> and money_type = #{systemAccountRecord.moneyType}  </if>
+			<if test="systemAccountRecord.reason != null"> and reason = #{systemAccountRecord.reason}  </if>
 		</where>
 	</delete>
 	<delete id="deleteSystemAccountRecordByUniqueIndexOnNanoTime">
@@ -68,13 +68,13 @@
 			nano_time,account_id,is_add,monety_change,record_time,money_type,reason
 		from system_account_record
 		<where>
-			<if test="nanoTime != null"> AND nano_time = #{nanoTime}</if>
-			<if test="accountId != null"> AND account_id = #{accountId}</if>
-			<if test="isAdd != null"> AND is_add = #{isAdd}</if>
-			<if test="monetyChange != null"> AND monety_change = #{monetyChange}</if>
-			<if test="recordTime != null"> AND record_time = #{recordTime}</if>
-			<if test="moneyType != null"> AND money_type = #{moneyType}</if>
-			<if test="reason != null"> AND reason = #{reason}</if>
+			<if test="systemAccountRecord.nanoTime != null"> AND nano_time = #{systemAccountRecord.nanoTime}</if>
+			<if test="systemAccountRecord.accountId != null"> AND account_id = #{systemAccountRecord.accountId}</if>
+			<if test="systemAccountRecord.isAdd != null"> AND is_add = #{systemAccountRecord.isAdd}</if>
+			<if test="systemAccountRecord.monetyChange != null"> AND monety_change = #{systemAccountRecord.monetyChange}</if>
+			<if test="systemAccountRecord.recordTime != null"> AND record_time = #{systemAccountRecord.recordTime}</if>
+			<if test="systemAccountRecord.moneyType != null"> AND money_type = #{systemAccountRecord.moneyType}</if>
+			<if test="systemAccountRecord.reason != null"> AND reason = #{systemAccountRecord.reason}</if>
 		</where>
 	</select>
 	<select id="selectSystemAccountRecordByUniqueIndexOnNanoTime" resultType="com.lanxi.consumeLoan.entity.SystemAccountRecord" resultMap="systemAccountRecordMap" >

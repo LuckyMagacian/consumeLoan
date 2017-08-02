@@ -1,4 +1,4 @@
-package com.lanxi.consumeLoan.dao;
+package com.lanxi.consumeLoan.backup;
 
 import com.lanxi.consumeLoan.entity.Merchant;
 import org.apache.ibatis.annotations.Param;
@@ -6,7 +6,7 @@ import java.util.*;
 /**
  * no comment
  * @author yyj | auto generator
- * @version 1.0.0 2017-07-31 14:10:11
+ * @version 1.0.0 2017-07-28 13:47:19
  */
 
 public interface MerchantDao{

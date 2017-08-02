@@ -12,8 +12,8 @@
 	<delete id="deleteRoleByClass" parameterType="com.lanxi.consumeLoan.entity.Role">
 		delete from role
 		<where>
-			<if test="roleName != null"> and role_name = #{roleName}  </if>
-			<if test="authority != null"> and authority = #{authority}  </if>
+			<if test="role.roleName != null"> and role_name = #{role.roleName}  </if>
+			<if test="role.authority != null"> and authority = #{role.authority}  </if>
 		</where>
 	</delete>
 	<delete id="deleteRoleByUniqueIndexOnRoleName">
@@ -48,8 +48,8 @@
 			role_name,authority
 		from role
 		<where>
-			<if test="roleName != null"> AND role_name = #{roleName}</if>
-			<if test="authority != null"> AND authority = #{authority}</if>
+			<if test="role.roleName != null"> AND role_name = #{role.roleName}</if>
+			<if test="role.authority != null"> AND authority = #{role.authority}</if>
 		</where>
 	</select>
 	<select id="selectRoleByUniqueIndexOnRoleName" resultType="com.lanxi.consumeLoan.entity.Role" resultMap="roleMap" >

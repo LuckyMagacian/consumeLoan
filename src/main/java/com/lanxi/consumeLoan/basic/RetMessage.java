@@ -30,12 +30,7 @@ public class RetMessage {
 	public void setResult(Object result) {
 		this.result = result;
 	}
-	public Class<?> getResultType(){
-		if(result!=null)
-			return result.getClass();
-		else
-			return null;
-	}
+
 	@Override
 	public String toString() {
 		return "RetMessage [code=" + code + ", message=" + message + ", result=" + result + "]";

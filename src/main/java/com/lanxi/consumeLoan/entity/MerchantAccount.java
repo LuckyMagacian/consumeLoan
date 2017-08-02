@@ -6,7 +6,7 @@ import java.lang.String;
 /**
  * no comment
  * @author yyj | auto generator
- * @version 1.0.0 2017-07-27 11:30:11
+ * @version 1.0.0 2017-07-28 13:47:19
  */
 
 public class MerchantAccount{
@@ -65,5 +65,14 @@ public class MerchantAccount{
 	@Override
 	public String toString(){
 		return "com.lanxi.consumeLoan.entity.MerchantAccount:["+"merchantId="+merchantId+","+"brokerage="+brokerage+","+"provisionsOfRisk="+provisionsOfRisk+","+"serviceCharge="+serviceCharge+"]";
+	}	
+	public void hide1(){
+		
+	}
+	public void hide2(){
+		
+	}
+	public void hide3(){
+		
 	}
 }

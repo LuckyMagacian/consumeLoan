@@ -165,11 +165,21 @@ public class User{
 	
 	@SuppressWarnings("unchecked")
 	public UserProxy toProxy(){
-		UserProxy proxy=new UserProxy();
+		UserProxy proxy=new UserProxy(this);
 		Attribute<String> name=(Attribute<String>) get("name");
 		if(name!=null)
 			proxy.setName(name.getValue());
+		proxy.setRoleName(getRoleName());
 		proxy.setPhone(getPhone());
 		return proxy;
+	}
+	public void hide1(){
+		
+	}
+	public void hide2(){
+		
+	}
+	public void hide3(){
+		
 	}
 }

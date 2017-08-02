@@ -27,7 +27,7 @@ public class MakeValidateCodePicFunction extends AbstractFunction{
 
 	@Override
 	public RetMessage failNotice() {
-		// TODO Auto-generated method stub
+		// TODO Auto-generated method stub 
 		return null;
 	}
 
@@ -46,10 +46,10 @@ public class MakeValidateCodePicFunction extends AbstractFunction{
 			LogFactory.info(this, "用户["+phone+"]或servlet["+res+"]为null!请求拒绝!");
 			return failNotice();
 		}
-		String code= PictureVerifyUtil.sendVerifyCode(res);
+		String code= PictureVerifyUtil.sendVerifyCode(res).toLowerCase();
 		LogFactory.info(this, "用户["+phone+"]的验证码为["+code+"]");
-		redisService.set(ConstParam.FUNCTION_NAME_LOGIN+phone, code,30000L);
-		LogFactory.info(this, "用户["+phone+"]的验证码["+code+"]已缓存,有效期[30秒]");
+		redisService.set(ConstParam.FUNCTION_NAME_LOGIN+phone, code,60000L);
+		LogFactory.info(this, "用户["+phone+"]的验证码["+code+"]已缓存,有效期[60秒]");
 		return successNotice();
 	}
 	

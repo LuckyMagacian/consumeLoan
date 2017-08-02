@@ -31,8 +31,6 @@ public class MerchantDetailQueryFunction extends AbstractFunction {
 
     @Override
     public RetMessage excuted(Map<String, Object> args) {
-    	Attribute<String> attr=new Attribute<String>("merchanId", "1001");
-    	String  str=attr.toJson();
     	
         return null;
     }

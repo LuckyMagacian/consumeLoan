@@ -3,10 +3,10 @@
 <mapper namespace="com.lanxi.consumeLoan.dao.ApplyDao">
 	<insert id="addApply" parameterType="com.lanxi.consumeLoan.entity.Apply">
 		insert into apply
-		(apply_id,name,sex,address,id_number,apply_money,phone,verify_code,merchant_id,sales_man_phone,apply_time,loan_time,loan_money,is_overdue,overdue_money,state,brokerage_rate,brokerage,service_rate,service_charge,deposite_rate,break_time,break_money,merchant_name,merchant_type,is_assurance,customer_manager_phone,customer_manager_name)
+		(apply_id,name,sex,address,id_number,apply_money,phone,verify_code,merchant_id,sales_man_phone,apply_time,loan_time,loan_money,is_overdue,overdue_money,state,brokerage_rate,brokerage,service_rate,service_charge,deposite_rate,break_time,break_money,merchant_name,merchant_type,is_assurance)
 		values
 		(
-			#{applyId},#{name},#{sex},#{address},#{idNumber},#{applyMoney},#{phone},#{verifyCode},#{merchantId},#{salesManPhone},#{applyTime},#{loanTime},#{loanMoney},#{isOverdue},#{overdueMoney},#{state},#{brokerageRate},#{brokerage},#{serviceRate},#{serviceCharge},#{depositeRate},#{breakTime},#{breakMoney},#{merchantName},#{merchantType},#{isAssurance},#{customerManagerPhone},#{customerManagerName}
+			#{applyId},#{name},#{sex},#{address},#{idNumber},#{applyMoney},#{phone},#{verifyCode},#{merchantId},#{salesManPhone},#{applyTime},#{loanTime},#{loanMoney},#{isOverdue},#{overdueMoney},#{state},#{brokerageRate},#{brokerage},#{serviceRate},#{serviceCharge},#{depositeRate},#{breakTime},#{breakMoney},#{merchantName},#{merchantType},#{isAssurance}
 		)
 	</insert>
 	<delete id="deleteApplyByClass" parameterType="com.lanxi.consumeLoan.entity.Apply">
@@ -38,8 +38,6 @@
 			<if test="apply.merchantName != null"> and merchant_name = #{apply.merchantName}  </if>
 			<if test="apply.merchantType != null"> and merchant_type = #{apply.merchantType}  </if>
 			<if test="apply.isAssurance != null"> and is_assurance = #{apply.isAssurance}  </if>
-			<if test="apply.customerManagerPhone != null"> and customer_manager_phone = #{apply.customerManagerPhone}  </if>
-			<if test="apply.customerManagerName != null"> and customer_manager_name = #{apply.customerManagerName}  </if>
 		</where>
 	</delete>
 	<delete id="deleteApplyByUniqueIndexOnApplyId">
@@ -84,9 +82,7 @@
 			break_money=#{apply.breakMoney},
 			merchant_name=#{apply.merchantName},
 			merchant_type=#{apply.merchantType},
-			is_assurance=#{apply.isAssurance},
-			customer_manager_phone=#{apply.customerManagerPhone},
-			customer_manager_name=#{apply.customerManagerName}
+			is_assurance=#{apply.isAssurance}
 		</set>
 		<where>
 			<if test="param.applyId != null"> AND apply_id = #{param.applyId}</if>
@@ -115,8 +111,6 @@
 			<if test="param.merchantName != null"> AND merchant_name = #{param.merchantName}</if>
 			<if test="param.merchantType != null"> AND merchant_type = #{param.merchantType}</if>
 			<if test="param.isAssurance != null"> AND is_assurance = #{param.isAssurance}</if>
-			<if test="param.customerManagerPhone != null"> AND customer_manager_phone = #{param.customerManagerPhone}</if>
-			<if test="param.customerManagerName != null"> AND customer_manager_name = #{param.customerManagerName}</if>
 		</where>
 	</update>
 	<update id="updateApplyByUniqueIndexOnApplyId">
@@ -147,9 +141,7 @@
 			break_money=#{apply.breakMoney},
 			merchant_name=#{apply.merchantName},
 			merchant_type=#{apply.merchantType},
-			is_assurance=#{apply.isAssurance},
-			customer_manager_phone=#{apply.customerManagerPhone},
-			customer_manager_name=#{apply.customerManagerName}
+			is_assurance=#{apply.isAssurance}
 		</set>
 		<where>
 			AND apply_id=#{applyId}
@@ -183,9 +175,7 @@
 			break_money=#{apply.breakMoney},
 			merchant_name=#{apply.merchantName},
 			merchant_type=#{apply.merchantType},
-			is_assurance=#{apply.isAssurance},
-			customer_manager_phone=#{apply.customerManagerPhone},
-			customer_manager_name=#{apply.customerManagerName}
+			is_assurance=#{apply.isAssurance}
 		</set>
 		<where>
 			AND id_number=#{idNumber}
@@ -195,7 +185,7 @@
 	</update>
 	<select id="selectApplyByClass" resultMap="applyMap"  resultType="com.lanxi.consumeLoan.entity.Apply" parameterType="com.lanxi.consumeLoan.entity.Apply">
 		select
-			apply_id,name,sex,address,id_number,apply_money,phone,verify_code,merchant_id,sales_man_phone,apply_time,loan_time,loan_money,is_overdue,overdue_money,state,brokerage_rate,brokerage,service_rate,service_charge,deposite_rate,break_time,break_money,merchant_name,merchant_type,is_assurance,customer_manager_phone,customer_manager_name
+			apply_id,name,sex,address,id_number,apply_money,phone,verify_code,merchant_id,sales_man_phone,apply_time,loan_time,loan_money,is_overdue,overdue_money,state,brokerage_rate,brokerage,service_rate,service_charge,deposite_rate,break_time,break_money,merchant_name,merchant_type,is_assurance
 		from apply
 		<where>
 			<if test="apply.applyId != null"> AND apply_id = #{apply.applyId}</if>
@@ -224,21 +214,29 @@
 			<if test="apply.merchantName != null"> AND merchant_name = #{apply.merchantName}</if>
 			<if test="apply.merchantType != null"> AND merchant_type = #{apply.merchantType}</if>
 			<if test="apply.isAssurance != null"> AND is_assurance = #{apply.isAssurance}</if>
-			<if test="apply.customerManagerPhone != null"> AND customer_manager_phone = #{apply.customerManagerPhone}</if>
-			<if test="apply.customerManagerName != null"> AND customer_manager_name = #{apply.customerManagerName}</if>
 		</where>
 	</select>
 	<select id="selectApplyByUniqueIndexOnApplyId" resultType="com.lanxi.consumeLoan.entity.Apply" resultMap="applyMap" >
 		select
-			apply_id,name,sex,address,id_number,apply_money,phone,verify_code,merchant_id,sales_man_phone,apply_time,loan_time,loan_money,is_overdue,overdue_money,state,brokerage_rate,brokerage,service_rate,service_charge,deposite_rate,break_time,break_money,merchant_name,merchant_type,is_assurance,customer_manager_phone,customer_manager_name
+			apply_id,name,sex,address,id_number,apply_money,phone,verify_code,merchant_id,sales_man_phone,apply_time,loan_time,loan_money,is_overdue,overdue_money,state,brokerage_rate,brokerage,service_rate,service_charge,deposite_rate,break_time,break_money,merchant_name,merchant_type,is_assurance
 		from apply
 		<where>
 			AND apply_id=#{applyId}
 		</where>
 	</select>
+	<select id="selectApplyByUniqueIndexOnIdNumberAndApplyTimeAndPhone" resultType="com.lanxi.consumeLoan.entity.Apply" resultMap="applyMap" >
+		select
+			apply_id,name,sex,address,id_number,apply_money,phone,verify_code,merchant_id,sales_man_phone,apply_time,loan_time,loan_money,is_overdue,overdue_money,state,brokerage_rate,brokerage,service_rate,service_charge,deposite_rate,break_time,break_money,merchant_name,merchant_type,is_assurance
+		from apply
+		<where>
+			AND id_number=#{idNumber}
+			AND apply_time=#{applyTime}
+			AND phone=#{phone}
+		</where>
+	</select>
 	<select id="selectApplyByParam" resultMap="applyMap"  resultType="com.lanxi.consumeLoan.entity.Apply" parameterType="java.util.Map">
         select
-            apply_id,name,sex,address,id_number,apply_money,phone,verify_code,merchant_id,sales_man_phone,apply_time,loan_time,loan_money,is_overdue,overdue_money,state,brokerage_rate,brokerage,service_rate,service_charge,deposite_rate,break_time,break_money,merchant_name,merchant_type,is_assurance,customer_manager_phone,customer_manager_name
+            apply_id,name,sex,address,id_number,apply_money,phone,verify_code,merchant_id,sales_man_phone,apply_time,loan_time,loan_money,is_overdue,overdue_money,state,brokerage_rate,brokerage,service_rate,service_charge,deposite_rate,break_time,break_money,merchant_name,merchant_type,is_assurance
         from apply
         <where>
             merchant_id=#{merchantId}
@@ -276,7 +274,5 @@
 		<result property="merchantName" 			column="merchant_name"></result>
 		<result property="merchantType" 			column="merchant_type"></result>
 		<result property="isAssurance" 			column="is_assurance"></result>
-		<result property="customerManagerPhone" 			column="customer_manager_phone"></result>
-		<result property="customerManagerName" 			column="customer_manager_name"></result>
 	</resultMap>
 </mapper>

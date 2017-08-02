@@ -22,6 +22,9 @@ public class LoginFunction extends AbstractFunction{
     public LoginFunction(){
         addAttribute(new Attribute<String>("password","123456"));
         addAttribute(new Attribute<String>("name", ""));
+        addAttribute(new Attribute<String>("createTime",TimeUtil.getDateTime()));
+        addAttribute(new Attribute<String>("state",ConstParam.USER_STATE_WAIT_CHECK));
+        addAttribute(new Attribute<String>("createBy",""));
     }
 
     @Override
@@ -57,26 +60,27 @@ public class LoginFunction extends AbstractFunction{
 //        	return new RetMessage(RetCodeEnum.FAIL.toString(),"用户不存在!请检查帐号是否正确!",null);
 //        }
 //        LogFactory.info(this, "用户["+phone+"]存在性校验通过!");
-        String code=redisService.get(ConstParam.FUNCTION_NAME_LOGIN+phone);
-        if(!validateCode.equals(code)){
+        String ip=(String) args.get("ip");
+        //验证码与ip绑定
+        String code=redisService.get(ConstParam.FUNCTION_NAME_LOGIN+ip);
+        if(!validateCode.toLowerCase().equals(code)){
         	LogFactory.info(this, "验证码错误!输入验证码["+validateCode+"],缓存验证码["+code+"]");
         	return new RetMessage(RetCodeEnum.FAIL.toString(),"图形验证码校验失败!请检查输入!",null);
         }
-        redisService.delete(ConstParam.FUNCTION_NAME_LOGIN+phone);
+        redisService.delete(ConstParam.FUNCTION_NAME_LOGIN+ip);
         LogFactory.info(this, "验证码校验通过!");
         if(!password.equals(user.get("password").getValue())){
         	LogFactory.info(this, "密码错误!输入密码["+password+"],真实密码["+user.get("password").getValue()+"]");
         	return new RetMessage(RetCodeEnum.FAIL.toString(),"密码错误!",null);
         }
         LogFactory.info(this, "用户["+phone+"]密码校验通过!");
-        String ip=(String) args.get("ip");
         if(ip==null){
         	throw new RuntimeException("user ip can't be null !");
-        }
-        redisService.set(ConstParam.USER_STATE_LOGIN+phone, ip);
-        LogFactory.info(this, "用户["+phone+"]ip锁定["+ip+"]!");
-        LogFactory.info(this, "用户["+phone+"]于["+TimeUtil.getPreferDateTime()+"]登录本系统!");
-        return new RetMessage(RetCodeEnum.SUCCESS.toString(),"登录成功!",null);
+        }  
+        redisService.set(ConstParam.USER_STATE_LOGIN+phone, ip);  
+        LogFactory.info(this, "用户["+phone+"]ip锁定["+ip+"]!"); 
+        LogFactory.info(this, "用户["+phone+user.toProxy()+"]于["+TimeUtil.getPreferDateTime()+"]登录本系统!");
+        return new RetMessage(RetCodeEnum.SUCCESS.toString(),"登录成功!",user.toProxy());
     }
 }
 

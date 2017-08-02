@@ -1,4 +1,4 @@
-package com.lanxi.consumeLoan.dao;
+package com.lanxi.consumeLoan.backup;
 
 import com.lanxi.consumeLoan.entity.Apply;
 import org.apache.ibatis.annotations.Param;
