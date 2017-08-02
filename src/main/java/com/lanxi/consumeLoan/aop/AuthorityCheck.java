@@ -56,6 +56,25 @@ public class AuthorityCheck {
 			}
 			LogFactory.info(this, "用户["+phone+"]接口["+targetName+"]权限校验通过!");
 		}
+		if(phone==null){
+			LogFactory.info(this, "权限校验时,用户["+phone+"]为null");
+			return new RetMessage(RetCodeEnum.FAIL.toString(), "用户手机号为空!请检查输入!", null);
+		}
+		LogFactory.info(this, "用户["+phone+"]尝试访问["+targetName+"]接口");
+		User user=dao.getUserDao().selectUserByUniqueIndexOnPhone(phone);
+		if(user==null){
+			LogFactory.info(this, "用户["+phone+"]不存在!");
+			return new RetMessage(RetCodeEnum.FAIL.toString(), "用户不存在!", null);
+		}
+		LogFactory.info(this, "用户["+phone+"]存在性校验通过!");
+		String roleName=user.getRoleName();
+		Role role=dao.getRoleDao().selectRoleByUniqueIndexOnRoleName(roleName);
+		List<String> authority=role.getAuthorityObject();	
+		if(!authority.contains(targetName)){
+			LogFactory.info(this, "用户["+phone+"]无权访问["+targetName+"]接口!");
+			return new RetMessage(RetCodeEnum.FAIL.toString(),"用户["+phone+"]无权访问["+targetName+"]接口!",null);
+		}
+		LogFactory.info(this, "用户["+phone+"]接口["+targetName+"]权限校验通过!");
 		try {
 			return (RetMessage) point.proceed(new Object[]{args});
 		} catch (Throwable e) {

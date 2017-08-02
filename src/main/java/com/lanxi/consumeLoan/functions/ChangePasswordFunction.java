@@ -53,6 +53,10 @@ public class ChangePasswordFunction extends AbstractFunction {
     		LogFactory.info(this, "用户["+phone+"]旧密码["+oldPassword+"]错误!");
     		return new RetMessage(RetCodeEnum.FAIL.toString(),"旧密码错误,请检查输入!",null);
     	}
+    	if(newPassword==null||passwordRepeat==null){
+    		LogFactory.info(this, "新密码["+newPassword+"]或重复密码["+passwordRepeat+"]为空");
+    		return failNotice();
+    	}
     	if(!newPassword.equals(passwordRepeat)){
     		LogFactory.info(this, "用户["+phone+"]新密码["+newPassword+"]重复密码["+passwordRepeat+"]不一致");
     		return new RetMessage(RetCodeEnum.FAIL.toString(),"新密码与重复密码不一致,请检查输入!",null);

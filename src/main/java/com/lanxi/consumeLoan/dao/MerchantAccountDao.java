@@ -7,8 +7,7 @@ import java.util.*;
  * no comment
  * @author yyj | auto generator
  * @version 1.0.0 2017-07-28 13:47:19
- */
-
+*/
 public interface MerchantAccountDao{
 	
 	/**插入MerchantAccount到数据库

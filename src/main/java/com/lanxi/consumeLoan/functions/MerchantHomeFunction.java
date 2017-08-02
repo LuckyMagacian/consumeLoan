@@ -48,19 +48,11 @@ public class MerchantHomeFunction extends AbstractFunction {
     	String phone=(String) args.get("phone");
     	LogFactory.info(this, "用户["+phone+"]尝试获取商户主页信息");
     	User user=dao.getUserDao().selectUserByUniqueIndexOnPhone(phone);
-//    	if(user==null){
-//    		LogFactory.info(this, "用户["+phone+"]不存在!");
-//    		return failNotice();
-//    	}
     	Attribute<String> merchantId=(Attribute<String>) user.get("merchantId");
     	if(merchantId==null){
     		LogFactory.info(this, "用户["+phone+"]未绑定商户或不是商户工作人员!");
     		return new RetMessage(RetCodeEnum.FAIL.toString(),"当前用户未绑定商户或不是商户工作人员！",null);
     	}
-//    	if(shopkeeperId==null){
-//    		LogFactory.info(this, "用户["+phone+"]不是店长!");
-//    		return failNotice();
-//    	}
     	Merchant merchant=dao.getMerchantDao().selectMerchantByUniqueIndexOnMerchantId(merchantId.getValue());
     	LogFactory.info(this, "用户["+phone+"]获取商户信息["+merchant+"]成功!");
     	List<User> users=dao.selectUserByAttibute(new Attribute<String>("merchantId", merchant.getMerchantId()).toJson());
@@ -72,6 +64,7 @@ public class MerchantHomeFunction extends AbstractFunction {
     	Map<String, Object> result=new HashMap<>();
     	result.put("merchantInfo", merchant);
     	result.put("employeeInfo", proxies);
-        return new RetMessage(RetCodeEnum.SUCCESS.toString(),"获取商户主页信息成功！", result);
+    	Object[] objects=new Object[]{merchant,proxies};
+        return new RetMessage(RetCodeEnum.SUCCESS.toString(),"获取商户主页信息成功！", objects);
     }
 }

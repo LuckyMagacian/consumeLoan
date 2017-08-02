@@ -74,9 +74,10 @@
         </where>
             ORDER BY role_name
     </select>
+
 	<resultMap id="userMap" type="com.lanxi.consumeLoan.entity.User">
 		<result property="phone" 			column="phone"></result>
 		<result property="roleName" 			column="role_name"></result>
 		<result property="attributes" 			column="attributes"></result>
-	</resultMap>
+	</resultMap>		 
 </mapper>

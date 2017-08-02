@@ -222,6 +222,37 @@
 			AND merchant_type=#{merchantType}
 		</where>
 	</select>
+	
+	
+	<select id="selectMerchantByParm" resultMap="merchantMap" parameterType="map">
+		select
+			merchant_id,merchant_name,merchant_type,merchant_address,is_assurance,deposite_amount,deposite_rate,deposite_balance,is_shared,shared_rate,brokerage_rate,brokerage_amount,brokerage_less,apply_amount,apply_money_amount,loan_amount,loan_money_amount,break_amount,break_money_amount,partner_time,stop_time,state,customer_manager_phone,customer_manager_name
+		from merchant
+		<where>
+				customer_manager_phone != null or customer_manager_phone !=''
+				<if test="state != null"> AND state = #{state}</if>
+				<if test="merchantName != null"> AND merchant_name = #{merchantName}</if>
+				<if test="merchantType != null"> AND merchant_type = #{merchantType}</if>
+				<if test="isAssurance != null"> AND is_assurance = #{isShared}</if>
+				<if test="start_time != null"> AND partner_time &gt;= #{start_time}</if>
+				<if test="end_time != null"> AND partner_time &lt;= #{end_time}</if>
+		</where>
+	</select>
+	
+		<select id="selectAdminMerchantByParm" resultMap="merchantMap" parameterType="map">
+		select
+			merchant_id,merchant_name,merchant_type,merchant_address,is_assurance,deposite_amount,deposite_rate,deposite_balance,is_shared,shared_rate,brokerage_rate,brokerage_amount,brokerage_less,apply_amount,apply_money_amount,loan_amount,loan_money_amount,break_amount,break_money_amount,partner_time,stop_time,state,customer_manager_phone,customer_manager_name
+		from merchant 
+		<where>
+				<if test="state != null"> AND state = #{state}</if>
+				<if test="merchantName != null"> AND merchant_name = #{merchantName}</if>
+				<if test="merchantType != null"> AND merchant_type = #{merchantType}</if>
+				<if test="isAssurance != null"> AND is_assurance = #{isShared}</if>
+				<if test="start_time != null"> AND partner_time &gt;= #{start_time}</if>
+				<if test="end_time != null"> AND partner_time &lt;= #{end_time}</if>
+				<if test="customerManagerPhone != null"> AND customer_manager_phone = #{customerManagerPhone}</if>
+		</where>
+	</select>
 	<resultMap id="merchantMap" type="com.lanxi.consumeLoan.entity.Merchant">
 		<result property="merchantId" 			column="merchant_id"></result>
 		<result property="merchantName" 			column="merchant_name"></result>

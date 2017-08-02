@@ -4,13 +4,16 @@ import java.math.BigDecimal;
 import java.lang.String;
 import java.lang.Integer;
 
+import com.lanxi.util.interfaces.ToJson;
+import com.lanxi.util.interfaces.ToMap;
+
 /**
  * no comment
  * @author yyj | auto generator
  * @version 1.0.0 2017-07-31 14:10:11
  */
 
-public class Merchant{
+public class Merchant implements ToJson,ToMap{
 	/**商户编号*/
 	private String merchantId;
 	

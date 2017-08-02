@@ -48,8 +48,6 @@ public class ApplyOrderAddFunction extends AbstractFunction{
 	@Override
     public RetMessage excuted(Map<String, Object> args) {
     	String phone=(String) args.get("phone");
-//    	if(!checkService.checkAuthority(phone, this.getClass().getName()))
-//    		return failNotice();
     	LogFactory.info(this, "用户["+phone+"]尝试添加新订单!");
     	String applyJson=(String) args.get("apply");
     	if(applyJson==null||applyJson.isEmpty()){

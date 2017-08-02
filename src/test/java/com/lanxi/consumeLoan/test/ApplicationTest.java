@@ -2,6 +2,7 @@ package com.lanxi.consumeLoan.test;
 
 import java.io.File;
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -18,8 +19,11 @@ import com.lanxi.common.interfaces.RedisCacheServiceInterface;
 import com.lanxi.consumeLoan.aop.SetEncodeUtf8;
 import com.lanxi.consumeLoan.basic.Attribute;
 import com.lanxi.consumeLoan.basic.Function;
+import com.lanxi.consumeLoan.basic.RetMessage;
 import com.lanxi.consumeLoan.consts.ConstParam;
 import com.lanxi.consumeLoan.controller.TestController;
+import com.lanxi.consumeLoan.dao.ApplyDao;
+import com.lanxi.consumeLoan.dao.MerchantDao;
 import com.lanxi.consumeLoan.dao.RoleDao;
 import com.lanxi.consumeLoan.dao.UserDao;
 import com.lanxi.consumeLoan.entity.Apply;
@@ -27,9 +31,14 @@ import com.lanxi.consumeLoan.entity.Merchant;
 import com.lanxi.consumeLoan.entity.Role;
 import com.lanxi.consumeLoan.entity.User;
 import com.lanxi.consumeLoan.functions.CustomerManagerApplyOrderQueryFunction;
-import com.lanxi.consumeLoan.functions.CustomerShopEmployeeAddFunction;
 import com.lanxi.consumeLoan.functions.LoginFunction;
-import com.lanxi.consumeLoan.functions.AdminMerchantAddFunction;
+import com.lanxi.consumeLoan.functions.MerchantDeleteFunction;
+import com.lanxi.consumeLoan.functions.MerchantDetailQueryFunction;
+import com.lanxi.consumeLoan.functions.MerchantModifyFunction;
+import com.lanxi.consumeLoan.functions.MerchantQueryFunction;
+import com.lanxi.consumeLoan.functions.MerchantShelveFunction;
+import com.lanxi.consumeLoan.functions.MerchantUnsheleveFunction;
+import com.lanxi.consumeLoan.functions.OverdueRecordFunction;
 import com.lanxi.consumeLoan.functions.UserAddFunction;
 import com.lanxi.consumeLoan.manager.ApplicationContextProxy;
 import com.lanxi.consumeLoan.manager.UserManager;
@@ -38,6 +47,7 @@ import com.lanxi.util.utils.ExcelUtil;
 import com.lanxi.util.utils.LoggerUtil;
 import com.lanxi.util.utils.SqlUtilForDB;
 import com.lanxi.util.utils.TimeUtil;
+
 
 public class ApplicationTest {
 	private ApplicationContext ac;
@@ -100,6 +110,7 @@ public class ApplicationTest {
 		}
 		dao.getRoleDao().updateRoleByUniqueIndexOnRoleName(role, role.getRoleName());
 	}
+
 	
 	@Test
 	public void test3(){
@@ -112,6 +123,18 @@ public class ApplicationTest {
 		args.put("validateCode", "123456");
 		login.excuted(args);
 	}
+	
+	/**
+	 *	修改权限
+	 */
+	@Test 
+	public void test65(){
+		DaoService dao=ac.getBean(DaoService.class);
+		Role role=dao.getRoleDao().selectRoleByUniqueIndexOnRoleName("admin");
+		role.addAuthority(CustomerManagerApplyOrderQueryFunction.class);
+		dao.getRoleDao().updateRoleByUniqueIndexOnRoleName(role, role.getRoleName());
+	}
+	
 	
 	@Test
 	public void test10(){
@@ -131,6 +154,7 @@ public class ApplicationTest {
 		System.out.println(set);
 	}
 	
+
 	@Test
 	public void test4(){
 		SqlUtilForDB.makeOne(SqlUtilForDB.getTable(SqlUtilForDB.getConnection(), "apply"), "", null, false, false);
@@ -197,4 +221,113 @@ public class ApplicationTest {
 			each.setAttributesObject(null);;
 		System.out.println(JSONObject.toJSON(users));
 	}
+
+    public void testMerchantDeleteFunction(){
+	    	MerchantDeleteFunction bean = ac.getBean(MerchantDeleteFunction.class);
+			Map<String,Object> map =new HashMap<>();
+        	map.put("phone","15068610940");
+			map.put("merchant_id","1001");
+			RetMessage excuted = bean.excuted(map);
+			System.out.println(excuted);
+    }
+
+	@Test
+	public void testMerchantUnsheleveFunction(){
+		MerchantUnsheleveFunction bean = ac.getBean(MerchantUnsheleveFunction.class);
+		Map<String,Object> map =new HashMap<>();
+		map.put("phone","15068610940");
+		map.put("merchant_id","1001");
+		RetMessage excuted = bean.excuted(map);
+		System.out.println(excuted);
+	}
+
+	@Test
+	public void testMerchantShelveFunction(){
+		MerchantShelveFunction bean = ac.getBean(MerchantShelveFunction.class);
+		Map<String,Object> map =new HashMap<>();
+		map.put("phone","15068610940");
+		map.put("merchant_id","1001");
+		RetMessage excuted = bean.excuted(map);
+		System.out.println(excuted);
+	}
+
+	@Test
+	public void tesMerchantModifyFunctionFunction(){
+		MerchantModifyFunction bean = ac.getBean(MerchantModifyFunction.class);
+		Merchant merchant = new Merchant();
+		merchant.setMerchantId("1001");
+		merchant.setMerchantAddress("aaa");
+		Map<String,Object> map =new HashMap<>();
+		map.put("phone","15068610940");
+		map.put("merchant",merchant.toJson());
+		RetMessage excuted = bean.excuted(map);
+		System.out.println(excuted);
+	}
+
+	@Test
+	public void OverdueRecordFunction(){
+		OverdueRecordFunction bean = ac.getBean(OverdueRecordFunction.class);
+		Map<String,Object> map =new HashMap<>();
+		map.put("phone","15068610940");
+		map.put("applyId","1001");
+		map.put("breakMoney","100");
+		map.put("breakTime","aaa");
+		RetMessage excuted = bean.excuted(map);
+		System.out.println(excuted);
+	}
+	@Test
+	public void ApplyDao() {
+		ApplyDao bean = ac.getBean(ApplyDao.class);
+		Apply apply = bean.selectApplyByUniqueIndexOnApplyId("1001");
+		System.err.println(apply);
+		apply.setBreakTime(TimeUtil.getPreferDateTime());
+		apply.setAddress("10000000000");
+		apply.setBreakMoney(new BigDecimal(100));
+		System.err.println(apply);
+		bean.updateApplyByUniqueIndexOnApplyId(apply,apply.getApplyId());
+		System.err.println(bean.selectApplyByUniqueIndexOnApplyId(apply.getApplyId()));
+	}
+	@Test
+	public void testMerchantDetailQueryFunction() {
+		MerchantDetailQueryFunction bean = ac.getBean(MerchantDetailQueryFunction.class);
+		Map<String,Object> map =new HashMap<>();
+		map.put("phone","15068610940");
+		map.put("merchant_id","1001");
+		RetMessage retMessage = bean.excuted(map);
+		System.out.println(retMessage);
+	}
+	@Test
+	public void testMerchantQueryFunction(){
+		Map<String , Object> map = new HashMap<String, Object>();
+		map.put("phone", "15068610940");
+		map.put("state", "20");
+		MerchantQueryFunction bean = ac.getBean(MerchantQueryFunction.class);
+		RetMessage message = bean.excuted(map);
+			
+		System.out.println(message);
+	}
+	@Test
+	public void testMerchantDao(){
+		MerchantDao bean = ac.getBean(MerchantDao.class);
+		Map<String, Object> parm = new HashMap<String, Object>();
+		parm.put("start_time", "20170720");
+		parm.put("end_time", "20170727");
+		List<Merchant> list = bean.selectMerchantByParm(parm);
+		System.out.println(list);
+		
+	}
+	@Test
+	public void testCustomerManagerApplyOrderQueryFunction(){
+		DaoService dao=ac.getBean(DaoService.class);
+		Map<String, Object> map = new HashMap<>();
+		map.put("state", "01");
+		List<Merchant> list = dao.getMerchantDao().selectAdminMerchantByParm(map);
+		System.err.println(list);
+		
+	}
+	@Test
+	public void make(){
+		SqlUtilForDB.makeOne(SqlUtilForDB.getTable(SqlUtilForDB.getConnection(), "apply"), "", "", false, false);
+	}
+
 }

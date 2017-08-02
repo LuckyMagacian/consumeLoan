@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 
 import com.lanxi.consumeLoan.basic.AbstractFunction;
 import com.lanxi.consumeLoan.basic.RetMessage;
-import com.lanxi.consumeLoan.basic.UserProxy;
 import com.lanxi.consumeLoan.entity.User;
 import com.lanxi.util.consts.RetCodeEnum;
 import com.lanxi.util.entity.LogFactory;

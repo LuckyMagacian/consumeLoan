@@ -8,9 +8,14 @@ import org.junit.Test;
 
 import com.alibaba.fastjson.JSONObject;
 import com.lanxi.consumeLoan.basic.Attribute;
+
 import com.lanxi.consumeLoan.entity.Apply;
 import com.lanxi.consumeLoan.entity.User;
 import com.lanxi.util.utils.BeanUtil;
+
+
+import com.lanxi.consumeLoan.entity.User;
+import com.lanxi.util.utils.SqlUtilForDB;
 
 
 public class Test20170727 {
@@ -39,5 +44,9 @@ public class Test20170727 {
 		BigDecimal b=new BigDecimal(50);
 		a=a.add(b);
 		System.out.println(a.doubleValue());
+	}
+	public void test22(){
+		System.out.println(SqlUtilForDB.getConnection());
+
 	}
 }

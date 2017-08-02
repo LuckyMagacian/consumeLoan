@@ -62,4 +62,8 @@ public interface MerchantDao{
 	 * @return 符合条件的数据对象 */
 	public Merchant selectMerchantByUniqueIndexOnMerchantNameAndMerchantAddressAndMerchantType(@Param(value="merchantName")String merchantName,@Param(value="merchantAddress")String merchantAddress,@Param(value="merchantType")String merchantType);
 	
+	
+	
+	public List<Merchant> selectMerchantByParm(Map<String,Object> parm);
+	public List<Merchant> selectAdminMerchantByParm(Map<String,Object> parm);
 }
