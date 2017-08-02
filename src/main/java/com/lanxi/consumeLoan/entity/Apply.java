@@ -416,6 +416,6 @@ public class Apply{
 		this.setDepositeRate(null);
 		this.setBreakMoney(null);
 		this.setBreakTime(null);
-		this.setMerchantName(null);;
+		this.setMerchantName(null);
 	}
 }
