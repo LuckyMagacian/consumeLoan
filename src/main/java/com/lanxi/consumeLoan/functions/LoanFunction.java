@@ -23,33 +23,27 @@ public class LoanFunction extends AbstractFunction {
 
 	@Override
 	public RetMessage successNotice() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public RetMessage failNotice() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public RetMessage showInfo() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public RetMessage excuted(Map<String, Object> args) {
 		String phone=(String) args.get("phone");
-		if(!checkService.checkAuthority(phone, this.getClass().getName())){
-			LogFactory.info(this, "没有权限执行该操作!");
-			return new RetMessage(RetCodeEnum.FAIL.toString(), "没有权限!", null);
-		}
+
 		String applyId=(String) args.get("applyId");
 		Apply apply=dao.getApplyDao().selectApplyByUniqueIndexOnApplyId(applyId);
 		if(apply==null){
-			LogFactory.info(this, "没查询到数据!");
+			LogFactory.info(this, "管理员["+phone+"],没查询到数据!");
 			return new RetMessage(RetCodeEnum.FAIL.toString(), "没查询到数据!", null);
 		}
 		//修改申请放款金额
@@ -61,7 +55,7 @@ public class LoanFunction extends AbstractFunction {
 		dao.getApplyDao().updateApplyByUniqueIndexOnApplyId(apply, applyId);
 		//修改系统
 		SystemAccount account=dao.getSystemAccountDao().selectSystemAccountByClass(new SystemAccount()).get(0);
-		LogFactory.info(this, "修改之前的佣金值："+account.getBrokerage() + ",修改之前的服务费" + account.getServiceCharge() +",修改之前的佣金" + account.getProvisionsOfRisk());
+		LogFactory.info(this, "管理员["+phone+"],放款之前的佣金值："+account.getBrokerage() + ",放款之前的服务费" + account.getServiceCharge() +",放款之前的风险准备金" + account.getProvisionsOfRisk());
 		BigDecimal  newBrokerge = new BigDecimal(0);
 		newBrokerge = loan.add(account.getBrokerage().multiply(account.getBrokerageRate()));
 		BigDecimal newServiceCharge = new BigDecimal(0);
@@ -69,13 +63,13 @@ public class LoanFunction extends AbstractFunction {
 		BigDecimal newProvisionsOfRisk = new BigDecimal(0);
 		newProvisionsOfRisk = loan.add(account.getProvisionsOfRisk().multiply(account.getProvisionsOfRiskRate()));
 		
-		LogFactory.info(this, "修改之后的佣金值："+newBrokerge+",修改之后的服务费" + newServiceCharge +",修改之后的佣金" + newProvisionsOfRisk);
+		LogFactory.info(this, "管理员["+phone+"],放款之后的佣金值："+newBrokerge+",放款之后的服务费" + newServiceCharge +",放款之后的佣金" + newProvisionsOfRisk);
 		account.setBrokerage(newBrokerge);
 		account.setServiceCharge(newServiceCharge);
 		account.setProvisionsOfRisk(newProvisionsOfRisk);
 		dao.getSystemAccountDao().updateSystemAccountByUniqueIndexOnAccountId(account, account.getAccountId());
 		
-		LogFactory.info(this, "放款成功!");
+		LogFactory.info(this, "管理员["+phone+"],放款成功!");
 		return new RetMessage(RetCodeEnum.SUCCESS.toString(), "放款成功!", null);
 	}
 

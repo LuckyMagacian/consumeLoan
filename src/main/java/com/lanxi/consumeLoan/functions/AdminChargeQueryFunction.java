@@ -37,10 +37,7 @@ public class AdminChargeQueryFunction extends AbstractFunction{
 	@Override
 	public RetMessage excuted(Map<String, Object> args) {
 		String phone = (String) args.get("phone");
-		if (!checkService.checkAuthority(phone, this.getClass().getName())) {
-			LogFactory.info(this, "没有权限执行该操作!");
-			return new RetMessage(RetCodeEnum.FAIL.toString(), "没有权限!", null);
-		}
+
 		String  isOverdue   =(String) args.get("isOverdue");
 		List<Apply> list = new ArrayList<Apply>();
 		List<Apply> yuqi = new ArrayList<Apply>();
@@ -61,9 +58,9 @@ public class AdminChargeQueryFunction extends AbstractFunction{
 			parm.put("customerPhone", args.get("customerPhone"));
 		}
 		List<Apply> applys = dao.getApplyDao().selectApplyByParam(parm);
-		LogFactory.info(this, "applys：" + applys);
+		LogFactory.info(this, "管理员["+phone+"],查询条件为" + parm.toString());
 		if(applys ==null || applys.size()<=0){
-			LogFactory.info(this, "没查询到数据!");
+			LogFactory.info(this, "管理员["+phone+"],没查询到数据!");
 			return new RetMessage(RetCodeEnum.FAIL.toString(), "没查询到数据!", null);
 		}
 		BigDecimal brokerageTotal =new BigDecimal(0);//佣金总金额
@@ -76,7 +73,6 @@ public class AdminChargeQueryFunction extends AbstractFunction{
 		}
 		//筛选出逾期的数据
 		for (Apply apply : applys) {	   
-			System.out.println(apply.getIsOverdue());
 			if(apply.getIsOverdue().equals("true")){
 				yuqi.add(apply);
 			}
@@ -84,7 +80,7 @@ public class AdminChargeQueryFunction extends AbstractFunction{
 		
 		if (isOverdue.equals("true")) {
 			resultMap.put("applys", yuqi);
-			LogFactory.info(this, "逾期列表：" + yuqi);
+			LogFactory.info(this, "用户["+phone+"],逾期列表：" + yuqi);
 			for (Apply apply : yuqi) {
 				if (apply.getBrokerage() !=null) {
 					brokerageTotal = brokerageTotal.add(apply.getBrokerage());
@@ -99,7 +95,7 @@ public class AdminChargeQueryFunction extends AbstractFunction{
 			
 		}else {
 			resultMap.put("applys", list);
-			LogFactory.info(this, "不逾期列表：" + list);
+			LogFactory.info(this, "用户["+phone+"],不逾期列表：" + list);
 			for (Apply apply : list) {
 				if (apply.getBrokerage() !=null) {
 					brokerageTotal = brokerageTotal.add(apply.getBrokerage());
@@ -116,8 +112,8 @@ public class AdminChargeQueryFunction extends AbstractFunction{
 		totalMap.put("breakMoneyTotal", breakMoneyTotal);
 		totalMap.put("brokerageTotal", brokerageTotal);
 		resultMap.put("total", totalMap);
-		LogFactory.info(this, "佣金总金额为："+brokerageTotal +",服务费总金额为:" + serviceChargeTotal +",逾期总金额为:" +breakMoneyTotal );
-		LogFactory.info(this, "查询成功!");
+		LogFactory.info(this, "管理员["+phone+"],查询佣金总金额为："+brokerageTotal +",服务费总金额为:" + serviceChargeTotal +",逾期总金额为:" +breakMoneyTotal );
+		LogFactory.info(this, "管理员["+phone+"],查询成功!");
 		return new RetMessage(RetCodeEnum.SUCCESS.toString(), "查询成功!", resultMap);	
 	}
 

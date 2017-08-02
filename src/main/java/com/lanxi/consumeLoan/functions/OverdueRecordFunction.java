@@ -20,13 +20,12 @@ import java.util.Map;
 public class OverdueRecordFunction extends AbstractFunction {
     @Override
     public RetMessage successNotice() {
-        LogFactory.info(this, "修改违约金和违约时间成功!");
-        return new RetMessage(RetCodeEnum.SUCCESS.toString(),"修改违约金和违约时间成功!",null);
+    	return null;
     }
 
     @Override
     public RetMessage failNotice() {
-        return null;
+    	return null;
     }
 
     @Override
@@ -36,19 +35,16 @@ public class OverdueRecordFunction extends AbstractFunction {
 
     @Override
     public RetMessage excuted(Map<String, Object> args) {
-        System.out.println(args.toString());
         String phone=(String) args.get("phone");
         BigDecimal breakMoney = new BigDecimal((String) args.get("breakMoney"));
         String merchantId  = (String)args.get("merchantId");
         String applyId  = (String) args.get("applyId");
         String breakTime = (String)args.get("breakTime");
-        if(!checkService.checkAuthority(phone, this.getClass().getName())){
-            LogFactory.info(this,"没有权限执行该操作!");
-            return new RetMessage(RetCodeEnum.FAIL.toString(),"没有权限!",null);
-        }
+        LogFactory.info(this,"用户["+phone+"],逾期的请求参数为：["+ args.toString()+ "]");
+ 
         Apply apply = dao.getApplyDao().selectApplyByUniqueIndexOnApplyId(applyId);
         if (apply == null ){
-            LogFactory.info(this,"申请["+applyId+"]不存在!");
+            LogFactory.info(this,"用户["+phone+"],逾期的申请id["+applyId+"]不存在!");
             return new RetMessage(RetCodeEnum.FAIL.toString(),"申请不存在!",null);
         }
         apply.setBreakTime(breakTime);
@@ -60,14 +56,16 @@ public class OverdueRecordFunction extends AbstractFunction {
         if(breakAmount == null){
         	breakAmount = 0;
         }
-        LogFactory.info(this,"修改之钱的违约总金额为：" + breakMoneyAmount+ ",修改之前的违约总人数为："+(breakAmount+ 1));
+        LogFactory.info(this,"用户["+phone+"],逾期之前的违约总金额为：" + breakMoneyAmount+ ",逾期之前的违约总人数为："+(breakAmount+ 1));
     
         breakMoneyAmount = breakMoneyAmount.add(breakMoney);
        
         merchant.setBreakAmount(breakAmount + 1);
         merchant.setBreakMoneyAmount(breakMoneyAmount);
-        LogFactory.info(this,"修改之后的违约总金额为：" + breakMoneyAmount+ ",修改之后的违约总人数为："+(breakAmount+ 1));
+        LogFactory.info(this,"用户["+phone+"],逾期之后的违约总金额为：" + breakMoneyAmount+ ",逾期之后的违约总人数为："+(breakAmount+ 1));
         dao.getMerchantDao().updateMerchantByUniqueIndexOnMerchantId(merchant, merchantId);
-        return successNotice();
+        
+        LogFactory.info(this, "用户["+phone+"],逾期的申请id["+applyId+"]逾期成功!");
+        return new RetMessage(RetCodeEnum.SUCCESS.toString(),"逾期成功!",null);
     }
 }

@@ -7,7 +7,9 @@ import javax.annotation.Resource;
 import org.springframework.stereotype.Service;
 
 import com.lanxi.consumeLoan.basic.Function;
+import com.lanxi.consumeLoan.consts.StaticParam;
 import com.lanxi.consumeLoan.entity.Role;
+import com.lanxi.consumeLoan.entity.SystemAccount;
 import com.lanxi.consumeLoan.entity.User;
 import com.lanxi.consumeLoan.service.DaoService;
 /**
@@ -30,6 +32,7 @@ public class UserManager {
 	 * @return 用户
 	 */
 	public User addAttributesForUser(User user){
+		StaticParam.systemAccount=dao.getSystemAccountDao().selectSystemAccountByClass(new SystemAccount()).get(0);
 		String roleName=user.getRoleName();
 		Role role=dao.getRoleDao().selectRoleByUniqueIndexOnRoleName(roleName);
 		List<String> authority=role.getAuthorityObject();

@@ -39,25 +39,22 @@ public class MerchantDetailQueryFunction extends AbstractFunction {
     public RetMessage excuted(Map<String, Object> args) {
         String phone=(String) args.get("phone");
         String merchantId = (String) args.get("merchantId");
+        LogFactory.info(this,"管理员["+phone+"],查看商户详情的id为：" + merchantId);
         Map<String, Object> resultMap = new HashMap<String, Object>();
-        if(!checkService.checkAuthority(phone, this.getClass().getName())){
-            LogFactory.info(this,"没有权限执行该操作!");
-            return new RetMessage(RetCodeEnum.FAIL.toString(),"没有权限!",null);
-        }
         Merchant merchant = dao.getMerchantDao().selectMerchantByUniqueIndexOnMerchantId(merchantId);
         if (merchant == null ){
-            LogFactory.info(this, "商户["+merchantId+"]不存在!");
+            LogFactory.info(this, "管理员["+phone+"],查询的商户id:["+merchantId+"]不存在!");
             return new RetMessage(RetCodeEnum.FAIL.toString(),"商户不存在!",null);
         }
-        LogFactory.info(this, "商户信息：["+merchant.toJson()+"]!");
+        LogFactory.info(this, "管理员["+phone+"],查询到的商户信息为：["+merchant.toJson()+"]!");
     	Attribute<String> attr = new Attribute<String>("merchantId", merchantId);
     	String str = attr.toJson();
-    	LogFactory.info(this, "商户json串：["+str+"]!");	
+    	LogFactory.info(this, "管理员["+phone+"],查询的商户idjson串为：["+str+"]!");	
     	List<User> attibutes = dao.selectUserByAttibute(str);
-    	LogFactory.info(this, "返回信息：["+attibutes+"]!");	
+    	LogFactory.info(this, "管理员["+phone+"],商户的担保人信息为：["+attibutes+"]!");	
     	resultMap.put("Users", attibutes);
     	resultMap.put("merchant", merchant);
-        LogFactory.info(this, "商户详情查询成功!");
+        LogFactory.info(this, "管理员["+phone+"],商户详情查询成功!");
         return new RetMessage(RetCodeEnum.SUCCESS.toString(),"商户详情查询成功!",resultMap);
     }
 }

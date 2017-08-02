@@ -36,10 +36,6 @@ public class AdminApplyQueryFunction extends AbstractFunction{
 	@Override
 	public RetMessage excuted(Map<String, Object> args) {
 		String phone = (String) args.get("phone");
-		if (!checkService.checkAuthority(phone, this.getClass().getName())) {
-			LogFactory.info(this, "没有权限执行该操作!");
-			return new RetMessage(RetCodeEnum.FAIL.toString(), "没有权限!", null);
-		}
 		Map<String, Object> parm = new HashMap<String, Object>();
 		if(args.get("isAssurance") != "" && args.get("isAssurance") !=null){
 			parm.put("isAssurance", args.get("isAssurance"));
@@ -56,16 +52,16 @@ public class AdminApplyQueryFunction extends AbstractFunction{
 		if(args.get("end_time") != "" && args.get("end_time") !=null){
 			parm.put("end_time", args.get("end_time"));
 		}
-		LogFactory.info(this, "请求参数：" + parm.toString());
+		LogFactory.info(this, "管理员["+phone+"]，请求参数：" + parm.toString());
 		List<Apply> applys = dao.getApplyDao().selectApplyByParam(parm);
 		if(applys ==null || applys.size()<=0){
-			LogFactory.info(this, "没查询到数据!");
+			LogFactory.info(this, "管理员["+phone+"],没查询到数据!");
 			return new RetMessage(RetCodeEnum.FAIL.toString(), "没查询到数据!", null);
 		}
 		
 		Map<String, Object> resultMap =new HashMap<>();
 		resultMap.put("applys", applys);
-		LogFactory.info(this, "商户查询成功!");
+		LogFactory.info(this, "管理员["+phone+"],商户查询成功!");
 		return new RetMessage(RetCodeEnum.SUCCESS.toString(), "商户查询成功!", resultMap);	
 	}
 

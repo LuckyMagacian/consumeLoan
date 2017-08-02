@@ -1,7 +1,13 @@
 package com.lanxi.consumeLoan.entity;
 
 import java.math.BigDecimal;
+import java.util.List;
 import java.lang.String;
+import java.lang.reflect.Field;
+
+import org.apache.camel.language.Bean;
+
+import com.lanxi.util.utils.BeanUtil;
 
 /**
  * no comment
@@ -118,6 +124,46 @@ public class SystemAccount{
 	public String toString(){
 		return "com.lanxi.consumeLoan.entity.SystemAccount:["+"accountId="+accountId+","+"brokerage="+brokerage+","+"provisionsOfRisk="+provisionsOfRisk+","+"serviceCharge="+serviceCharge+","+"brokerageRate="+brokerageRate+","+"provisionsOfRiskRate="+provisionsOfRiskRate+","+"serviceChargeRate="+serviceChargeRate+","+"provisionsOfRiskMax="+provisionsOfRiskMax+"]";
 	}	
+	
+	@Override
+	public boolean equals(Object obj) {
+		if(obj==null)
+			return false;
+		if (this == obj) {
+            return true;
+        }
+		if(this.hashCode()!=obj.hashCode())
+			return false;
+        if (obj instanceof SystemAccount) {
+        	SystemAccount temp = (SystemAccount)obj;
+        	List<Field> fields=BeanUtil.getFieldListNoStatic(this);
+        	for(Field each:fields){
+        		Object ooo=BeanUtil.get(this, each.getName());
+        		Object oo0=BeanUtil.get(temp, each.getName());
+        		if(ooo==oo0)
+        			continue;
+        		if((ooo==null&&oo0!=null)||(ooo!=null&&oo0==null))
+        			return false;
+        		else if(!ooo.equals(oo0))
+        			return false;
+        	}
+        }
+        return true;
+	}
+	
+	@Override
+	public int hashCode() {
+		int hash=0;
+		List<Field> fields=BeanUtil.getFieldListNoStatic(this);
+    	for(Field each:fields){
+    		Object obj=BeanUtil.get(this, each.getName());
+    		if(obj!=null)
+    			hash+=obj.hashCode();
+    	}
+    	return hash;
+	}
+	
+	
 	public void hide1(){
 		
 	}

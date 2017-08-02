@@ -432,4 +432,39 @@ public class Apply{
 		this.setBreakTime(null);
 		this.setMerchantName(null);
 	}
+	
+	/**
+	 * 商户详情查询时隐藏信息
+	 */
+	public void hide3(){
+		this.setApplyId(null);
+		this.setName(null);
+		this.setSex(null);
+		this.setAddress(null);
+		this.setIdNumber(null);
+		this.setApplyMoney(null);
+		this.setPhone(null);
+		this.setVerifyCode(null);
+		this.setMerchantId(null);
+		this.setSalesManPhone(null);
+		this.setApplyTime(null);
+		this.setLoanTime(null);
+		this.setLoanMoney(null);
+		this.setIsOverdue(null);
+		this.setOverdueMoney(null);
+		this.setState(null);
+		this.setBrokerageRate(null);
+		this.setBrokerage(null);
+		this.setServiceRate(null);
+		this.setServiceCharge(null);
+		this.setDepositeRate(null);
+		this.setBreakTime(null);
+		this.setBreakMoney(null);
+		this.setMerchantName(null);
+		this.setMerchantType(null);
+		this.setIsAssurance(null);
+		this.setCustomerManagerPhone(null);
+		this.setCustomerManagerName(null);
+		this.setReason(null);		
+	}
 }

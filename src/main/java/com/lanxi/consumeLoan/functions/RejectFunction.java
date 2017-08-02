@@ -49,14 +49,11 @@ public class RejectFunction extends AbstractFunction {
 		}
 		String applyId=(String) args.get("applyId");
 		String reason=(String) args.get("reason");
-		LogFactory.info(this, "驳回理由为："+reason);
-		if(reason == null || reason == ""){
-			LogFactory.info(this, "驳回理由为空!");
-			return new RetMessage(RetCodeEnum.FAIL.toString(), "驳回理由为空!", null);
-		}
+		LogFactory.info(this, "用户["+phone+"],驳回的请求参数为："+args);
+
 		Apply apply=dao.getApplyDao().selectApplyByUniqueIndexOnApplyId(applyId);
 		if(apply==null){
-			LogFactory.info(this, "没有查询到数据!");
+			LogFactory.info(this, "用户["+phone+"],根据的申请id["+applyId+"]没有查询到数据!");
 			return new RetMessage(RetCodeEnum.FAIL.toString(), "没有查询到数据!", null);
 		}
 		apply.setState(ConstParam.APPLY_STATE_REJECT);
@@ -64,7 +61,7 @@ public class RejectFunction extends AbstractFunction {
 		
 		dao.getApplyDao().updateApplyByUniqueIndexOnApplyId(apply, applyId);
 		
-		LogFactory.info(this, "驳回成功！");
+		LogFactory.info(this, "用户["+phone+"],驳回申请id为["+applyId+"]申请成功！");
 		return new RetMessage(RetCodeEnum.SUCCESS.toString(), "驳回成功！", null);
 	}
 

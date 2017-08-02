@@ -37,10 +37,6 @@ public class MerchantQueryFunction extends AbstractFunction {
     @Override
     public RetMessage excuted(Map<String, Object> args) {
 		String phone = (String) args.get("phone");
-		if (!checkService.checkAuthority(phone, this.getClass().getName())) {
-			LogFactory.info(this, "没有权限执行该操作!");
-			return new RetMessage(RetCodeEnum.FAIL.toString(), "没有权限!", null);
-		}
 		String state = (String) args.get("state");
 		String merchantName = (String) args.get("merchantName");
 		String merchantType = (String) args.get("merchantType");
@@ -66,10 +62,11 @@ public class MerchantQueryFunction extends AbstractFunction {
 		if(end_time !=null && end_time != ""){
 			parm.put("end_time",end_time);
 		}
-		LogFactory.info(this, "请求参数："+ parm.toString());
+		LogFactory.info(this, "管理员["+phone+"],请求参数："+ parm.toString());
 		List<Merchant> merchants = dao.getMerchantDao().selectMerchantByParm(parm);
+		LogFactory.info(this, "管理员["+phone+"],根据请求参数查询的结果为："+ merchants.toString());
 		if(merchants ==null || merchants.size()<=0){
-			LogFactory.info(this, "没查询到数据!");
+			LogFactory.info(this, "管理员["+phone+"],没查询到数据!");
 			return new RetMessage(RetCodeEnum.FAIL.toString(), "没查询到数据!", null);
 		}
 		int merchantTotal = merchants.size();
@@ -91,11 +88,11 @@ public class MerchantQueryFunction extends AbstractFunction {
 			breakMoneyAmountTotal = breakMoneyAmountTotal.add(mc
 					.getBreakMoneyAmount());// 违约总金额
 		}
-		LogFactory.info(this, "商家总数为：" + merchantTotal + ",申请总额为："
+		LogFactory.info(this, "管理员["+phone+"],商家总数为：" + merchantTotal + ",申请总额为："
 				+ applyMoneyAmountTotal + ",申请总人数为：" + applyAmountTotal
 				+ ",放款总额为：" + loanMoneyAmountTotal + ",放款总人数为："
 				+ loanAmountTotal + ",违约总金额为：" + breakMoneyAmountTotal
-				+ ",违约总人数：" + breakAmountTotal + "");
+				+ ",违约总人数：" + breakAmountTotal);
 		Map<String, Object> totalMap = new HashMap<String, Object>();
 		totalMap.put("merchantTotal", merchantTotal);
 		totalMap.put("applyMoneyAmountTotal", applyMoneyAmountTotal);

@@ -38,25 +38,23 @@ public class MerchantShelveFunction extends AbstractFunction {
 	public RetMessage excuted(Map<String, Object> args) {
 		String phone=(String) args.get("phone");
 		String merchant_id = (String) args.get("merchantId");
-		if(!checkService.checkAuthority(phone, this.getClass().getName())){
-			LogFactory.info(this,"没有权限执行该操作!");
-			return new RetMessage(RetCodeEnum.FAIL.toString(),"没有权限!",null);
-		}
+		LogFactory.info(this, "用户["+phone+"],上架的商户id为["+merchant_id+"]");
+		
         Merchant merchant = dao.getMerchantDao().selectMerchantByUniqueIndexOnMerchantId(merchant_id);
         if (merchant == null ){
-            LogFactory.info(this, "商户["+merchant_id+"]为空!");
+            LogFactory.info(this, "用户["+phone+"],上架的商户["+merchant_id+"]为空!");
             return new RetMessage(RetCodeEnum.FAIL.toString(),"没有该商户!",null);
         }
         String state = merchant.getState();
-        LogFactory.info(this,"商户["+merchant_id+"],的状态为["+state+"]");
+        LogFactory.info(this,"用户["+phone+"],上架的商户["+merchant_id+"]的状态当前状态为["+state+"]");
         if (state.equals(ConstParam.MERCHANT_STATE_WAIT_SHELVE) || state.equals(ConstParam.MERCHANT_STATE_UNSHELVED)){
             merchant.setState(ConstParam.MERCHANT_STATE_SHELVED);
             dao.getMerchantDao().updateMerchantByUniqueIndexOnMerchantId(merchant,merchant_id);
         }else {
-            LogFactory.info(this,"商户["+merchant_id+"]不满足上架条件!");
+            LogFactory.info(this,"用户["+phone+"],商户["+merchant_id+"]不满足上架条件!");
             return new RetMessage(RetCodeEnum.FAIL.toString(),"商户不满足上架条件!",null);
         }
-        LogFactory.info(this, "商户上架成功!");
+        LogFactory.info(this, "用户["+phone+"],商户["+merchant_id+"]上架成功!");
         return new RetMessage(RetCodeEnum.SUCCESS.toString(),"商户上架成功!",null);
 	}
 

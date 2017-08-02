@@ -17,8 +17,7 @@ import java.util.Map;
 public class MerchantDeleteFunction extends AbstractFunction {
     @Override
     public RetMessage successNotice() {
-        LogFactory.info(this, "商户删除成功!");
-        return new RetMessage(RetCodeEnum.SUCCESS.toString(),"商户删除成功!",null);
+    	 return null;
     }
 
     @Override
@@ -35,16 +34,15 @@ public class MerchantDeleteFunction extends AbstractFunction {
     public RetMessage excuted(Map<String, Object> args) {
         String phone=(String) args.get("phone");
         String merchant_id = (String) args.get("merchantId");
-        if(!checkService.checkAuthority(phone, this.getClass().getName())){
-            LogFactory.info(this,"没有权限执行该操作!");
-            return new RetMessage(RetCodeEnum.FAIL.toString(),"没有权限!",null);
-        }
+        LogFactory.info(this,"管理员["+phone+"],删除的商户id为：" + merchant_id);
+
         Merchant merchant = dao.getMerchantDao().selectMerchantByUniqueIndexOnMerchantId(merchant_id);
         if (merchant == null ){
-            LogFactory.info(this, "商户["+merchant_id+"]不存在!");
+            LogFactory.info(this, "管理员["+phone+"],删除的商户["+merchant_id+"]不存在!");
             return new RetMessage(RetCodeEnum.FAIL.toString(),"商户不存在!",null);
         }
         dao.getMerchantDao().deleteMerchantByUniqueIndexOnMerchantId(merchant_id);
-        return successNotice();
+        LogFactory.info(this, "管理员["+phone+"],商户删除成功!");
+        return new RetMessage(RetCodeEnum.SUCCESS.toString(),"商户删除成功!",null);
     }
 }

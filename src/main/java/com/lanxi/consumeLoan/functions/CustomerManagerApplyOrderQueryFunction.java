@@ -33,10 +33,6 @@ public class CustomerManagerApplyOrderQueryFunction extends AbstractFunction {
 	@Override
 	public RetMessage excuted(Map<String, Object> args) {
 		String phone = (String) args.get("phone");
-//		if (!checkService.checkAuthority(phone, this.getClass().getName())) {
-//			LogFactory.info(this, "没有权限执行该操作!");
-//			return new RetMessage(RetCodeEnum.FAIL.toString(), "没有权限!", null);
-//		}
 		Map<String, Object> parm = new HashMap<String, Object>();
 		if(args.get("name") != "" && args.get("name") !=null){
 			parm.put("name", (String)args.get("name"));
@@ -59,15 +55,15 @@ public class CustomerManagerApplyOrderQueryFunction extends AbstractFunction {
 		if(args.get("end_time") != "" && args.get("end_time") !=null){
 			parm.put("end_time", args.get("end_time"));
 		}
-		LogFactory.info(this, "请求参数：" + parm.toString());
+		LogFactory.info(this, "客户经理["+phone+"],请求参数：" + parm.toString());
 		List<Apply> applies = dao.getApplyDao().selectApplyByParam(parm);
 		if(applies ==null || applies.size()<=0){
-			LogFactory.info(this, "没查询到数据!");
+			LogFactory.info(this, "客户经理["+phone+"],没查询到数据!");
 			return new RetMessage(RetCodeEnum.FAIL.toString(), "没查询到数据!", null);
 		}
 		Map<String, Object> resultMap = new HashMap<String, Object>();
 		resultMap.put("applys", applies);
-		LogFactory.info(this, "客户经理申请订单列表查询成功!");
+		LogFactory.info(this, "客户经理["+phone+"],客户经理申请订单列表查询成功!");
 		return new RetMessage(RetCodeEnum.SUCCESS.toString(), "客户经理申请订单列表查询成功!", resultMap);
 	}
 }

@@ -330,4 +330,59 @@ public class Merchant implements ToJson,ToMap{
 	public String toString(){
 		return "com.lanxi.consumeLoan.entity.Merchant:["+"merchantId="+merchantId+","+"merchantName="+merchantName+","+"merchantType="+merchantType+","+"merchantAddress="+merchantAddress+","+"isAssurance="+isAssurance+","+"depositeAmount="+depositeAmount+","+"depositeRate="+depositeRate+","+"depositeBalance="+depositeBalance+","+"isShared="+isShared+","+"sharedRate="+sharedRate+","+"brokerageRate="+brokerageRate+","+"brokerageAmount="+brokerageAmount+","+"brokerageLess="+brokerageLess+","+"applyAmount="+applyAmount+","+"applyMoneyAmount="+applyMoneyAmount+","+"loanAmount="+loanAmount+","+"loanMoneyAmount="+loanMoneyAmount+","+"breakAmount="+breakAmount+","+"breakMoneyAmount="+breakMoneyAmount+","+"partnerTime="+partnerTime+","+"stopTime="+stopTime+","+"state="+state+","+"customerManagerPhone="+customerManagerPhone+","+"customerManagerName="+customerManagerName+"]";
 	}
+	
+	/**
+	 * 全部
+	 */
+	public void hide() {
+		this.setMerchantId(null);
+		this.setMerchantName(null);
+		this.setMerchantType(null);
+		this.setMerchantAddress(null);
+		this.setIsAssurance(null);
+		this.setDepositeAmount(null);
+		this.setDepositeRate(null);
+		this.setDepositeBalance(null);
+		this.setIsShared(null);
+		this.setSharedRate(null);
+		this.setBrokerageRate(null);
+		this.setBrokerageAmount(null);
+		this.setBrokerageLess(null);
+		this.setApplyAmount(null);
+		this.setApplyMoneyAmount(null);
+		this.setLoanAmount(null);
+		this.setLoanMoneyAmount(null);
+		this.setBreakAmount(null);
+		this.setBreakMoneyAmount(null);
+		this.setPartnerTime(null);
+		this.setStopTime(null);
+		this.setState(null);
+		this.setCustomerManagerPhone(null);
+		this.setCustomerManagerName(null);
+
+	}
+	/**
+	 * 客户经理商家列表隐藏字段
+	 */
+	public void hide2() {
+		this.setDepositeAmount(null);
+		this.setDepositeRate(null);
+		this.setDepositeBalance(null);
+		this.setIsShared(null);
+		this.setSharedRate(null);
+		this.setBrokerageRate(null);
+		this.setBrokerageAmount(null);
+		this.setBrokerageLess(null);
+		this.setApplyAmount(null);
+		this.setApplyMoneyAmount(null);
+		this.setLoanAmount(null);
+		this.setLoanMoneyAmount(null);
+		this.setBreakAmount(null);
+		this.setBreakMoneyAmount(null);
+		this.setStopTime(null);
+		this.setCustomerManagerPhone(null);
+		this.setCustomerManagerName(null);
+
+	}
+	
 }
