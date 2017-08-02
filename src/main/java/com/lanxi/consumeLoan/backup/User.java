@@ -1,6 +1,5 @@
 package com.lanxi.consumeLoan.backup;
 
-import java.lang.String;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -8,6 +7,7 @@ import java.util.Map.Entry;
 
 import com.alibaba.fastjson.JSONObject;
 import com.lanxi.consumeLoan.basic.Attribute;
+import com.lanxi.consumeLoan.basic.UserProxy;
 
 /**
  * no comment
@@ -76,6 +76,8 @@ public class User{
 	public void addAttribute(Attribute<?> attribute){
 		if(this.attributes==null)
 			this.attributes=new HashMap<String, Attribute<?>>();
+		if(attributes.containsKey(attribute.getName()))
+			return;
 		attributes.put(attribute.getName(), attribute);
 	}
 	/**
@@ -85,7 +87,11 @@ public class User{
 	public void addAttribute(Map<String, Attribute<?>> attrs){
 		if(this.attributes==null)
 			this.attributes=new HashMap<String, Attribute<?>>();
-		attributes.putAll(attrs);
+		for(Entry<String, Attribute<?>> each:attrs.entrySet()){
+			if(this.attributes.containsKey(each.getKey()))
+				continue;
+			this.attributes.put(each.getKey(), each.getValue());
+		}
 	}
 	/**
 	 * 添加属性列表
@@ -94,8 +100,11 @@ public class User{
 	public void addAttribute(List<Attribute<?>> attrs){
 		if(this.attributes==null)
 			this.attributes=new HashMap<String, Attribute<?>>();
-		for(Attribute<?> each:attrs)
+		for(Attribute<?> each:attrs){
+			if(this.attributes.containsKey(each.getName()))
+				continue;
 			attributes.put(each.getName(), each);
+		}
 	}
 	
 	/**获取手机号码*/
@@ -153,4 +162,16 @@ public class User{
 	public String toString(){
 		return "com.lanxi.consumeLoan.entity.User:["+"phone="+phone+","+"roleName="+roleName+","+"attributes="+attributes+"]";
 	}
+	
+	@SuppressWarnings("unchecked")
+	public UserProxy toProxy(){
+		UserProxy proxy=new UserProxy();
+		Attribute<String> name=(Attribute<String>) get("name");
+		if(name!=null)
+			proxy.setName(name.getValue());
+		proxy.setRoleName(getRoleName());
+		proxy.setPhone(getPhone());
+		return proxy;
+	}
+	
 }

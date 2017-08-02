@@ -12,13 +12,13 @@
 	<delete id="deleteMerchantAccountRecordByClass" parameterType="com.lanxi.consumeLoan.entity.MerchantAccountRecord">
 		delete from merchant_account_record
 		<where>
-			<if test="nanoTime != null"> and nano_time = #{nanoTime}  </if>
-			<if test="merchantId != null"> and merchant_id = #{merchantId}  </if>
-			<if test="isAdd != null"> and is_add = #{isAdd}  </if>
-			<if test="monetyChange != null"> and monety_change = #{monetyChange}  </if>
-			<if test="recordTime != null"> and record_time = #{recordTime}  </if>
-			<if test="moneyType != null"> and money_type = #{moneyType}  </if>
-			<if test="reason != null"> and reason = #{reason}  </if>
+			<if test="merchantAccountRecord.nanoTime != null"> and nano_time = #{merchantAccountRecord.nanoTime}  </if>
+			<if test="merchantAccountRecord.merchantId != null"> and merchant_id = #{merchantAccountRecord.merchantId}  </if>
+			<if test="merchantAccountRecord.isAdd != null"> and is_add = #{merchantAccountRecord.isAdd}  </if>
+			<if test="merchantAccountRecord.monetyChange != null"> and monety_change = #{merchantAccountRecord.monetyChange}  </if>
+			<if test="merchantAccountRecord.recordTime != null"> and record_time = #{merchantAccountRecord.recordTime}  </if>
+			<if test="merchantAccountRecord.moneyType != null"> and money_type = #{merchantAccountRecord.moneyType}  </if>
+			<if test="merchantAccountRecord.reason != null"> and reason = #{merchantAccountRecord.reason}  </if>
 		</where>
 	</delete>
 	<delete id="deleteMerchantAccountRecordByUniqueIndexOnNanoTime">
@@ -68,13 +68,13 @@
 			nano_time,merchant_id,is_add,monety_change,record_time,money_type,reason
 		from merchant_account_record
 		<where>
-			<if test="nanoTime != null"> AND nano_time = #{nanoTime}</if>
-			<if test="merchantId != null"> AND merchant_id = #{merchantId}</if>
-			<if test="isAdd != null"> AND is_add = #{isAdd}</if>
-			<if test="monetyChange != null"> AND monety_change = #{monetyChange}</if>
-			<if test="recordTime != null"> AND record_time = #{recordTime}</if>
-			<if test="moneyType != null"> AND money_type = #{moneyType}</if>
-			<if test="reason != null"> AND reason = #{reason}</if>
+			<if test="merchantAccountRecord.nanoTime != null"> AND nano_time = #{merchantAccountRecord.nanoTime}</if>
+			<if test="merchantAccountRecord.merchantId != null"> AND merchant_id = #{merchantAccountRecord.merchantId}</if>
+			<if test="merchantAccountRecord.isAdd != null"> AND is_add = #{merchantAccountRecord.isAdd}</if>
+			<if test="merchantAccountRecord.monetyChange != null"> AND monety_change = #{merchantAccountRecord.monetyChange}</if>
+			<if test="merchantAccountRecord.recordTime != null"> AND record_time = #{merchantAccountRecord.recordTime}</if>
+			<if test="merchantAccountRecord.moneyType != null"> AND money_type = #{merchantAccountRecord.moneyType}</if>
+			<if test="merchantAccountRecord.reason != null"> AND reason = #{merchantAccountRecord.reason}</if>
 		</where>
 	</select>
 	<select id="selectMerchantAccountRecordByUniqueIndexOnNanoTime" resultType="com.lanxi.consumeLoan.entity.MerchantAccountRecord" resultMap="merchantAccountRecordMap" >

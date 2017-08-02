@@ -6,7 +6,7 @@ import java.lang.String;
 /**
  * no comment
  * @author yyj | auto generator
- * @version 1.0.0 2017-07-27 11:29:29
+ * @version 1.0.0 2017-07-28 13:47:19
  */
 
 public class SystemAccount{
@@ -117,5 +117,14 @@ public class SystemAccount{
 	@Override
 	public String toString(){
 		return "com.lanxi.consumeLoan.entity.SystemAccount:["+"accountId="+accountId+","+"brokerage="+brokerage+","+"provisionsOfRisk="+provisionsOfRisk+","+"serviceCharge="+serviceCharge+","+"brokerageRate="+brokerageRate+","+"provisionsOfRiskRate="+provisionsOfRiskRate+","+"serviceChargeRate="+serviceChargeRate+","+"provisionsOfRiskMax="+provisionsOfRiskMax+"]";
+	}	
+	public void hide1(){
+		
+	}
+	public void hide2(){
+		
+	}
+	public void hide3(){
+		
 	}
 }

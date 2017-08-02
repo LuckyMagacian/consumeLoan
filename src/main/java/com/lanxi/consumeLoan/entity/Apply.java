@@ -2,12 +2,11 @@ package com.lanxi.consumeLoan.entity;
 
 import java.math.BigDecimal;
 import java.lang.String;
-import java.lang.Byte;
 
 /**
  * no comment
  * @author yyj | auto generator
- * @version 1.0.0 2017-07-26 17:30:57
+ * @version 1.0.0 2017-07-31 16:45:13
  */
 
 public class Apply{
@@ -51,7 +50,7 @@ public class Apply{
 	private BigDecimal loanMoney;
 	
 	/**是否逾期*/
-	private Byte[] isOverdue;
+	private String isOverdue;
 	
 	/**逾期金额*/
 	private BigDecimal overdueMoney;
@@ -62,8 +61,14 @@ public class Apply{
 	/**佣金比例*/
 	private BigDecimal brokerageRate;
 	
-	/**分润比例*/
-	private BigDecimal sharedRate;
+	/**佣金*/
+	private BigDecimal brokerage;
+	
+	/**服务费比例*/
+	private BigDecimal serviceRate;
+	
+	/**服务费*/
+	private BigDecimal serviceCharge;
 	
 	/**担保比例*/
 	private BigDecimal depositeRate;
@@ -73,6 +78,21 @@ public class Apply{
 	
 	/**违约金额*/
 	private BigDecimal breakMoney;
+	
+	/**所属商家名称*/
+	private String merchantName;
+	
+	/**商家类别*/
+	private String merchantType;
+	
+	/**是否担保*/
+	private String isAssurance;
+	
+	/**客户经理手机号*/
+	private String customerManagerPhone;
+	
+	/**客户经理名称*/
+	private String customerManagerName;
 	
 	/**获取申请编号*/
 	public String getApplyId(){
@@ -205,12 +225,12 @@ public class Apply{
 		
 	}
 	/**获取是否逾期*/
-	public Byte[] getIsOverdue(){
+	public String getIsOverdue(){
 		return this.isOverdue;
 	}
 	
 	/**设置是否逾期*/
-	public void setIsOverdue(Byte[] isOverdue){
+	public void setIsOverdue(String isOverdue){
 		this.isOverdue=isOverdue;
 		
 	}
@@ -244,14 +264,34 @@ public class Apply{
 		this.brokerageRate=brokerageRate;
 		
 	}
-	/**获取分润比例*/
-	public BigDecimal getSharedRate(){
-		return this.sharedRate;
+	/**获取佣金*/
+	public BigDecimal getBrokerage(){
+		return this.brokerage;
 	}
 	
-	/**设置分润比例*/
-	public void setSharedRate(BigDecimal sharedRate){
-		this.sharedRate=sharedRate;
+	/**设置佣金*/
+	public void setBrokerage(BigDecimal brokerage){
+		this.brokerage=brokerage;
+		
+	}
+	/**获取服务费比例*/
+	public BigDecimal getServiceRate(){
+		return this.serviceRate;
+	}
+	
+	/**设置服务费比例*/
+	public void setServiceRate(BigDecimal serviceRate){
+		this.serviceRate=serviceRate;
+		
+	}
+	/**获取服务费*/
+	public BigDecimal getServiceCharge(){
+		return this.serviceCharge;
+	}
+	
+	/**设置服务费*/
+	public void setServiceCharge(BigDecimal serviceCharge){
+		this.serviceCharge=serviceCharge;
 		
 	}
 	/**获取担保比例*/
@@ -284,8 +324,98 @@ public class Apply{
 		this.breakMoney=breakMoney;
 		
 	}
+	/**获取所属商家名称*/
+	public String getMerchantName(){
+		return this.merchantName;
+	}
+	
+	/**设置所属商家名称*/
+	public void setMerchantName(String merchantName){
+		this.merchantName=merchantName;
+		
+	}
+	/**获取商家类别*/
+	public String getMerchantType(){
+		return this.merchantType;
+	}
+	
+	/**设置商家类别*/
+	public void setMerchantType(String merchantType){
+		this.merchantType=merchantType;
+		
+	}
+	/**获取是否担保*/
+	public String getIsAssurance(){
+		return this.isAssurance;
+	}
+	
+	/**设置是否担保*/
+	public void setIsAssurance(String isAssurance){
+		this.isAssurance=isAssurance;
+		
+	}
+	/**获取客户经理手机号*/
+	public String getCustomerManagerPhone(){
+		return this.customerManagerPhone;
+	}
+	
+	/**设置客户经理手机号*/
+	public void setCustomerManagerPhone(String customerManagerPhone){
+		this.customerManagerPhone=customerManagerPhone;
+		
+	}
+	/**获取客户经理名称*/
+	public String getCustomerManagerName(){
+		return this.customerManagerName;
+	}
+	
+	/**设置客户经理名称*/
+	public void setCustomerManagerName(String customerManagerName){
+		this.customerManagerName=customerManagerName;
+		
+	}
 	@Override
 	public String toString(){
-		return "com.lanxi.consumeLoan.entity.Apply:["+"applyId="+applyId+","+"name="+name+","+"sex="+sex+","+"address="+address+","+"idNumber="+idNumber+","+"applyMoney="+applyMoney+","+"phone="+phone+","+"verifyCode="+verifyCode+","+"merchantId="+merchantId+","+"salesManPhone="+salesManPhone+","+"applyTime="+applyTime+","+"loanTime="+loanTime+","+"loanMoney="+loanMoney+","+"isOverdue="+isOverdue+","+"overdueMoney="+overdueMoney+","+"state="+state+","+"brokerageRate="+brokerageRate+","+"sharedRate="+sharedRate+","+"depositeRate="+depositeRate+","+"breakTime="+breakTime+","+"breakMoney="+breakMoney+"]";
+		return "com.lanxi.consumeLoan.entity.Apply:["+"applyId="+applyId+","+"name="+name+","+"sex="+sex+","+"address="+address+","+"idNumber="+idNumber+","+"applyMoney="+applyMoney+","+"phone="+phone+","+"verifyCode="+verifyCode+","+"merchantId="+merchantId+","+"salesManPhone="+salesManPhone+","+"applyTime="+applyTime+","+"loanTime="+loanTime+","+"loanMoney="+loanMoney+","+"isOverdue="+isOverdue+","+"overdueMoney="+overdueMoney+","+"state="+state+","+"brokerageRate="+brokerageRate+","+"brokerage="+brokerage+","+"serviceRate="+serviceRate+","+"serviceCharge="+serviceCharge+","+"depositeRate="+depositeRate+","+"breakTime="+breakTime+","+"breakMoney="+breakMoney+","+"merchantName="+merchantName+","+"merchantType="+merchantType+","+"isAssurance="+isAssurance+","+"customerManagerPhone="+customerManagerPhone+","+"customerManagerName="+customerManagerName+"]";
+	}
+	/**
+	 * 商户佣金查询时隐藏信息
+	 */
+	public void hide1(){
+		this.setSex(null);
+		this.setAddress(null);
+		this.setVerifyCode(null);
+		this.setMerchantId(null);
+		this.setSalesManPhone(null);
+		this.setIsOverdue(null);
+		this.setOverdueMoney(null);
+		this.setServiceRate(null);
+		this.setBrokerageRate(null);
+		this.setDepositeRate(null);
+		this.setBreakMoney(null);
+		this.setBreakTime(null);
+		this.setMerchantName(null);
+		this.setServiceCharge(null);
+	}
+	/**
+	 * 商户订单查询时隐藏信息
+	 */
+	public void hide2(){
+		this.setServiceRate(null);
+		this.setServiceCharge(null);
+		this.setSex(null);
+		this.setAddress(null);
+		this.setVerifyCode(null);
+		this.setMerchantId(null);
+		this.setSalesManPhone(null);
+		this.setLoanTime(null);
+		this.setLoanMoney(null);
+		this.setIsOverdue(null);
+		this.setOverdueMoney(null);
+		this.setBrokerageRate(null);
+		this.setDepositeRate(null);
+		this.setBreakMoney(null);
+		this.setBreakTime(null);
+		this.setMerchantName(null);;
 	}
 }

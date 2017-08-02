@@ -9,6 +9,7 @@ import com.lanxi.consumeLoan.basic.AbstractFunction;
 import com.lanxi.consumeLoan.basic.RetMessage;
 import com.lanxi.consumeLoan.consts.ConstParam;
 import com.lanxi.consumeLoan.entity.Apply;
+import com.lanxi.consumeLoan.entity.SystemAccount;
 import com.lanxi.util.utils.TimeUtil;
 /**
  * 放款功能
@@ -47,6 +48,7 @@ public class LoanFunction extends AbstractFunction {
 		if(apply==null){
 			return failNotice();
 		}
+		SystemAccount account=dao.getSystemAccountDao().selectSystemAccountByClass(new SystemAccount()).get(0);
 		String loanMoney=(String) args.get("loanMoney");
 		BigDecimal loan=new BigDecimal(loanMoney);
 		apply.setLoanMoney(loan);

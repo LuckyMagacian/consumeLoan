@@ -1,49 +1,47 @@
 package com.lanxi.consumeLoan.test;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import javax.annotation.Resource;
-
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
-import org.springframework.stereotype.Controller;
-import org.springframework.stereotype.Service;
 
+import com.alibaba.fastjson.JSONObject;
 import com.lanxi.common.interfaces.RedisCacheServiceInterface;
 import com.lanxi.consumeLoan.aop.SetEncodeUtf8;
+import com.lanxi.consumeLoan.basic.Attribute;
 import com.lanxi.consumeLoan.basic.Function;
 import com.lanxi.consumeLoan.consts.ConstParam;
 import com.lanxi.consumeLoan.controller.TestController;
 import com.lanxi.consumeLoan.dao.RoleDao;
 import com.lanxi.consumeLoan.dao.UserDao;
 import com.lanxi.consumeLoan.entity.Apply;
+import com.lanxi.consumeLoan.entity.Merchant;
 import com.lanxi.consumeLoan.entity.Role;
 import com.lanxi.consumeLoan.entity.User;
-import com.lanxi.consumeLoan.functions.ApplyOrderAddFunction;
+import com.lanxi.consumeLoan.functions.CustomerManagerApplyOrderQueryFunction;
+import com.lanxi.consumeLoan.functions.CustomerShopEmployeeAddFunction;
 import com.lanxi.consumeLoan.functions.LoginFunction;
-import com.lanxi.consumeLoan.functions.LogoutFunction;
-import com.lanxi.consumeLoan.functions.MakeValidateCodePicFunction;
-import com.lanxi.consumeLoan.functions.MerchantHomeFunction;
-import com.lanxi.consumeLoan.functions.RoleAddFunction;
+import com.lanxi.consumeLoan.functions.AdminMerchantAddFunction;
 import com.lanxi.consumeLoan.functions.UserAddFunction;
-import com.lanxi.consumeLoan.functions.ValidateCodeSendFunction;
 import com.lanxi.consumeLoan.manager.ApplicationContextProxy;
+import com.lanxi.consumeLoan.manager.UserManager;
 import com.lanxi.consumeLoan.service.DaoService;
-import com.lanxi.consumeLoan.service.DaoServiceImpl;
-import com.lanxi.util.utils.FileUtil;
+import com.lanxi.util.utils.ExcelUtil;
 import com.lanxi.util.utils.LoggerUtil;
 import com.lanxi.util.utils.SqlUtilForDB;
 import com.lanxi.util.utils.TimeUtil;
 
 public class ApplicationTest {
 	private ApplicationContext ac;
+	private DaoService dao;
 	private static final List<Class<?>> functions=new ArrayList<>();
 	static{
 		functions.add(LoginFunction.class);
@@ -53,6 +51,7 @@ public class ApplicationTest {
 	public void init(){
 		LoggerUtil.init(); 
 		ac=new ClassPathXmlApplicationContext("xml/spring-mvc.xml");
+		dao=ac.getBean(DaoService.class);
 	}
 	@Test
 	public void test1(){
@@ -68,27 +67,38 @@ public class ApplicationTest {
 	public void test2() throws ClassNotFoundException{
 		UserDao user=ac.getBean(UserDao.class);
 		User user2=new User();
-		user2.setPhone("10086");
-		System.out.println(user.selectUserByClass(user2).get(0).get("password").getValue());
+		user2.setPhone("0");
+		user2.setRoleName("root");
+		UserManager manager=ac.getBean(UserManager.class);
+		manager.addAttributesForUser(user2);
+		dao.getUserDao().addUser(user2);
 	}
 	
 	@Test 
 	public void test5(){
-		RoleAddFunction fun=ac.getBean(RoleAddFunction.class);
-		Map<String, Object> args=new HashMap<>();
-		args.put("name", "salesMan");
-		List<String> list=new ArrayList<>();
-		list.add(LoginFunction.class.getName());
-		list.add(MerchantHomeFunction.class.getName());
-		list.add(ApplyOrderAddFunction.class.getName());
-		list.add(MakeValidateCodePicFunction.class.getName());
-		list.add(LogoutFunction.class.getName());
-		list.add(ValidateCodeSendFunction.class.getName());
-//		Map<String, Function> funs=ac.getBeansOfType(Function.class);
-//		for(Entry<String, Function> each:funs.entrySet())
-//			list.add(each.getValue().getClass().getName());
-		args.put("authority", list);
-		fun.excuted(args);
+//		DaoService dao=ac.getBean(DaoService.class);
+//		Role role=new Role();
+//		Map<String, Function> map=ac.getBeansOfType(Function.class);
+//		for(Entry<String, Function> each:map.entrySet())
+//			role.addAuthority(each.getValue());
+//		role.setRoleName("root");
+//		dao.getRoleDao().addRole(role);
+		
+//		List<Role> roles=dao.getRoleDao().selectRoleByClass(new Role());
+//		for(Role each:roles){
+//			each.addAuthority(AdminMerchantAddFunction.class);
+//			dao.getRoleDao().updateRoleByUniqueIndexOnRoleName(each, each.getRoleName());
+//		}
+		
+		Role role=dao.getRoleDao().selectRoleByUniqueIndexOnRoleName("root");
+		Map<String, Function> map=ac.getBeansOfType(Function.class);
+		for(Entry<String, Function> each:map.entrySet()){
+			if(role.getAuthorityObject().contains(each.getValue().getClass().getName()))
+				continue;
+			else
+				role.addAuthority(each.getValue().getClass());
+		}
+		dao.getRoleDao().updateRoleByUniqueIndexOnRoleName(role, role.getRoleName());
 	}
 	
 	@Test
@@ -123,7 +133,7 @@ public class ApplicationTest {
 	
 	@Test
 	public void test4(){
-		SqlUtilForDB.makeOne(SqlUtilForDB.getTable(SqlUtilForDB.getConnection(), "merchant_account"), "", "", false,false);;
+		SqlUtilForDB.makeOne(SqlUtilForDB.getTable(SqlUtilForDB.getConnection(), "apply"), "", null, false, false);
 	}
 	
 	@Test
@@ -133,5 +143,58 @@ public class ApplicationTest {
 		app.setBreakTime(TimeUtil.getPreferDateTime());
 		dao.getApplyDao().updateApplyByUniqueIndexOnApplyId(app, app.getApplyId());
 		System.out.println((dao.getApplyDao().selectApplyByUniqueIndexOnApplyId("1001")));
+	}
+	
+	@Test
+	public void test56(){
+		DaoService dao=ac.getBean(DaoService.class);
+		List<User> users=dao.selectUserByAttibute(new Attribute<String>("merchantId", "1001").toJson());
+		System.out.println(users);
+	}
+	@Test
+	public void test57(){
+		RedisCacheServiceInterface redis=ac.getBean(RedisCacheServiceInterface.class);
+		String result=redis.set(ConstParam.FUNCTION_NAME_APPLY_ADD+"15068610940","123456",1*60*1000L);
+		System.out.println(result);
+		System.out.println(redis.get(ConstParam.FUNCTION_NAME_APPLY_ADD+"15068610940"));
+	}
+	
+	@Test
+	public void test58() throws IOException{
+		DaoService dao=ac.getBean(DaoService.class);
+		List<Apply> applies=dao.getApplyDao().selectApplyByClass(new Apply()); 
+		Map<String, String> map=new HashMap<>();
+		map.put("applyId", "申请编号");
+		map.put("name", "申请者姓名");
+		map.put("sex", "申请者性别");
+		map.put("address", "申请者地址");
+		map.put("idNumber", "申请者身份证号码");
+		map.put("phone", "申请者手机号码");
+//		map.put("verifyCode", "申请时所填验证码");
+		map.put("merchantId", "申请商户编号");
+		map.put("salesManPhone", "申请商户销售员手机号");
+		map.put("applyTime", "申请时间");
+		map.put("loanTime", "放款时间");
+		map.put("loanMoney", "放款金额");
+		map.put("isOverdue", "是否逾期");
+		map.put("overdueMoney", "逾期金额");
+		map.put("state", "申请状态");
+		map.put("brokerageRate", "申请时佣金比例");
+		map.put("sharedRate", "申请时分润比例");
+		map.put("depositeRate", "申请时保证金比例");
+		map.put("breakTime", "违约时间");
+		map.put("breakMoney", "违约金额");
+		map.put("merchantName", "申请商户名称");
+		File file=ExcelUtil.exportExcelFile(applies,map);
+		if(!file.exists())
+			file.createNewFile();
+	}
+	
+	@Test
+	public void test59(){
+		List<User> users=dao.getUserDao().selectUserByClass(new User());
+		for(User each:users)
+			each.setAttributesObject(null);;
+		System.out.println(JSONObject.toJSON(users));
 	}
 }

@@ -11,7 +11,8 @@ import org.springframework.stereotype.Service;
  * Created by yangyuanjian on 2017/7/13.
  * 商户账户查询
  */
-@Service
+//TODO 该类尚未使用
+@Deprecated
 public class MerchantAccountQueryFunction extends AbstractFunction {
     @Override
     public RetMessage successNotice() {

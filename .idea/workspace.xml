@@ -2,63 +2,103 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="268503fb-d488-4e49-b9c5-574a6b341d93" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_spring_aop_4_2_8_RELEASE.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_spring_beans_4_2_8_RELEASE.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_spring_context_4_2_8_RELEASE.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_spring_core_4_2_8_RELEASE.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_spring_expression_4_2_8_RELEASE.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_spring_web_4_2_8_RELEASE.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/Maven__org_springframework_spring_webmvc_4_2_8_RELEASE.xml" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/com/lanxi/consumeLoan/functions/ApplyOrderMoneyStatisticsFunction.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/com/lanxi/consumeLoan/functions/ApplyOrderQueryFunction.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/src/main/java/com/lanxi/consumeLoan/functions/ExportExcelFunction.java" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/target/classes/com/lanxi/consumeLoan/functions/ApplyOrderMoneyStatisticsFunction.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/target/classes/com/lanxi/consumeLoan/functions/ApplyOrderQueryFunction.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/target/classes/com/lanxi/consumeLoan/functions/ExportExcelFunction.class" afterPath="" />
+      <change type="DELETED" beforePath="$PROJECT_DIR$/target/classes/log/info/info.log2017-07-26.info.log" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/lanxi/consumeLoan/aop/AuthorityCheck.class" afterPath="$PROJECT_DIR$/target/classes/com/lanxi/consumeLoan/aop/AuthorityCheck.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/lanxi/consumeLoan/aop/SetEncodeUtf8.class" afterPath="$PROJECT_DIR$/target/classes/com/lanxi/consumeLoan/aop/SetEncodeUtf8.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/lanxi/consumeLoan/backup/Role.class" afterPath="$PROJECT_DIR$/target/classes/com/lanxi/consumeLoan/backup/Role.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/lanxi/consumeLoan/backup/User.class" afterPath="$PROJECT_DIR$/target/classes/com/lanxi/consumeLoan/backup/User.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/lanxi/consumeLoan/basic/RetMessage.class" afterPath="$PROJECT_DIR$/target/classes/com/lanxi/consumeLoan/basic/RetMessage.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/lanxi/consumeLoan/basic/UserProxy.class" afterPath="$PROJECT_DIR$/target/classes/com/lanxi/consumeLoan/basic/UserProxy.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/lanxi/consumeLoan/controller/TestController.class" afterPath="$PROJECT_DIR$/target/classes/com/lanxi/consumeLoan/controller/TestController.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/lanxi/consumeLoan/dao/ApplyDao.class" afterPath="$PROJECT_DIR$/target/classes/com/lanxi/consumeLoan/dao/ApplyDao.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/lanxi/consumeLoan/dao/MerchantAccountDao.class" afterPath="$PROJECT_DIR$/target/classes/com/lanxi/consumeLoan/dao/MerchantAccountDao.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/lanxi/consumeLoan/dao/MerchantAccountRecordDao.class" afterPath="$PROJECT_DIR$/target/classes/com/lanxi/consumeLoan/dao/MerchantAccountRecordDao.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/lanxi/consumeLoan/dao/MerchantDao.class" afterPath="$PROJECT_DIR$/target/classes/com/lanxi/consumeLoan/dao/MerchantDao.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/lanxi/consumeLoan/dao/RoleDao.class" afterPath="$PROJECT_DIR$/target/classes/com/lanxi/consumeLoan/dao/RoleDao.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/lanxi/consumeLoan/dao/SystemAccountDao.class" afterPath="$PROJECT_DIR$/target/classes/com/lanxi/consumeLoan/dao/SystemAccountDao.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/lanxi/consumeLoan/dao/SystemAccountRecordDao.class" afterPath="$PROJECT_DIR$/target/classes/com/lanxi/consumeLoan/dao/SystemAccountRecordDao.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/lanxi/consumeLoan/dao/UserDao.class" afterPath="$PROJECT_DIR$/target/classes/com/lanxi/consumeLoan/dao/UserDao.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/lanxi/consumeLoan/entity/Apply.class" afterPath="$PROJECT_DIR$/target/classes/com/lanxi/consumeLoan/entity/Apply.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/lanxi/consumeLoan/entity/Merchant.class" afterPath="$PROJECT_DIR$/target/classes/com/lanxi/consumeLoan/entity/Merchant.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/lanxi/consumeLoan/entity/MerchantAccount.class" afterPath="$PROJECT_DIR$/target/classes/com/lanxi/consumeLoan/entity/MerchantAccount.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/lanxi/consumeLoan/entity/MerchantAccountRecord.class" afterPath="$PROJECT_DIR$/target/classes/com/lanxi/consumeLoan/entity/MerchantAccountRecord.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/lanxi/consumeLoan/entity/SystemAccount.class" afterPath="$PROJECT_DIR$/target/classes/com/lanxi/consumeLoan/entity/SystemAccount.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/lanxi/consumeLoan/entity/SystemAccountRecord.class" afterPath="$PROJECT_DIR$/target/classes/com/lanxi/consumeLoan/entity/SystemAccountRecord.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/lanxi/consumeLoan/entity/User.class" afterPath="$PROJECT_DIR$/target/classes/com/lanxi/consumeLoan/entity/User.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/lanxi/consumeLoan/functions/ApplyOrderAddFunction.class" afterPath="$PROJECT_DIR$/target/classes/com/lanxi/consumeLoan/functions/ApplyOrderAddFunction.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/lanxi/consumeLoan/functions/ApplyOrderMoneyStatisticsFunction.class" afterPath="$PROJECT_DIR$/target/classes/com/lanxi/consumeLoan/functions/ApplyOrderMoneyStatisticsFunction.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/lanxi/consumeLoan/functions/ApplyOrderQueryFunction.class" afterPath="$PROJECT_DIR$/target/classes/com/lanxi/consumeLoan/functions/ApplyOrderQueryFunction.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/lanxi/consumeLoan/functions/ChangePasswordFunction.class" afterPath="$PROJECT_DIR$/target/classes/com/lanxi/consumeLoan/functions/ChangePasswordFunction.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/lanxi/consumeLoan/functions/LoginFunction.class" afterPath="$PROJECT_DIR$/target/classes/com/lanxi/consumeLoan/functions/LoginFunction.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/lanxi/consumeLoan/functions/MerchantBindingFunction.class" afterPath="$PROJECT_DIR$/target/classes/com/lanxi/consumeLoan/functions/MerchantBindingFunction.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/lanxi/consumeLoan/functions/MakeValidateCodePicFunction.class" afterPath="$PROJECT_DIR$/target/classes/com/lanxi/consumeLoan/functions/MakeValidateCodePicFunction.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/lanxi/consumeLoan/functions/MerchantAccountQueryFunction.class" afterPath="$PROJECT_DIR$/target/classes/com/lanxi/consumeLoan/functions/MerchantAccountQueryFunction.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/lanxi/consumeLoan/functions/MerchantAddFunction.class" afterPath="$PROJECT_DIR$/target/classes/com/lanxi/consumeLoan/functions/MerchantAddFunction.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/lanxi/consumeLoan/functions/MerchantHomeFunction.class" afterPath="$PROJECT_DIR$/target/classes/com/lanxi/consumeLoan/functions/MerchantHomeFunction.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/lanxi/consumeLoan/functions/UserAddFunction.class" afterPath="$PROJECT_DIR$/target/classes/com/lanxi/consumeLoan/functions/UserAddFunction.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/lanxi/consumeLoan/functions/ValidateCodeSendFunction.class" afterPath="$PROJECT_DIR$/target/classes/com/lanxi/consumeLoan/functions/ValidateCodeSendFunction.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/lanxi/consumeLoan/service/DaoService.class" afterPath="$PROJECT_DIR$/target/classes/com/lanxi/consumeLoan/service/DaoService.class" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/lanxi/consumeLoan/service/DaoServiceImpl.class" afterPath="$PROJECT_DIR$/target/classes/com/lanxi/consumeLoan/service/DaoServiceImpl.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/lanxi/consumeLoan/servlet/InitServlet.class" afterPath="$PROJECT_DIR$/target/classes/com/lanxi/consumeLoan/servlet/InitServlet.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/test-classes/com/lanxi/consumeLoan/test/ApplicationTest.class" afterPath="$PROJECT_DIR$/target/test-classes/com/lanxi/consumeLoan/test/ApplicationTest.class" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/artifacts/consumeLoan_war_exploded.xml" afterPath="$PROJECT_DIR$/.idea/artifacts/consumeLoan_war_exploded.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/compiler.xml" afterPath="$PROJECT_DIR$/.idea/compiler.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/modules.xml" afterPath="$PROJECT_DIR$/.idea/modules.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/uiDesigner.xml" afterPath="$PROJECT_DIR$/.idea/uiDesigner.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/test-classes/com/lanxi/consumeLoan/test/Test20170727.class" afterPath="$PROJECT_DIR$/target/test-classes/com/lanxi/consumeLoan/test/Test20170727.class" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/consumeLoan.iml" afterPath="$PROJECT_DIR$/consumeLoan.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pom.xml" afterPath="$PROJECT_DIR$/pom.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/lanxi/consumeLoan/aop/AuthorityCheck.java" afterPath="$PROJECT_DIR$/src/main/java/com/lanxi/consumeLoan/aop/AuthorityCheck.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/lanxi/consumeLoan/aop/SetEncodeUtf8.java" afterPath="$PROJECT_DIR$/src/main/java/com/lanxi/consumeLoan/aop/SetEncodeUtf8.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/lanxi/consumeLoan/backup/Role.java" afterPath="$PROJECT_DIR$/src/main/java/com/lanxi/consumeLoan/backup/Role.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/lanxi/consumeLoan/backup/User.java" afterPath="$PROJECT_DIR$/src/main/java/com/lanxi/consumeLoan/backup/User.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/lanxi/consumeLoan/basic/RetMessage.java" afterPath="$PROJECT_DIR$/src/main/java/com/lanxi/consumeLoan/basic/RetMessage.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/lanxi/consumeLoan/basic/UserProxy.java" afterPath="$PROJECT_DIR$/src/main/java/com/lanxi/consumeLoan/basic/UserProxy.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/lanxi/consumeLoan/controller/TestController.java" afterPath="$PROJECT_DIR$/src/main/java/com/lanxi/consumeLoan/controller/TestController.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/lanxi/consumeLoan/dao/ApplyDao.java" afterPath="$PROJECT_DIR$/src/main/java/com/lanxi/consumeLoan/dao/ApplyDao.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/lanxi/consumeLoan/dao/ApplyMapper.xml" afterPath="$PROJECT_DIR$/src/main/java/com/lanxi/consumeLoan/dao/ApplyMapper.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/lanxi/consumeLoan/dao/MerchantAccountDao.java" afterPath="$PROJECT_DIR$/src/main/java/com/lanxi/consumeLoan/dao/MerchantAccountDao.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/lanxi/consumeLoan/dao/MerchantAccountMapper.xml" afterPath="$PROJECT_DIR$/src/main/java/com/lanxi/consumeLoan/dao/MerchantAccountMapper.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/lanxi/consumeLoan/dao/MerchantAccountRecordDao.java" afterPath="$PROJECT_DIR$/src/main/java/com/lanxi/consumeLoan/dao/MerchantAccountRecordDao.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/lanxi/consumeLoan/dao/MerchantAccountRecordMapper.xml" afterPath="$PROJECT_DIR$/src/main/java/com/lanxi/consumeLoan/dao/MerchantAccountRecordMapper.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/lanxi/consumeLoan/dao/MerchantDao.java" afterPath="$PROJECT_DIR$/src/main/java/com/lanxi/consumeLoan/dao/MerchantDao.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/lanxi/consumeLoan/dao/MerchantMapper.xml" afterPath="$PROJECT_DIR$/src/main/java/com/lanxi/consumeLoan/dao/MerchantMapper.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/lanxi/consumeLoan/dao/RoleDao.java" afterPath="$PROJECT_DIR$/src/main/java/com/lanxi/consumeLoan/dao/RoleDao.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/lanxi/consumeLoan/dao/RoleMapper.xml" afterPath="$PROJECT_DIR$/src/main/java/com/lanxi/consumeLoan/dao/RoleMapper.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/lanxi/consumeLoan/dao/SystemAccountDao.java" afterPath="$PROJECT_DIR$/src/main/java/com/lanxi/consumeLoan/dao/SystemAccountDao.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/lanxi/consumeLoan/dao/SystemAccountMapper.xml" afterPath="$PROJECT_DIR$/src/main/java/com/lanxi/consumeLoan/dao/SystemAccountMapper.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/lanxi/consumeLoan/dao/SystemAccountRecordDao.java" afterPath="$PROJECT_DIR$/src/main/java/com/lanxi/consumeLoan/dao/SystemAccountRecordDao.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/lanxi/consumeLoan/dao/SystemAccountRecordMapper.xml" afterPath="$PROJECT_DIR$/src/main/java/com/lanxi/consumeLoan/dao/SystemAccountRecordMapper.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/lanxi/consumeLoan/dao/UserDao.java" afterPath="$PROJECT_DIR$/src/main/java/com/lanxi/consumeLoan/dao/UserDao.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/lanxi/consumeLoan/dao/UserMapper.xml" afterPath="$PROJECT_DIR$/src/main/java/com/lanxi/consumeLoan/dao/UserMapper.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/lanxi/consumeLoan/entity/Apply.java" afterPath="$PROJECT_DIR$/src/main/java/com/lanxi/consumeLoan/entity/Apply.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/lanxi/consumeLoan/entity/Merchant.java" afterPath="$PROJECT_DIR$/src/main/java/com/lanxi/consumeLoan/entity/Merchant.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/lanxi/consumeLoan/entity/MerchantAccount.java" afterPath="$PROJECT_DIR$/src/main/java/com/lanxi/consumeLoan/entity/MerchantAccount.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/lanxi/consumeLoan/entity/MerchantAccountRecord.java" afterPath="$PROJECT_DIR$/src/main/java/com/lanxi/consumeLoan/entity/MerchantAccountRecord.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/lanxi/consumeLoan/entity/SystemAccount.java" afterPath="$PROJECT_DIR$/src/main/java/com/lanxi/consumeLoan/entity/SystemAccount.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/lanxi/consumeLoan/entity/SystemAccountRecord.java" afterPath="$PROJECT_DIR$/src/main/java/com/lanxi/consumeLoan/entity/SystemAccountRecord.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/lanxi/consumeLoan/entity/User.java" afterPath="$PROJECT_DIR$/src/main/java/com/lanxi/consumeLoan/entity/User.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/lanxi/consumeLoan/functions/ApplyOrderAddFunction.java" afterPath="$PROJECT_DIR$/src/main/java/com/lanxi/consumeLoan/functions/ApplyOrderAddFunction.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/lanxi/consumeLoan/functions/ApplyOrderMoneyStatisticsFunction.java" afterPath="$PROJECT_DIR$/src/main/java/com/lanxi/consumeLoan/functions/ApplyOrderMoneyStatisticsFunction.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/lanxi/consumeLoan/functions/ApplyOrderQueryFunction.java" afterPath="$PROJECT_DIR$/src/main/java/com/lanxi/consumeLoan/functions/ApplyOrderQueryFunction.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/lanxi/consumeLoan/functions/ChangePasswordFunction.java" afterPath="$PROJECT_DIR$/src/main/java/com/lanxi/consumeLoan/functions/ChangePasswordFunction.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/lanxi/consumeLoan/functions/LoginFunction.java" afterPath="$PROJECT_DIR$/src/main/java/com/lanxi/consumeLoan/functions/LoginFunction.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/lanxi/consumeLoan/functions/MerchantBindingFunction.java" afterPath="$PROJECT_DIR$/src/main/java/com/lanxi/consumeLoan/functions/MerchantBindingFunction.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/lanxi/consumeLoan/functions/MakeValidateCodePicFunction.java" afterPath="$PROJECT_DIR$/src/main/java/com/lanxi/consumeLoan/functions/MakeValidateCodePicFunction.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/lanxi/consumeLoan/functions/MerchantAccountQueryFunction.java" afterPath="$PROJECT_DIR$/src/main/java/com/lanxi/consumeLoan/functions/MerchantAccountQueryFunction.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/lanxi/consumeLoan/functions/MerchantAddFunction.java" afterPath="$PROJECT_DIR$/src/main/java/com/lanxi/consumeLoan/functions/MerchantAddFunction.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/lanxi/consumeLoan/functions/MerchantHomeFunction.java" afterPath="$PROJECT_DIR$/src/main/java/com/lanxi/consumeLoan/functions/MerchantHomeFunction.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/lanxi/consumeLoan/functions/UserAddFunction.java" afterPath="$PROJECT_DIR$/src/main/java/com/lanxi/consumeLoan/functions/UserAddFunction.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/lanxi/consumeLoan/functions/ValidateCodeSendFunction.java" afterPath="$PROJECT_DIR$/src/main/java/com/lanxi/consumeLoan/functions/ValidateCodeSendFunction.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/lanxi/consumeLoan/service/DaoService.java" afterPath="$PROJECT_DIR$/src/main/java/com/lanxi/consumeLoan/service/DaoService.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/lanxi/consumeLoan/service/DaoServiceImpl.java" afterPath="$PROJECT_DIR$/src/main/java/com/lanxi/consumeLoan/service/DaoServiceImpl.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/java/com/lanxi/consumeLoan/servlet/InitServlet.java" afterPath="$PROJECT_DIR$/src/main/java/com/lanxi/consumeLoan/servlet/InitServlet.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/log/error/error.log" afterPath="$PROJECT_DIR$/src/main/resources/log/error/error.log" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/log/info/info.log" afterPath="$PROJECT_DIR$/src/main/resources/log/info/info.log" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/log/warn/warn.log" afterPath="$PROJECT_DIR$/src/main/resources/log/warn/warn.log" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/properties/jdbc.properties" afterPath="$PROJECT_DIR$/src/main/resources/properties/jdbc.properties" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/properties/param.properties" afterPath="$PROJECT_DIR$/src/main/resources/properties/param.properties" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/main/resources/properties/sms.properties" afterPath="$PROJECT_DIR$/src/main/resources/properties/sms.properties" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/java/com/lanxi/consumeLoan/test/ApplicationTest.java" afterPath="$PROJECT_DIR$/src/test/java/com/lanxi/consumeLoan/test/ApplicationTest.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/src/test/java/com/lanxi/consumeLoan/test/Test20170727.java" afterPath="$PROJECT_DIR$/src/test/java/com/lanxi/consumeLoan/test/Test20170727.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/lanxi/consumeLoan/dao/ApplyMapper.xml" afterPath="$PROJECT_DIR$/target/classes/com/lanxi/consumeLoan/dao/ApplyMapper.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/log/error/error.log" afterPath="$PROJECT_DIR$/target/classes/log/error/error.log" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/log/info/info.log" afterPath="$PROJECT_DIR$/target/classes/log/info/info.log" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/log/warn/warn.log" afterPath="$PROJECT_DIR$/target/classes/log/warn/warn.log" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/properties/jdbc.properties" afterPath="$PROJECT_DIR$/target/classes/properties/jdbc.properties" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/lanxi/consumeLoan/dao/MerchantAccountMapper.xml" afterPath="$PROJECT_DIR$/target/classes/com/lanxi/consumeLoan/dao/MerchantAccountMapper.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/lanxi/consumeLoan/dao/MerchantAccountRecordMapper.xml" afterPath="$PROJECT_DIR$/target/classes/com/lanxi/consumeLoan/dao/MerchantAccountRecordMapper.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/lanxi/consumeLoan/dao/MerchantMapper.xml" afterPath="$PROJECT_DIR$/target/classes/com/lanxi/consumeLoan/dao/MerchantMapper.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/lanxi/consumeLoan/dao/RoleMapper.xml" afterPath="$PROJECT_DIR$/target/classes/com/lanxi/consumeLoan/dao/RoleMapper.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/lanxi/consumeLoan/dao/SystemAccountMapper.xml" afterPath="$PROJECT_DIR$/target/classes/com/lanxi/consumeLoan/dao/SystemAccountMapper.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/lanxi/consumeLoan/dao/SystemAccountRecordMapper.xml" afterPath="$PROJECT_DIR$/target/classes/com/lanxi/consumeLoan/dao/SystemAccountRecordMapper.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/com/lanxi/consumeLoan/dao/UserMapper.xml" afterPath="$PROJECT_DIR$/target/classes/com/lanxi/consumeLoan/dao/UserMapper.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/properties/param.properties" afterPath="$PROJECT_DIR$/target/classes/properties/param.properties" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/classes/properties/sms.properties" afterPath="$PROJECT_DIR$/target/classes/properties/sms.properties" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/m2e-wtp/web-resources/META-INF/maven/com.lanxi/consumeLoan/pom.properties" afterPath="$PROJECT_DIR$/target/m2e-wtp/web-resources/META-INF/maven/com.lanxi/consumeLoan/pom.properties" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/target/m2e-wtp/web-resources/META-INF/maven/com.lanxi/consumeLoan/pom.xml" afterPath="$PROJECT_DIR$/target/m2e-wtp/web-resources/META-INF/maven/com.lanxi/consumeLoan/pom.xml" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/target/" />
@@ -75,9 +115,11 @@
       <file leaf-file-name="ApplicationTest.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/test/java/com/lanxi/consumeLoan/test/ApplicationTest.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1292">
-              <caret line="103" column="39" lean-forward="false" selection-start-line="103" selection-start-column="39" selection-end-line="103" selection-end-column="39" />
-              <folding />
+            <state relative-caret-position="1957">
+              <caret line="104" column="39" lean-forward="false" selection-start-line="104" selection-start-column="39" selection-end-line="104" selection-end-column="39" />
+              <folding>
+                <marker date="1501469789520" expanded="true" signature="6085:6088" ph="{...}" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -85,10 +127,10 @@
       <file leaf-file-name="SetEncodeUtf8.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/lanxi/consumeLoan/aop/SetEncodeUtf8.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="494">
-              <caret line="36" column="23" lean-forward="false" selection-start-line="36" selection-start-column="23" selection-end-line="36" selection-end-column="23" />
+            <state relative-caret-position="513">
+              <caret line="37" column="23" lean-forward="false" selection-start-line="37" selection-start-column="23" selection-end-line="37" selection-end-column="23" />
               <folding>
-                <marker date="1501121533275" expanded="true" signature="1395:1484" ph="{...}" />
+                <marker date="1501134558361" expanded="true" signature="1580:1669" ph="{...}" />
               </folding>
             </state>
           </provider>
@@ -97,11 +139,10 @@
       <file leaf-file-name="IpCheck.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/lanxi/consumeLoan/aop/IpCheck.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="722">
+            <state relative-caret-position="741">
               <caret line="57" column="36" lean-forward="false" selection-start-line="57" selection-start-column="36" selection-end-line="57" selection-end-column="36" />
               <folding>
                 <element signature="imports" expanded="true" />
-                <marker date="1501121111477" expanded="true" signature="1208:2698" ph="{...}" />
               </folding>
             </state>
           </provider>
@@ -110,8 +151,8 @@
       <file leaf-file-name="ApplyDao.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/lanxi/consumeLoan/dao/ApplyDao.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="19">
-              <caret line="31" column="70" lean-forward="false" selection-start-line="31" selection-start-column="16" selection-end-line="31" selection-end-column="70" />
+            <state relative-caret-position="551">
+              <caret line="31" column="70" lean-forward="false" selection-start-line="31" selection-start-column="70" selection-end-line="31" selection-end-column="70" />
               <folding />
             </state>
           </provider>
@@ -120,11 +161,9 @@
       <file leaf-file-name="Test20170727.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/test/java/com/lanxi/consumeLoan/test/Test20170727.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="304">
-              <caret line="16" column="0" lean-forward="true" selection-start-line="16" selection-start-column="0" selection-end-line="16" selection-end-column="0" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
+            <state relative-caret-position="462">
+              <caret line="36" column="24" lean-forward="false" selection-start-line="36" selection-start-column="24" selection-end-line="36" selection-end-column="24" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -132,12 +171,11 @@
       <file leaf-file-name="ApplyMapper.xml" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/main/java/com/lanxi/consumeLoan/dao/ApplyMapper.xml">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="4104">
-              <caret line="216" column="47" lean-forward="false" selection-start-line="216" selection-start-column="47" selection-end-line="216" selection-end-column="47" />
+            <state relative-caret-position="4560">
+              <caret line="240" column="47" lean-forward="false" selection-start-line="240" selection-start-column="47" selection-end-line="240" selection-end-column="47" />
               <folding>
-                <element signature="e#10470#10474#0" expanded="true" />
-                <element signature="e#10567#10571#0" expanded="true" />
-                <marker date="1501117841507" expanded="true" signature="291:820" ph="insert into apply... " />
+                <marker date="1501233873934" expanded="true" signature="291:532" ph="insert into apply... " />
+                <marker date="1501233873934" expanded="true" signature="14621:14645" ph="..." />
               </folding>
             </state>
           </provider>
@@ -306,6 +344,22 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
+      <pane id="Scope" />
+      <pane id="Scratches" />
+      <pane id="PackagesPane">
+        <subPane>
+          <PATH>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="consumeLoan" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewProjectNode" />
+            </PATH_ELEMENT>
+            <PATH_ELEMENT>
+              <option name="myItemId" value="consumeLoan" />
+              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewModuleNode" />
+            </PATH_ELEMENT>
+          </PATH>
+        </subPane>
+      </pane>
       <pane id="ProjectPane">
         <subPane>
           <PATH>
@@ -586,22 +640,6 @@
             <PATH_ELEMENT>
               <option name="myItemId" value="aop" />
               <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
-            </PATH_ELEMENT>
-          </PATH>
-        </subPane>
-      </pane>
-      <pane id="Scope" />
-      <pane id="Scratches" />
-      <pane id="PackagesPane">
-        <subPane>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="consumeLoan" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="consumeLoan" />
-              <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PackageViewModuleNode" />
             </PATH_ELEMENT>
           </PATH>
         </subPane>
@@ -1182,6 +1220,7 @@
       <workItem from="1501036947713" duration="2988000" />
       <workItem from="1501048597015" duration="5199000" />
       <workItem from="1501123043857" duration="1364000" />
+      <workItem from="1501484414268" duration="84000" />
     </task>
     <servers />
   </component>
@@ -1212,11 +1251,10 @@
     </history-entry>
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="33210000" />
+    <option name="totallyTimeSpent" value="33294000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="1916" y="-4" width="1608" height="868" extended-state="6" />
-    <editor active="true" />
     <layout>
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Nl-Palette" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
@@ -1665,61 +1703,59 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/test/java/com/lanxi/consumeLoan/test/ApplicationTest.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1292">
-          <caret line="103" column="39" lean-forward="false" selection-start-line="103" selection-start-column="39" selection-end-line="103" selection-end-column="39" />
-          <folding />
+        <state relative-caret-position="1957">
+          <caret line="104" column="39" lean-forward="false" selection-start-line="104" selection-start-column="39" selection-end-line="104" selection-end-column="39" />
+          <folding>
+            <marker date="1501469789520" expanded="true" signature="6085:6088" ph="{...}" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/lanxi/consumeLoan/aop/TestAop.java" />
     <entry file="file://$PROJECT_DIR$/src/main/java/com/lanxi/consumeLoan/aop/SetEncodeUtf8.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="494">
-          <caret line="36" column="23" lean-forward="false" selection-start-line="36" selection-start-column="23" selection-end-line="36" selection-end-column="23" />
+        <state relative-caret-position="513">
+          <caret line="37" column="23" lean-forward="false" selection-start-line="37" selection-start-column="23" selection-end-line="37" selection-end-column="23" />
           <folding>
-            <marker date="1501121533275" expanded="true" signature="1395:1484" ph="{...}" />
+            <marker date="1501134558361" expanded="true" signature="1580:1669" ph="{...}" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/lanxi/consumeLoan/aop/IpCheck.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="722">
+        <state relative-caret-position="741">
           <caret line="57" column="36" lean-forward="false" selection-start-line="57" selection-start-column="36" selection-end-line="57" selection-end-column="36" />
           <folding>
             <element signature="imports" expanded="true" />
-            <marker date="1501121111477" expanded="true" signature="1208:2698" ph="{...}" />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/lanxi/consumeLoan/dao/ApplyMapper.xml">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="4104">
-          <caret line="216" column="47" lean-forward="false" selection-start-line="216" selection-start-column="47" selection-end-line="216" selection-end-column="47" />
+        <state relative-caret-position="4560">
+          <caret line="240" column="47" lean-forward="false" selection-start-line="240" selection-start-column="47" selection-end-line="240" selection-end-column="47" />
           <folding>
-            <element signature="e#10470#10474#0" expanded="true" />
-            <element signature="e#10567#10571#0" expanded="true" />
-            <marker date="1501117841507" expanded="true" signature="291:820" ph="insert into apply... " />
+            <marker date="1501233873934" expanded="true" signature="291:532" ph="insert into apply... " />
+            <marker date="1501233873934" expanded="true" signature="14621:14645" ph="..." />
           </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/main/java/com/lanxi/consumeLoan/dao/ApplyDao.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="19">
-          <caret line="31" column="70" lean-forward="false" selection-start-line="31" selection-start-column="16" selection-end-line="31" selection-end-column="70" />
+        <state relative-caret-position="551">
+          <caret line="31" column="70" lean-forward="false" selection-start-line="31" selection-start-column="70" selection-end-line="31" selection-end-column="70" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/test/java/com/lanxi/consumeLoan/test/Test20170727.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="304">
-          <caret line="16" column="0" lean-forward="true" selection-start-line="16" selection-start-column="0" selection-end-line="16" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
+        <state relative-caret-position="462">
+          <caret line="36" column="24" lean-forward="false" selection-start-line="36" selection-start-column="24" selection-end-line="36" selection-end-column="24" />
+          <folding />
         </state>
       </provider>
     </entry>

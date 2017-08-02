@@ -6,7 +6,7 @@ import java.util.*;
 /**
  * no comment
  * @author yyj | auto generator
- * @version 1.0.0 2017-07-26 17:30:57
+ * @version 1.0.0 2017-07-28 17:23:40
  */
 
 public interface ApplyDao{
@@ -19,15 +19,15 @@ public interface ApplyDao{
 	/**从数据库中删除符合条件的或者指定的数据
 	 * @param apply 删除的条件|被删除的数据本身
 	 */
-	public void deleteApplyByClass(Apply apply);
+	public void deleteApplyByClass(@Param(value="apply")Apply apply);
 	/**根据唯一索引从数据库中删除数据
-	 * @param ApplyId 索引:申请编号
+	 * @param applyId 索引:申请编号
 	 */
 	public void deleteApplyByUniqueIndexOnApplyId(@Param(value="applyId")String applyId);
 	/**根据唯一索引从数据库中删除数据
-	 * @param IdNumber 索引:申请者身份证号码
-	 * @param ApplyTime 索引:申请时间
-	 * @param Phone 索引:申请者手机号码
+	 * @param idNumber 索引:申请者身份证号码
+	 * @param applyTime 索引:申请时间
+	 * @param phone 索引:申请者手机号码
 	 */
 	public void deleteApplyByUniqueIndexOnIdNumberAndApplyTimeAndPhone(@Param(value="idNumber")String idNumber,@Param(value="applyTime")String applyTime,@Param(value="phone")String phone);
 	
@@ -37,20 +37,20 @@ public interface ApplyDao{
 	public void updateApplyByClass(@Param(value="apply")Apply apply,@Param(value="param")Apply param);
 	/**根据唯一索引更新数据库中的数据
 	 * @param apply 更新后的数据
-	 * @param ApplyId 索引:申请编号
+	 * @param applyId 索引:申请编号
 	 */
 	public void updateApplyByUniqueIndexOnApplyId(@Param(value="apply")Apply apply,@Param(value="applyId")String applyId);
 	/**根据唯一索引更新数据库中的数据
 	 * @param apply 更新后的数据
-	 * @param IdNumber 索引:申请者身份证号码
-	 * @param ApplyTime 索引:申请时间
-	 * @param Phone 索引:申请者手机号码
+	 * @param idNumber 索引:申请者身份证号码
+	 * @param applyTime 索引:申请时间
+	 * @param phone 索引:申请者手机号码
 	 */
 	public void updateApplyByUniqueIndexOnIdNumberAndApplyTimeAndPhone(@Param(value="apply")Apply apply,@Param(value="idNumber")String idNumber,@Param(value="applyTime")String applyTime,@Param(value="phone")String phone);
 	
 	/**选中数据库中符合条件的数据|数据本身
-	 * @param param 更新的条件|数据本身 * @return 符合条件的数据列表 */
-	public List<Apply> selectApplyByClass(Apply apply);
+	 * @param Apply 选中的条件|数据本身 * @return 符合条件的数据列表 */
+	public List<Apply> selectApplyByClass(@Param(value="apply")Apply apply);
 	/**根据唯一索引选中数据库中的数据
 	 * @param applyId 索引:申请编号
 	 * @return 符合条件的数据对象 */
@@ -61,7 +61,5 @@ public interface ApplyDao{
 	 * @param phone 索引:申请者手机号码
 	 * @return 符合条件的数据对象 */
 	public Apply selectApplyByUniqueIndexOnIdNumberAndApplyTimeAndPhone(@Param(value="idNumber")String idNumber,@Param(value="applyTime")String applyTime,@Param(value="phone")String phone);
-	
-	
 	public List<Apply> selectApplyByParam(Map<String, Object> map);
 }

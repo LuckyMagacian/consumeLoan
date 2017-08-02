@@ -6,7 +6,7 @@ import java.util.*;
 /**
  * no comment
  * @author yyj | auto generator
- * @version 1.0.0 2017-07-27 11:29:29
+ * @version 1.0.0 2017-07-28 13:47:19
  */
 
 public interface SystemAccountDao{
@@ -19,7 +19,7 @@ public interface SystemAccountDao{
 	/**从数据库中删除符合条件的或者指定的数据
 	 * @param systemAccount 删除的条件|被删除的数据本身
 	 */
-	public void deleteSystemAccountByClass(SystemAccount systemAccount);
+	public void deleteSystemAccountByClass(@Param(value="systemAccount")SystemAccount systemAccount);
 	/**根据唯一索引从数据库中删除数据
 	 * @param accountId 索引:账户编号
 	 */
@@ -37,7 +37,7 @@ public interface SystemAccountDao{
 	
 	/**选中数据库中符合条件的数据|数据本身
 	 * @param SystemAccount 选中的条件|数据本身 * @return 符合条件的数据列表 */
-	public List<SystemAccount> selectSystemAccountByClass(SystemAccount systemAccount);
+	public List<SystemAccount> selectSystemAccountByClass(@Param(value="systemAccount")SystemAccount systemAccount);
 	/**根据唯一索引选中数据库中的数据
 	 * @param accountId 索引:账户编号
 	 * @return 符合条件的数据对象 */

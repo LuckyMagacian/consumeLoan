@@ -12,9 +12,9 @@
 	<delete id="deleteUserByClass" parameterType="com.lanxi.consumeLoan.entity.User">
 		delete from user
 		<where>
-			<if test="phone != null"> and phone = #{phone}  </if>
-			<if test="roleName != null"> and role_name = #{roleName}  </if>
-			<if test="attributes != null"> and attributes = #{attributes}  </if>
+			<if test="user.phone != null"> and phone = #{user.phone}  </if>
+			<if test="user.roleName != null"> and role_name = #{user.roleName}  </if>
+			<if test="user.attributes != null"> and attributes = #{user.attributes}  </if>
 		</where>
 	</delete>
 	<delete id="deleteUserByUniqueIndexOnPhone">
@@ -52,9 +52,9 @@
 			phone,role_name,attributes
 		from user
 		<where>
-			<if test="phone != null"> AND phone = #{phone}</if>
-			<if test="roleName != null"> AND role_name = #{roleName}</if>
-			<if test="attributes != null"> AND attributes = #{attributes}</if>
+			<if test="user.phone != null"> AND phone = #{user.phone}</if>
+			<if test="user.roleName != null"> AND role_name = #{user.roleName}</if>
+			<if test="user.attributes != null"> AND attributes = #{user.attributes}</if>
 		</where>
 	</select>
 	<select id="selectUserByUniqueIndexOnPhone" resultType="com.lanxi.consumeLoan.entity.User" resultMap="userMap" >
@@ -65,6 +65,15 @@
 			AND phone=#{phone}
 		</where>
 	</select>
+	<select id="selectUserByAttibute" resultType="com.lanxi.consumeLoan.entity.User" resultMap="userMap" >
+        select
+            phone,role_name,attributes
+        from user
+        <where>
+            attributes like #{attribute}
+        </where>
+            ORDER BY role_name
+    </select>
 	<resultMap id="userMap" type="com.lanxi.consumeLoan.entity.User">
 		<result property="phone" 			column="phone"></result>
 		<result property="roleName" 			column="role_name"></result>

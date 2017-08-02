@@ -1,5 +1,7 @@
 package com.lanxi.consumeLoan.service;
 
+import java.util.List;
+
 import javax.annotation.Resource;
 
 import org.springframework.stereotype.Service;
@@ -12,6 +14,7 @@ import com.lanxi.consumeLoan.dao.RoleDao;
 import com.lanxi.consumeLoan.dao.SystemAccountDao;
 import com.lanxi.consumeLoan.dao.SystemAccountRecordDao;
 import com.lanxi.consumeLoan.dao.UserDao;
+import com.lanxi.consumeLoan.entity.User;
 @Service
 public class DaoServiceImpl implements DaoService{
 	@Resource
@@ -69,6 +72,11 @@ public class DaoServiceImpl implements DaoService{
 	@Override
 	public SystemAccountRecordDao getSystemAccountRecordDao() {
 		return systemAccountRecord;
+	}
+
+	@Override
+	public List<User> selectUserByAttibute(String attributeJson) {
+		return user.selectUserByAttibute("%"+attributeJson+"%");
 	}
 
 }
