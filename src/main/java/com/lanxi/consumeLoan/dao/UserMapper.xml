@@ -35,6 +35,7 @@
 			<if test="param.roleName != null"> AND role_name = #{param.roleName}</if>
 			<if test="param.attributes != null"> AND attributes = #{param.attributes}</if>
 		</where>
+		order by role_name
 	</update>
 	<update id="updateUserByUniqueIndexOnPhone">
 		update user
@@ -70,7 +71,7 @@
             phone,role_name,attributes
         from user
         <where>
-            attributes like #{attribute}
+			attributes like #{attribute}
         </where>
             ORDER BY role_name
     </select>

@@ -1,18 +1,12 @@
 package com.lanxi.consumeLoan.entity;
 
 import java.math.BigDecimal;
-import java.util.List;
 import java.lang.String;
-import java.lang.reflect.Field;
-
-import org.apache.camel.language.Bean;
-
-import com.lanxi.util.utils.BeanUtil;
 
 /**
  * no comment
  * @author yyj | auto generator
- * @version 1.0.0 2017-07-28 13:47:19
+ * @version 1.0.0 2017-08-03 15:25:52
  */
 
 public class SystemAccount{
@@ -39,6 +33,9 @@ public class SystemAccount{
 	
 	/**风险准备金最大值*/
 	private BigDecimal provisionsOfRiskMax;
+	
+	/**版本号*/
+	private BigDecimal version;
 	
 	/**获取账户编号*/
 	public String getAccountId(){
@@ -120,57 +117,18 @@ public class SystemAccount{
 		this.provisionsOfRiskMax=provisionsOfRiskMax;
 		
 	}
+	/**获取版本号*/
+	public BigDecimal getVersion(){
+		return this.version;
+	}
+	
+	/**设置版本号*/
+	public void setVersion(BigDecimal version){
+		this.version=version;
+		
+	}
 	@Override
 	public String toString(){
-		return "com.lanxi.consumeLoan.entity.SystemAccount:["+"accountId="+accountId+","+"brokerage="+brokerage+","+"provisionsOfRisk="+provisionsOfRisk+","+"serviceCharge="+serviceCharge+","+"brokerageRate="+brokerageRate+","+"provisionsOfRiskRate="+provisionsOfRiskRate+","+"serviceChargeRate="+serviceChargeRate+","+"provisionsOfRiskMax="+provisionsOfRiskMax+"]";
-	}	
-	
-	@Override
-	public boolean equals(Object obj) {
-		if(obj==null)
-			return false;
-		if (this == obj) {
-            return true;
-        }
-		if(this.hashCode()!=obj.hashCode())
-			return false;
-        if (obj instanceof SystemAccount) {
-        	SystemAccount temp = (SystemAccount)obj;
-        	List<Field> fields=BeanUtil.getFieldListNoStatic(this);
-        	for(Field each:fields){
-        		Object ooo=BeanUtil.get(this, each.getName());
-        		Object oo0=BeanUtil.get(temp, each.getName());
-        		if(ooo==oo0)
-        			continue;
-        		if((ooo==null&&oo0!=null)||(ooo!=null&&oo0==null))
-        			return false;
-        		else if(!ooo.equals(oo0))
-        			return false;
-        	}
-        }
-        return true;
-	}
-	
-	@Override
-	public int hashCode() {
-		int hash=0;
-		List<Field> fields=BeanUtil.getFieldListNoStatic(this);
-    	for(Field each:fields){
-    		Object obj=BeanUtil.get(this, each.getName());
-    		if(obj!=null)
-    			hash+=obj.hashCode();
-    	}
-    	return hash;
-	}
-	
-	
-	public void hide1(){
-		
-	}
-	public void hide2(){
-		
-	}
-	public void hide3(){
-	
+		return "com.lanxi.consumeLoan.entity.SystemAccount:["+"accountId="+accountId+","+"brokerage="+brokerage+","+"provisionsOfRisk="+provisionsOfRisk+","+"serviceCharge="+serviceCharge+","+"brokerageRate="+brokerageRate+","+"provisionsOfRiskRate="+provisionsOfRiskRate+","+"serviceChargeRate="+serviceChargeRate+","+"provisionsOfRiskMax="+provisionsOfRiskMax+","+"version="+version+"]";
 	}
 }

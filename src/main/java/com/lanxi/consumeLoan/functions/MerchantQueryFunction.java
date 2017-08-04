@@ -3,6 +3,7 @@ package com.lanxi.consumeLoan.functions;
 import com.lanxi.consumeLoan.basic.AbstractFunction;
 import com.lanxi.consumeLoan.basic.RetMessage;
 import com.lanxi.consumeLoan.entity.Merchant;
+import com.lanxi.consumeLoan.entity.PageBean;
 import com.lanxi.util.consts.RetCodeEnum;
 import com.lanxi.util.entity.LogFactory;
 
@@ -15,7 +16,7 @@ import org.springframework.stereotype.Service;
 
 /**
  * Created by yangyuanjian on 2017/7/13.
- * 商户查询
+ * 客户经理商户查询
  */
 @Service
 public class MerchantQueryFunction extends AbstractFunction {
@@ -43,7 +44,16 @@ public class MerchantQueryFunction extends AbstractFunction {
 		String isAssurance = (String) args.get("isAssurance");
 		String start_time = (String) args.get("start_time");
 		String end_time = (String) args.get("end_time");
+		int pageCode = Integer.parseInt((String)args.get("pageCode"));
+		int pageSize = Integer.parseInt((String)args.get("pageSize"));
+		PageBean page = new PageBean();
+		page.setPageSize(pageSize);
+		page.setPageCode(pageCode);
+		
 		Map<String , Object> parm = new HashMap<String, Object>();
+		if(phone !=null && phone != ""){
+			parm.put("customerManagerPhone", phone);
+		}
 		if(state !=null && state != ""){
 			parm.put("state", state);
 		}
@@ -62,11 +72,11 @@ public class MerchantQueryFunction extends AbstractFunction {
 		if(end_time !=null && end_time != ""){
 			parm.put("end_time",end_time);
 		}
-		LogFactory.info(this, "管理员["+phone+"],请求参数："+ parm.toString());
-		List<Merchant> merchants = dao.getMerchantDao().selectMerchantByParm(parm);
-		LogFactory.info(this, "管理员["+phone+"],根据请求参数查询的结果为："+ merchants.toString());
+		LogFactory.info(this, "用户["+phone+"],请求参数："+ parm.toString());
+		List<Merchant> merchants = dao.getMerchantDao().selectAdminMerchantByParm(parm);
+		LogFactory.info(this, "用户["+phone+"],根据请求参数查询的结果为："+ merchants.toString()+",总条数为：" + merchants.size());
 		if(merchants ==null || merchants.size()<=0){
-			LogFactory.info(this, "管理员["+phone+"],没查询到数据!");
+			LogFactory.info(this, "用户["+phone+"],没查询到数据!");
 			return new RetMessage(RetCodeEnum.FAIL.toString(), "没查询到数据!", null);
 		}
 		int merchantTotal = merchants.size();
@@ -102,9 +112,16 @@ public class MerchantQueryFunction extends AbstractFunction {
 		totalMap.put("breakMoneyAmountTotal", breakMoneyAmountTotal);
 		totalMap.put("breakAmountTotal", breakAmountTotal);
 		
+		page.setTotalRecord(merchants.size());		
+		parm.put("start", page.getStart());
+		parm.put("size", page.getPageSize());
+		List<Merchant> list = dao.getMerchantDao().selectMerchantByPage(parm);
+		
+		
 		Map<String, Object> resultMap = new HashMap<String, Object>();
-		resultMap.put("merchants", merchants);
+		resultMap.put("merchants", list);
 		resultMap.put("total", totalMap);
+		resultMap.put("page", page);
 		
 		LogFactory.info(this, "商户查询成功!");
 		return new RetMessage(RetCodeEnum.SUCCESS.toString(), "商户查询成功!", resultMap);	

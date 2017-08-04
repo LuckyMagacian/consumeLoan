@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.lanxi.consumeLoan.basic.AbstractFunction;
 import com.lanxi.consumeLoan.basic.RetMessage;
 import com.lanxi.consumeLoan.entity.Apply;
+import com.lanxi.consumeLoan.entity.PageBean;
 import com.lanxi.util.consts.RetCodeEnum;
 import com.lanxi.util.entity.LogFactory;
 
@@ -33,6 +34,11 @@ public class CustomerManagerApplyOrderQueryFunction extends AbstractFunction {
 	@Override
 	public RetMessage excuted(Map<String, Object> args) {
 		String phone = (String) args.get("phone");
+		PageBean page = new PageBean();
+		int pageSize = Integer.parseInt((String) args.get("pageSize"));
+		int pageCode = Integer.parseInt((String) args.get("pageCode"));
+		page.setPageSize(pageSize);
+		page.setPageCode(pageCode);
 		Map<String, Object> parm = new HashMap<String, Object>();
 		if(args.get("name") != "" && args.get("name") !=null){
 			parm.put("name", (String)args.get("name"));
@@ -56,13 +62,19 @@ public class CustomerManagerApplyOrderQueryFunction extends AbstractFunction {
 			parm.put("end_time", args.get("end_time"));
 		}
 		LogFactory.info(this, "客户经理["+phone+"],请求参数：" + parm.toString());
-		List<Apply> applies = dao.getApplyDao().selectApplyByParam(parm);
-		if(applies ==null || applies.size()<=0){
+		List<Apply> applys = dao.getApplyDao().selectApplyByParam(parm);
+		if(applys ==null || applys.size()<=0){
 			LogFactory.info(this, "客户经理["+phone+"],没查询到数据!");
 			return new RetMessage(RetCodeEnum.FAIL.toString(), "没查询到数据!", null);
 		}
+		page.setTotalRecord(applys.size());		
+		parm.put("start", page.getStart());
+		parm.put("size", page.getPageSize());
+		List<Apply> list = dao.getApplyDao().selectApplyByPage(parm);
+		
 		Map<String, Object> resultMap = new HashMap<String, Object>();
-		resultMap.put("applys", applies);
+		resultMap.put("applys", list);
+		resultMap.put("page", page);
 		LogFactory.info(this, "客户经理["+phone+"],客户经理申请订单列表查询成功!");
 		return new RetMessage(RetCodeEnum.SUCCESS.toString(), "客户经理申请订单列表查询成功!", resultMap);
 	}

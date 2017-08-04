@@ -47,10 +47,15 @@ public class MerchantDetailQueryFunction extends AbstractFunction {
             return new RetMessage(RetCodeEnum.FAIL.toString(),"商户不存在!",null);
         }
         LogFactory.info(this, "管理员["+phone+"],查询到的商户信息为：["+merchant.toJson()+"]!");
+        merchant.hide3();
+        LogFactory.info(this, "管理员["+phone+"],隐藏商户信息 之后的信息为：["+merchant.toJson()+"]!");
     	Attribute<String> attr = new Attribute<String>("merchantId", merchantId);
     	String str = attr.toJson();
     	LogFactory.info(this, "管理员["+phone+"],查询的商户idjson串为：["+str+"]!");	
     	List<User> attibutes = dao.selectUserByAttibute(str);
+    	for (User user : attibutes) {
+			user.hide1();
+		}
     	LogFactory.info(this, "管理员["+phone+"],商户的担保人信息为：["+attibutes+"]!");	
     	resultMap.put("Users", attibutes);
     	resultMap.put("merchant", merchant);

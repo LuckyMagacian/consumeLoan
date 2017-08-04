@@ -47,6 +47,7 @@ import com.lanxi.util.utils.ExcelUtil;
 import com.lanxi.util.utils.LoggerUtil;
 import com.lanxi.util.utils.SqlUtilForDB;
 import com.lanxi.util.utils.TimeUtil;
+import com.sun.org.apache.bcel.internal.generic.NEW;
 
 
 public class ApplicationTest {
@@ -278,14 +279,12 @@ public class ApplicationTest {
 	@Test
 	public void ApplyDao() {
 		ApplyDao bean = ac.getBean(ApplyDao.class);
-		Apply apply = bean.selectApplyByUniqueIndexOnApplyId("1001");
-		System.err.println(apply);
-		apply.setBreakTime(TimeUtil.getPreferDateTime());
-		apply.setAddress("10000000000");
-		apply.setBreakMoney(new BigDecimal(100));
-		System.err.println(apply);
-		bean.updateApplyByUniqueIndexOnApplyId(apply,apply.getApplyId());
-		System.err.println(bean.selectApplyByUniqueIndexOnApplyId(apply.getApplyId()));
+		Map<String, Object> map = new HashMap<String, Object>();
+//		map.put("phone", "15068610940");
+		map.put("start", 0);
+		map.put("size", 2);
+		List<Apply> list = bean.selectApplyByPage(map);
+		System.err.println(list);
 	}
 	@Test
 	public void testMerchantDetailQueryFunction() {
@@ -310,9 +309,9 @@ public class ApplicationTest {
 	public void testMerchantDao(){
 		MerchantDao bean = ac.getBean(MerchantDao.class);
 		Map<String, Object> parm = new HashMap<String, Object>();
-		parm.put("start_time", "20170720");
-		parm.put("end_time", "20170727");
-		List<Merchant> list = bean.selectMerchantByParm(parm);
+		parm.put("start", 0);
+		parm.put("size", 2);
+		List<Merchant> list = bean.selectMerchantByPage(parm);
 		System.out.println(list);
 		
 	}
@@ -327,7 +326,36 @@ public class ApplicationTest {
 	}
 	@Test
 	public void make(){
-		SqlUtilForDB.makeOne(SqlUtilForDB.getTable(SqlUtilForDB.getConnection(), "apply"), "", "", false, false);
+		SqlUtilForDB.makeOne(SqlUtilForDB.getTable(SqlUtilForDB.getConnection(), "system_account"), "", "", false, false);
 	}
-
+    @Test
+	public void  userTest(){
+		Attribute<String> attribute =new Attribute<String>("state", ConstParam.USER_STATE_WAIT_CHECK);
+		String json = attribute.toJson();
+		System.err.println(json);
+    	List<User> list = dao.getUserDao().selectUserByAttibute(json);
+    	System.out.println(list);
+    	User user = list.get(0);
+    	String attributes = user.getAttributes();
+    	System.out.println(attributes);
+    	
+    	
+    	String json2 = new Attribute<String>("state", ConstParam.USER_STATE_NORMAL).toJson();
+    	if (attributes.contains(json)) {
+			attributes = attributes.replace(json, json2);
+			System.err.println(attributes);
+			user.setAttributes(attributes);
+			System.err.println(user);
+		}
+    	
+    	
+	}
+    @Test
+	public void testsss(){
+    	User user=new User();
+    	user.addAttribute(new Attribute<String>("salesManId", "1001"));
+    	user.addAttribute(new Attribute<String>("state","110"));
+    	System.err.println(dao.selectUserByAttributes(user.getAttributesObject()));
+    }
+	
 }

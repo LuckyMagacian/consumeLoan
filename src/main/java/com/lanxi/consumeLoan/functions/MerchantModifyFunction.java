@@ -25,13 +25,11 @@ public class MerchantModifyFunction extends AbstractFunction {
 
 	@Override
 	public RetMessage failNotice() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public RetMessage showInfo() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
@@ -40,17 +38,17 @@ public class MerchantModifyFunction extends AbstractFunction {
 		String phone=(String) args.get("phone");
 		String merchantJson=(String) args.get("merchant");
 		if(merchantJson==null||merchantJson.isEmpty()){
-			return new RetMessage(RetCodeEnum.FAIL.toString(),"商户信息为空!",null);
+			return new RetMessage(RetCodeEnum.FAIL.toString(),"用户["+phone+"],修改的商户信息为空!",null);
 		}
 		Merchant merchant= JSONObject.parseObject(merchantJson,Merchant.class);
 		Merchant temp=dao.getMerchantDao().selectMerchantByUniqueIndexOnMerchantId(merchant.getMerchantId());
 		if(temp==null){
-			LogFactory.info(this,"商户["+merchant.getMerchantId()+"]不存在!");
+			LogFactory.info(this,"用户["+phone+"],修改的商户["+merchant.getMerchantId()+"]不存在!");
 			return new RetMessage(RetCodeEnum.FAIL.toString(),"没有该商户!",null);
 		}
-		LogFactory.info(this,"商户 "+ merchant.toString()+"");
+		LogFactory.info(this,"用户["+phone+"],修改的商户 "+ merchant.toString()+"");
 		dao.getMerchantDao().updateMerchantByUniqueIndexOnMerchantId(merchant,merchant.getMerchantId());
-		LogFactory.info(this, "修改商户成功!");
+		LogFactory.info(this, "用户["+phone+"],修改商户成功!");
 		return new RetMessage(RetCodeEnum.SUCCESS.toString(),"修改商户成功!",null);
 	}
 

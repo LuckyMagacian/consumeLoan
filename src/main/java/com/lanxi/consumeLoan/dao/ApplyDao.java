@@ -62,4 +62,7 @@ public interface ApplyDao{
 	 * @return 符合条件的数据对象 */
 	public Apply selectApplyByUniqueIndexOnIdNumberAndApplyTimeAndPhone(@Param(value="idNumber")String idNumber,@Param(value="applyTime")String applyTime,@Param(value="phone")String phone);
 	public List<Apply> selectApplyByParam(Map<String, Object> map);
+	
+
+	public List<Apply> selectApplyByPage(Map<String, Object> map);
 }

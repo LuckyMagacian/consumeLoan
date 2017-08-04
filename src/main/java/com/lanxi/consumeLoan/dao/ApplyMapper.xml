@@ -262,12 +262,54 @@
             <if test="name != null"> AND name = #{name}</if>
             <if test="merchantName != null"> AND merchant_name = #{merchantName}</if>
             <if test="merchantType != null"> AND merchant_type = #{merchantType}</if>
+            <if test="isAssurance !=null ">AND is_assurance = #{isAssurance}</if>
             <if test="start_time !=null ">AND apply_time &gt;= #{startTime}</if>
             <if test="end_time !=null ">AND apply_time &lt;= #{endTime}</if>
-            <if test="isAssurance !=null ">AND is_assurance &lt;= #{isAssurance}</if>
             <if test="customerPhone !=null ">AND phone= #{customerPhone} or customer_manager_phone=#{customerPhone}</if>
         </where>
     </select>
+    
+    <select id="selectApplyByPage" resultMap="applyMap"   parameterType="map">
+		select
+			apply_id,name,sex,address,id_number,apply_money,phone,verify_code,merchant_id,sales_man_phone,apply_time,loan_time,loan_money,is_overdue,overdue_money,state,brokerage_rate,brokerage,service_rate,service_charge,deposite_rate,break_time,break_money,merchant_name,merchant_type,is_assurance,customer_manager_phone,customer_manager_name,reason
+		from apply
+		<where>
+			<if test="applyId != null"> AND apply_id = #{applyId}</if>
+			<if test="name != null"> AND name = #{name}</if>
+			<if test="sex != null"> AND sex = #{sex}</if>
+			<if test="address != null"> AND address = #{address}</if>
+			<if test="idNumber != null"> AND id_number = #{idNumber}</if>
+			<if test="applyMoney != null"> AND apply_money = #{applyMoney}</if>
+			<if test="userPhone != null"> AND phone = #{userPhone}</if>
+			<if test="verifyCode != null"> AND verify_code = #{verifyCode}</if>
+			<if test="merchantId != null"> AND merchant_id = #{merchantId}</if>
+			<if test="salesManPhone != null"> AND sales_man_phone = #{salesManPhone}</if>
+			<if test="applyTime != null"> AND apply_time = #{applyTime}</if>
+			<if test="loanTime != null"> AND loan_time = #{loanTime}</if>
+			<if test="loanMoney != null"> AND loan_money = #{loanMoney}</if>
+			<if test="isOverdue != null"> AND is_overdue = #{isOverdue}</if>
+			<if test="overdueMoney != null"> AND overdue_money = #{overdueMoney}</if>
+			<if test="state != null"> AND state = #{state}</if>
+			<if test="brokerageRate != null"> AND brokerage_rate = #{brokerageRate}</if>
+			<if test="brokerage != null"> AND brokerage = #{brokerage}</if>
+			<if test="serviceRate != null"> AND service_rate = #{serviceRate}</if>
+			<if test="serviceCharge != null"> AND service_charge = #{serviceCharge}</if>
+			<if test="depositeRate != null"> AND deposite_rate = #{depositeRate}</if>
+			<if test="breakTime != null"> AND break_time = #{breakTime}</if>
+			<if test="breakMoney != null"> AND break_money = #{breakMoney}</if>
+			<if test="merchantName != null"> AND merchant_name = #{merchantName}</if>
+			<if test="merchantType != null"> AND merchant_type = #{merchantType}</if>
+			<if test="isAssurance != null"> AND is_assurance = #{isAssurance}</if>
+			<if test="customerManagerPhone != null"> AND customer_manager_phone = #{customerManagerPhone}</if>
+			<if test="customerManagerName != null"> AND customer_manager_name = #{customerManagerName}</if>
+			<if test="reason != null"> AND reason = #{reason}</if>
+			 <if test="start_time !=null ">AND apply_time &gt;= #{startTime}</if>
+            <if test="end_time !=null ">AND apply_time &lt;= #{endTime}</if>
+            <if test="customerPhone !=null ">AND phone= #{customerPhone} or customer_manager_phone=#{customerPhone}</if>
+		</where>
+		limit #{start},#{size};
+	</select>
+    
 	<resultMap id="applyMap" type="com.lanxi.consumeLoan.entity.Apply">
 		<result property="applyId" 			column="apply_id"></result>
 		<result property="name" 			column="name"></result>

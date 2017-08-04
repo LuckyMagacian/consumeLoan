@@ -434,7 +434,7 @@ public class Apply{
 	}
 	
 	/**
-	 * 商户详情查询时隐藏信息
+	 * 查询时隐藏信息 --总
 	 */
 	public void hide3(){
 		this.setApplyId(null);
@@ -462,6 +462,54 @@ public class Apply{
 		this.setBreakMoney(null);
 		this.setMerchantName(null);
 		this.setMerchantType(null);
+		this.setIsAssurance(null);
+		this.setCustomerManagerPhone(null);
+		this.setCustomerManagerName(null);
+		this.setReason(null);		
+	}
+	
+	
+	/**
+	 * 管理员 --申请列表
+	 */
+	public void hide4(){
+		this.setSex(null);
+		this.setAddress(null);
+		this.setApplyMoney(null);
+		this.setVerifyCode(null);
+		this.setMerchantId(null);
+		this.setSalesManPhone(null);
+		this.setLoanTime(null);
+		this.setLoanMoney(null);
+		this.setIsOverdue(null);
+		this.setOverdueMoney(null);
+		this.setBrokerageRate(null);
+		this.setBrokerage(null);
+		this.setServiceRate(null);
+		this.setServiceCharge(null);
+		this.setDepositeRate(null);
+		this.setBreakTime(null);
+		this.setBreakMoney(null);
+		this.setReason(null);		
+	}
+	
+	/**
+	 * 管理员--账户管理
+	 */
+	public void hide5(){
+		this.setSex(null);
+		this.setAddress(null);
+		this.setVerifyCode(null);
+		this.setMerchantId(null);
+		this.setSalesManPhone(null);
+		this.setApplyTime(null);
+		this.setIsOverdue(null);
+		this.setOverdueMoney(null);
+		this.setState(null);
+		this.setBrokerageRate(null);
+		this.setServiceRate(null);
+		this.setDepositeRate(null);
+		this.setBreakTime(null);
 		this.setIsAssurance(null);
 		this.setCustomerManagerPhone(null);
 		this.setCustomerManagerName(null);

@@ -6,7 +6,7 @@ import java.util.*;
 /**
  * no comment
  * @author yyj | auto generator
- * @version 1.0.0 2017-07-28 13:47:19
+ * @version 1.0.0 2017-08-03 15:25:52
  */
 
 public interface SystemAccountDao{

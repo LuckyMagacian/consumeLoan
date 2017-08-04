@@ -8,9 +8,17 @@ import org.springframework.stereotype.Service;
 
 import com.lanxi.consumeLoan.basic.AbstractFunction;
 import com.lanxi.consumeLoan.basic.RetMessage;
+import com.lanxi.consumeLoan.entity.PageBean;
 import com.lanxi.consumeLoan.entity.User;
 import com.lanxi.util.consts.RetCodeEnum;
 import com.lanxi.util.entity.LogFactory;
+
+/**
+ * 客户经理用户列表查询
+ *
+ * @author lx
+ *
+ */
 @Service
 public class AdminUserQueryFunction extends AbstractFunction{
 
@@ -37,17 +45,28 @@ public class AdminUserQueryFunction extends AbstractFunction{
 		String phone=(String) args.get("phone");
 		LogFactory.info(this, "管理员["+phone+"]尝试根据条件["+args+"]查询用户!");
 		String userPhone=(String) args.get("userPhone");
-		if(userPhone.isEmpty())
+		if(userPhone==null||userPhone.isEmpty())
 			userPhone=null;
 		String roleName=(String) args.get("roleName");
-		if(roleName.isEmpty())
+		if(roleName==null||roleName.isEmpty())
 			roleName=null;
 		User user=new User();
 		user.setPhone(userPhone);
 		user.setRoleName(roleName);
 		String startTime=(String) args.get("startTime");
 		String endTime=(String) args.get("endTime");
-		List<User> users=dao.getUserDao().selectUserByClass(user);
+		List<User> temp=dao.getUserDao().selectUserByClass(user);
+		PageBean page = new PageBean();
+    	int pageSize = Integer.parseInt((String) args.get("pageSize"));
+		int pageCode = Integer.parseInt((String) args.get("pageCode"));
+		page.setPageSize(pageSize);
+		page.setPageCode(pageCode); 
+		List<User> users = new ArrayList<>();
+		
+		for (int i = page.getStart(); i < page.getEnd(); i++) {
+			users.add(temp.get(i));
+		}
+		
 		if((startTime!=null&&!startTime.isEmpty())||(endTime!=null&&!endTime.isEmpty()))
 			for(User each:users){
 				if(startTime!=null&&!startTime.isEmpty())
@@ -59,8 +78,12 @@ public class AdminUserQueryFunction extends AbstractFunction{
 			}
 		LogFactory.info(this, "管理员["+phone+"]尝试根据条件["+args+"]查询结果["+users+"]!");
 		List<Map<String, Object>> userProxy=new ArrayList<>();
-		if(!users.isEmpty()){ 
-			if(roleName.equals("salesMan")||roleName.equals("shopKeeper")){
+		if(!users.isEmpty()){
+			if(roleName==null||roleName.isEmpty()){
+				for(User each:users){
+					userProxy.add(each.toProxy().toUser());
+				}
+			}else if(roleName.equals("salesMan")||roleName.equals("shopKeeper")){
 				for(User each:users){
 					userProxy.add(each.toProxy().toSalesMan());
 				}
@@ -73,6 +96,8 @@ public class AdminUserQueryFunction extends AbstractFunction{
 					userProxy.add(each.toProxy().toAdmin());
 				}
 			}
+			
+			LogFactory.info(this, "管理员["+phone+"]尝试根据条件["+args+"]查询结果转换["+userProxy+"]!");
 			return new RetMessage(RetCodeEnum.SUCCESS.toString(),"查询成功",userProxy);
 		}
 		return new RetMessage(RetCodeEnum.SUCCESS.toString(),"查询成功",users);

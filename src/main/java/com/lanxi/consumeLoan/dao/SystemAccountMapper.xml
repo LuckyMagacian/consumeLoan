@@ -3,10 +3,10 @@
 <mapper namespace="com.lanxi.consumeLoan.dao.SystemAccountDao">
 	<insert id="addSystemAccount" parameterType="com.lanxi.consumeLoan.entity.SystemAccount">
 		insert into system_account
-		(account_id,brokerage,provisions_of_risk,service_charge,brokerage_rate,provisions_of_risk_rate,service_charge_rate,provisions_of_risk_max)
+		(account_id,brokerage,provisions_of_risk,service_charge,brokerage_rate,provisions_of_risk_rate,service_charge_rate,provisions_of_risk_max,version)
 		values
 		(
-			#{accountId},#{brokerage},#{provisionsOfRisk},#{serviceCharge},#{brokerageRate},#{provisionsOfRiskRate},#{serviceChargeRate},#{provisionsOfRiskMax}
+			#{accountId},#{brokerage},#{provisionsOfRisk},#{serviceCharge},#{brokerageRate},#{provisionsOfRiskRate},#{serviceChargeRate},#{provisionsOfRiskMax},#{version}
 		)
 	</insert>
 	<delete id="deleteSystemAccountByClass" parameterType="com.lanxi.consumeLoan.entity.SystemAccount">
@@ -20,6 +20,7 @@
 			<if test="systemAccount.provisionsOfRiskRate != null"> and provisions_of_risk_rate = #{systemAccount.provisionsOfRiskRate}  </if>
 			<if test="systemAccount.serviceChargeRate != null"> and service_charge_rate = #{systemAccount.serviceChargeRate}  </if>
 			<if test="systemAccount.provisionsOfRiskMax != null"> and provisions_of_risk_max = #{systemAccount.provisionsOfRiskMax}  </if>
+			<if test="systemAccount.version != null"> and version = #{systemAccount.version}  </if>
 		</where>
 	</delete>
 	<delete id="deleteSystemAccountByUniqueIndexOnAccountId">
@@ -38,7 +39,8 @@
 			brokerage_rate=#{systemAccount.brokerageRate},
 			provisions_of_risk_rate=#{systemAccount.provisionsOfRiskRate},
 			service_charge_rate=#{systemAccount.serviceChargeRate},
-			provisions_of_risk_max=#{systemAccount.provisionsOfRiskMax}
+			provisions_of_risk_max=#{systemAccount.provisionsOfRiskMax},
+			version=#{systemAccount.version}
 		</set>
 		<where>
 			<if test="param.accountId != null"> AND account_id = #{param.accountId}</if>
@@ -49,6 +51,7 @@
 			<if test="param.provisionsOfRiskRate != null"> AND provisions_of_risk_rate = #{param.provisionsOfRiskRate}</if>
 			<if test="param.serviceChargeRate != null"> AND service_charge_rate = #{param.serviceChargeRate}</if>
 			<if test="param.provisionsOfRiskMax != null"> AND provisions_of_risk_max = #{param.provisionsOfRiskMax}</if>
+			<if test="param.version != null"> AND version = #{param.version}</if>
 		</where>
 	</update>
 	<update id="updateSystemAccountByUniqueIndexOnAccountId">
@@ -61,7 +64,8 @@
 			brokerage_rate=#{systemAccount.brokerageRate},
 			provisions_of_risk_rate=#{systemAccount.provisionsOfRiskRate},
 			service_charge_rate=#{systemAccount.serviceChargeRate},
-			provisions_of_risk_max=#{systemAccount.provisionsOfRiskMax}
+			provisions_of_risk_max=#{systemAccount.provisionsOfRiskMax},
+			version=#{systemAccount.version}
 		</set>
 		<where>
 			AND account_id=#{accountId}
@@ -69,7 +73,7 @@
 	</update>
 	<select id="selectSystemAccountByClass" resultMap="systemAccountMap"  resultType="com.lanxi.consumeLoan.entity.SystemAccount" parameterType="com.lanxi.consumeLoan.entity.SystemAccount">
 		select
-			account_id,brokerage,provisions_of_risk,service_charge,brokerage_rate,provisions_of_risk_rate,service_charge_rate,provisions_of_risk_max
+			account_id,brokerage,provisions_of_risk,service_charge,brokerage_rate,provisions_of_risk_rate,service_charge_rate,provisions_of_risk_max,version
 		from system_account
 		<where>
 			<if test="systemAccount.accountId != null"> AND account_id = #{systemAccount.accountId}</if>
@@ -80,11 +84,12 @@
 			<if test="systemAccount.provisionsOfRiskRate != null"> AND provisions_of_risk_rate = #{systemAccount.provisionsOfRiskRate}</if>
 			<if test="systemAccount.serviceChargeRate != null"> AND service_charge_rate = #{systemAccount.serviceChargeRate}</if>
 			<if test="systemAccount.provisionsOfRiskMax != null"> AND provisions_of_risk_max = #{systemAccount.provisionsOfRiskMax}</if>
+			<if test="systemAccount.version != null"> AND version = #{systemAccount.version}</if>
 		</where>
 	</select>
 	<select id="selectSystemAccountByUniqueIndexOnAccountId" resultType="com.lanxi.consumeLoan.entity.SystemAccount" resultMap="systemAccountMap" >
 		select
-			account_id,brokerage,provisions_of_risk,service_charge,brokerage_rate,provisions_of_risk_rate,service_charge_rate,provisions_of_risk_max
+			account_id,brokerage,provisions_of_risk,service_charge,brokerage_rate,provisions_of_risk_rate,service_charge_rate,provisions_of_risk_max,version
 		from system_account
 		<where>
 			AND account_id=#{accountId}
@@ -99,5 +104,6 @@
 		<result property="provisionsOfRiskRate" 			column="provisions_of_risk_rate"></result>
 		<result property="serviceChargeRate" 			column="service_charge_rate"></result>
 		<result property="provisionsOfRiskMax" 			column="provisions_of_risk_max"></result>
+		<result property="version" 			column="version"></result>
 	</resultMap>
 </mapper>

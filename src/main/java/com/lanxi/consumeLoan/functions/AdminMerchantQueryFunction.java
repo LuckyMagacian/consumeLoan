@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import com.lanxi.consumeLoan.basic.AbstractFunction;
 import com.lanxi.consumeLoan.basic.RetMessage;
 import com.lanxi.consumeLoan.entity.Merchant;
+import com.lanxi.consumeLoan.entity.PageBean;
 import com.lanxi.util.consts.RetCodeEnum;
 import com.lanxi.util.entity.LogFactory;
 
@@ -34,6 +35,12 @@ public class AdminMerchantQueryFunction extends AbstractFunction{
 	@Override
 	public RetMessage excuted(Map<String, Object> args) {
 		String phone = (String) args.get("phone");
+		int pageCode = Integer.parseInt((String)args.get("pageCode"));
+		int pageSize = Integer.parseInt((String)args.get("pageSize"));
+		PageBean page = new PageBean();
+		page.setPageSize(pageSize);
+		page.setPageCode(pageCode);
+		
 		Map<String, Object> parm = new HashMap<String, Object>();
 		if(args.get("isAssurance") != "" && args.get("isAssurance") !=null){
 			parm.put("isAssurance", (String)args.get("isAssurance"));
@@ -95,9 +102,18 @@ public class AdminMerchantQueryFunction extends AbstractFunction{
 		totalMap.put("breakMoneyAmountTotal", breakMoneyAmountTotal);
 		totalMap.put("breakAmountTotal", breakAmountTotal);
 		
+		
+		page.setTotalRecord(merchants.size());		
+		parm.put("start", page.getStart());
+		parm.put("size", page.getPageSize());
+		List<Merchant> list = dao.getMerchantDao().selectMerchantByPage(parm);
+		for (Merchant merchant : list) {
+			merchant.hide4();
+		}
 		Map<String, Object> resultMap = new HashMap<String, Object>();
-		resultMap.put("merchants", merchants);
+		resultMap.put("merchants", list);
 		resultMap.put("total", totalMap);
+		resultMap.put("page", page);
 		
 		LogFactory.info(this, "管理员["+phone+"],商户查询成功!");
 		return new RetMessage(RetCodeEnum.SUCCESS.toString(), "商户查询成功!", resultMap);	

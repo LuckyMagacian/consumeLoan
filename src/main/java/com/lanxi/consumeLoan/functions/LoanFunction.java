@@ -62,13 +62,23 @@ public class LoanFunction extends AbstractFunction {
 		newServiceCharge = loan.add(account.getServiceCharge().multiply(account.getServiceChargeRate()));
 		BigDecimal newProvisionsOfRisk = new BigDecimal(0);
 		newProvisionsOfRisk = loan.add(account.getProvisionsOfRisk().multiply(account.getProvisionsOfRiskRate()));
-		
+		BigDecimal oldVersion = account.getVersion();
 		LogFactory.info(this, "管理员["+phone+"],放款之后的佣金值："+newBrokerge+",放款之后的服务费" + newServiceCharge +",放款之后的佣金" + newProvisionsOfRisk);
+		
 		account.setBrokerage(newBrokerge);
 		account.setServiceCharge(newServiceCharge);
 		account.setProvisionsOfRisk(newProvisionsOfRisk);
-		dao.getSystemAccountDao().updateSystemAccountByUniqueIndexOnAccountId(account, account.getAccountId());
-		
+		SystemAccount newAccount=dao.getSystemAccountDao().selectSystemAccountByClass(new SystemAccount()).get(0);
+		BigDecimal newVersion = newAccount.getVersion();
+		LogFactory.info(this, "管理员["+phone+"],刚进来的版本号为：["+oldVersion+"],更新时的版本号为:["+newVersion+"]");
+		if (newAccount.equals(oldVersion)) {
+			newVersion = newVersion.add(new BigDecimal(1));
+			account.setVersion(newVersion);
+			dao.getSystemAccountDao().updateSystemAccountByUniqueIndexOnAccountId(account, account.getAccountId());
+		}else {
+			LogFactory.info(this, "管理员["+phone+"],当前版本与数据库版本不一致无法放款!");
+			return new RetMessage(RetCodeEnum.FAIL.toString(), "当前版本与数据库版本不一致无法放款!", null);
+		}
 		LogFactory.info(this, "管理员["+phone+"],放款成功!");
 		return new RetMessage(RetCodeEnum.SUCCESS.toString(), "放款成功!", null);
 	}

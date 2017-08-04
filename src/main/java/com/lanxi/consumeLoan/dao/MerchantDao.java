@@ -66,4 +66,5 @@ public interface MerchantDao{
 	
 	public List<Merchant> selectMerchantByParm(Map<String,Object> parm);
 	public List<Merchant> selectAdminMerchantByParm(Map<String,Object> parm);
+	public List<Merchant> selectMerchantByPage(Map<String,Object> parm);
 }

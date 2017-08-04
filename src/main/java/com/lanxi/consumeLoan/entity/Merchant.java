@@ -382,7 +382,52 @@ public class Merchant implements ToJson,ToMap{
 		this.setStopTime(null);
 		this.setCustomerManagerPhone(null);
 		this.setCustomerManagerName(null);
-
 	}
-	
+	/**
+	 * 详情查询隐藏字段
+	 */
+	public void hide3() {
+		this.setMerchantName(null);
+		this.setMerchantType(null);
+		this.setMerchantAddress(null);
+		this.setDepositeAmount(null);
+		this.setDepositeBalance(null);
+		this.setIsShared(null);
+		this.setBrokerageRate(null);
+		this.setBrokerageAmount(null);
+		this.setBrokerageLess(null);
+		this.setApplyAmount(null);
+		this.setApplyMoneyAmount(null);
+		this.setLoanAmount(null);
+		this.setLoanMoneyAmount(null);
+		this.setBreakAmount(null);
+		this.setBreakMoneyAmount(null);
+		this.setPartnerTime(null);
+		this.setStopTime(null);
+		this.setState(null);
+		this.setCustomerManagerPhone(null);
+		this.setCustomerManagerName(null);
+	}
+	/**
+	 * 管理员商家列表查询
+	 */
+	public void hide4() {
+		this.setMerchantType(null);
+		this.setIsAssurance(null);
+		this.setDepositeAmount(null);
+		this.setDepositeRate(null);
+		this.setDepositeBalance(null);
+		this.setIsShared(null);
+		this.setSharedRate(null);
+		this.setBrokerageRate(null);
+		this.setBrokerageAmount(null);
+		this.setBrokerageLess(null);
+		this.setApplyAmount(null);
+		this.setApplyMoneyAmount(null);
+		this.setLoanAmount(null);
+		this.setLoanMoneyAmount(null);
+		this.setBreakAmount(null);
+		this.setBreakMoneyAmount(null);
+		this.setStopTime(null);
+	}
 }

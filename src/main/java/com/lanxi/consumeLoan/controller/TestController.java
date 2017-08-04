@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.alibaba.fastjson.JSONObject;
 import com.lanxi.consumeLoan.basic.RetMessage;
 import com.lanxi.consumeLoan.consts.ConstParam;
+import com.lanxi.consumeLoan.dao.ApplyDao;
+import com.lanxi.consumeLoan.dao.MerchantDao;
 import com.lanxi.consumeLoan.entity.Apply;
 import com.lanxi.consumeLoan.entity.Merchant;
 import com.lanxi.consumeLoan.functions.AdminApplyQueryFunction;
@@ -23,10 +25,12 @@ import com.lanxi.consumeLoan.functions.AdminChargeQueryFunction;
 import com.lanxi.consumeLoan.functions.AdminMerchantAddFunction;
 import com.lanxi.consumeLoan.functions.AdminMerchantQueryFunction;
 import com.lanxi.consumeLoan.functions.AdminUserAddFunction;
+import com.lanxi.consumeLoan.functions.AdminUserCheckFunction;
 import com.lanxi.consumeLoan.functions.AdminUserQueryFunction;
 import com.lanxi.consumeLoan.functions.ApplyOrderAddFunction;
 import com.lanxi.consumeLoan.functions.ChangePasswordFunction;
 import com.lanxi.consumeLoan.functions.CustomerManagerApplyOrderQueryFunction;
+import com.lanxi.consumeLoan.functions.CustomerManagerUserQueryFunction;
 import com.lanxi.consumeLoan.functions.CustomerShopEmployeeAddFunction;
 import com.lanxi.consumeLoan.functions.LoanFunction;
 import com.lanxi.consumeLoan.functions.LoginFunction;
@@ -221,6 +225,12 @@ public class TestController {
 			String endTime=req.getParameter("endTime");
 			if(endTime!=null&&!endTime.isEmpty())
 				args.put("endTime", endTime);
+			String pageSize=req.getParameter("pageSize");
+			if(pageSize!=null&&!pageSize.isEmpty())
+				args.put("pageSize", pageSize);
+			String pageCode=req.getParameter("pageCode");
+			if(pageCode!=null&&!pageCode.isEmpty())
+				args.put("pageCode", pageCode);
 			RetMessage result= fun.excuted(args);
 			if(!result.getCode().equals(RetCodeEnum.SUCCESS.toString())){
 				LogFactory.info(this, "用户["+phone+"]商户订单查询失败直接返回!");
@@ -392,6 +402,8 @@ public class TestController {
 			args.put("isAssurance",req.getParameter("isAssurance"));
 			args.put("start_time",req.getParameter("startTime"));
 			args.put("end_time",req.getParameter("endTime"));
+			args.put("pageCode",req.getParameter("pageCode"));
+			args.put("pageSize",req.getParameter("pageSize"));
 			return fun.excuted(args).toJson();
 		} catch (Exception e) {
 			LogFactory.error(this, "查询商户列表时发生异常!",e);
@@ -425,6 +437,8 @@ public class TestController {
 			AdminApplyQueryFunction fun=ac.getBean(AdminApplyQueryFunction.class);
 			Map<String, Object> args=new HashMap<>();
 			args.put("phone",phone);
+			args.put("pageSize", req.getParameter("pageSize"));
+			args.put("pageCode", req.getParameter("pageCode"));
 			if(req.getParameter("merchantName") !=null && req.getParameter("merchantName") != ""){
 				args.put("merchantName", req.getParameter("merchantName"));
 			}
@@ -470,6 +484,12 @@ public class TestController {
 			if(req.getParameter("endTime") !=null && req.getParameter("endTime") != ""){
 				args.put("end_time",req.getParameter("endTime"));
 			}
+			if(req.getParameter("pageSize") !=null && req.getParameter("pageSize") != ""){
+				args.put("pageSize",req.getParameter("pageSize"));
+			}
+			if(req.getParameter("pageCode") !=null && req.getParameter("pageCode") != ""){
+				args.put("pageCode",req.getParameter("pageCode"));
+			}
 			return fun.excuted(args).toJson();
 		} catch (Exception e) {
 			LogFactory.error(this, "管理员查询申请订单列表时发生异常!",e);
@@ -489,7 +509,8 @@ public class TestController {
 			AdminMerchantQueryFunction fun=ac.getBean(AdminMerchantQueryFunction.class);
 			Map<String, Object> args=new HashMap<>();
 			args.put("phone",phone);
-			
+			args.put("pageSize",req.getParameter("pageSize"));
+			args.put("pageCode",req.getParameter("pageCode"));
 			if(req.getParameter("state") !=null && req.getParameter("state") != ""){
 				args.put("state", req.getParameter("state"));
 			}
@@ -534,19 +555,20 @@ public class TestController {
 			args.put("state",req.getParameter("state"));
 			args.put("start_time",req.getParameter("startTime"));
 			args.put("end_time",req.getParameter("endTime"));
+			args.put("pageCode",req.getParameter("pageCode"));
+			args.put("pageSize",req.getParameter("pageSize")); 
 			return fun.excuted(args).toJson();
 		} catch (Exception e) {
 			LogFactory.error(this, "客户经理查询时发生异常!",e);
 			return new RetMessage(RetCodeEnum.EXCEPTION.toString(),"客户经理查询时发生异常!",null).toJson();
 		}
 	}
-	@SuppressWarnings("unchecked")
 	@RequestMapping(value="merchantQueryFunctionExport",produces = {"application/json;charset=UTF-8"})
 	public void merchantQueryFunctionExport(HttpServletRequest req,HttpServletResponse res){
 		String phone=req.getParameter("phone");
 		try { 
 			LogFactory.info(this, "用户["+phone+"]尝试导出商户订单查询内容为excel文件!");
-			MerchantQueryFunction fun=ac.getBean(MerchantQueryFunction.class);
+			MerchantDao fun=ac.getBean(MerchantDao.class);
 			Map<String, Object> args=new HashMap<>();
 			args.put("phone",phone);
 			
@@ -568,8 +590,8 @@ public class TestController {
 			if(req.getParameter("endTime") !=null && req.getParameter("endTime") != ""){
 				args.put("end_time",req.getParameter("endTime"));
 			}
-			RetMessage message=fun.excuted(args);
-			List<Merchant> list=(List<Merchant>)((Map<String,Object>)message.getResult()).get("merchants");
+		
+			List<Merchant> list=fun.selectAdminMerchantByParm(args);
 			LogFactory.info (this, "用户["+phone+"]已获得商户查询结果列表!");
 			Map<String, String> map=new HashMap<>();
 			map.put("merchantId", "商家编号");
@@ -589,13 +611,12 @@ public class TestController {
 		}
 	}
 
-	@SuppressWarnings("unchecked")
 	@RequestMapping(value="customerManagerApplyOrderQueryExport",produces = {"application/json;charset=UTF-8"})
 	public void customerManagerApplyOrderQueryExport(HttpServletRequest req,HttpServletResponse res){
 		String phone=req.getParameter("phone");
 		try { 
 			LogFactory.info(this, "用户["+phone+"]尝试导出商户订单查询内容为excel文件!");
-			CustomerManagerApplyOrderQueryFunction fun=ac.getBean(CustomerManagerApplyOrderQueryFunction.class);
+			ApplyDao fun=ac.getBean(ApplyDao.class);
 			Map<String, Object> args=new HashMap<>();
 			args.put("phone",phone);
 			String userPhone=req.getParameter("userPhone");
@@ -619,8 +640,8 @@ public class TestController {
 			String end_time=req.getParameter("endTime");
 			if(end_time!=null&&!end_time.isEmpty())
 				args.put("end_time", end_time);
-			RetMessage message=fun.excuted(args);
-			List<Apply> list=(List<Apply>)((Map<String,Object>)message.getResult()).get("applys");
+			
+			List<Apply> list=fun.selectApplyByParam(args);
 			LogFactory.info (this, "用户["+phone+"]已获得商户订单查询结果列表!");
 			Map<String, String> map=new HashMap<>();
 			map.put("applyId", "申请编号");
@@ -668,6 +689,12 @@ public class TestController {
 			String endTime=req.getParameter("endTime");
 			if(endTime!=null&&!endTime.isEmpty())
 				args.put("endTime", endTime);
+			String pageSize=req.getParameter("pageSize");
+			if(pageSize!=null&&!pageSize.isEmpty())
+				args.put("pageSize", pageSize);
+			String pageCode=req.getParameter("pageCode");
+			if(pageCode!=null&&!pageCode.isEmpty())
+				args.put("pageCode", pageCode);
 			RetMessage result= fun.excuted(args);
 			if(!result.getCode().equals(RetCodeEnum.SUCCESS.toString())){
 				LogFactory.info(this, "用户["+phone+"]商户佣金查询失败,直接返回查询结果!");
@@ -782,13 +809,12 @@ public class TestController {
 			return new RetMessage(RetCodeEnum.EXCEPTION.toString(),"管理员添加商户及员工时发生异常!",null).toJson();
 		}
 	}
-	@SuppressWarnings("unchecked")
 	@RequestMapping(value="adminMerchantQueryFunctionExport",produces = {"application/json;charset=UTF-8"})
 	public void adminMerchantQueryFunctionExport(HttpServletRequest req,HttpServletResponse res){
 		String phone=req.getParameter("phone");
 		try { 
 			LogFactory.info(this, "用户["+phone+"]尝试导出商户订单查询内容为excel文件!");
-			AdminMerchantQueryFunction fun=ac.getBean(AdminMerchantQueryFunction.class);
+			MerchantDao fun=ac.getBean(MerchantDao.class);
 			Map<String, Object> args=new HashMap<>();
 			args.put("phone",phone);
 			
@@ -813,8 +839,7 @@ public class TestController {
 			if(req.getParameter("customerManagerPhone") !=null && req.getParameter("customerManagerPhone") != ""){
 				args.put("customerManagerPhone",req.getParameter("customerManagerPhone"));
 			}
-			RetMessage message=fun.excuted(args);
-			List<Merchant> list=(List<Merchant>)((Map<String,Object>)message.getResult()).get("merchants");
+			List<Merchant> list=fun.selectMerchantByParm(args);
 			LogFactory.info (this, "用户["+phone+"]已获得商户查询结果列表!");
 			Map<String, String> map=new HashMap<>();
 			map.put("applyId", "申请编号");
@@ -852,6 +877,8 @@ public class TestController {
 			args.put("roleName",req.getParameter("roleName"));
 			args.put("startTime",req.getParameter("startTime"));
 			args.put("endTime",req.getParameter("endTime"));
+			args.put("pageSize",req.getParameter("pageSize"));
+			args.put("pageCode",req.getParameter("pageCode"));
 			return fun.excuted(args).toJson();
 		} catch (Exception e) {
 			LogFactory.error(this, "管理员["+phone+"]查询用户时发生异常!",e);
@@ -934,13 +961,12 @@ public class TestController {
 			return new RetMessage(RetCodeEnum.EXCEPTION.toString(),"管理员添加管理员时发生异常!",null).toJson();
 		}
 	}
-	@SuppressWarnings("unchecked")
 	@RequestMapping(value="adminApplyQueryFunctionExport",produces = {"application/json;charset=UTF-8"})
 	public void adminApplyQueryFunctionExport(HttpServletRequest req,HttpServletResponse res){
 		String phone=req.getParameter("phone");
 		try { 
 			LogFactory.info(this, "用户["+phone+"]尝试导出商户订单查询内容为excel文件!");
-			AdminApplyQueryFunction fun=ac.getBean(AdminApplyQueryFunction.class);
+			ApplyDao fun=ac.getBean(ApplyDao.class);
 			Map<String, Object> args=new HashMap<>();
 			args.put("phone",phone);
 			
@@ -959,8 +985,7 @@ public class TestController {
 			if(req.getParameter("endTime") !=null && req.getParameter("endTime") != ""){
 				args.put("end_time",req.getParameter("endTime"));
 			}
-			RetMessage message=fun.excuted(args);
-			List<Merchant> list=(List<Merchant>)((Map<String,Object>)message.getResult()).get("applys");
+			List<Apply> list=fun.selectApplyByParam(args);
 			LogFactory.info (this, "用户["+phone+"]已获得商户查询结果列表!");
 			Map<String, String> map=new HashMap<>();
 			map.put("merchantId", "商家编号");
@@ -983,13 +1008,12 @@ public class TestController {
 	
 	
 	
-	@SuppressWarnings("unchecked")
 	@RequestMapping(value="adminChargeQueryFunctionExport",produces = {"application/json;charset=UTF-8"})
 	public void adminChargeQueryFunctionExport(HttpServletRequest req,HttpServletResponse res){
 		String phone=req.getParameter("phone");
 		try { 
 			LogFactory.info(this, "用户["+phone+"]尝试导出商户订单查询内容为excel文件!");
-			AdminChargeQueryFunction fun=ac.getBean(AdminChargeQueryFunction.class);
+			ApplyDao fun=ac.getBean(ApplyDao.class);
 			Map<String, Object> args=new HashMap<>();
 			args.put("phone",phone);
 			
@@ -1008,8 +1032,7 @@ public class TestController {
 			if(req.getParameter("endTime") !=null && req.getParameter("endTime") != ""){
 				args.put("end_time",req.getParameter("endTime"));
 			}
-			RetMessage message=fun.excuted(args);
-			List<Apply> list=(List<Apply>)((Map<String,Object>)message.getResult()).get("applys");
+			List<Apply> list = fun.selectApplyByParam(args);
 			LogFactory.info (this, "用户["+phone+"]已获得商户查询结果列表!");
 			Map<String, String> map=new HashMap<>();
 			map.put("applyId", "申请编号");
@@ -1065,9 +1088,57 @@ public class TestController {
 			args.put("reason",req.getParameter("reason"));
 			return fun.excuted(args).toJson();
 		} catch (Exception e) {
-			LogFactory.error(this, "驳回时时发生异常!",e);
+			LogFactory.error(this, "驳回时发生异常!",e);
 			return new RetMessage(RetCodeEnum.EXCEPTION.toString(),"驳回时时发生异常!",null).toJson();
 		}
 	}
 	
+	@RequestMapping(value="adminUserCheckFunction",produces = {"application/json;charset=UTF-8"})
+	@ResponseBody
+	protected String adminUserCheckFunction(HttpServletRequest req,HttpServletResponse res){
+		String phone=req.getParameter("phone");
+		try {
+			AdminUserCheckFunction fun=ac.getBean(AdminUserCheckFunction.class);
+			Map<String, Object> args=new HashMap<>();
+			args.put("phone",phone);
+			args.put("userPhone",req.getParameter("userPhone"));
+			return fun.excuted(args).toJson();
+		} catch (Exception e) {
+			LogFactory.error(this, "管理员["+phone+"]审核用户时发生异常!",e);
+			return new RetMessage(RetCodeEnum.EXCEPTION.toString(),"审核用户时发生异常！",null).toJson();
+		}
+	}
+	
+	@RequestMapping(value="customerManagerUserQueryFunction",produces = {"application/json;charset=UTF-8"})
+	@ResponseBody
+	protected String customerManagerUserQueryFunction(HttpServletRequest req,HttpServletResponse res){
+		String phone=req.getParameter("phone");
+		try {
+			CustomerManagerUserQueryFunction fun=ac.getBean(CustomerManagerUserQueryFunction.class);
+			Map<String, Object> args=new HashMap<>();
+			args.put("phone",phone);
+			if (req.getParameter("userPhone") != null && req.getParameter("userPhone") !="") {
+				args.put("userPhone",req.getParameter("userPhone"));
+			}
+			if (req.getParameter("startTime") != null && req.getParameter("startTime") !="") {
+				args.put("startTime",req.getParameter("startTime"));
+			}
+			if (req.getParameter("endTime") != null && req.getParameter("endTime") !="") {
+				args.put("endTime",req.getParameter("endTime"));
+			}
+			if (req.getParameter("merchantName") != null && req.getParameter("merchantName") !="") {
+				args.put("merchantName",req.getParameter("merchantName"));
+			}
+			if (req.getParameter("pageCode") != null && req.getParameter("pageCode") !="") {
+				args.put("pageCode",req.getParameter("pageCode"));
+			}
+			if (req.getParameter("pageSize") != null && req.getParameter("pageSize") !="") {
+				args.put("pageSize",req.getParameter("pageSize"));
+			}
+			return fun.excuted(args).toJson();
+		} catch (Exception e) {
+			LogFactory.error(this, "查询用户时发生异常!",e);
+			return new RetMessage(RetCodeEnum.EXCEPTION.toString(),"查询用户时发生异常!",null).toJson();
+		}
+	}
 }
