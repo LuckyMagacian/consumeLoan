@@ -12,6 +12,7 @@ import com.lanxi.consumeLoan.entity.User;
 import com.lanxi.util.consts.RetCodeEnum;
 import com.lanxi.util.entity.LogFactory;
 import com.lanxi.util.utils.TimeUtil;
+import com.sun.xml.bind.v2.runtime.reflect.opt.Const;
 
 /**
  * Created by yangyuanjian on 2017/7/11.
@@ -54,12 +55,6 @@ public class LoginFunction extends AbstractFunction{
         	return new RetMessage(RetCodeEnum.FAIL.toString(),"请检查输入内容是否为空!",null);
         }
         LogFactory.info(this, "手机号["+phone+"],密码["+password+"],验证码["+validateCode+"]非空校验通过!");
-        User user=dao.getUserDao().selectUserByUniqueIndexOnPhone(phone);
-//        if(user==null){
-//        	LogFactory.info(this, "用户["+phone+"]不存在!");
-//        	return new RetMessage(RetCodeEnum.FAIL.toString(),"用户不存在!请检查帐号是否正确!",null);
-//        }
-//        LogFactory.info(this, "用户["+phone+"]存在性校验通过!");
         String ip=(String) args.get("ip");
         //验证码与ip绑定
         String code=redisService.get(ConstParam.FUNCTION_NAME_LOGIN+ip);
@@ -67,6 +62,27 @@ public class LoginFunction extends AbstractFunction{
         	LogFactory.info(this, "验证码错误!输入验证码["+validateCode+"],缓存验证码["+code+"]");
         	return new RetMessage(RetCodeEnum.FAIL.toString(),"图形验证码校验失败!请检查输入!",null);
         }
+        User user=dao.getUserDao().selectUserByUniqueIndexOnPhone(phone);
+        String state=(String) user.get("state").getValue();
+        switch (state) {
+		case ConstParam.USER_STATE_FREEZE:
+			LogFactory.info(this, "用户["+phone+"]已被冻结,无法登录!");
+			return new RetMessage(RetCodeEnum.FAIL.toString(), "您的帐号已被冻结!", null);
+		case ConstParam.USER_STATE_REJECT:
+			LogFactory.info(this, "用户["+phone+"]审核不通过,无法登录!");
+			return new RetMessage(RetCodeEnum.FAIL.toString(), "您的帐号审核尚未通过!", null);
+		case ConstParam.USER_STATE_WAIT_CHECK:
+			LogFactory.info(this, "用户["+phone+"]还未审核,无法登录!");
+			return new RetMessage(RetCodeEnum.FAIL.toString(), "您的帐号正在审核中!", null);
+//		case ConstParam.USER_STATE_LOGIN:break;
+		default:break;
+		}
+//        if(user==null){
+//        	LogFactory.info(this, "用户["+phone+"]不存在!");
+//        	return new RetMessage(RetCodeEnum.FAIL.toString(),"用户不存在!请检查帐号是否正确!",null);
+//        }
+//        LogFactory.info(this, "用户["+phone+"]存在性校验通过!");
+
         redisService.delete(ConstParam.FUNCTION_NAME_LOGIN+ip);
         LogFactory.info(this, "验证码校验通过!");
         if(!password.equals(user.get("password").getValue())){
