@@ -479,8 +479,6 @@ public class Apply{
 		this.setVerifyCode(null);
 		this.setMerchantId(null);
 		this.setSalesManPhone(null);
-		this.setLoanTime(null);
-		this.setLoanMoney(null);
 		this.setIsOverdue(null);
 		this.setOverdueMoney(null);
 		this.setBrokerageRate(null);
@@ -488,8 +486,6 @@ public class Apply{
 		this.setServiceRate(null);
 		this.setServiceCharge(null);
 		this.setDepositeRate(null);
-		this.setBreakTime(null);
-		this.setBreakMoney(null);
 		this.setReason(null);		
 	}
 	

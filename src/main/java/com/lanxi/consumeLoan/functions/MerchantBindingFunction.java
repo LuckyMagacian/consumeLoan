@@ -24,7 +24,6 @@ import org.springframework.stereotype.Service;
 public class MerchantBindingFunction extends AbstractFunction {
     @Override
     public RetMessage successNotice() {
-        addAttribute(new Attribute<String>("merchantId", ""));
     	return null;
     }
 

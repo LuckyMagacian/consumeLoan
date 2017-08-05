@@ -46,12 +46,9 @@ public class UserAddFunction extends AbstractFunction {
     	}
     	User user=new User();
     	user.setRoleName(role.getRoleName());
+    	userManager.addAttributesForUser(user);
     	user.setPhone(userphone);
-    	for(String each:role.getAuthorityObject()){
-    		Function fun=(Function) applicationContextProxy.getBean(each);
-    		user.addAttribute(fun.getAttributes());
-    	}
-    	user.set("userName", userName);
+    	user.set("name", userName);
     	dao.getUserDao().addUser(user);
         return successNotice();
     }

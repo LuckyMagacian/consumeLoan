@@ -19,13 +19,13 @@ import com.lanxi.util.utils.TimeUtil;
  */
 @Service
 public class LoginFunction extends AbstractFunction{
-    public LoginFunction(){
-        addAttribute(new Attribute<String>("password","123456"));
-        addAttribute(new Attribute<String>("name", ""));
-        addAttribute(new Attribute<String>("createTime",TimeUtil.getDateTime()));
-        addAttribute(new Attribute<String>("state",ConstParam.USER_STATE_WAIT_CHECK));
-        addAttribute(new Attribute<String>("createBy",""));
-    }
+//    public LoginFunction(){
+//        addAttribute(new Attribute<String>("password","123456"));
+//        addAttribute(new Attribute<String>("name", ""));
+//        addAttribute(new Attribute<String>("createTime",TimeUtil.getDateTime()));
+//        addAttribute(new Attribute<String>("state",ConstParam.USER_STATE_WAIT_CHECK));
+//        addAttribute(new Attribute<String>("createBy",""));
+//    }
 
     @Override
     public RetMessage successNotice() {

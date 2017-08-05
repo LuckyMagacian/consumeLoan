@@ -40,6 +40,7 @@ import com.lanxi.consumeLoan.functions.MerchantBindingFunction;
 import com.lanxi.consumeLoan.functions.MerchantDeleteFunction;
 import com.lanxi.consumeLoan.functions.MerchantDetailQueryFunction;
 import com.lanxi.consumeLoan.functions.MerchantHomeFunction;
+import com.lanxi.consumeLoan.functions.MerchantModifyFunction;
 import com.lanxi.consumeLoan.functions.MerchantQueryFunction;
 import com.lanxi.consumeLoan.functions.MerchantShelveFunction;
 import com.lanxi.consumeLoan.functions.MerchantUnsheleveFunction;
@@ -1143,4 +1144,57 @@ public class TestController {
 			return new RetMessage(RetCodeEnum.EXCEPTION.toString(),"查询用户时发生异常!",null).toJson();
 		}
 	}
+	
+	
+	@RequestMapping(value="merchantModifyFunction",produces = {"application/json;charset=UTF-8"})
+	@ResponseBody
+	protected String merchantModifyFunction(HttpServletRequest req,HttpServletResponse res){
+		Merchant merchant =new Merchant();
+		
+		String phone=req.getParameter("phone");
+		try {
+			MerchantModifyFunction fun=ac.getBean(MerchantModifyFunction.class);
+			Map<String, Object> args=new HashMap<>();
+			args.put("phone",phone);
+			merchant.setMerchantId(req.getParameter("merchantId"));
+			if (req.getParameter("merchantType") != null && req.getParameter("merchantType") !="") {
+				merchant.setMerchantType(req.getParameter("merchantType"));
+			}
+			if (req.getParameter("merchantName") != null && req.getParameter("merchantName") !="") {
+				merchant.setMerchantName(req.getParameter("merchantName"));
+			}
+			if (req.getParameter("merchantAddress") != null && req.getParameter("merchantAddress") !="") {
+				merchant.setMerchantAddress(req.getParameter("merchantAddress"));
+			}
+			if (req.getParameter("isAssurance") != null && req.getParameter("isAssurance") !="") {
+				merchant.setIsAssurance(req.getParameter("isAssurance"));
+			}
+			
+			if (req.getParameter("provideDeposit") != null && req.getParameter("provideDeposit") !="") {
+				merchant.setProvideDeposit(req.getParameter("provideDeposit"));
+			}
+			if (req.getParameter("depositeRate") != null && req.getParameter("depositeRate") !="") {
+				merchant.setIsAssurance(req.getParameter("depositeRate"));
+			}
+			if (req.getParameter("isShared") != null && req.getParameter("isShared") !="") {
+				merchant.setIsShared(req.getParameter("isShared"));
+			}
+			if (req.getParameter("sharedRate") != null && req.getParameter("sharedRate") !="") {
+				merchant.setSharedRate(new BigDecimal(req.getParameter("sharedRate")));
+			}
+			if (req.getParameter("customerManagerPhone") != null && req.getParameter("customerManagerPhone") !="") {
+				merchant.setCustomerManagerPhone(req.getParameter("customerManagerPhone"));
+			}
+			if (req.getParameter("customerManagerName") != null && req.getParameter("customerManagerName") !="") {
+				merchant.setCustomerManagerName(req.getParameter("customerManagerName"));
+			}
+			args.put("merchant", merchant);
+			return fun.excuted(args).toJson();
+		} catch (Exception e) {
+			LogFactory.error(this, "查询用户时发生异常!",e);
+			return new RetMessage(RetCodeEnum.EXCEPTION.toString(),"查询用户时发生异常!",null).toJson();
+		}
+	}
+	
+	
 }

@@ -23,11 +23,11 @@ import com.lanxi.util.utils.TimeUtil;
  */
 @Service
 public class ApplyOrderAddFunction extends AbstractFunction{
-    public ApplyOrderAddFunction(){
-        addAttribute(new Attribute<String>("merchantId",""));
-        addAttribute(new Attribute<String>("salesManId",""));
-        addAttribute(new Attribute<String>("merchantName",""));
-    }
+//    public ApplyOrderAddFunction(){
+//        addAttribute(new Attribute<String>("merchantId",""));
+//        addAttribute(new Attribute<String>("salesManId",""));
+//        addAttribute(new Attribute<String>("merchantName",""));
+//    }
 
     @Override
     public RetMessage successNotice() {

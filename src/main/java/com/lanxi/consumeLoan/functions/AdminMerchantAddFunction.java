@@ -27,9 +27,9 @@ import com.lanxi.util.utils.TimeUtil;
  */
 @Service
 public class AdminMerchantAddFunction extends AbstractFunction {
-	public AdminMerchantAddFunction() {
-		addAttribute(new Attribute<String>("customerManagerId", ""));
-	}
+//	public AdminMerchantAddFunction() {
+//		addAttribute(new Attribute<String>("customerManagerId", ""));
+//	}
     @Override
     public RetMessage successNotice() {
         return null;

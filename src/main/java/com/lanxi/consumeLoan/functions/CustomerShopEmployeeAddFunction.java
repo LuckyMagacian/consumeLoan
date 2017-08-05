@@ -14,9 +14,9 @@ import com.lanxi.util.consts.RetCodeEnum;
 import com.lanxi.util.entity.LogFactory;
 @Service
 public class CustomerShopEmployeeAddFunction extends AbstractFunction{
-	public CustomerShopEmployeeAddFunction() {
-		addAttribute(new Attribute<String>("netAddress",""));
-	}
+//	public CustomerShopEmployeeAddFunction() {
+//		addAttribute(new Attribute<String>("netAddress",""));
+//	}
 	@Override
 	public RetMessage successNotice() {
 		return null;

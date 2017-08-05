@@ -46,6 +46,9 @@ public interface ConstParam {
 	public static final String USER_STATE_WAIT_CHECK = "01";
 	/** 用户状态-正常 */
 	public static final String USER_STATE_NORMAL = "10";
+	/** 用户状态-拒绝 */
+	public static final String  USER_STATE_REJECT= "11";
 	/** 用户状态-冻结 */
-	public static final String USER_STATE_FREEZE = "11";
+	public static final String USER_STATE_FREEZE = "21";
+	
 }

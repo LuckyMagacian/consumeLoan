@@ -18,9 +18,9 @@ import com.lanxi.util.entity.LogFactory;
  */
 @Service
 public class RejectFunction extends AbstractFunction {
-	public RejectFunction() {
-		addAttribute(new Attribute<String>("adminId", ""));
-	}
+//	public RejectFunction() {
+//		addAttribute(new Attribute<String>("adminId", ""));
+//	}
 	
 	@Override
 	public RetMessage successNotice() {

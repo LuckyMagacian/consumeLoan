@@ -20,9 +20,9 @@ import java.util.Map;
  */
 @Service
 public class MerchantAddFunction extends AbstractFunction {
-	public MerchantAddFunction() {
-		addAttribute(new Attribute<String>("customerManagerId", ""));
-	}
+//	public MerchantAddFunction() {
+//		addAttribute(new Attribute<String>("customerManagerId", ""));
+//	}
     @Override
     public RetMessage successNotice() {
         return null;

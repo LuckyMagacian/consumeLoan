@@ -158,7 +158,7 @@ public class ApplicationTest {
 
 	@Test
 	public void test4(){
-		SqlUtilForDB.makeOne(SqlUtilForDB.getTable(SqlUtilForDB.getConnection(), "apply"), "", null, false, false);
+		SqlUtilForDB.makeOne(SqlUtilForDB.getTable(SqlUtilForDB.getConnection(), "merchant"), "", null, false, false);
 	}
 	
 	@Test

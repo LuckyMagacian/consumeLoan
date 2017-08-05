@@ -23,10 +23,10 @@ import com.lanxi.util.entity.LogFactory;
 
 @Service
 public class MerchantHomeFunction extends AbstractFunction {
-	public MerchantHomeFunction() {
-		addAttribute(new Attribute<String>("merchantId", ""));
-		addAttribute(new Attribute<String>("shopkeeperId", ""));
-	}
+//	public MerchantHomeFunction() {
+//		addAttribute(new Attribute<String>("merchantId", ""));
+//		addAttribute(new Attribute<String>("shopkeeperId", ""));
+//	}
     @Override
     public RetMessage successNotice() {
         return null;

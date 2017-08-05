@@ -10,7 +10,7 @@ import com.lanxi.util.interfaces.ToMap;
 /**
  * no comment
  * @author yyj | auto generator
- * @version 1.0.0 2017-07-31 14:10:11
+ * @version 1.0.0 2017-08-05 12:42:03
  */
 
 public class Merchant implements ToJson,ToMap{
@@ -85,6 +85,9 @@ public class Merchant implements ToJson,ToMap{
 	
 	/**客户经理名称*/
 	private String customerManagerName;
+	
+	/**是否提供保证金*/
+	private String provideDeposit;
 	
 	/**获取商户编号*/
 	public String getMerchantId(){
@@ -326,11 +329,22 @@ public class Merchant implements ToJson,ToMap{
 		this.customerManagerName=customerManagerName;
 		
 	}
-	@Override
-	public String toString(){
-		return "com.lanxi.consumeLoan.entity.Merchant:["+"merchantId="+merchantId+","+"merchantName="+merchantName+","+"merchantType="+merchantType+","+"merchantAddress="+merchantAddress+","+"isAssurance="+isAssurance+","+"depositeAmount="+depositeAmount+","+"depositeRate="+depositeRate+","+"depositeBalance="+depositeBalance+","+"isShared="+isShared+","+"sharedRate="+sharedRate+","+"brokerageRate="+brokerageRate+","+"brokerageAmount="+brokerageAmount+","+"brokerageLess="+brokerageLess+","+"applyAmount="+applyAmount+","+"applyMoneyAmount="+applyMoneyAmount+","+"loanAmount="+loanAmount+","+"loanMoneyAmount="+loanMoneyAmount+","+"breakAmount="+breakAmount+","+"breakMoneyAmount="+breakMoneyAmount+","+"partnerTime="+partnerTime+","+"stopTime="+stopTime+","+"state="+state+","+"customerManagerPhone="+customerManagerPhone+","+"customerManagerName="+customerManagerName+"]";
+	/**获取是否提供保证金*/
+	public String getProvideDeposit(){
+		return this.provideDeposit;
 	}
 	
+	/**设置是否提供保证金*/
+	public void setProvideDeposit(String provideDeposit){
+		this.provideDeposit=provideDeposit;
+		
+	}
+	@Override
+	public String toString(){
+		return "com.lanxi.consumeLoan.entity.Merchant:["+"merchantId="+merchantId+","+"merchantName="+merchantName+","+"merchantType="+merchantType+","+"merchantAddress="+merchantAddress+","+"isAssurance="+isAssurance+","+"depositeAmount="+depositeAmount+","+"depositeRate="+depositeRate+","+"depositeBalance="+depositeBalance+","+"isShared="+isShared+","+"sharedRate="+sharedRate+","+"brokerageRate="+brokerageRate+","+"brokerageAmount="+brokerageAmount+","+"brokerageLess="+brokerageLess+","+"applyAmount="+applyAmount+","+"applyMoneyAmount="+applyMoneyAmount+","+"loanAmount="+loanAmount+","+"loanMoneyAmount="+loanMoneyAmount+","+"breakAmount="+breakAmount+","+"breakMoneyAmount="+breakMoneyAmount+","+"partnerTime="+partnerTime+","+"stopTime="+stopTime+","+"state="+state+","+"customerManagerPhone="+customerManagerPhone+","+"customerManagerName="+customerManagerName+","+"provideDeposit="+provideDeposit+"]";
+	}
+	
+
 	/**
 	 * 全部
 	 */

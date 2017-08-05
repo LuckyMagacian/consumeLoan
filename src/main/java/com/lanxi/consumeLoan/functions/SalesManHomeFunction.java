@@ -14,9 +14,9 @@ import com.lanxi.util.consts.RetCodeEnum;
 import com.lanxi.util.entity.LogFactory;
 @Service
 public class SalesManHomeFunction extends AbstractFunction {
-	public SalesManHomeFunction() {
-		addAttribute(new Attribute<String>("salesManId", ""));
-	}
+//	public SalesManHomeFunction() {
+//		addAttribute(new Attribute<String>("salesManId", ""));
+//	}
 	@Override
 	public RetMessage successNotice() {
 		// TODO Auto-generated method stub
