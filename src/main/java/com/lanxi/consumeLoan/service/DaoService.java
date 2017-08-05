@@ -26,4 +26,5 @@ public interface DaoService {
 	public List<User> selectUserByAttibute(Attribute<?> attribute);
 	public List<User> selectUserByAttributes(List<Attribute<?>> attributes);
 	public List<User> selectUserByAttributes(Map<String, Attribute<?>> attributes);
+	public List<User> selectUserByClassLike(User user);
 }

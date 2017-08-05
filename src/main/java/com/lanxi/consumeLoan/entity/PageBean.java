@@ -13,6 +13,8 @@ public class PageBean {
 	private boolean previous;
 	private boolean next;
 	public int getEnd() {
+		if(pageCode*pageSize>totalRecord)
+			return totalRecord;
 		return pageCode*pageSize;
 	}
 

@@ -869,7 +869,7 @@ public class TestController {
 	@ResponseBody
 	public String userQuery(HttpServletRequest req,HttpServletResponse res){
 		String phone=req.getParameter("phone");
-		try { 
+		try {  
 			AdminUserQueryFunction fun=ac.getBean(AdminUserQueryFunction.class);
 			Map<String, Object> args=new HashMap<>();
 			args.put("phone",phone);
@@ -877,6 +877,8 @@ public class TestController {
 			args.put("roleName",req.getParameter("roleName"));
 			args.put("startTime",req.getParameter("startTime"));
 			args.put("endTime",req.getParameter("endTime"));
+			args.put("merchantName", req.getParameter("merchantName"));
+			args.put("state", req.getParameter("state"));
 			args.put("pageSize",req.getParameter("pageSize"));
 			args.put("pageCode",req.getParameter("pageCode"));
 			return fun.excuted(args).toJson();

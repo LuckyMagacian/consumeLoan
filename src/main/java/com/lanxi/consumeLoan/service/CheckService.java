@@ -11,7 +11,7 @@ import com.lanxi.consumeLoan.consts.StaticParam;
 import com.lanxi.consumeLoan.entity.Role;
 import com.lanxi.consumeLoan.entity.User;
 import com.lanxi.token.EasyToken;
-
+@Deprecated
 @Service
 public class CheckService {
 	/**dao服务*/

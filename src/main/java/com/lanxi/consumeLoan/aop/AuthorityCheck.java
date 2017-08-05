@@ -79,7 +79,7 @@ public class AuthorityCheck {
 			return (RetMessage) point.proceed(new Object[]{args});
 		} catch (Throwable e) {
 			LogFactory.error(this,"用户["+phone+"]接口["+targetName+"]权限校验时发生异常!",e);
-			return new RetMessage(RetCodeEnum.EXCEPTION.toString(), "权限校验时发生异常!", null);
+			return new RetMessage(RetCodeEnum.EXCEPTION.toString(), e.getMessage(), null);
 		}
 	}
 }
