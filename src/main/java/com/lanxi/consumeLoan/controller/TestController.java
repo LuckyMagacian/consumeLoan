@@ -25,8 +25,11 @@ import com.lanxi.consumeLoan.functions.AdminChargeQueryFunction;
 import com.lanxi.consumeLoan.functions.AdminMerchantAddFunction;
 import com.lanxi.consumeLoan.functions.AdminMerchantQueryFunction;
 import com.lanxi.consumeLoan.functions.AdminUserAddFunction;
+import com.lanxi.consumeLoan.functions.AdminUserCheckBackFunction;
 import com.lanxi.consumeLoan.functions.AdminUserCheckFunction;
+import com.lanxi.consumeLoan.functions.AdminUserDeleteFunction;
 import com.lanxi.consumeLoan.functions.AdminUserQueryFunction;
+import com.lanxi.consumeLoan.functions.AdminUserStateUpdateFunction;
 import com.lanxi.consumeLoan.functions.ApplyOrderAddFunction;
 import com.lanxi.consumeLoan.functions.ChangePasswordFunction;
 import com.lanxi.consumeLoan.functions.CustomerManagerApplyOrderQueryFunction;
@@ -1195,6 +1198,53 @@ public class TestController {
 			return new RetMessage(RetCodeEnum.EXCEPTION.toString(),"查询用户时发生异常!",null).toJson();
 		}
 	}
+	@RequestMapping(value="adminUserCheckBackFunction",produces = {"application/json;charset=UTF-8"})
+	@ResponseBody
+	protected String adminUserCheckBackFunction(HttpServletRequest req,HttpServletResponse res){
+		String phone=req.getParameter("phone");
+		try {
+			AdminUserCheckBackFunction fun=ac.getBean(AdminUserCheckBackFunction.class);
+			Map<String, Object> args=new HashMap<>();
+			args.put("phone",phone);
+			args.put("userPhone",req.getParameter("userPhone"));
+			return fun.excuted(args).toJson();
+		} catch (Exception e) {
+			LogFactory.error(this, "管理员["+phone+"]退回用户时发生异常!",e);
+			return new RetMessage(RetCodeEnum.EXCEPTION.toString(),"退回用户时发生异常！",null).toJson();
+		}
+	}
 	
+	@RequestMapping(value="adminUserDeleteFunction",produces = {"application/json;charset=UTF-8"})
+	@ResponseBody
+	protected String adminUserDeleteFunction(HttpServletRequest req,HttpServletResponse res){
+		String phone=req.getParameter("phone");
+		try {
+			AdminUserDeleteFunction fun=ac.getBean(AdminUserDeleteFunction.class);
+			Map<String, Object> args=new HashMap<>();
+			args.put("phone",phone);
+			args.put("userPhone",req.getParameter("userPhone"));
+			return fun.excuted(args).toJson();
+		} catch (Exception e) {
+			LogFactory.error(this, "管理员["+phone+"]删除用户时发生异常!",e);
+			return new RetMessage(RetCodeEnum.EXCEPTION.toString(),"删除用户时发生异常！",null).toJson();
+		}
+	}
+	
+	@RequestMapping(value="adminUserStateUpdateFunction",produces = {"application/json;charset=UTF-8"})
+	@ResponseBody
+	protected String adminUserStateUpdateFunction(HttpServletRequest req,HttpServletResponse res){
+		String phone=req.getParameter("phone");
+		try {
+			AdminUserStateUpdateFunction fun=ac.getBean(AdminUserStateUpdateFunction.class);
+			Map<String, Object> args=new HashMap<>();
+			args.put("phone",phone);
+			args.put("userPhone",req.getParameter("userPhone"));
+			args.put("status", req.getParameter("status"));
+			return fun.excuted(args).toJson();
+		} catch (Exception e) {
+			LogFactory.error(this, "管理员["+phone+"]开启或冻结用户时发生异常!",e);
+			return new RetMessage(RetCodeEnum.EXCEPTION.toString(),"开启或冻结用户时发生异常!",null).toJson();
+		}
+	}
 	
 }
