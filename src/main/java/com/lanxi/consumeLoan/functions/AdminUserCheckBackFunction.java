@@ -11,7 +11,11 @@ import com.lanxi.consumeLoan.consts.ConstParam;
 import com.lanxi.consumeLoan.entity.User;
 import com.lanxi.util.consts.RetCodeEnum;
 import com.lanxi.util.entity.LogFactory;
-
+/**
+ * 管理员用户审核退回
+ * @author lx
+ *
+ */
 @Service
 public class AdminUserCheckBackFunction extends AbstractFunction {
 
@@ -45,7 +49,7 @@ public class AdminUserCheckBackFunction extends AbstractFunction {
 				+ user + "]!");
 		String oldAttributes = user.getAttributes();//查询到的用户的所有属性
 		String newAttributes = new Attribute<String>("state",
-				ConstParam.USER_STATE_NORMAL).toJson();//审核成功之后用户的状态
+				ConstParam.USER_STATE_REJECT).toJson();//审核成功之后用户的状态
 		String attributes = new Attribute<String>("state",
 				ConstParam.USER_STATE_WAIT_CHECK).toJson();//正常的用户状态
 		LogFactory.info(this, "管理员[" + phone + "],根据用户[" + userPhone
@@ -57,8 +61,8 @@ public class AdminUserCheckBackFunction extends AbstractFunction {
 			user.setAttributes(oldAttributes);
 			dao.getUserDao().updateUserByUniqueIndexOnPhone(user, userPhone);
 			LogFactory.info(this, "管理员[" + phone + "]审核用户[" + userPhone
-					+ "]通过!");
-			return new RetMessage(RetCodeEnum.SUCCESS.toString(), "审核通过", null);
+					+ "]审核已退回!");
+			return new RetMessage(RetCodeEnum.SUCCESS.toString(), "审核已退回", null);
 		} else {
 			LogFactory.info(this, "管理员[" + phone + "]审核用户[" + userPhone
 					+ "],用户未通过，未达到审核条件!");
