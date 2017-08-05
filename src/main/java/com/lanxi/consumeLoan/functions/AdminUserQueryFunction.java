@@ -1,6 +1,7 @@
 package com.lanxi.consumeLoan.functions;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -55,17 +56,15 @@ public class AdminUserQueryFunction extends AbstractFunction{
 		user.setRoleName(roleName);
 		String startTime=(String) args.get("startTime");
 		String endTime=(String) args.get("endTime");
-		List<User> temp=dao.getUserDao().selectUserByClass(user);
+		List<User> users=dao.getUserDao().selectUserByClass(user);
+		
 		PageBean page = new PageBean();
     	int pageSize = Integer.parseInt((String) args.get("pageSize"));
 		int pageCode = Integer.parseInt((String) args.get("pageCode"));
 		page.setPageSize(pageSize);
 		page.setPageCode(pageCode); 
-		List<User> users = new ArrayList<>();
-		
-		for (int i = page.getStart(); i < page.getEnd(); i++) {
-			users.add(temp.get(i));
-		}
+		page.setTotalRecord(users.size());
+
 		
 		if((startTime!=null&&!startTime.isEmpty())||(endTime!=null&&!endTime.isEmpty()))
 			for(User each:users){
@@ -96,9 +95,12 @@ public class AdminUserQueryFunction extends AbstractFunction{
 					userProxy.add(each.toProxy().toAdmin());
 				}
 			}
-			
+			userProxy = userProxy.subList(page.getStart(), page.getEnd());
+			Map<String, Object> resultMap = new HashMap<String, Object>();
+			resultMap.put("page", page);
+			resultMap.put("userProxy", userProxy);
 			LogFactory.info(this, "管理员["+phone+"]尝试根据条件["+args+"]查询结果转换["+userProxy+"]!");
-			return new RetMessage(RetCodeEnum.SUCCESS.toString(),"查询成功",userProxy);
+			return new RetMessage(RetCodeEnum.SUCCESS.toString(),"查询成功",resultMap);
 		}
 		return new RetMessage(RetCodeEnum.SUCCESS.toString(),"查询成功",users);
 	}
