@@ -75,7 +75,17 @@
         </where>
             ORDER BY role_name
     </select>
-
+    <select id="selectUserByClassLike" resultMap="userMap"  resultType="com.lanxi.consumeLoan.entity.User" parameterType="com.lanxi.consumeLoan.entity.User">
+        select
+            phone,role_name,attributes
+        from user
+        <where>
+            <if test="user.phone != null"> AND phone = #{user.phone}</if>
+            <if test="user.roleName != null"> AND role_name = #{user.roleName}</if>
+            <if test="user.attributes != null"> AND attributes like #{user.attributes}</if>
+        </where>
+        ORDER BY role_name;
+    </select>
 	<resultMap id="userMap" type="com.lanxi.consumeLoan.entity.User">
 		<result property="phone" 			column="phone"></result>
 		<result property="roleName" 			column="role_name"></result>

@@ -353,9 +353,9 @@ public class ApplicationTest {
     @Test
 	public void testsss(){
     	User user=new User();
-    	user.addAttribute(new Attribute<String>("salesManId", "1001"));
-    	user.addAttribute(new Attribute<String>("state","110"));
-    	System.err.println(dao.selectUserByAttributes(user.getAttributesObject()));
+    	user.addAttribute(new Attribute<String>("merchantName", "善解人衣"));
+//    	user.addAttribute(new Attribute<String>("state","110"));
+    	System.err.println(dao.selectUserByClassLike(user));
     }
 	
 }

@@ -1,5 +1,6 @@
 package com.lanxi.consumeLoan.service;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -123,5 +124,35 @@ public class DaoServiceImpl implements DaoService{
 			buffer.append(each.getValue().toJson()+"%");
 		}
 		return selectUserByAttibute(buffer.subSequence(0, buffer.length()-1).toString());
+	}
+	@Override
+	public List<User> selectUserByClassLike(User user){
+		String phone=user.getPhone();
+		String rolename=user.getRoleName();
+		Map<String, Attribute<?>>attributes=user.getAttributesObject();
+		Map<String, Object> map=new HashMap<>();
+		if(phone!=null&&!phone.isEmpty())
+			map.put("phone", phone);
+		if(rolename!=null&&!rolename.isEmpty())
+			map.put("roleName",rolename);
+		if(attributes!=null&&!attributes.isEmpty()){
+			StringBuffer buffer=new StringBuffer();
+			for(Entry<String, Attribute<?>> each:attributes.entrySet()){
+				if(each==null)
+					continue;
+				if(each.getValue()==null)
+					continue;
+				if(each.getValue().getValue()==null)
+					continue;
+				if(each.getValue().getType().equals(String.class.getName())){
+					if(((String)each.getValue().getValue()).isEmpty())
+						continue;
+				}
+				buffer.append("%"+each.getValue().toJson());
+			}
+			buffer.append("%");
+			map.put("attributes", buffer.toString());
+		}
+		return this.user.selectUserByClassLike(map);
 	}
 }
