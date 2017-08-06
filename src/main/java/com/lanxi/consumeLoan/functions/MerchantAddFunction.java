@@ -64,6 +64,8 @@ public class MerchantAddFunction extends AbstractFunction {
     		user.setRoleName(role.getRoleName());
     		userManager.addAttributesForUser(user);
     		user.set("merchantId", merchant.getMerchantId());
+    		user.set("merchatnName", merchant.getMerchantName());
+    		user.set("mserchatAddress", merchant.getMerchantAddress());
     		dao.getUserDao().addUser(user);
     	}
     	
@@ -82,6 +84,8 @@ public class MerchantAddFunction extends AbstractFunction {
     		user.setRoleName(role.getRoleName());
     		userManager.addAttributesForUser(user);
     		user.set("merchantId", merchant.getMerchantId());
+    		user.set("merchatnName", merchant.getMerchantName());
+    		user.set("mserchatAddress", merchant.getMerchantAddress());
     		dao.getUserDao().addUser(user);
     	}
         return successNotice();

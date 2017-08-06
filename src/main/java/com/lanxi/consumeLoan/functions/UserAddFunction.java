@@ -15,6 +15,7 @@ import com.lanxi.util.entity.LogFactory;
  * Created by yangyuanjian on 2017/7/13.
  * 用户增加
  */
+@Deprecated
 @Service
 public class UserAddFunction extends AbstractFunction {
     @Override

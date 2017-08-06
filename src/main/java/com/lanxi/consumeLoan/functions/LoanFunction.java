@@ -77,7 +77,7 @@ public class LoanFunction extends AbstractFunction {
 			dao.getSystemAccountDao().updateSystemAccountByUniqueIndexOnAccountId(account, account.getAccountId());
 		}else {
 			LogFactory.info(this, "管理员["+phone+"],当前版本与数据库版本不一致无法放款!");
-			return new RetMessage(RetCodeEnum.FAIL.toString(), "当前版本与数据库版本不一致无法放款!", null);
+			return new RetMessage(RetCodeEnum.FAIL.toString(), "操作失败请重试!", null);
 		}
 		LogFactory.info(this, "管理员["+phone+"],放款成功!");
 		return new RetMessage(RetCodeEnum.SUCCESS.toString(), "放款成功!", null);

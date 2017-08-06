@@ -61,7 +61,7 @@ public class AdminChargeQueryFunction extends AbstractFunction{
 		if(args.get("customerPhone") != "" && args.get("customerPhone") !=null){
 			parm.put("customerPhone", args.get("customerPhone"));
 		}
-		if(isOverdue.equals("true") || isOverdue =="true"){
+		if(isOverdue!=null&&(isOverdue.equals("true") || isOverdue =="true")){
 			parm.put("isOverdue", isOverdue);
 		}
 		List<Apply> applys = dao.getApplyDao().selectApplyByParam(parm);
@@ -98,6 +98,7 @@ public class AdminChargeQueryFunction extends AbstractFunction{
 			apply.hide5();
 		}
 		resultMap.put("applys", list);
+		resultMap.put("page", page);
 		LogFactory.info(this, "管理员["+phone+"],查询成功!");
 		return new RetMessage(RetCodeEnum.SUCCESS.toString(), "查询成功!", resultMap);	
 	}

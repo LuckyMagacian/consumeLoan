@@ -13,6 +13,7 @@ public class AttributeAddForSalesManFunction extends AbstractFunction{
 		addAttribute(new Attribute<String>("salesManId", ""));
 		addAttribute(new Attribute<String>("merchantId",""));
 		addAttribute(new Attribute<String>("merchantName",""));
+		addAttribute(new Attribute<String>("merchantAddress", ""));
 	}
 	@Override
 	public RetMessage successNotice() {

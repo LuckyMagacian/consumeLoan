@@ -1,7 +1,10 @@
 package com.lanxi.consumeLoan.test;
 
 import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -22,8 +25,12 @@ import com.lanxi.consumeLoan.functions.AdminChargeQueryFunction;
 import com.lanxi.consumeLoan.functions.AdminMerchantAddFunction;
 import com.lanxi.consumeLoan.functions.AdminMerchantQueryFunction;
 import com.lanxi.consumeLoan.functions.AdminUserAddFunction;
+import com.lanxi.consumeLoan.functions.AdminUserCheckBackFunction;
 import com.lanxi.consumeLoan.functions.AdminUserCheckFunction;
+import com.lanxi.consumeLoan.functions.AdminUserDeleteFunction;
+import com.lanxi.consumeLoan.functions.AdminUserModifyFunction;
 import com.lanxi.consumeLoan.functions.AdminUserQueryFunction;
+import com.lanxi.consumeLoan.functions.AdminUserStateUpdateFunction;
 import com.lanxi.consumeLoan.functions.ApplyOrderAddFunction;
 import com.lanxi.consumeLoan.functions.AttributeAddForAllUserFunction;
 import com.lanxi.consumeLoan.functions.AttributeAddForCustomerManagerFunction;
@@ -132,6 +139,11 @@ public class ApplicationTest2 {
 		admin.add(SystemAccountQueryFunction.class);
 		admin.add(SystemHomeFunction.class);
 		admin.add(UserAddFunction.class);
+		admin.add(AdminUserModifyFunction.class);
+		admin.add(AdminUserCheckFunction.class);
+		admin.add(AdminUserCheckBackFunction.class);
+		admin.add(AdminUserDeleteFunction.class);
+		admin.add(AdminUserStateUpdateFunction.class);
 		admin.addAll(common);
 		//添加root权限接口
 		List<Function> root=new ArrayList<>();
@@ -237,20 +249,20 @@ public class ApplicationTest2 {
 	@Test
 	public void addMerchant(){
 		Merchant merchant=new Merchant();
-		merchant.setMerchantId("1003");
-		merchant.setMerchantName("测试商户1003");
-		merchant.setMerchantType("1003");
+		merchant.setMerchantId("1001");
+		merchant.setMerchantName("测试商户1001");
+		merchant.setMerchantType("1001");
 		merchant.setIsAssurance("true");
 		merchant.setIsShared("true");
-		merchant.setMerchantAddress("测试地址1003");
+		merchant.setMerchantAddress("测试地址1001");
 		merchant.setPartnerTime(TimeUtil.getDateTime());
-		merchant.setProvideDeposit("false");
+		merchant.setProvideDeposit("true");
 		merchant.setSharedRate(new BigDecimal("0.1"));
-		merchant.setState(ConstParam.MERCHANT_STATE_WAIT_CHECK);
+		merchant.setState(ConstParam.MERCHANT_STATE_SHELVED);
 		merchant.setStopTime("");
 		
-		merchant.setCustomerManagerName("测试帐号客户经理3003");
-		merchant.setCustomerManagerPhone("3003");
+		merchant.setCustomerManagerName("测试帐号客户经理3001");
+		merchant.setCustomerManagerPhone("3001");
 		
 		merchant.setApplyAmount(0);
 		merchant.setApplyMoneyAmount(new BigDecimal("0.00000"));
@@ -296,5 +308,32 @@ public class ApplicationTest2 {
 		System.err.println(user.toProxy().toSalesMan());
 		System.err.println(user.toProxy().toCustomerManager());
 		System.err.println(JSONObject.toJSON(user.toProxy().getMap()));
+	}
+	
+	@Test
+	public void userAddress() {
+		List<User> users=dao.getUserDao().selectUserByClass(new User());
+		for(User each:users) {
+			if (ConstParam.USER_ROLE_NAME_SALESMAN.equals(each.getRoleName())||ConstParam.USER_ROLE_NAME_SHOP_KEEPER.equals(each.getRoleName())) {
+				Merchant merchant=dao.getMerchantDao().selectMerchantByUniqueIndexOnMerchantId((String) each.get("merchantId").getValue());
+				if(merchant!=null) {
+					each.set("merchantAddress",merchant.getMerchantAddress());
+					dao.getUserDao().updateUserByUniqueIndexOnPhone(each, each.getPhone());
+				}
+			}
+		}
+	}
+	
+	@Test
+	public void applyQuery() {
+		Map<String, Object> param=new HashMap<String, Object>();
+    	Date date=new Date();
+    	date.setMonth(date.getMonth()-3);
+    	param.put("userPhone", "15757129562");
+    	String time=new SimpleDateFormat("yyyyMMddHHmmss").format(date);
+    	System.err.println(time);
+    	param.put("start_time",time);
+//    	param.put("end_time",TimeUtil.getDateTime());
+    	System.err.println(dao.getApplyDao().selectApplyByParam(param));
 	}
 }

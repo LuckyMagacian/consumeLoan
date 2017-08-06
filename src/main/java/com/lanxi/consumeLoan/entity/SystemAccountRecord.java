@@ -1,7 +1,13 @@
 package com.lanxi.consumeLoan.entity;
 
 import java.math.BigDecimal;
+import java.util.List;
+
+import com.lanxi.util.utils.BeanUtil;
+import com.sun.org.apache.xml.internal.security.Init;
+
 import java.lang.String;
+import java.lang.reflect.Field;
 
 /**
  * no comment
@@ -30,6 +36,10 @@ public class SystemAccountRecord{
 	
 	/**变动原因*/
 	private String reason;
+	
+	public SystemAccountRecord() {
+		init();
+	}
 	
 	/**获取记录时间戳-纳秒*/
 	public String getNanoTime(){
@@ -104,5 +114,12 @@ public class SystemAccountRecord{
 	@Override
 	public String toString(){
 		return "com.lanxi.consumeLoan.entity.SystemAccountRecord:["+"nanoTime="+nanoTime+","+"accountId="+accountId+","+"isAdd="+isAdd+","+"monetyChange="+monetyChange+","+"recordTime="+recordTime+","+"moneyType="+moneyType+","+"reason="+reason+"]";
+	}
+	public void init() {
+		List<Field> fields=BeanUtil.getFieldListNoStatic(this);
+		for(Field each:fields) {
+			if(each.getType().equals(BigDecimal.class))
+				BeanUtil.set(this, each.getName(), new BigDecimal("0.00000"));
+		}
 	}
 }

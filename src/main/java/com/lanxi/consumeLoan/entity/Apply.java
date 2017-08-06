@@ -1,7 +1,10 @@
 package com.lanxi.consumeLoan.entity;
 
+import java.lang.reflect.Field;
 import java.math.BigDecimal;
-import java.lang.String;
+import java.util.List;
+
+import com.lanxi.util.utils.BeanUtil;
 
 /**
  * no comment
@@ -97,6 +100,10 @@ public class Apply{
 	/**驳回原因*/
 	private String reason;
 
+	public Apply() {
+		init();
+	}
+	
 	/**获取申请编号*/
 	public String getApplyId(){
 		return this.applyId;
@@ -510,5 +517,15 @@ public class Apply{
 		this.setCustomerManagerPhone(null);
 		this.setCustomerManagerName(null);
 		this.setReason(null);		
+	}
+	
+	public void init() {
+		List<Field> fields=BeanUtil.getFieldListNoStatic(this);
+		for(Field each:fields) {
+			if(each.getType().equals(BigDecimal.class))
+				BeanUtil.set(this, each.getName(), new BigDecimal("0.00000"));
+			if(each.getType().equals(String.class))
+				BeanUtil.set(this, each.getName(), "");
+		}
 	}
 }

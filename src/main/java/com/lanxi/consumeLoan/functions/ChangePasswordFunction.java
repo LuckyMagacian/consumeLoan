@@ -2,6 +2,7 @@ package com.lanxi.consumeLoan.functions;
 
 import com.lanxi.consumeLoan.basic.AbstractFunction;
 import com.lanxi.consumeLoan.basic.RetMessage;
+import com.lanxi.consumeLoan.consts.ConstParam;
 import com.lanxi.consumeLoan.entity.User;
 import com.lanxi.util.consts.RetCodeEnum;
 import com.lanxi.util.entity.LogFactory;
@@ -64,6 +65,8 @@ public class ChangePasswordFunction extends AbstractFunction {
     	LogFactory.info(this, "用户["+phone+"]于["+TimeUtil.getPreferDateTime()+"]修改密码["+user.get("password").getValue()+"]为["+newPassword+"]!");
     	user.set("password", newPassword);
     	dao.getUserDao().updateUserByUniqueIndexOnPhone(user, phone);
+    	LogFactory.info(this, "用户[]修改密码成功,删除登录缓存,需要重新登录!");
+    	redisService.delete(ConstParam.USER_STATE_LOGIN+phone);
     	return new RetMessage(RetCodeEnum.SUCCESS.toString(),"密码修改成功!",null);
     }
 }

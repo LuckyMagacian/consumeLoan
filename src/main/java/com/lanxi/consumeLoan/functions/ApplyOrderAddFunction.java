@@ -1,5 +1,9 @@
 package com.lanxi.consumeLoan.functions;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.stereotype.Service;
@@ -44,7 +48,7 @@ public class ApplyOrderAddFunction extends AbstractFunction{
         return null;
     }
 
-    @SuppressWarnings("unchecked")
+    @SuppressWarnings({ "unchecked", "deprecation" })
 	@Override
     public RetMessage excuted(Map<String, Object> args) {
     	String phone=(String) args.get("phone");
@@ -76,6 +80,21 @@ public class ApplyOrderAddFunction extends AbstractFunction{
     		LogFactory.info(this, "用户["+phone+"]添加的订单["+applyJson+"]未传入申请人的手机号!");
     		return new RetMessage(RetCodeEnum.FAIL.toString(),"未传入申请者手机号!",null);
     	}
+    	Map<String, Object> param=new HashMap<String, Object>();
+    	Date date=new Date();
+    	date.setMonth(date.getMonth()-3);
+    	param.put("userPhone", userPhone);
+    	param.put("start_time",new SimpleDateFormat("yyyyMMddHHmmss").format(date));
+    	param.put("end_time",TimeUtil.getDateTime());
+    	List<Apply> applys=dao.getApplyDao().selectApplyByParam(param);
+    	if(!applys.isEmpty()) {
+    		StringBuffer buffer=new StringBuffer();
+    		for(Apply each:applys) {
+    			buffer.append(each.getApplyTime()+",");
+    		}
+    		LogFactory.info(this, "申请人员["+userPhone+"]在["+buffer.substring(0, buffer.length()-1)+"]有申请记录,无法再次申请!");
+    		return new RetMessage(RetCodeEnum.FAIL.toString(), "用户最近三个月有申请记录,无法再次申请!", null);
+    	}
     	String cacheCode=redisService.get(ConstParam.FUNCTION_NAME_APPLY_ADD+userPhone.trim());
     	if(!apply.getVerifyCode().equals(cacheCode)){
     		LogFactory.info(this, "用户["+phone+"]添加的订单申请者手机验证码校验不通过!输入验证码["+apply.getVerifyCode()+"],缓存验证码["+cacheCode+"]");
@@ -98,6 +117,6 @@ public class ApplyOrderAddFunction extends AbstractFunction{
     	LogFactory.info(this, "用户["+phone+"]在商户["+merchantId.getValue()+"]中添加申请["+apply.getApplyId()+"]成功!");
     	dao.getMerchantDao().updateMerchantByUniqueIndexOnMerchantId(merchant, merchantId.getValue());
     	LogFactory.info(this, "用户["+phone+"]所在商户["+merchantId.getValue()+"]更新商户申请统计信息成功!");
-        return new RetMessage(RetCodeEnum.SUCCESS.toString(), "添加申请成功!", null);
+        return new RetMessage(RetCodeEnum.SUCCESS.toString(), "添加申请成功!", apply.getApplyId());
     }
 }

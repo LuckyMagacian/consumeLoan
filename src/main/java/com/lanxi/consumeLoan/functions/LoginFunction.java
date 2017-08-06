@@ -96,7 +96,7 @@ public class LoginFunction extends AbstractFunction{
         redisService.set(ConstParam.USER_STATE_LOGIN+phone, ip);  
         LogFactory.info(this, "用户["+phone+"]ip锁定["+ip+"]!"); 
         LogFactory.info(this, "用户["+phone+user.toProxy()+"]于["+TimeUtil.getPreferDateTime()+"]登录本系统!");
-        return new RetMessage(RetCodeEnum.SUCCESS.toString(),"登录成功!",user.toProxy());
+        return new RetMessage(RetCodeEnum.SUCCESS.toString(),"登录成功!",user.toProxy().toUser());
     }
 }
 

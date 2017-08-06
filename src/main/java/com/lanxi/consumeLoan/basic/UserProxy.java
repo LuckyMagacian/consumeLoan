@@ -60,11 +60,13 @@ public class UserProxy implements ToMap,ToJson{
 		temp.put("name", map.get("name"));
 		temp.put("createTime", map.get("createTime"));
 		temp.put("state", map.get("state"));
+		temp.put("createBy", map.get("createBy"));
 		return temp;
 	} 
 	public Map<String, Object> toSalesMan(){
 		Map<String, Object> temp=toUser();
 		temp.put("merchantName", map.get("merchantName"));
+		temp.put("merchantAddress", map.get("merchantAddress"));
 		return temp;
 	}
 	public Map<String, Object> toShopKeeper(){

@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 
 import org.junit.Test;
 
+import com.lanxi.consumeLoan.entity.Apply;
 import com.lanxi.consumeLoan.entity.SystemAccount;
 
 public class Test20170802 {
@@ -31,5 +32,9 @@ public class Test20170802 {
 		Object obj1=str1;
 		String str2=(String)obj1;
 		System.out.println(str2);
+	}
+	@Test
+	public void testInit() {
+		System.out.println(new Apply());
 	}
 }

@@ -79,7 +79,7 @@ public class TestController {
 		}
 	} 
 
-	
+	@Deprecated
 	@RequestMapping(value="bindUser",produces = {"application/json;charset=UTF-8"})
 	@ResponseBody
 	public String bindUser(HttpServletRequest req,HttpServletResponse res){
@@ -116,7 +116,7 @@ public class TestController {
 			return new RetMessage(RetCodeEnum.EXCEPTION.toString(),"登录时发生异常!",null).toJson();
 		}
 	}
-	@RequestMapping(value="getPicCode",produces = {"application/json;charset=UTF-8"})
+	@RequestMapping(value="getPicCode")
 	public void getPic(HttpServletRequest req,HttpServletResponse res){
 		String phone=req.getParameter("phone");
 		try {
@@ -258,7 +258,7 @@ public class TestController {
 	}
 	
 	@SuppressWarnings("unchecked")
-	@RequestMapping(value="merchantApplyQueryExport",produces = {"application/json;charset=UTF-8"})
+	@RequestMapping(value="merchantApplyQueryExport")
 	public void merchantApplyQueryExport(HttpServletRequest req,HttpServletResponse res){
 		String phone=req.getParameter("phone");
 		try { 
@@ -568,7 +568,7 @@ public class TestController {
 			return new RetMessage(RetCodeEnum.EXCEPTION.toString(),"客户经理查询时发生异常!",null).toJson();
 		}
 	}
-	@RequestMapping(value="merchantQueryFunctionExport",produces = {"application/json;charset=UTF-8"})
+	@RequestMapping(value="merchantQueryFunctionExport")
 	public void merchantQueryFunctionExport(HttpServletRequest req,HttpServletResponse res){
 		String phone=req.getParameter("phone");
 		try { 
@@ -616,7 +616,7 @@ public class TestController {
 		}
 	}
 
-	@RequestMapping(value="customerManagerApplyOrderQueryExport",produces = {"application/json;charset=UTF-8"})
+	@RequestMapping(value="customerManagerApplyOrderQueryExport")
 	public void customerManagerApplyOrderQueryExport(HttpServletRequest req,HttpServletResponse res){
 		String phone=req.getParameter("phone");
 		try { 
@@ -713,8 +713,10 @@ public class TestController {
 	    	BigDecimal moneyAmount=new BigDecimal(0);
 	    	BigDecimal brokerageAmount=new BigDecimal(0);
 	    	for(Apply each:applys){
-	    		moneyAmount=moneyAmount.add(each.getLoanMoney());
-	    		brokerageAmount=brokerageAmount.add(each.getBrokerage());
+	    		if(each.getLoanMoney()!=null)
+	    			moneyAmount=moneyAmount.add(each.getLoanMoney());
+	    		if(each.getBreakMoney()!=null)
+	    			brokerageAmount=brokerageAmount.add(each.getBrokerage());
 	    	}
 	    	Map<String,Object> statistics=new HashMap<>();
 	    	statistics.put("applyAmount", count);
@@ -739,7 +741,7 @@ public class TestController {
 	
 	
 	@SuppressWarnings("unchecked")
-	@RequestMapping(value="merchantBrokerageQueryExport",produces = {"application/json;charset=UTF-8"})
+	@RequestMapping(value="merchantBrokerageQueryExport")
 	@ResponseBody
 	public void merchantBrokerageQueryExport(HttpServletRequest req,HttpServletResponse res){
 		String phone=req.getParameter("phone");
@@ -814,7 +816,7 @@ public class TestController {
 			return new RetMessage(RetCodeEnum.EXCEPTION.toString(),"管理员添加商户及员工时发生异常!",null).toJson();
 		}
 	}
-	@RequestMapping(value="adminMerchantQueryFunctionExport",produces = {"application/json;charset=UTF-8"})
+	@RequestMapping(value="adminMerchantQueryFunctionExport")
 	public void adminMerchantQueryFunctionExport(HttpServletRequest req,HttpServletResponse res){
 		String phone=req.getParameter("phone");
 		try { 
@@ -968,7 +970,7 @@ public class TestController {
 			return new RetMessage(RetCodeEnum.EXCEPTION.toString(),"管理员添加管理员时发生异常!",null).toJson();
 		}
 	}
-	@RequestMapping(value="adminApplyQueryFunctionExport",produces = {"application/json;charset=UTF-8"})
+	@RequestMapping(value="adminApplyQueryFunctionExport")
 	public void adminApplyQueryFunctionExport(HttpServletRequest req,HttpServletResponse res){
 		String phone=req.getParameter("phone");
 		try { 
@@ -1015,7 +1017,7 @@ public class TestController {
 	
 	
 	
-	@RequestMapping(value="adminChargeQueryFunctionExport",produces = {"application/json;charset=UTF-8"})
+	@RequestMapping(value="adminChargeQueryFunctionExport")
 	public void adminChargeQueryFunctionExport(HttpServletRequest req,HttpServletResponse res){
 		String phone=req.getParameter("phone");
 		try { 

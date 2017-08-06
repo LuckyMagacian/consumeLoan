@@ -77,6 +77,7 @@ public class CustomerShopEmployeeAddFunction extends AbstractFunction{
 		user.set("merchantId",merchantId);
 		user.set("createBy", phone);
 		user.set("merchantName", merchant.getMerchantName());
+		user.set("mserchatAddress", merchant.getMerchantAddress());
 		dao.getUserDao().addUser(user);
 		LogFactory.info(this, "客户经理["+phone+"]为商户["+merchantId+"]添加工作人员["+user.getPhone()+"]成功!");
 		return new RetMessage(RetCodeEnum.SUCCESS.toString(), "添加商户工作人员成功!", null);

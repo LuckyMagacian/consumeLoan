@@ -1,7 +1,12 @@
 package com.lanxi.consumeLoan.entity;
 
 import java.math.BigDecimal;
+import java.util.List;
+
+import com.lanxi.util.utils.BeanUtil;
+
 import java.lang.String;
+import java.lang.reflect.Field;
 
 /**
  * no comment
@@ -30,6 +35,10 @@ public class MerchantAccountRecord{
 	
 	/**变动原因*/
 	private String reason;
+	
+	public MerchantAccountRecord() {
+		init();
+	}
 	
 	/**获取记录时间戳-纳秒*/
 	public String getNanoTime(){
@@ -113,5 +122,12 @@ public class MerchantAccountRecord{
 	}
 	public void hide3(){
 		
+	}
+	public void init() {
+		List<Field> fields=BeanUtil.getFieldListNoStatic(this);
+		for(Field each:fields) {
+			if(each.getType().equals(BigDecimal.class))
+				BeanUtil.set(this, each.getName(), new BigDecimal("0.00000"));
+		}
 	}
 }

@@ -1,7 +1,12 @@
 package com.lanxi.consumeLoan.entity;
 
 import java.math.BigDecimal;
+import java.util.List;
+
+import com.lanxi.util.utils.BeanUtil;
+
 import java.lang.String;
+import java.lang.reflect.Field;
 
 /**
  * no comment
@@ -36,6 +41,10 @@ public class SystemAccount{
 	
 	/**版本号*/
 	private BigDecimal version;
+	
+	public SystemAccount() {
+		init();
+	}
 	
 	/**获取账户编号*/
 	public String getAccountId(){
@@ -130,5 +139,12 @@ public class SystemAccount{
 	@Override
 	public String toString(){
 		return "com.lanxi.consumeLoan.entity.SystemAccount:["+"accountId="+accountId+","+"brokerage="+brokerage+","+"provisionsOfRisk="+provisionsOfRisk+","+"serviceCharge="+serviceCharge+","+"brokerageRate="+brokerageRate+","+"provisionsOfRiskRate="+provisionsOfRiskRate+","+"serviceChargeRate="+serviceChargeRate+","+"provisionsOfRiskMax="+provisionsOfRiskMax+","+"version="+version+"]";
+	}
+	public void init() {
+		List<Field> fields=BeanUtil.getFieldListNoStatic(this);
+		for(Field each:fields) {
+			if(each.getType().equals(BigDecimal.class))
+				BeanUtil.set(this, each.getName(), new BigDecimal("0.00000"));
+		}
 	}
 }

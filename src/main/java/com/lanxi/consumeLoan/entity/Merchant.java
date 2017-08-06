@@ -1,11 +1,14 @@
 package com.lanxi.consumeLoan.entity;
 
 import java.math.BigDecimal;
+import java.util.List;
 import java.lang.String;
+import java.lang.reflect.Field;
 import java.lang.Integer;
 
 import com.lanxi.util.interfaces.ToJson;
 import com.lanxi.util.interfaces.ToMap;
+import com.lanxi.util.utils.BeanUtil;
 
 /**
  * no comment
@@ -88,6 +91,10 @@ public class Merchant implements ToJson,ToMap{
 	
 	/**是否提供保证金*/
 	private String provideDeposit;
+	
+	public Merchant() {
+		init();
+	}
 	
 	/**获取商户编号*/
 	public String getMerchantId(){
@@ -349,7 +356,7 @@ public class Merchant implements ToJson,ToMap{
 	 * 全部
 	 */
 	public void hide() {
-		this.setMerchantId(null);
+//		this.setMerchantId(null);
 		this.setMerchantName(null);
 		this.setMerchantType(null);
 		this.setMerchantAddress(null);
@@ -426,8 +433,8 @@ public class Merchant implements ToJson,ToMap{
 	 * 管理员商家列表查询
 	 */
 	public void hide4() {
-		this.setMerchantType(null);
-		this.setIsAssurance(null);
+//		this.setMerchantType(null);
+//		this.setIsAssurance(null);
 		this.setDepositeAmount(null);
 		this.setDepositeRate(null);
 		this.setDepositeBalance(null);
@@ -443,5 +450,12 @@ public class Merchant implements ToJson,ToMap{
 		this.setBreakAmount(null);
 		this.setBreakMoneyAmount(null);
 		this.setStopTime(null);
+	}	
+	public void init() {
+		List<Field> fields=BeanUtil.getFieldListNoStatic(this);
+		for(Field each:fields) {
+			if(each.getType().equals(BigDecimal.class))
+				BeanUtil.set(this, each.getName(), new BigDecimal("0.00000"));
+		}
 	}
 }
