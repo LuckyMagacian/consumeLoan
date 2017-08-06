@@ -10,6 +10,7 @@ import org.junit.Test;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
+import com.alibaba.fastjson.JSONObject;
 import com.lanxi.consumeLoan.basic.Attribute;
 import com.lanxi.consumeLoan.basic.Function;
 import com.lanxi.consumeLoan.consts.ConstParam;
@@ -286,4 +287,14 @@ public class ApplicationTest2 {
 		System.err.println(dao.selectUserByClassLike(user));
 	}
 	
+	@Test
+	public void testUserProxy() {
+		User user=dao.getUserDao().selectUserByUniqueIndexOnPhone("5001");
+		System.err.println(user.toProxy().toUser());
+		System.err.println(user.toProxy().toAdmin());
+		System.err.println(user.toProxy().toShopKeeper());
+		System.err.println(user.toProxy().toSalesMan());
+		System.err.println(user.toProxy().toCustomerManager());
+		System.err.println(JSONObject.toJSON(user.toProxy().getMap()));
+	}
 }

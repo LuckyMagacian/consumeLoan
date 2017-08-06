@@ -173,6 +173,7 @@ public class User{
 		proxy.setPhone(getPhone());
 		return proxy;
 	}
+	
 	/**
 	 * 隐藏属性
 	 */

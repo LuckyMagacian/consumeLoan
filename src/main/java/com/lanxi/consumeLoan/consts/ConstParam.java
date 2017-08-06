@@ -54,4 +54,14 @@ public interface ConstParam {
 	/** 商户类型 */
 	public static final String MERCHANT_TYPE = "";
 
+	/**用户角色名-销售员*/
+	public static final String USER_ROLE_NAME_SALESMAN="salesMan";
+	/**用户角色名-商户负责人*/
+	public static final String USER_ROLE_NAME_SHOP_KEEPER="shopKeeper";
+	/**用户角色名-客户经理*/
+	public static final String USER_ROLE_NAME_CUSTOMER_MANAGER="customerManager";
+	/**用户角色名-管理员*/
+	public static final String USER_ROLE_NAME_ADMIN="admin";
+	/**用户角色名-root(仅限测试用)*/
+	public static final String USER_ROLE_NAME_ROOT="root";
 }

@@ -28,6 +28,7 @@ import com.lanxi.consumeLoan.functions.AdminUserAddFunction;
 import com.lanxi.consumeLoan.functions.AdminUserCheckBackFunction;
 import com.lanxi.consumeLoan.functions.AdminUserCheckFunction;
 import com.lanxi.consumeLoan.functions.AdminUserDeleteFunction;
+import com.lanxi.consumeLoan.functions.AdminUserModifyFunction;
 import com.lanxi.consumeLoan.functions.AdminUserQueryFunction;
 import com.lanxi.consumeLoan.functions.AdminUserStateUpdateFunction;
 import com.lanxi.consumeLoan.functions.ApplyOrderAddFunction;
@@ -330,7 +331,7 @@ public class TestController {
 	
 	@RequestMapping(value="merchantShelve",produces = {"application/json;charset=UTF-8"})
 	@ResponseBody
-	protected String merchantShelve(HttpServletRequest req,HttpServletResponse res){
+	public String merchantShelve(HttpServletRequest req,HttpServletResponse res){
 		String phone=req.getParameter("phone");
 		try {
 			MerchantShelveFunction fun=ac.getBean(MerchantShelveFunction.class);
@@ -346,7 +347,7 @@ public class TestController {
 
 	@RequestMapping(value="merchantUnShelve",produces = {"application/json;charset=UTF-8"})
 	@ResponseBody
-	protected String merchantUnShelve(HttpServletRequest req,HttpServletResponse res){
+	public String merchantUnShelve(HttpServletRequest req,HttpServletResponse res){
 		String phone=req.getParameter("phone");
 		try {
 			MerchantUnsheleveFunction fun=ac.getBean(MerchantUnsheleveFunction.class);
@@ -362,7 +363,7 @@ public class TestController {
 	
 	@RequestMapping(value="merchantDetailQuery",produces = {"application/json;charset=UTF-8"})
 	@ResponseBody
-	protected String merchantDetailQuery(HttpServletRequest req,HttpServletResponse res){
+	public String merchantDetailQuery(HttpServletRequest req,HttpServletResponse res){
 		String phone=req.getParameter("phone");
 		try {
 			MerchantDetailQueryFunction fun=ac.getBean(MerchantDetailQueryFunction.class);
@@ -378,7 +379,7 @@ public class TestController {
 	
 	@RequestMapping(value="merchantDelete",produces = {"application/json;charset=UTF-8"})
 	@ResponseBody
-	protected String merchantDelete(HttpServletRequest req,HttpServletResponse res){
+	public String merchantDelete(HttpServletRequest req,HttpServletResponse res){
 		String phone=req.getParameter("phone");
 		try {
 			MerchantDeleteFunction fun=ac.getBean(MerchantDeleteFunction.class);
@@ -394,7 +395,7 @@ public class TestController {
 	
 	@RequestMapping(value="merchantQuery",produces = {"application/json;charset=UTF-8"})
 	@ResponseBody
-	protected String merchantQuery(HttpServletRequest req,HttpServletResponse res){
+	public String merchantQuery(HttpServletRequest req,HttpServletResponse res){
 		String phone=req.getParameter("phone");
 		try {
 			MerchantQueryFunction fun=ac.getBean(MerchantQueryFunction.class);
@@ -417,7 +418,7 @@ public class TestController {
 
 	@RequestMapping(value="overdueRecord",produces = {"application/json;charset=UTF-8"})
 	@ResponseBody
-	protected String overdueRecord(HttpServletRequest req,HttpServletResponse res){
+	public String overdueRecord(HttpServletRequest req,HttpServletResponse res){
 		String phone=req.getParameter("phone");
 		try {
 			OverdueRecordFunction fun=ac.getBean(OverdueRecordFunction.class);
@@ -435,7 +436,7 @@ public class TestController {
 	}
 	@RequestMapping(value="adminApplyQueryFunction",produces = {"application/json;charset=UTF-8"})
 	@ResponseBody
-	protected String adminApplyQueryFunction(HttpServletRequest req,HttpServletResponse res){
+	public String adminApplyQueryFunction(HttpServletRequest req,HttpServletResponse res){
 		String phone=req.getParameter("phone");
 		try {
 			AdminApplyQueryFunction fun=ac.getBean(AdminApplyQueryFunction.class);
@@ -467,7 +468,7 @@ public class TestController {
 	
 	@RequestMapping(value="adminChargeQueryFunction",produces = {"application/json;charset=UTF-8"})
 	@ResponseBody
-	protected String adminChargeQueryFunction(HttpServletRequest req,HttpServletResponse res){
+	public String adminChargeQueryFunction(HttpServletRequest req,HttpServletResponse res){
 		String phone=req.getParameter("phone");
 		try {
 			AdminChargeQueryFunction fun=ac.getBean(AdminChargeQueryFunction.class);
@@ -546,7 +547,7 @@ public class TestController {
 	
 	@RequestMapping(value="customerManagerApplyOrderQuery",produces = {"application/json;charset=UTF-8"})
 	@ResponseBody
-	protected String customerManagerApplyOrderQuery(HttpServletRequest req,HttpServletResponse res){
+	public String customerManagerApplyOrderQuery(HttpServletRequest req,HttpServletResponse res){
 		String phone=req.getParameter("phone");
 		try {
 			CustomerManagerApplyOrderQueryFunction fun=ac.getBean(CustomerManagerApplyOrderQueryFunction.class);
@@ -1067,7 +1068,7 @@ public class TestController {
 	
 	@RequestMapping(value="loanFunction",produces = {"application/json;charset=UTF-8"})
 	@ResponseBody
-	protected String loanFunction(HttpServletRequest req,HttpServletResponse res){
+	public String loanFunction(HttpServletRequest req,HttpServletResponse res){
 		String phone=req.getParameter("phone");
 		try {
 			LoanFunction fun=ac.getBean(LoanFunction.class);
@@ -1084,7 +1085,7 @@ public class TestController {
 	
 	@RequestMapping(value="rejectFunction",produces = {"application/json;charset=UTF-8"})
 	@ResponseBody
-	protected String rejectFunction(HttpServletRequest req,HttpServletResponse res){
+	public String rejectFunction(HttpServletRequest req,HttpServletResponse res){
 		String phone=req.getParameter("phone");
 		try {
 			RejectFunction fun=ac.getBean(RejectFunction.class);
@@ -1101,7 +1102,7 @@ public class TestController {
 	
 	@RequestMapping(value="adminUserCheckFunction",produces = {"application/json;charset=UTF-8"})
 	@ResponseBody
-	protected String adminUserCheckFunction(HttpServletRequest req,HttpServletResponse res){
+	public String adminUserCheckFunction(HttpServletRequest req,HttpServletResponse res){
 		String phone=req.getParameter("phone");
 		try {
 			AdminUserCheckFunction fun=ac.getBean(AdminUserCheckFunction.class);
@@ -1117,7 +1118,7 @@ public class TestController {
 	
 	@RequestMapping(value="customerManagerUserQueryFunction",produces = {"application/json;charset=UTF-8"})
 	@ResponseBody
-	protected String customerManagerUserQueryFunction(HttpServletRequest req,HttpServletResponse res){
+	public String customerManagerUserQueryFunction(HttpServletRequest req,HttpServletResponse res){
 		String phone=req.getParameter("phone");
 		try {
 			CustomerManagerUserQueryFunction fun=ac.getBean(CustomerManagerUserQueryFunction.class);
@@ -1151,7 +1152,7 @@ public class TestController {
 	
 	@RequestMapping(value="merchantModifyFunction",produces = {"application/json;charset=UTF-8"})
 	@ResponseBody
-	protected String merchantModifyFunction(HttpServletRequest req,HttpServletResponse res){
+	public String merchantModifyFunction(HttpServletRequest req,HttpServletResponse res){
 		Merchant merchant =new Merchant();
 		
 		String phone=req.getParameter("phone");
@@ -1200,7 +1201,7 @@ public class TestController {
 	}
 	@RequestMapping(value="adminUserCheckBackFunction",produces = {"application/json;charset=UTF-8"})
 	@ResponseBody
-	protected String adminUserCheckBackFunction(HttpServletRequest req,HttpServletResponse res){
+	public String adminUserCheckBackFunction(HttpServletRequest req,HttpServletResponse res){
 		String phone=req.getParameter("phone");
 		try {
 			AdminUserCheckBackFunction fun=ac.getBean(AdminUserCheckBackFunction.class);
@@ -1216,7 +1217,7 @@ public class TestController {
 	
 	@RequestMapping(value="adminUserDeleteFunction",produces = {"application/json;charset=UTF-8"})
 	@ResponseBody
-	protected String adminUserDeleteFunction(HttpServletRequest req,HttpServletResponse res){
+	public String adminUserDeleteFunction(HttpServletRequest req,HttpServletResponse res){
 		String phone=req.getParameter("phone");
 		try {
 			AdminUserDeleteFunction fun=ac.getBean(AdminUserDeleteFunction.class);
@@ -1232,7 +1233,7 @@ public class TestController {
 	
 	@RequestMapping(value="adminUserStateUpdateFunction",produces = {"application/json;charset=UTF-8"})
 	@ResponseBody
-	protected String adminUserStateUpdateFunction(HttpServletRequest req,HttpServletResponse res){
+	public String adminUserStateUpdateFunction(HttpServletRequest req,HttpServletResponse res){
 		String phone=req.getParameter("phone");
 		try {
 			AdminUserStateUpdateFunction fun=ac.getBean(AdminUserStateUpdateFunction.class);
@@ -1247,4 +1248,25 @@ public class TestController {
 		}
 	}
 	
+	@RequestMapping(value="userModify",produces = {"application/json;charset=UTF-8"})
+	@ResponseBody
+	public String adminUserModify(HttpServletRequest req,HttpServletResponse res) {
+		String phone=req.getParameter("phone");
+		try {
+			AdminUserModifyFunction fun=ac.getBean(AdminUserModifyFunction.class);
+			Map<String, Object> args=new HashMap<>();
+			args.put("phone",phone);
+			args.put("userPhone",req.getParameter("userPhone"));
+			args.put("password", req.getParameter("password"));
+			args.put("name", req.getParameter("name"));
+			args.put("netAddress", req.getParameter("netAddress"));
+			args.put("merchantId", req.getParameter("merchantId"));
+			args.put("merchantName", req.getParameter("merchantName"));
+			return fun.excuted(args).toJson();
+		} catch (Exception e) {
+			LogFactory.error(this, "管理员["+phone+"]修改用户信息时发生异常!",e);
+			return new RetMessage(RetCodeEnum.EXCEPTION.toString(),"修改用户信息时发生异常!",null).toJson();
+		}
+	}
+
 }

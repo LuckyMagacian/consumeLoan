@@ -25,4 +25,11 @@ public class Test20170802 {
 		System.out.println(account1==account2);
 		
 	}
+	@Test
+	public void test2() {
+		String str1=null;
+		Object obj1=str1;
+		String str2=(String)obj1;
+		System.out.println(str2);
+	}
 }

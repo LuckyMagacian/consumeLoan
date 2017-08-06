@@ -78,4 +78,8 @@ public class UserProxy implements ToMap,ToJson{
 	public Map<String, Object> toAdmin(){
 		return toUser();
 	}
+	
+	public Map<String, Object> getMap(){
+		return map;
+	}
 }
