@@ -24,7 +24,9 @@ public class User{
 	
 	/**属性*/
 	private Map<String, Attribute<?>> attributes;
-	
+	public User() {
+		
+	}
 	/**
 	 * 设置 属性中名称为attrName的属性的值为obj
 	 * @param attrName	属性名
@@ -35,7 +37,10 @@ public class User{
 		if(this.attributes==null)
 			this.attributes=new HashMap<String, Attribute<?>>();
 		Attribute attr=attributes.get(attrName);
-		attr.setValue(obj);
+		if(attr==null) {
+			addAttribute(new Attribute(attrName, obj));
+		}else
+			attr.setValue(obj);
 	}
 	/**
 	 * 获取属性中名称为attributeName的属性

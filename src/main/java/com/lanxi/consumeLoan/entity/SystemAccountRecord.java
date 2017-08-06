@@ -38,7 +38,7 @@ public class SystemAccountRecord{
 	private String reason;
 	
 	public SystemAccountRecord() {
-		init();
+		Apply.init(this);
 	}
 	
 	/**获取记录时间戳-纳秒*/
@@ -114,12 +114,5 @@ public class SystemAccountRecord{
 	@Override
 	public String toString(){
 		return "com.lanxi.consumeLoan.entity.SystemAccountRecord:["+"nanoTime="+nanoTime+","+"accountId="+accountId+","+"isAdd="+isAdd+","+"monetyChange="+monetyChange+","+"recordTime="+recordTime+","+"moneyType="+moneyType+","+"reason="+reason+"]";
-	}
-	public void init() {
-		List<Field> fields=BeanUtil.getFieldListNoStatic(this);
-		for(Field each:fields) {
-			if(each.getType().equals(BigDecimal.class))
-				BeanUtil.set(this, each.getName(), new BigDecimal("0.00000"));
-		}
 	}
 }

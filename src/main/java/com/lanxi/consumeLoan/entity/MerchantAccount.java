@@ -28,7 +28,7 @@ public class MerchantAccount{
 	private BigDecimal serviceCharge;
 	
 	public MerchantAccount() {
-		init();
+		Apply.init(this);
 	}
 	
 	/**获取商户编号*/
@@ -84,11 +84,5 @@ public class MerchantAccount{
 	public void hide3(){
 		
 	}
-	public void init() {
-		List<Field> fields=BeanUtil.getFieldListNoStatic(this);
-		for(Field each:fields) {
-			if(each.getType().equals(BigDecimal.class))
-				BeanUtil.set(this, each.getName(), new BigDecimal("0.00000"));
-		}
-	}
+
 }

@@ -93,7 +93,7 @@ public class Merchant implements ToJson,ToMap{
 	private String provideDeposit;
 	
 	public Merchant() {
-		init();
+		Apply.init(this);
 	}
 	
 	/**获取商户编号*/
@@ -451,11 +451,4 @@ public class Merchant implements ToJson,ToMap{
 		this.setBreakMoneyAmount(null);
 		this.setStopTime(null);
 	}	
-	public void init() {
-		List<Field> fields=BeanUtil.getFieldListNoStatic(this);
-		for(Field each:fields) {
-			if(each.getType().equals(BigDecimal.class))
-				BeanUtil.set(this, each.getName(), new BigDecimal("0.00000"));
-		}
-	}
 }

@@ -4,6 +4,8 @@ import java.lang.reflect.Field;
 import java.math.BigDecimal;
 import java.util.List;
 
+import org.apache.camel.language.Bean;
+
 import com.lanxi.util.utils.BeanUtil;
 
 /**
@@ -101,7 +103,7 @@ public class Apply{
 	private String reason;
 
 	public Apply() {
-		init();
+		init(this);
 	}
 	
 	/**获取申请编号*/
@@ -519,13 +521,15 @@ public class Apply{
 		this.setReason(null);		
 	}
 	
-	public void init() {
-		List<Field> fields=BeanUtil.getFieldListNoStatic(this);
+	public static void init(Object obj) {
+		List<Field> fields=BeanUtil.getFieldListNoStatic(obj);
 		for(Field each:fields) {
 			if(each.getType().equals(BigDecimal.class))
-				BeanUtil.set(this, each.getName(), new BigDecimal("0.00000"));
+				BeanUtil.set(obj, each.getName(), new BigDecimal("0.00000"));
 			if(each.getType().equals(String.class))
-				BeanUtil.set(this, each.getName(), "");
+				BeanUtil.set(obj, each.getName(), "");
+			if(each.getType().equals(Integer.class))
+				BeanUtil.set(obj,each.getName(),0);
 		}
 	}
 }

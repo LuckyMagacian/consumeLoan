@@ -43,7 +43,7 @@ public class SystemAccount{
 	private BigDecimal version;
 	
 	public SystemAccount() {
-		init();
+		Apply.init(this);
 	}
 	
 	/**获取账户编号*/
@@ -140,11 +140,5 @@ public class SystemAccount{
 	public String toString(){
 		return "com.lanxi.consumeLoan.entity.SystemAccount:["+"accountId="+accountId+","+"brokerage="+brokerage+","+"provisionsOfRisk="+provisionsOfRisk+","+"serviceCharge="+serviceCharge+","+"brokerageRate="+brokerageRate+","+"provisionsOfRiskRate="+provisionsOfRiskRate+","+"serviceChargeRate="+serviceChargeRate+","+"provisionsOfRiskMax="+provisionsOfRiskMax+","+"version="+version+"]";
 	}
-	public void init() {
-		List<Field> fields=BeanUtil.getFieldListNoStatic(this);
-		for(Field each:fields) {
-			if(each.getType().equals(BigDecimal.class))
-				BeanUtil.set(this, each.getName(), new BigDecimal("0.00000"));
-		}
-	}
+
 }

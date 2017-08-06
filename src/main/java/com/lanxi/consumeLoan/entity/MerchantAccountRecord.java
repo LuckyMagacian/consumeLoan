@@ -37,7 +37,7 @@ public class MerchantAccountRecord{
 	private String reason;
 	
 	public MerchantAccountRecord() {
-		init();
+		Apply.init(this);
 	}
 	
 	/**获取记录时间戳-纳秒*/
@@ -122,12 +122,5 @@ public class MerchantAccountRecord{
 	}
 	public void hide3(){
 		
-	}
-	public void init() {
-		List<Field> fields=BeanUtil.getFieldListNoStatic(this);
-		for(Field each:fields) {
-			if(each.getType().equals(BigDecimal.class))
-				BeanUtil.set(this, each.getName(), new BigDecimal("0.00000"));
-		}
 	}
 }

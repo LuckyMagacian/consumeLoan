@@ -59,6 +59,23 @@ public class AdminMerchantAddFunction extends AbstractFunction {
     		return new RetMessage(RetCodeEnum.FAIL.toString(),"商户信息为空,添加失败!",null);
     	}
     	Merchant merchant=JSONObject.parseObject(merchantJson,Merchant.class);
+    	String managerPhone=merchant.getCustomerManagerPhone();
+    	String managerName=merchant.getCustomerManagerName();
+    	User userTemp=dao.getUserDao().selectUserByUniqueIndexOnPhone(managerPhone);
+    	if(userTemp==null) {
+    		LogFactory.info(this, "用户["+phone+"]添加的商户负责客户经理["+managerPhone+"]不存在为空!");
+    		return new RetMessage(RetCodeEnum.FAIL.toString(), "客户经理不存在!请检查手机号!", null);
+    	}
+    	if(!userTemp.get("name").getValue().equals(managerName)) {
+    		LogFactory.info(this, "用户["+phone+"]添加的商户负责客户经理["+managerPhone+"]姓名不匹配,输入姓名["+managerName+"],真实姓名["+userTemp.get("name").getValue()+"]!");
+    		return new RetMessage(RetCodeEnum.FAIL.toString(), "客户经理姓名错误!", null);
+    	}
+    	
+    	Merchant tempMerchent=dao.getMerchantDao().selectMerchantByUniqueIndexOnMerchantNameAndMerchantAddressAndMerchantType(merchant.getMerchantName(), merchant.getMerchantAddress(), merchant.getMerchantType());
+    	if(tempMerchent!=null) {
+    		LogFactory.info(this, "根据商户名,地址,商户类型,判定当前已存在相似度极高的商户,["+tempMerchent+"],添加商户["+merchant+"]失败");
+    		return new RetMessage(RetCodeEnum.FAIL.toString(),"当前地址已存在同名同类商户!",null);
+    	}
     	merchant.setMerchantId(TimeUtil.getDate()+TimeUtil.getNanoTime()+RandomUtil.getRandomNumber(6));
     	merchant.setState(ConstParam.MERCHANT_STATE_WAIT_CHECK);
     	merchant.setCustomerManagerPhone(phone);
@@ -76,13 +93,21 @@ public class AdminMerchantAddFunction extends AbstractFunction {
 	    	for(JSONObject each:shopKeepers){
 	    		String userPhone=each.getString("phone");
 	    		User user=dao.getUserDao().selectUserByUniqueIndexOnPhone(userPhone);
-	    		if(user!=null)
-	    			return failNotice();
+	    		if(user!=null) {
+	    			LogFactory.info(this, "添加用户["+userPhone+"]时用户已存在!");
+	    			return new RetMessage(RetCodeEnum.WARNING.toString(), "商户添加成功!添加用户["+userPhone+"]时,用户已存在!", null);
+	    		}
 	    		user=new User();
-	   			user.set("name", each.getString("name"));
 	    		user.setRoleName(role.getRoleName());
+	    		user.setPhone(userPhone);
 	    		userManager.addAttributesForUser(user);
+	    		user.set("name", each.getString("name"));
 	    		user.set("merchantId", merchant.getMerchantId());
+	    		user.set("merchantName", merchant.getMerchantName());
+	    		user.set("merchantAddress", merchant.getMerchantAddress());
+	    		user.set("createTime", TimeUtil.getDateTime());
+	    		user.set("createBy", phone);
+	    		user.set("state",ConstParam.USER_STATE_WAIT_CHECK);
 	    		dao.getUserDao().addUser(user);
 	    	}
 	    	LogFactory.info(this, "用户["+phone+"]添加店长成功!");
@@ -99,13 +124,21 @@ public class AdminMerchantAddFunction extends AbstractFunction {
     		for(JSONObject each:salesMan){
     			String userPhone=each.getString("phone");
     			User user=dao.getUserDao().selectUserByUniqueIndexOnPhone(userPhone);
-    			if(user!=null)
-    				return failNotice();
+    			if(user!=null) {
+	    			LogFactory.info(this, "商户添加成功!添加用户["+userPhone+"]时用户已存在!");
+	    			return new RetMessage(RetCodeEnum.WARNING.toString(), "添加用户["+userPhone+"]时,用户已存在!", null);
+	    		}
     			user=new User();
     			user.setRoleName(role.getRoleName());
-    			user.set("name", each.getString("name"));
+    			user.setPhone(userPhone);
     			userManager.addAttributesForUser(user);
+    			user.set("name", each.getString("name"));
     			user.set("merchantId", merchant.getMerchantId());
+	    		user.set("merchantName", merchant.getMerchantName());
+	    		user.set("merchantAddress", merchant.getMerchantAddress());
+	    		user.set("createTime", TimeUtil.getDateTime());
+	    		user.set("createBy", phone);
+	    		user.set("state",ConstParam.USER_STATE_WAIT_CHECK);
     			dao.getUserDao().addUser(user);
     		}
     		LogFactory.info(this, "用户["+phone+"]添加销售员成功!");
