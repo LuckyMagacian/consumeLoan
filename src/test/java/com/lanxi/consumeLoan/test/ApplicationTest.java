@@ -151,7 +151,7 @@ public class ApplicationTest {
 	@Test
 	public void test11(){
 		SetEncodeUtf8 set=ac.getBean(SetEncodeUtf8.class);
-		ac.getBean(TestController.class).getPic(null, null);
+//		ac.getBean(TestController.class).getPic(null, null);
 		System.out.println(set);
 	}
 	
