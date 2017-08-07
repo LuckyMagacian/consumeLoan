@@ -486,7 +486,6 @@ public class Apply{
 		this.setAddress(null);
 		this.setApplyMoney(null);
 		this.setVerifyCode(null);
-		this.setMerchantId(null);
 		this.setSalesManPhone(null);
 		this.setIsOverdue(null);
 		this.setOverdueMoney(null);
