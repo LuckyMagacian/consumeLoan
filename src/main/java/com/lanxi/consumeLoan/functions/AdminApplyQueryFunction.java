@@ -73,7 +73,6 @@ public class AdminApplyQueryFunction extends AbstractFunction{
 		for (Apply apply : list) {
 			apply.hide4();
 		}
-		
 		Map<String, Object> resultMap =new HashMap<>();
 		resultMap.put("applys", list);
 		resultMap.put("page", page);

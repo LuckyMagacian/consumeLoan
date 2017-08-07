@@ -8,6 +8,7 @@ import com.lanxi.util.consts.RetCodeEnum;
 import com.lanxi.util.entity.LogFactory;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.util.Map;
@@ -49,7 +50,6 @@ public class OverdueRecordFunction extends AbstractFunction {
         }
         apply.setBreakTime(breakTime);
         apply.setBreakMoney(breakMoney);
-        dao.getApplyDao().updateApplyByUniqueIndexOnApplyId(apply,applyId);
         Merchant merchant = dao.getMerchantDao().selectMerchantByUniqueIndexOnMerchantId(merchantId);
         Integer breakAmount = merchant.getBreakAmount();
         BigDecimal breakMoneyAmount = merchant.getBreakMoneyAmount();
@@ -59,13 +59,28 @@ public class OverdueRecordFunction extends AbstractFunction {
         LogFactory.info(this,"用户["+phone+"],逾期之前的违约总金额为：" + breakMoneyAmount+ ",逾期之前的违约总人数为："+(breakAmount+ 1));
     
         breakMoneyAmount = breakMoneyAmount.add(breakMoney);
-       
+        
         merchant.setBreakAmount(breakAmount + 1);
         merchant.setBreakMoneyAmount(breakMoneyAmount);
-        LogFactory.info(this,"用户["+phone+"],逾期之后的违约总金额为：" + breakMoneyAmount+ ",逾期之后的违约总人数为："+(breakAmount+ 1));
-        dao.getMerchantDao().updateMerchantByUniqueIndexOnMerchantId(merchant, merchantId);
-        
-        LogFactory.info(this, "用户["+phone+"],逾期的申请id["+applyId+"]逾期成功!");
-        return new RetMessage(RetCodeEnum.SUCCESS.toString(),"逾期成功!",null);
+        if(update(apply, merchant))
+        	return new RetMessage(RetCodeEnum.SUCCESS.toString(),"违约操作成功!",null);
+        else
+        	return new RetMessage(RetCodeEnum.FAIL.toString(),"违约操作失败,请重试!",null);
+    }
+	@Transactional
+    public boolean update(Apply apply,Merchant merchant) {
+    	try {
+			LogFactory.info(this, "尝试更新商户账户!");
+			dao.getMerchantDao().updateMerchantByUniqueIndexOnMerchantId(merchant, merchant.getMerchantId());
+			LogFactory.info(this, "更新商户违约信息成功!");
+			LogFactory.info(this, "尝试更新申请订单!");
+			dao.getApplyDao().updateApplyByUniqueIndexOnApplyId(apply, apply.getApplyId());
+			LogFactory.info(this, "更新订单违约信息成功!");
+			return true;
+		} catch (Exception e) {
+			return false;
+		}
     }
 }
+
+

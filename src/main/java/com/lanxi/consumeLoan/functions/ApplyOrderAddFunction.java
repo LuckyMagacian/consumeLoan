@@ -1,6 +1,7 @@
 package com.lanxi.consumeLoan.functions;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -87,6 +88,11 @@ public class ApplyOrderAddFunction extends AbstractFunction{
     	param.put("start_time",new SimpleDateFormat("yyyyMMddHHmmss").format(date));
     	param.put("end_time",TimeUtil.getDateTime());
     	List<Apply> applys=dao.getApplyDao().selectApplyByParam(param);
+    	
+    	List<String> specialPhones=new ArrayList<>();
+    	specialPhones.add("15757129562");
+    	//TODO  测试专用手机号不经过3个月校验 待删除
+    	if(!specialPhones.contains(userPhone))
     	if(!applys.isEmpty()) {
     		StringBuffer buffer=new StringBuffer();
     		for(Apply each:applys) {
@@ -111,6 +117,11 @@ public class ApplyOrderAddFunction extends AbstractFunction{
     	apply.setBrokerageRate(merchant.getBrokerageRate());
     	apply.setDepositeRate(merchant.getDepositeRate());
     	apply.setServiceRate(systemAccount.getServiceChargeRate()); 
+    	apply.setMerchantName(merchant.getMerchantName());
+    	apply.setMerchantType(merchant.getMerchantType());
+    	apply.setIsAssurance(merchant.getIsAssurance());
+    	apply.setCustomerManagerName(merchant.getCustomerManagerName());
+    	apply.setCustomerManagerPhone(merchant.getCustomerManagerPhone());
     	merchant.setApplyAmount(merchant.getApplyAmount()+1);
     	merchant.setApplyMoneyAmount(merchant.getApplyMoneyAmount().add(apply.getApplyMoney()));
     	dao.getApplyDao().addApply(apply);

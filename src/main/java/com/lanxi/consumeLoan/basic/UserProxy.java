@@ -67,6 +67,7 @@ public class UserProxy implements ToMap,ToJson{
 		Map<String, Object> temp=toUser();
 		temp.put("merchantName", map.get("merchantName"));
 		temp.put("merchantAddress", map.get("merchantAddress"));
+		temp.put("merchantId", map.get("merchantId"));
 		return temp;
 	}
 	public Map<String, Object> toShopKeeper(){

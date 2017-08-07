@@ -87,21 +87,25 @@ public class AdminUserQueryFunction extends AbstractFunction{
 				for(User each:users){
 					userProxy.add(each.toProxy().toUser());
 				}
+				LogFactory.info(this, "管理员["+phone+"]转换结果["+userProxy+"]");
 			}else if((merchantName!=null&&!merchantName.isEmpty())||roleName.equals("salesMan")||roleName.equals("shopKeeper")){
 				LogFactory.info(this, "管理员["+phone+"]查询结果转商户通用属性");
 				for(User each:users){
 					userProxy.add(each.toProxy().toSalesMan());
 				}
+				LogFactory.info(this, "管理员["+phone+"]转换结果["+userProxy+"]");
 			}else if(roleName.equals("customerManager")){
 				LogFactory.info(this, "管理员["+phone+"]查询结果转客户经理属性");
 				for(User each:users){
 					userProxy.add(each.toProxy().toCustomerManager());
 				} 
+				LogFactory.info(this, "管理员["+phone+"]转换结果["+userProxy+"]");
 			}else{
 				LogFactory.info(this, "管理员["+phone+"]查询结果转管理员属性");
 				for(User each:users){
 					userProxy.add(each.toProxy().toAdmin());
 				}
+				LogFactory.info(this, "管理员["+phone+"]转换结果["+userProxy+"]");
 			}
 			userProxy = userProxy.subList(page.getStart(), page.getEnd());
 			Map<String, Object> resultMap = new HashMap<String, Object>();
