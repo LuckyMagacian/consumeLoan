@@ -54,7 +54,7 @@ public class LoanFunction extends AbstractFunction {
 		apply.setState(ConstParam.APPLY_STATE_LOAN);
 		dao.getApplyDao().updateApplyByUniqueIndexOnApplyId(apply, applyId);
 		//修改系统
-		SystemAccount account=dao.getSystemAccountDao().selectSystemAccountByClass(new SystemAccount()).get(0);
+		SystemAccount account=dao.getSystemAccountDao().selectSystemAccountByUniqueIndexOnAccountId("1001");
 		LogFactory.info(this, "管理员["+phone+"],放款之前的佣金值："+account.getBrokerage() + ",放款之前的服务费" + account.getServiceCharge() +",放款之前的风险准备金" + account.getProvisionsOfRisk());
 		BigDecimal  newBrokerge = new BigDecimal(0);
 		newBrokerge = loan.add(account.getBrokerage().multiply(account.getBrokerageRate()));
@@ -68,10 +68,10 @@ public class LoanFunction extends AbstractFunction {
 		account.setBrokerage(newBrokerge);
 		account.setServiceCharge(newServiceCharge);
 		account.setProvisionsOfRisk(newProvisionsOfRisk);
-		SystemAccount newAccount=dao.getSystemAccountDao().selectSystemAccountByClass(new SystemAccount()).get(0);
+		SystemAccount newAccount=dao.getSystemAccountDao().selectSystemAccountByUniqueIndexOnAccountId("1001");
 		BigDecimal newVersion = newAccount.getVersion();
 		LogFactory.info(this, "管理员["+phone+"],刚进来的版本号为：["+oldVersion+"],更新时的版本号为:["+newVersion+"]");
-		if (newAccount.equals(oldVersion)) {
+		if (newVersion.equals(oldVersion)) {
 			newVersion = newVersion.add(new BigDecimal(1));
 			account.setVersion(newVersion);
 			dao.getSystemAccountDao().updateSystemAccountByUniqueIndexOnAccountId(account, account.getAccountId());

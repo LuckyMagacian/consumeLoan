@@ -101,7 +101,7 @@ public class ApplyOrderAddFunction extends AbstractFunction{
     		return new RetMessage(RetCodeEnum.FAIL.toString(),"手机验证码校验不通过!",null);
     	}
     	LogFactory.info(this, "用户["+phone+"]添加的订单["+userPhone+"]手机验证码校验通过!删除缓存验证码!");
-    	SystemAccount systemAccount=dao.getSystemAccountDao().selectSystemAccountByClass(new com.lanxi.consumeLoan.entity.SystemAccount()).get(0);
+    	SystemAccount systemAccount=dao.getSystemAccountDao().selectSystemAccountByUniqueIndexOnAccountId("1001");
     	redisService.delete(ConstParam.FUNCTION_NAME_APPLY_ADD+userPhone.trim());
     	apply.setApplyTime(TimeUtil.getDateTime());
     	apply.setState(ConstParam.APPLY_STATE_WAIT_CHECK);

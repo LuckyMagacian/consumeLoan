@@ -60,7 +60,7 @@ public class AdminUserAddFunction extends AbstractFunction{
 		String name=(String) args.get("name");
 		if(roleName.equals("customerManager")){
 			String netAddress=(String) args.get("netAddress");
-			user.set("netAddress", netAddress);			
+			user.set("netAddress", netAddress);
 		}
 		if(roleName.equals("salesMan")||roleName.equals("shopKeeper")){
 			String merchantId=(String) args.get("merchantId");
@@ -73,9 +73,13 @@ public class AdminUserAddFunction extends AbstractFunction{
 				LogFactory.info(this, "管理员["+phone+"]添加用户["+userPhone+"]为["+roleName+"]时,商户["+merchantId+"]不存在!");
 				return new RetMessage(RetCodeEnum.FAIL.toString(),"商户不存在!",null);
 			}
+			user.set("merchantId", merchant.getMerchantId());
+			user.set("merchantName", merchant.getMerchantName());
+			user.set("merchantAddress", merchant.getMerchantAddress());
 		}
 		user.setPhone(userPhone);
 		user.set("name", name);
+		user.set("createBy", phone);
 		dao.getUserDao().addUser(user);
 		LogFactory.info(this, "管理员["+phone+"]添加客户经理["+user+"]成功");
 		return new RetMessage(RetCodeEnum.SUCCESS.toString(), "添加用户成功!", null);
