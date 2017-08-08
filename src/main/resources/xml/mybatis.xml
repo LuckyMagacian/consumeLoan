@@ -35,15 +35,17 @@
 	<!-- 数据库配置 -->
 	<util:properties id="dbconfig" location="classpath:properties/jdbc.properties"></util:properties>
 	<bean id="ds" class="org.apache.commons.dbcp.BasicDataSource">
-	        <property name="driverClassName" value="#{dbconfig.driver}"></property>
-	        <property name="url"             value="#{dbconfig.url}"></property> 
-	        <property name="username"        value="#{dbconfig.username}"></property>
-	        <property name="password"        value="#{dbconfig.password}"></property>
-	        <property name="initialSize"     value="#{dbconfig.initialSize}"></property>
-	        <property name="maxActive"       value="#{dbconfig.maxActive}"></property>
-	        <property name="maxIdle"         value="#{dbconfig.maxIdle}"></property>
-	        <property name="minIdle"         value="#{dbconfig.minIdle}"></property>
-	        <property name="maxWait"         value="#{dbconfig.maxWait}"></property>
+	        <property name="driverClassName"           value="#{dbconfig.driver}"></property>
+	        <property name="url"                       value="#{dbconfig.url}"></property> 
+	        <property name="username"                  value="#{dbconfig.username}"></property>
+	        <property name="password"                  value="#{dbconfig.password}"></property>
+	        <property name="initialSize"               value="#{dbconfig.initialSize}"></property>
+	        <property name="maxActive"                 value="#{dbconfig.maxActive}"></property>
+	        <property name="maxIdle"                   value="#{dbconfig.maxIdle}"></property>
+	        <property name="minIdle"                   value="#{dbconfig.minIdle}"></property>
+	        <property name="maxWait"                   value="#{dbconfig.maxWait}"></property>
+	        <property name="validationQuery"           value="#{dbconfig.validationQuery}"></property>
+	        <property name="testOnBorrow"              value="#{dbconfig.testOnBorrow}"></property>
 	</bean>
 	<!-- mybatis配置 -->
 	<bean id="ssfb" class="org.mybatis.spring.SqlSessionFactoryBean">
