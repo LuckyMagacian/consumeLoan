@@ -1279,7 +1279,7 @@ public class TestController {
 		String phone=req.getParameter("phone");
 		try { 
 			AdminUserAddFunction fun=ac.getBean(AdminUserAddFunction.class);
-			Map<String, Object> args=new HashMap<>();
+			Map<String, Object> args=new HashMap<>(); 
 			args.put("phone",phone);
 			args.put("userPhone",req.getParameter("userPhone"));
 			args.put("roleName",ConstParam.USER_ROLE_NAME_SHOP_KEEPER);
