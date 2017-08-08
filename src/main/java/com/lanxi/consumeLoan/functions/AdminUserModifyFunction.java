@@ -15,19 +15,16 @@ public class AdminUserModifyFunction extends AbstractFunction{
 
 	@Override
 	public RetMessage successNotice() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public RetMessage failNotice() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 
 	@Override
 	public RetMessage showInfo() {
-		// TODO Auto-generated method stub
 		return null;
 	}
 

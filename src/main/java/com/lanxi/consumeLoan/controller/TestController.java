@@ -104,6 +104,7 @@ public class TestController {
 	protected String login(HttpServletRequest req,HttpServletResponse res){
 		String phone=req.getParameter("phone");
 		try {
+			System.out.println(phone);
 			LoginFunction fun=ac.getBean(LoginFunction.class);
 			Map<String, Object> args=new HashMap<>();
 			args.put("phone", req.getParameter("phone"));
@@ -117,7 +118,7 @@ public class TestController {
 		}
 	}
 	@RequestMapping(value="getPicCode")
-	public void getPic(HttpServletRequest req,HttpServletResponse res){
+	protected void getPic(HttpServletRequest req,HttpServletResponse res){
 		String phone=req.getParameter("phone");
 		try {
 			MakeValidateCodePicFunction fun=ac.getBean(MakeValidateCodePicFunction.class);
@@ -1175,17 +1176,18 @@ public class TestController {
 			if (req.getParameter("isAssurance") != null && req.getParameter("isAssurance") !="") {
 				merchant.setIsAssurance(req.getParameter("isAssurance"));
 			}
-			
 			if (req.getParameter("provideDeposit") != null && req.getParameter("provideDeposit") !="") {
 				merchant.setProvideDeposit(req.getParameter("provideDeposit"));
 			}
 			if (req.getParameter("depositeRate") != null && req.getParameter("depositeRate") !="") {
-				merchant.setIsAssurance(req.getParameter("depositeRate"));
+				BigDecimal depositeRate = new BigDecimal(req.getParameter("depositeRate"));
+				merchant.setDepositeRate(depositeRate);
 			}
 			if (req.getParameter("isShared") != null && req.getParameter("isShared") !="") {
 				merchant.setIsShared(req.getParameter("isShared"));
 			}
 			if (req.getParameter("sharedRate") != null && req.getParameter("sharedRate") !="") {
+				BigDecimal depositeRate = new BigDecimal(req.getParameter("sharedRate"));
 				merchant.setSharedRate(new BigDecimal(req.getParameter("sharedRate")));
 			}
 			if (req.getParameter("customerManagerPhone") != null && req.getParameter("customerManagerPhone") !="") {

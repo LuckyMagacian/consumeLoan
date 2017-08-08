@@ -28,7 +28,7 @@ import com.lanxi.consumeLoan.functions.AdminUserAddFunction;
 import com.lanxi.consumeLoan.functions.AdminUserCheckBackFunction;
 import com.lanxi.consumeLoan.functions.AdminUserCheckFunction;
 import com.lanxi.consumeLoan.functions.AdminUserDeleteFunction;
-import com.lanxi.consumeLoan.functions.AdminUserModifyFunction;
+//import com.lanxi.consumeLoan.functions.AdminUserModifyFunction;
 import com.lanxi.consumeLoan.functions.AdminUserQueryFunction;
 import com.lanxi.consumeLoan.functions.AdminUserStateUpdateFunction;
 import com.lanxi.consumeLoan.functions.ApplyOrderAddFunction;
@@ -139,7 +139,7 @@ public class ApplicationTest2 {
 		admin.add(SystemAccountQueryFunction.class);
 		admin.add(SystemHomeFunction.class);
 		admin.add(UserAddFunction.class);
-		admin.add(AdminUserModifyFunction.class);
+//		admin.add(AdminUserModifyFunction.class);
 		admin.add(AdminUserCheckFunction.class);
 		admin.add(AdminUserCheckBackFunction.class);
 		admin.add(AdminUserDeleteFunction.class);
