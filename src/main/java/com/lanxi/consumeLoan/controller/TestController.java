@@ -1271,4 +1271,41 @@ public class TestController {
 		}
 	}
 
+	@RequestMapping(value="adminShopKeeperAdd",produces = {"application/json;charset=UTF-8"})
+	@ResponseBody
+	public String adminShopKeeperAdd(HttpServletRequest req,HttpServletResponse res){
+		String phone=req.getParameter("phone");
+		try { 
+			AdminUserAddFunction fun=ac.getBean(AdminUserAddFunction.class);
+			Map<String, Object> args=new HashMap<>();
+			args.put("phone",phone);
+			args.put("userPhone",req.getParameter("userPhone"));
+			args.put("roleName",ConstParam.USER_ROLE_NAME_SHOP_KEEPER);
+			args.put("name",req.getParameter("name"));
+			args.put("merchantId", req.getParameter("merchantId"));
+			return fun.excuted(args).toJson();
+		} catch (Exception e) {
+			LogFactory.error(this, "管理员["+phone+"]添加商户负责人["+req.getParameter("userPhone")+"]时发生异常!",e);
+			return new RetMessage(RetCodeEnum.EXCEPTION.toString(),"管理员添加商户负责人时发生异常!",null).toJson();
+		}
+	}
+	
+	@RequestMapping(value="adminSaleManAdd",produces = {"application/json;charset=UTF-8"})
+	@ResponseBody
+	public String adminSaleManAdd(HttpServletRequest req,HttpServletResponse res){
+		String phone=req.getParameter("phone");
+		try { 
+			AdminUserAddFunction fun=ac.getBean(AdminUserAddFunction.class);
+			Map<String, Object> args=new HashMap<>();
+			args.put("phone",phone);
+			args.put("userPhone",req.getParameter("userPhone"));
+			args.put("roleName",ConstParam.USER_ROLE_NAME_SALESMAN);
+			args.put("name",req.getParameter("name"));
+			args.put("merchantId", req.getParameter("merchantId"));
+			return fun.excuted(args).toJson();
+		} catch (Exception e) {
+			LogFactory.error(this, "管理员["+phone+"]添加商户销售员["+req.getParameter("userPhone")+"]时发生异常!",e);
+			return new RetMessage(RetCodeEnum.EXCEPTION.toString(),"管理员添加商户销售员时发生异常!",null).toJson();
+		}
+	}
 }
