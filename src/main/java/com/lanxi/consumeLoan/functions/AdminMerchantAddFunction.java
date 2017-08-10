@@ -77,7 +77,7 @@ public class AdminMerchantAddFunction extends AbstractFunction {
     		return new RetMessage(RetCodeEnum.FAIL.toString(),"当前地址已存在同名同类商户!",null);
     	}
     	merchant.setMerchantId(TimeUtil.getDate()+TimeUtil.getNanoTime()+RandomUtil.getRandomNumber(6));
-    	merchant.setState(ConstParam.MERCHANT_STATE_WAIT_CHECK);
+    	merchant.setState(ConstParam.MERCHANT_STATE_WAIT_SHELVE);
     	merchant.setCustomerManagerPhone(phone);
     	merchant.setPartnerTime(TimeUtil.getDateTime());
     	dao.getMerchantDao().addMerchant(merchant);
@@ -108,7 +108,7 @@ public class AdminMerchantAddFunction extends AbstractFunction {
 	    		user.set("merchantAddress", merchant.getMerchantAddress());
 	    		user.set("createTime", TimeUtil.getDateTime());
 	    		user.set("createBy", phone);
-	    		user.set("state",ConstParam.USER_STATE_WAIT_CHECK);
+	    		user.set("state",ConstParam.USER_STATE_NORMAL);
 	    		dao.getUserDao().addUser(user);
 	    	}
 	    	LogFactory.info(this, "用户["+phone+"]添加店长成功!");
@@ -139,7 +139,7 @@ public class AdminMerchantAddFunction extends AbstractFunction {
 	    		user.set("merchantAddress", merchant.getMerchantAddress());
 	    		user.set("createTime", TimeUtil.getDateTime());
 	    		user.set("createBy", phone);
-	    		user.set("state",ConstParam.USER_STATE_WAIT_CHECK);
+	    		user.set("state",ConstParam.USER_STATE_NORMAL);
     			dao.getUserDao().addUser(user);
     		}
     		LogFactory.info(this, "用户["+phone+"]添加销售员成功!");

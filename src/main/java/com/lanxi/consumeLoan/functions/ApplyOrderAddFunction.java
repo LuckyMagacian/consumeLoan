@@ -1,5 +1,6 @@
 package com.lanxi.consumeLoan.functions;
 
+import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -19,6 +20,7 @@ import com.lanxi.consumeLoan.entity.Merchant;
 import com.lanxi.consumeLoan.entity.SystemAccount;
 import com.lanxi.consumeLoan.entity.User;
 import com.lanxi.util.consts.RetCodeEnum;
+import com.lanxi.util.entity.ConfigManager;
 import com.lanxi.util.entity.LogFactory;
 import com.lanxi.util.utils.RandomUtil;
 import com.lanxi.util.utils.TimeUtil;
@@ -81,6 +83,17 @@ public class ApplyOrderAddFunction extends AbstractFunction{
     		LogFactory.info(this, "用户["+phone+"]添加的订单["+applyJson+"]未传入申请人的手机号!");
     		return new RetMessage(RetCodeEnum.FAIL.toString(),"未传入申请者手机号!",null);
     	}
+    	if(apply.getApplyMoney().compareTo(new BigDecimal("500000"))>0||apply.getApplyMoney().compareTo(new BigDecimal("5000"))<0) {
+    		LogFactory.info(this, "用户["+apply.getPhone()+"]申请金额["+apply.getApplyMoney()+"]超出范围[5000-500000]");
+    		return new RetMessage(RetCodeEnum.FAIL.toString(),"申请金额超出范围!申请失败!",null);
+    	}
+    	String moneyStr=apply.getApplyMoney().toString();
+    	if(apply.getApplyMoney().remainder(new BigDecimal("1000")).compareTo(new BigDecimal("0.00000"))!=0){
+    		LogFactory.info(this, "用户["+apply.getPhone()+"]申请金额["+apply.getApplyMoney()+"]不是整千!");
+    		return new RetMessage(RetCodeEnum.FAIL.toString(),"申请金额不是整千!申请失败!",null);
+    	}
+    	
+    	
     	Map<String, Object> param=new HashMap<String, Object>();
     	Date date=new Date();
     	date.setMonth(date.getMonth()-3);
@@ -91,6 +104,9 @@ public class ApplyOrderAddFunction extends AbstractFunction{
     	
     	List<String> specialPhones=new ArrayList<>();
     	specialPhones.add("15757129562");
+    	specialPhones.add("18368720758");
+    	specialPhones.add("18667041905");
+    	specialPhones.add("18557536069");
     	//TODO  测试专用手机号不经过3个月校验 待删除
     	if(!specialPhones.contains(userPhone))
     	if(!applys.isEmpty()) {
@@ -122,12 +138,29 @@ public class ApplyOrderAddFunction extends AbstractFunction{
     	apply.setIsAssurance(merchant.getIsAssurance());
     	apply.setCustomerManagerName(merchant.getCustomerManagerName());
     	apply.setCustomerManagerPhone(merchant.getCustomerManagerPhone());
-    	merchant.setApplyAmount(merchant.getApplyAmount()+1);
+    	merchant.setApplyAmount(merchant.getApplyAmount()+1); 
     	merchant.setApplyMoneyAmount(merchant.getApplyMoneyAmount().add(apply.getApplyMoney()));
     	dao.getApplyDao().addApply(apply);
     	LogFactory.info(this, "用户["+phone+"]在商户["+merchantId.getValue()+"]中添加申请["+apply.getApplyId()+"]成功!");
     	dao.getMerchantDao().updateMerchantByUniqueIndexOnMerchantId(merchant, merchantId.getValue());
-    	LogFactory.info(this, "用户["+phone+"]所在商户["+merchantId.getValue()+"]更新商户申请统计信息成功!");
+    	String smsTemplate=ConfigManager.get("sms", "customerManagerNotice");
+    	smsTemplate=smsTemplate.replace("[merchantName]", merchant.getMerchantName());
+    	smsTemplate=smsTemplate.replace("[money]", apply.getApplyMoney().toString());
+      	smsTemplate=smsTemplate.replace("[name]", apply.getName());
+//      	smsTemplate=smsTemplate.replace("[id]", apply.getIdNumber());
+      	smsTemplate=smsTemplate.replace("[phone]", apply.getPhone());
+      	smsTemplate=smsTemplate.replaceAll("[time]", apply.getApplyTime());
+      	smsService.sendSms(smsTemplate, merchant.getCustomerManagerPhone());
+      	LogFactory.info(this, "给客户经理["+merchant.getCustomerManagerName()+":"+merchant.getCustomerManagerPhone()+"]发送通知短信["+smsTemplate+"]");
+    	
+      	smsTemplate=ConfigManager.get("sms", "customerNotice");
+      	smsTemplate=smsTemplate.replace("[name]", apply.getName());
+      	smsTemplate=smsTemplate.replace("[customerManager]", apply.getCustomerManagerName());
+      	smsTemplate=smsTemplate.replace("[phone]", apply.getCustomerManagerPhone());
+      	smsService.sendSms(smsTemplate, apply.getPhone());
+      	LogFactory.info(this, "给用户["+apply.getName()+":"+apply.getPhone()+"]发送通知短信["+smsTemplate+"]");
+    	
+      	LogFactory.info(this, "用户["+phone+"]所在商户["+merchantId.getValue()+"]更新商户申请统计信息成功!");
         return new RetMessage(RetCodeEnum.SUCCESS.toString(), "添加申请成功!", apply.getApplyId());
     }
 }

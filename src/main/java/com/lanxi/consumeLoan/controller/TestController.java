@@ -38,6 +38,7 @@ import com.lanxi.consumeLoan.functions.CustomerManagerUserQueryFunction;
 import com.lanxi.consumeLoan.functions.CustomerShopEmployeeAddFunction;
 import com.lanxi.consumeLoan.functions.LoanFunction;
 import com.lanxi.consumeLoan.functions.LoginFunction;
+import com.lanxi.consumeLoan.functions.LogoutFunction;
 import com.lanxi.consumeLoan.functions.MakeValidateCodePicFunction;
 import com.lanxi.consumeLoan.functions.MerchantApplyOrderQueryFunction;
 import com.lanxi.consumeLoan.functions.MerchantBindingFunction;
@@ -117,6 +118,23 @@ public class TestController {
 			return new RetMessage(RetCodeEnum.EXCEPTION.toString(),"登录时发生异常!",null).toJson();
 		}
 	}
+	
+	@RequestMapping(value="logout",produces = {"application/json;charset=UTF-8"})
+	@ResponseBody
+	protected String logout(HttpServletRequest req,HttpServletResponse res){
+		String phone=req.getParameter("phone");
+		try {
+			System.out.println(phone);
+			LogoutFunction fun=ac.getBean(LogoutFunction.class);
+			Map<String, Object> args=new HashMap<>();
+			args.put("phone", req.getParameter("phone"));
+			return fun.excuted(args).toJson();
+		} catch (Exception e) {
+			LogFactory.error(this, "用户["+phone+"]退出登录时发生异常!",e);
+			return new RetMessage(RetCodeEnum.EXCEPTION.toString(),"退出登录时发生异常!",null).toJson();
+		}
+	}
+	
 	@RequestMapping(value="getPicCode")
 	protected void getPic(HttpServletRequest req,HttpServletResponse res){
 		String phone=req.getParameter("phone");
@@ -887,9 +905,9 @@ public class TestController {
 			args.put("endTime",req.getParameter("endTime"));
 			args.put("merchantName", req.getParameter("merchantName"));
 			args.put("state", req.getParameter("state"));
-			
 			args.put("pageSize",req.getParameter("pageSize"));
 			args.put("pageCode",req.getParameter("pageCode"));
+			args.put("special", req.getParameter("special"));
 			return fun.excuted(args).toJson();
 		} catch (Exception e) {
 			LogFactory.error(this, "管理员["+phone+"]查询用户时发生异常!",e);
@@ -1188,8 +1206,8 @@ public class TestController {
 				merchant.setIsShared(req.getParameter("isShared"));
 			}
 			if (req.getParameter("sharedRate") != null && req.getParameter("sharedRate") !="") {
-				BigDecimal depositeRate = new BigDecimal(req.getParameter("sharedRate"));
-				merchant.setSharedRate(new BigDecimal(req.getParameter("sharedRate")));
+				BigDecimal sharedRate = new BigDecimal(req.getParameter("sharedRate"));
+				merchant.setSharedRate(sharedRate);
 			}
 			if (req.getParameter("customerManagerPhone") != null && req.getParameter("customerManagerPhone") !="") {
 				merchant.setCustomerManagerPhone(req.getParameter("customerManagerPhone"));

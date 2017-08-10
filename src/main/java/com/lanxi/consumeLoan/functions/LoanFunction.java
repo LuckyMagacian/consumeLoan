@@ -13,6 +13,7 @@ import com.lanxi.consumeLoan.entity.Apply;
 import com.lanxi.consumeLoan.entity.Merchant;
 import com.lanxi.consumeLoan.entity.SystemAccount;
 import com.lanxi.util.consts.RetCodeEnum;
+import com.lanxi.util.entity.ConfigManager;
 import com.lanxi.util.entity.LogFactory;
 import com.lanxi.util.utils.TimeUtil;
 /**
@@ -104,6 +105,11 @@ public class LoanFunction extends AbstractFunction {
 			LogFactory.info(this, "尝试更新申请订单!");
 			dao.getApplyDao().updateApplyByUniqueIndexOnApplyId(apply, apply.getApplyId());
 			LogFactory.info(this, "更新订单放款信息成功!");
+//			String smsTemplate=ConfigManager.get("sms","customerLoanNotice");
+//			smsTemplate=smsTemplate.replace("[merchantName]", merchant.getMerchantName());
+//			smsTemplate=smsTemplate.replace("[money]", apply.getLoanMoney().toString());
+//			smsService.sendSms(smsTemplate, apply.getPhone());
+//			LogFactory.info(this, "放款成功,短信通知申请者["+apply.getName()+":"+apply.getPhone()+"],内容["+smsTemplate+"]");
 			return true;
 		} catch (Exception e) {
 			return false;

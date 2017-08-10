@@ -50,6 +50,7 @@ public class OverdueRecordFunction extends AbstractFunction {
         }
         apply.setBreakTime(breakTime);
         apply.setBreakMoney(breakMoney);
+        apply.setIsOverdue("true");
         Merchant merchant = dao.getMerchantDao().selectMerchantByUniqueIndexOnMerchantId(merchantId);
         Integer breakAmount = merchant.getBreakAmount();
         BigDecimal breakMoneyAmount = merchant.getBreakMoneyAmount();

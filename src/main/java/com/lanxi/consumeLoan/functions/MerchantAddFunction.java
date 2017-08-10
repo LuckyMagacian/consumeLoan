@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.lanxi.consumeLoan.basic.AbstractFunction;
 import com.lanxi.consumeLoan.basic.Attribute;
 import com.lanxi.consumeLoan.basic.RetMessage;
+import com.lanxi.consumeLoan.consts.ConstParam;
 import com.lanxi.consumeLoan.entity.Merchant;
 import com.lanxi.consumeLoan.entity.Role;
 import com.lanxi.consumeLoan.entity.User;
@@ -19,6 +20,7 @@ import java.util.Map;
  *商户增加
  */
 @Service
+@Deprecated
 public class MerchantAddFunction extends AbstractFunction {
 //	public MerchantAddFunction() {
 //		addAttribute(new Attribute<String>("customerManagerId", ""));
@@ -42,11 +44,12 @@ public class MerchantAddFunction extends AbstractFunction {
 	@Override
     public RetMessage excuted(Map<String, Object> args) {
     	String phone=(String) args.get("phone");
-    	if(!checkService.checkAuthority(phone, this.getClass().getName()))
-			return failNotice();
+//    	if(!checkService.checkAuthority(phone, this.getClass().getName()))
+//			return failNotice();
     	String merchantJson=(String) args.get("merchant");
     	Merchant merchant=JSONObject.parseObject(merchantJson,Merchant.class);
     	merchant.setMerchantId(TimeUtil.getDate()+TimeUtil.getNanoTime());
+    	merchant.setState(ConstParam.MERCHANT_STATE_WAIT_SHELVE);
     	dao.getMerchantDao().addMerchant(merchant);
     	
     	String shopKeeperJson=(String) args.get("shopKeepers");
@@ -66,6 +69,7 @@ public class MerchantAddFunction extends AbstractFunction {
     		user.set("merchantId", merchant.getMerchantId());
     		user.set("merchantName", merchant.getMerchantName());
     		user.set("merchantAddress", merchant.getMerchantAddress());
+    		user.set("state", ConstParam.USER_STATE_NORMAL);
     		dao.getUserDao().addUser(user);
     	}
     	
@@ -86,6 +90,7 @@ public class MerchantAddFunction extends AbstractFunction {
     		user.set("merchantId", merchant.getMerchantId());
     		user.set("merchantName", merchant.getMerchantName());
     		user.set("merchantAddress", merchant.getMerchantAddress());
+    		user.set("state", ConstParam.USER_STATE_NORMAL);
     		dao.getUserDao().addUser(user);
     	}
         return successNotice();

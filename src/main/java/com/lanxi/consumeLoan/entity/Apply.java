@@ -484,13 +484,13 @@ public class Apply{
 	public void hide4(){
 		this.setSex(null);
 		this.setAddress(null);
-		this.setApplyMoney(null);
+//		this.setApplyMoney(null);
 		this.setVerifyCode(null);
-		this.setSalesManPhone(null);
+//		this.setSalesManPhone(null);
 		this.setIsOverdue(null);
 		this.setOverdueMoney(null);
 		this.setBrokerageRate(null);
-		this.setBrokerage(null);
+//		this.setBrokerage(null);
 		this.setServiceRate(null);
 		this.setServiceCharge(null);
 		this.setDepositeRate(null);
@@ -502,7 +502,7 @@ public class Apply{
 	 */
 	public void hide5(){
 		this.setSex(null);
-		this.setAddress(null);
+//		this.setAddress(null);
 		this.setVerifyCode(null);
 		this.setMerchantId(null);
 		this.setSalesManPhone(null);
@@ -514,7 +514,7 @@ public class Apply{
 		this.setServiceRate(null);
 		this.setDepositeRate(null);
 		this.setBreakTime(null);
-		this.setIsAssurance(null);
+//		this.setIsAssurance(null);
 		this.setCustomerManagerPhone(null);
 		this.setCustomerManagerName(null);
 		this.setReason(null);		
