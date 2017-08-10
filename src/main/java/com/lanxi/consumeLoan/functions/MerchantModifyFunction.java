@@ -1,6 +1,5 @@
 package com.lanxi.consumeLoan.functions;
 
-import com.alibaba.fastjson.JSONObject;
 import com.lanxi.consumeLoan.basic.AbstractFunction;
 import com.lanxi.consumeLoan.basic.RetMessage;
 import com.lanxi.consumeLoan.entity.Merchant;
@@ -8,7 +7,6 @@ import com.lanxi.util.consts.RetCodeEnum;
 import com.lanxi.util.entity.LogFactory;
 import org.springframework.stereotype.Service;
 
-import java.math.BigDecimal;
 import java.util.Map;
 /**
  * 修改商户
@@ -81,4 +79,5 @@ public class MerchantModifyFunction extends AbstractFunction {
 		return new RetMessage(RetCodeEnum.SUCCESS.toString(),"修改商户成功!",null);
 	}
 
+	
 }

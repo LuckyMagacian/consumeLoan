@@ -6,6 +6,7 @@ import org.junit.Test;
 
 import com.lanxi.consumeLoan.entity.Apply;
 import com.lanxi.consumeLoan.entity.SystemAccount;
+import com.lanxi.util.utils.OtherUtil;
 
 public class Test20170802 {
 	
@@ -35,6 +36,6 @@ public class Test20170802 {
 	}
 	@Test
 	public void testInit() {
-		System.out.println(new Apply());
+		System.out.println(new OtherUtil.PhoneNumAnalyst("17857311577").getPhoneInfo());
 	}
 }
