@@ -15,6 +15,7 @@ import com.lanxi.consumeLoan.entity.PageBean;
 import com.lanxi.consumeLoan.entity.User;
 import com.lanxi.util.consts.RetCodeEnum;
 import com.lanxi.util.entity.LogFactory;
+import com.lanxi.util.utils.TimeUtil;
 
 /**
  * 客户经理用户列表查询
@@ -81,14 +82,25 @@ public class AdminUserQueryFunction extends AbstractFunction{
 		page.setPageSize(pageSize);
 		page.setPageCode(pageCode); 
 		page.setTotalRecord(users.size());	
+		System.err.println(users);
 		if((startTime!=null&&!startTime.isEmpty())||(endTime!=null&&!endTime.isEmpty()))
 			for(User each:users){
-				if(startTime!=null&&!startTime.isEmpty())
+				if(startTime!=null&&!startTime.isEmpty()) {
+					if(startTime.matches("yyyyMMdd")) {
+						LogFactory.info(this, "传入时间startTime参数仅精确到日,参数补全!");	
+						startTime+="000000";
+					}
 					if(startTime.compareTo((String)each.get("createTime").getValue())>0)
 						users.remove(each);
-				if(endTime!=null&&!endTime.isEmpty())
+				}
+				if(endTime!=null&&!endTime.isEmpty()) {
+					if(endTime.matches("yyyyMMdd")) {
+						LogFactory.info(this, "传入时间endTime参数仅精确到日,参数补全!");
+						endTime+="000000";
+					}
 					if(endTime.compareTo((String)each.get("createTime").getValue())<0)
 						users.remove(each);
+				}
 			}
 		LogFactory.info(this, "管理员["+phone+"]尝试根据条件["+args+"]查询结果["+users+"]!");
 		List<Map<String, Object>> userProxy=new ArrayList<>();

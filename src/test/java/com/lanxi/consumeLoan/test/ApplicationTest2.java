@@ -336,4 +336,21 @@ public class ApplicationTest2 {
 //    	param.put("end_time",TimeUtil.getDateTime());
     	System.err.println(dao.getApplyDao().selectApplyByParam(param));
 	}
+	
+	@Test
+	public void userQueryTest() {
+		Function fun=ac.getBean(AdminUserQueryFunction.class);
+		String startTime="20170801";
+		String endTime="20170807";
+		String phone="4001";
+		String pageCode="1";
+		String pageSize="10";
+		Map<String, Object> args=new HashMap<>();
+		args.put("startTime", startTime);
+		args.put("endTime", endTime);
+		args.put("phone", phone);
+		args.put("pageCode", pageCode);
+		args.put("pageSize", pageSize);
+		System.out.println(fun.excuted(args));
+	}
 }
