@@ -9,6 +9,7 @@ import java.util.Map.Entry;
 import javax.annotation.Resource;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -18,7 +19,10 @@ import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.servlet.handler.AbstractHandlerMethodMapping;
 import org.springframework.web.servlet.mvc.method.RequestMappingInfo;
 
+import com.lanxi.consumeLoan.basic.RetMessage;
+import com.lanxi.util.consts.RetCodeEnum;
 import com.lanxi.util.entity.LogFactory;
+
 @Component(value="requestFilter")
 public class RequestFilter extends OncePerRequestFilter {
 	@SuppressWarnings("rawtypes")
@@ -50,7 +54,13 @@ public class RequestFilter extends OncePerRequestFilter {
 			filterChain.doFilter(request, response);
 		else { 
 			LogFactory.info(this, "非法路径,转登录!");
-			response.sendRedirect("/consumeLoan/test/getPicCode"); 
+			RetMessage retMessage = new RetMessage(RetCodeEnum.WARNING.toString(), "no path", null);
+			ServletOutputStream outputStream=response.getOutputStream();
+			outputStream.println(retMessage.toJson());
+			outputStream.close();
+			return ;
+
+//			response.sendRedirect("/consumeLoan/test/getPicCode"); 
 		}
 	}
 	@SuppressWarnings("rawtypes")

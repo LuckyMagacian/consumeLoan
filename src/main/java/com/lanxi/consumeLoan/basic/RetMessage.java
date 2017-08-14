@@ -1,12 +1,18 @@
 package com.lanxi.consumeLoan.basic;
 
 import com.alibaba.fastjson.JSONObject;
+import com.lanxi.util.consts.RetCodeEnum;
 
 public class RetMessage {
 	private String code;
 	private String message;
 	private Object result;
 	public RetMessage() {}
+	public RetMessage(RetCodeEnum code,String message,Object result) {
+		this.code=code.toString();
+		this.message=message;
+		this.result=result;
+	}
 	public RetMessage(String code,String message,Object result) {
 		this.code=code;
 		this.message=message;

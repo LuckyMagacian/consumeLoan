@@ -14,7 +14,7 @@ public class PageBean {
 	private boolean next;
 	public int getEnd() {
 		if(pageCode*pageSize>totalRecord)
-			return totalRecord;
+			return totalRecord ;
 		return pageCode*pageSize;
 	}
 

@@ -54,10 +54,12 @@ import com.lanxi.consumeLoan.functions.RejectFunction;
 import com.lanxi.consumeLoan.functions.SalesManHomeFunction;
 import com.lanxi.consumeLoan.functions.ValidateCodeSendFunction;
 import com.lanxi.consumeLoan.manager.ApplicationContextProxy;
+import com.lanxi.consumeLoan.service.CheckService;
 import com.lanxi.util.consts.RetCodeEnum;
 import com.lanxi.util.entity.LogFactory;
 import com.lanxi.util.utils.ExcelUtil;
 import com.lanxi.util.utils.HttpUtil;
+import com.lanxi.util.utils.SignUtil;
 import com.lanxi.util.utils.TimeUtil;
 
 @Controller
@@ -65,7 +67,8 @@ import com.lanxi.util.utils.TimeUtil;
 public class TestController {
 	@Resource
 	private ApplicationContextProxy ac;
-	
+	@Resource
+	private CheckService check;
 	@RequestMapping(value="test",produces = {"application/json;charset=UTF-8"})
 	@ResponseBody
 	protected String test1(HttpServletRequest req,HttpServletResponse res){  
@@ -109,7 +112,11 @@ public class TestController {
 			LoginFunction fun=ac.getBean(LoginFunction.class);
 			Map<String, Object> args=new HashMap<>();
 			args.put("phone", req.getParameter("phone"));
-			args.put("password", req.getParameter("password"));
+			//TODO 关闭登录时手机号码校验 仅限测试
+//			if(!check.isPhone(req.getParameter("phone")))
+//				return new RetMessage(RetCodeEnum.FAIL.toString(),"手机号码校验不通过！",null).toJson();
+			
+			args.put("password", SignUtil.md5LowerCase(req.getParameter("password"),"utf-8"));
 			args.put("validateCode", req.getParameter("validateCode"));
 			args.put("ip", HttpUtil.getRealIp(req));
 			return fun.excuted(args).toJson();
@@ -157,9 +164,13 @@ public class TestController {
 			ChangePasswordFunction fun=ac.getBean(ChangePasswordFunction.class);
 			Map<String, Object> args=new HashMap<>();
 			args.put("phone",req.getParameter("phone"));
-			args.put("newPassword",req.getParameter("newPassword"));
-			args.put("passwordRepeat",req.getParameter("passwordRepeat"));
-			args.put("oldPassword", req.getParameter("oldPassword"));
+			args.put("newPassword", SignUtil.md5LowerCase(req.getParameter("newPassword"),"utf-8"));
+			args.put("passwordRepeat", SignUtil.md5LowerCase(req.getParameter("passwordRepeat"),"utf-8"));
+			args.put("oldPassword", SignUtil.md5LowerCase(req.getParameter("oldPassword"),"utf-8"));
+			
+//			args.put("newPassword",req.getParameter("newPassword"));
+//			args.put("passwordRepeat",req.getParameter("passwordRepeat"));
+//			args.put("oldPassword", req.getParameter("oldPassword"));
 			return fun.excuted(args).toJson();
 		} catch (Exception e) {
 			LogFactory.error(this, "用户["+phone+"]修改密码时发生异常!",e);
@@ -238,8 +249,11 @@ public class TestController {
 			Map<String, Object> args=new HashMap<>();
 			args.put("phone",phone);
 			String userPhone=req.getParameter("userPhone");
-			if(userPhone!=null&&!userPhone.isEmpty())
+			if(userPhone!=null&&!userPhone.isEmpty()) {
+//				if(!check.isPhone(req.getParameter("userPhone")))
+//				return new RetMessage(RetCodeEnum.FAIL.toString(),"手机号码校验不通过！",null).toJson();
 				args.put("userPhone", userPhone);
+			}
 			String state=req.getParameter("state");
 			if(state!=null&&!state.isEmpty())
 				args.put("state", state);
@@ -467,6 +481,8 @@ public class TestController {
 				args.put("merchantName", req.getParameter("merchantName"));
 			}
 			if(req.getParameter("userPhone") !=null && req.getParameter("userPhone") != ""){
+//				if(!check.isPhone(req.getParameter("userPhone")))
+//					return new RetMessage(RetCodeEnum.FAIL.toString(),"手机号码校验不通过！",null).toJson();
 				args.put("userPhone", req.getParameter("userPhone"));
 			}
 			if(req.getParameter("isAssurance") !=null && req.getParameter("isAssurance") != ""){
@@ -477,6 +493,9 @@ public class TestController {
 			}
 			if(req.getParameter("endTime") !=null && req.getParameter("endTime") != ""){
 				args.put("end_time",req.getParameter("endTime"));
+			}
+			if(req.getParameter("state") !=null && req.getParameter("state") != ""){
+				args.put("state",req.getParameter("state"));
 			}
 			return fun.excuted(args).toJson();
 		} catch (Exception e) {
@@ -572,7 +591,11 @@ public class TestController {
 			CustomerManagerApplyOrderQueryFunction fun=ac.getBean(CustomerManagerApplyOrderQueryFunction.class);
 			Map<String, Object> args=new HashMap<>();
 			args.put("phone",phone);
-			args.put("userPhone",req.getParameter("userPhone"));
+			if (req.getParameter("userPhone") != null  && req.getParameter("userPhone") !="") {
+//				if(!check.isPhone(req.getParameter("userPhone")))
+//					return new RetMessage(RetCodeEnum.FAIL.toString(),"手机号码校验不通过！",null).toJson();
+				args.put("userPhone",req.getParameter("userPhone"));
+			}
 			args.put("merchantName",req.getParameter("merchantName"));
 			args.put("merchantType",req.getParameter("merchantType"));
 			args.put("name",req.getParameter("name"));
@@ -703,10 +726,13 @@ public class TestController {
 			Map<String, Object> args=new HashMap<>();
 			args.put("phone",phone);
 			String userPhone=req.getParameter("userPhone");
-			if(userPhone!=null&&!userPhone.isEmpty())
+			if(userPhone!=null&&!userPhone.isEmpty()) {
+//				if(!check.isPhone(req.getParameter("userPhone")))
+//					return new RetMessage(RetCodeEnum.FAIL.toString(),"手机号码校验不通过！",null).toJson();
 				args.put("userPhone", userPhone);
+			}
 //			String state=req.getParameter("state");
-			args.put("state", ConstParam.APPLY_STATE_LOAN);
+//			args.put("state", ConstParam.APPLY_STATE_LOAN);
 			String startTime=req.getParameter("startTime");
 			if(startTime!=null&&!startTime.isEmpty())
 				args.put("startTime", startTime);
@@ -899,7 +925,13 @@ public class TestController {
 			AdminUserQueryFunction fun=ac.getBean(AdminUserQueryFunction.class);
 			Map<String, Object> args=new HashMap<>();
 			args.put("phone",phone);
-			args.put("userPhone",req.getParameter("userPhone"));
+			String userPhone=req.getParameter("userPhone");
+			if(userPhone!=null&&!userPhone.isEmpty()) {
+//				if(!check.isPhone(req.getParameter("userPhone")))
+//					return new RetMessage(RetCodeEnum.FAIL.toString(),"手机号码校验不通过！",null).toJson();
+				args.put("userPhone", userPhone);
+			}
+//			args.put("userPhone",req.getParameter("userPhone"));
 			args.put("roleName",req.getParameter("roleName"));
 			args.put("startTime",req.getParameter("startTime"));
 			args.put("endTime",req.getParameter("endTime"));
@@ -908,6 +940,7 @@ public class TestController {
 			args.put("pageSize",req.getParameter("pageSize"));
 			args.put("pageCode",req.getParameter("pageCode"));
 			args.put("special", req.getParameter("special"));
+			args.put("where", req.getParameter("where"));
 			return fun.excuted(args).toJson();
 		} catch (Exception e) {
 			LogFactory.error(this, "管理员["+phone+"]查询用户时发生异常!",e);
@@ -923,7 +956,13 @@ public class TestController {
 			CustomerShopEmployeeAddFunction fun=ac.getBean(CustomerShopEmployeeAddFunction.class);
 			Map<String, Object> args=new HashMap<>();
 			args.put("phone",phone);
-			args.put("userPhone",req.getParameter("userPhone"));
+			String userPhone=req.getParameter("userPhone");
+			if(userPhone!=null&&!userPhone.isEmpty()) {
+//				if(!check.isPhone(req.getParameter("userPhone")))
+//					return new RetMessage(RetCodeEnum.FAIL.toString(),"手机号码校验不通过！",null).toJson();
+				args.put("userPhone", userPhone);
+			}
+//			args.put("userPhone",req.getParameter("userPhone"));
 			args.put("roleName","shopKeeper");
 			args.put("name",req.getParameter("name"));
 			args.put("merchantId",req.getParameter("merchantId"));
@@ -943,7 +982,13 @@ public class TestController {
 			CustomerShopEmployeeAddFunction fun=ac.getBean(CustomerShopEmployeeAddFunction.class);
 			Map<String, Object> args=new HashMap<>();
 			args.put("phone",phone);
-			args.put("userPhone",req.getParameter("userPhone"));
+			String userPhone=req.getParameter("userPhone");
+			if(userPhone!=null&&!userPhone.isEmpty()) {
+//				if(!check.isPhone(req.getParameter("userPhone")))
+//					return new RetMessage(RetCodeEnum.FAIL.toString(),"手机号码校验不通过！",null).toJson();
+				args.put("userPhone", userPhone);
+			}
+//			args.put("userPhone",req.getParameter("userPhone"));
 			args.put("roleName","salesMan");
 			args.put("name",req.getParameter("name"));
 			args.put("merchantId",req.getParameter("merchantId"));
@@ -962,7 +1007,13 @@ public class TestController {
 			AdminUserAddFunction fun=ac.getBean(AdminUserAddFunction.class);
 			Map<String, Object> args=new HashMap<>();
 			args.put("phone",phone);
-			args.put("userPhone",req.getParameter("userPhone"));
+			String userPhone=req.getParameter("userPhone");
+			if(userPhone!=null&&!userPhone.isEmpty()) {
+//				if(!check.isPhone(req.getParameter("userPhone")))
+//					return new RetMessage(RetCodeEnum.FAIL.toString(),"手机号码校验不通过！",null).toJson();
+				args.put("userPhone", userPhone);
+			}			
+//			args.put("userPhone",req.getParameter("userPhone"));
 			args.put("roleName","customerManager");
 			args.put("name",req.getParameter("name"));
 			args.put("netAddress",req.getParameter("netAddress"));
@@ -981,7 +1032,13 @@ public class TestController {
 			AdminUserAddFunction fun=ac.getBean(AdminUserAddFunction.class);
 			Map<String, Object> args=new HashMap<>();
 			args.put("phone",phone);
-			args.put("userPhone",req.getParameter("userPhone"));
+			String userPhone=req.getParameter("userPhone");
+			if(userPhone!=null&&!userPhone.isEmpty()) {
+//				if(!check.isPhone(req.getParameter("userPhone")))
+//					return new RetMessage(RetCodeEnum.FAIL.toString(),"手机号码校验不通过！",null).toJson();
+				args.put("userPhone", userPhone);
+			}
+//			args.put("userPhone",req.getParameter("userPhone"));
 			args.put("roleName","admin");
 			args.put("name",req.getParameter("name"));
 			return fun.excuted(args).toJson();
@@ -1098,6 +1155,7 @@ public class TestController {
 			args.put("phone",phone);
 			args.put("applyId",req.getParameter("applyId"));
 			args.put("loanMoney",req.getParameter("loanMoney"));
+			args.put("loanTime",req.getParameter("loanTime"));
 			return fun.excuted(args).toJson();
 		} catch (Exception e) {
 			LogFactory.error(this, "放款时发生异常!",e);
@@ -1130,7 +1188,13 @@ public class TestController {
 			AdminUserCheckFunction fun=ac.getBean(AdminUserCheckFunction.class);
 			Map<String, Object> args=new HashMap<>();
 			args.put("phone",phone);
-			args.put("userPhone",req.getParameter("userPhone"));
+			String userPhone=req.getParameter("userPhone");
+			if(userPhone!=null&&!userPhone.isEmpty()) {
+//				if(!check.isPhone(req.getParameter("userPhone")))
+//					return new RetMessage(RetCodeEnum.FAIL.toString(),"手机号码校验不通过！",null).toJson();
+				args.put("userPhone", userPhone);
+			}
+//			args.put("userPhone",req.getParameter("userPhone"));
 			return fun.excuted(args).toJson();
 		} catch (Exception e) {
 			LogFactory.error(this, "管理员["+phone+"]审核用户时发生异常!",e);
@@ -1146,8 +1210,11 @@ public class TestController {
 			CustomerManagerUserQueryFunction fun=ac.getBean(CustomerManagerUserQueryFunction.class);
 			Map<String, Object> args=new HashMap<>();
 			args.put("phone",phone);
-			if (req.getParameter("userPhone") != null && req.getParameter("userPhone") !="") {
-				args.put("userPhone",req.getParameter("userPhone"));
+			String userPhone=req.getParameter("userPhone");
+			if(userPhone!=null&&!userPhone.isEmpty()) {
+//				if(!check.isPhone(req.getParameter("userPhone")))
+//					return new RetMessage(RetCodeEnum.FAIL.toString(),"手机号码校验不通过！",null).toJson();
+				args.put("userPhone", userPhone);
 			}
 			if (req.getParameter("startTime") != null && req.getParameter("startTime") !="") {
 				args.put("startTime",req.getParameter("startTime"));
@@ -1230,7 +1297,14 @@ public class TestController {
 			AdminUserCheckBackFunction fun=ac.getBean(AdminUserCheckBackFunction.class);
 			Map<String, Object> args=new HashMap<>();
 			args.put("phone",phone);
-			args.put("userPhone",req.getParameter("userPhone"));
+			String userPhone=req.getParameter("userPhone");
+			if(userPhone!=null&&!userPhone.isEmpty()) {
+//				if(!check.isPhone(req.getParameter("userPhone")))
+//					return new RetMessage(RetCodeEnum.FAIL.toString(),"手机号码校验不通过！",null).toJson();
+				args.put("userPhone", userPhone);
+			}
+//			args.put("userPhone",req.getParameter("userPhone"));
+			
 			return fun.excuted(args).toJson();
 		} catch (Exception e) {
 			LogFactory.error(this, "管理员["+phone+"]退回用户时发生异常!",e);
@@ -1246,7 +1320,13 @@ public class TestController {
 			AdminUserDeleteFunction fun=ac.getBean(AdminUserDeleteFunction.class);
 			Map<String, Object> args=new HashMap<>();
 			args.put("phone",phone);
-			args.put("userPhone",req.getParameter("userPhone"));
+			String userPhone=req.getParameter("userPhone");
+			if(userPhone!=null&&!userPhone.isEmpty()) {
+//				if(!check.isPhone(req.getParameter("userPhone")))
+//					return new RetMessage(RetCodeEnum.FAIL.toString(),"手机号码校验不通过！",null).toJson();
+				args.put("userPhone", userPhone);
+			}
+//			args.put("userPhone",req.getParameter("userPhone"));
 			return fun.excuted(args).toJson();
 		} catch (Exception e) {
 			LogFactory.error(this, "管理员["+phone+"]删除用户时发生异常!",e);
@@ -1279,7 +1359,13 @@ public class TestController {
 			AdminUserModifyFunction fun=ac.getBean(AdminUserModifyFunction.class);
 			Map<String, Object> args=new HashMap<>();
 			args.put("phone",phone);
-			args.put("userPhone",req.getParameter("userPhone"));
+			String userPhone=req.getParameter("userPhone");
+			if(userPhone!=null&&!userPhone.isEmpty()) {
+//				if(!check.isPhone(req.getParameter("userPhone")))
+//					return new RetMessage(RetCodeEnum.FAIL.toString(),"手机号码校验不通过！",null).toJson();
+				args.put("userPhone", userPhone);
+			}
+//			args.put("userPhone",req.getParameter("userPhone"));
 			args.put("password", req.getParameter("password"));
 			args.put("name", req.getParameter("name"));
 			args.put("netAddress", req.getParameter("netAddress"));
@@ -1300,7 +1386,13 @@ public class TestController {
 			AdminUserAddFunction fun=ac.getBean(AdminUserAddFunction.class);
 			Map<String, Object> args=new HashMap<>(); 
 			args.put("phone",phone);
-			args.put("userPhone",req.getParameter("userPhone"));
+			String userPhone=req.getParameter("userPhone");
+			if(userPhone!=null&&!userPhone.isEmpty()) {
+//				if(!check.isPhone(req.getParameter("userPhone")))
+//					return new RetMessage(RetCodeEnum.FAIL.toString(),"手机号码校验不通过！",null).toJson();
+				args.put("userPhone", userPhone);
+			}
+//			args.put("userPhone",req.getParameter("userPhone"));
 			args.put("roleName",ConstParam.USER_ROLE_NAME_SHOP_KEEPER);
 			args.put("name",req.getParameter("name"));
 			args.put("merchantId", req.getParameter("merchantId"));
@@ -1319,7 +1411,13 @@ public class TestController {
 			AdminUserAddFunction fun=ac.getBean(AdminUserAddFunction.class);
 			Map<String, Object> args=new HashMap<>();
 			args.put("phone",phone);
-			args.put("userPhone",req.getParameter("userPhone"));
+//			args.put("userPhone",req.getParameter("userPhone"));
+			String userPhone=req.getParameter("userPhone");
+			if(userPhone!=null&&!userPhone.isEmpty()) {
+//				if(!check.isPhone(req.getParameter("userPhone")))
+//					return new RetMessage(RetCodeEnum.FAIL.toString(),"手机号码校验不通过！",null).toJson();
+				args.put("userPhone", userPhone);
+			}
 			args.put("roleName",ConstParam.USER_ROLE_NAME_SALESMAN);
 			args.put("name",req.getParameter("name"));
 			args.put("merchantId", req.getParameter("merchantId"));

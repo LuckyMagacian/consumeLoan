@@ -152,7 +152,11 @@ public class DaoServiceImpl implements DaoService{
 			}
 			buffer.append("%");
 			map.put("attributes", buffer.toString());
+			System.err.println("buffer=" + buffer);
 		}
+		
+		System.err.println(user);
+		
 		return this.user.selectUserByClassLike(map);
 	}
 }

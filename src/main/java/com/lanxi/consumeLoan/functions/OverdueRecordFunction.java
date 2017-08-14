@@ -2,6 +2,7 @@ package com.lanxi.consumeLoan.functions;
 
 import com.lanxi.consumeLoan.basic.AbstractFunction;
 import com.lanxi.consumeLoan.basic.RetMessage;
+import com.lanxi.consumeLoan.consts.ConstParam;
 import com.lanxi.consumeLoan.entity.Apply;
 import com.lanxi.consumeLoan.entity.Merchant;
 import com.lanxi.util.consts.RetCodeEnum;
@@ -51,6 +52,7 @@ public class OverdueRecordFunction extends AbstractFunction {
         apply.setBreakTime(breakTime);
         apply.setBreakMoney(breakMoney);
         apply.setIsOverdue("true");
+        apply.setState(ConstParam.APPLY_STATE_OVERDUE);
         Merchant merchant = dao.getMerchantDao().selectMerchantByUniqueIndexOnMerchantId(merchantId);
         Integer breakAmount = merchant.getBreakAmount();
         BigDecimal breakMoneyAmount = merchant.getBreakMoneyAmount();

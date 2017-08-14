@@ -265,7 +265,8 @@
             <if test="isAssurance !=null ">AND is_assurance = #{isAssurance}</if>
             <if test="start_time !=null ">AND apply_time &gt;= #{start_time}</if>
             <if test="end_time !=null ">AND apply_time &lt;= #{end_time}</if>
-            <if test="customerPhone !=null ">AND phone= #{customerPhone} or customer_manager_phone=#{customerPhone}</if>
+            <if test="customerPhone !=null "> AND customer_manager_phone=#{customerPhone}</if>
+        	<!-- <if test="customerPhone !=null ">AND phone= #{customerPhone} or customer_manager_phone=#{customerPhone}</if> -->
         </where>
     </select>
     
@@ -305,7 +306,8 @@
 			<if test="reason != null"> AND reason = #{reason}</if>
 			 <if test="start_time !=null ">AND apply_time &gt;= #{startTime}</if>
             <if test="end_time !=null ">AND apply_time &lt;= #{endTime}</if>
-            <if test="customerPhone !=null ">AND phone= #{customerPhone} or customer_manager_phone=#{customerPhone}</if>
+<!--             <if test="customerPhone !=null ">AND phone= #{customerPhone} or customer_manager_phone=#{customerPhone}</if> -->
+             <if test="customerPhone !=null ">customer_manager_phone=#{customerPhone}</if>
 		</where>
 		limit #{start},#{size};
 	</select>

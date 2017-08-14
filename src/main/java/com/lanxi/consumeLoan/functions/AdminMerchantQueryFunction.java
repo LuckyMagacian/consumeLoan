@@ -43,7 +43,7 @@ public class AdminMerchantQueryFunction extends AbstractFunction{
 		
 		Map<String, Object> parm = new HashMap<String, Object>();
 		if(args.get("isAssurance") != "" && args.get("isAssurance") !=null){
-			parm.put("isAssurance", (String)args.get("isAssurance"));
+			parm.put("isAssurance", args.get("isAssurance"));
 		}
 		if(args.get("customerManagerPhone") != "" && args.get("customerManagerPhone") !=null){
 			parm.put("customerManagerPhone", args.get("customerManagerPhone"));
@@ -63,12 +63,12 @@ public class AdminMerchantQueryFunction extends AbstractFunction{
 		if(args.get("end_time") != "" && args.get("end_time") !=null){
 			parm.put("end_time", args.get("end_time"));
 		}
-		LogFactory.info(this, "管理员["+phone+"],请求参数：" + parm.toString());
+		LogFactory.info(this, "管理员["+phone+"],请求参数：" + args.toString());
 		List<Merchant> merchants = dao.getMerchantDao().selectMerchantByParm(parm);
-		if(merchants ==null || merchants.size()<=0){
-			LogFactory.info(this, "管理员["+phone+"],没查询到数据!");
-			return new RetMessage(RetCodeEnum.FAIL.toString(), "没查询到数据!", null);
-		}
+//		if(merchants ==null || merchants.size()<=0){
+//			LogFactory.info(this, "管理员["+phone+"],没查询到数据!");
+//			return new RetMessage(RetCodeEnum.FAIL.toString(), "没查询到数据!", null);
+//		}
 		int merchantTotal = merchants.size();
 		BigDecimal applyMoneyAmountTotal = new BigDecimal(0);
 		Integer applyAmountTotal = 0;

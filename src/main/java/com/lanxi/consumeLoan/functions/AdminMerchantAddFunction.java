@@ -59,6 +59,7 @@ public class AdminMerchantAddFunction extends AbstractFunction {
     		return new RetMessage(RetCodeEnum.FAIL.toString(),"商户信息为空,添加失败!",null);
     	}
     	Merchant merchant=JSONObject.parseObject(merchantJson,Merchant.class);
+    	System.err.println(merchant.getProvideDeposit());
     	String managerPhone=merchant.getCustomerManagerPhone();
     	String managerName=merchant.getCustomerManagerName();
     	User userTemp=dao.getUserDao().selectUserByUniqueIndexOnPhone(managerPhone);
@@ -66,7 +67,7 @@ public class AdminMerchantAddFunction extends AbstractFunction {
     		LogFactory.info(this, "用户["+phone+"]添加的商户负责客户经理["+managerPhone+"]不存在为空!");
     		return new RetMessage(RetCodeEnum.FAIL.toString(), "客户经理不存在!请检查手机号!", null);
     	}
-    	if(userTemp.get("name").getValue().equals(managerName)) {
+    	if(!userTemp.get("name").getValue().equals(managerName)) {
     		LogFactory.info(this, "用户["+phone+"]添加的商户负责客户经理["+managerPhone+"]姓名不匹配,输入姓名["+managerName+"],真实姓名["+userTemp.get("name").getValue()+"]!");
     		return new RetMessage(RetCodeEnum.FAIL.toString(), "客户经理姓名错误!", null);
     	}
@@ -77,8 +78,8 @@ public class AdminMerchantAddFunction extends AbstractFunction {
     		return new RetMessage(RetCodeEnum.FAIL.toString(),"当前地址已存在同名同类商户!",null);
     	}
     	merchant.setMerchantId(TimeUtil.getDate()+TimeUtil.getNanoTime()+RandomUtil.getRandomNumber(6));
-    	merchant.setState(ConstParam.MERCHANT_STATE_WAIT_SHELVE);
-    	merchant.setCustomerManagerPhone(phone);
+    	merchant.setState(ConstParam.MERCHANT_STATE_SHELVED);
+    	merchant.setCustomerManagerPhone(managerPhone);
     	merchant.setPartnerTime(TimeUtil.getDateTime());
     	dao.getMerchantDao().addMerchant(merchant);
     	LogFactory.info(this, "用户["+phone+"]添加商户["+merchant.getMerchantId()+"]成功!");

@@ -45,6 +45,7 @@ import com.lanxi.consumeLoan.manager.UserManager;
 import com.lanxi.consumeLoan.service.DaoService;
 import com.lanxi.util.utils.ExcelUtil;
 import com.lanxi.util.utils.LoggerUtil;
+import com.lanxi.util.utils.SignUtil;
 import com.lanxi.util.utils.SqlUtilForDB;
 import com.lanxi.util.utils.TimeUtil;
 import com.sun.org.apache.bcel.internal.generic.NEW;
@@ -352,10 +353,14 @@ public class ApplicationTest {
 	}
     @Test
 	public void testsss(){
-    	User user=new User();
-    	user.addAttribute(new Attribute<String>("merchantName", "善解人衣"));
-//    	user.addAttribute(new Attribute<String>("state","110"));
-    	System.err.println(dao.selectUserByClassLike(user));
+    	List<User> selectUserByClass = dao.getUserDao().selectUserByClass(new User());
+    	for (User user : selectUserByClass) {
+			user.set("password", SignUtil.md5LowerCase((String)user.get("password").getValue(), "utf-8"));
+			dao.getUserDao().updateUserByUniqueIndexOnPhone(user, user.getPhone());
+		}
+    	
     }
 	
+    
+    
 }

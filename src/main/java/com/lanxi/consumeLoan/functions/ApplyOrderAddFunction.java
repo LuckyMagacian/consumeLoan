@@ -54,6 +54,14 @@ public class ApplyOrderAddFunction extends AbstractFunction{
     @SuppressWarnings({ "unchecked", "deprecation" })
 	@Override
     public RetMessage excuted(Map<String, Object> args) {
+    	List<String> specialPhones=new ArrayList<>();
+    	specialPhones.add("15757129562");
+    	specialPhones.add("18368720758");
+    	specialPhones.add("18667041905");
+    	specialPhones.add("18557536069");
+    	specialPhones.add("13456915077");
+    	specialPhones.add("15024634281");
+    	
     	String phone=(String) args.get("phone");
     	LogFactory.info(this, "用户["+phone+"]尝试添加新订单!");
     	String applyJson=(String) args.get("apply");
@@ -87,13 +95,31 @@ public class ApplyOrderAddFunction extends AbstractFunction{
     		LogFactory.info(this, "用户["+apply.getPhone()+"]申请金额["+apply.getApplyMoney()+"]超出范围[5000-500000]");
     		return new RetMessage(RetCodeEnum.FAIL.toString(),"申请金额超出范围!申请失败!",null);
     	}
-    	String moneyStr=apply.getApplyMoney().toString();
     	if(apply.getApplyMoney().remainder(new BigDecimal("1000")).compareTo(new BigDecimal("0.00000"))!=0){
     		LogFactory.info(this, "用户["+apply.getPhone()+"]申请金额["+apply.getApplyMoney()+"]不是整千!");
     		return new RetMessage(RetCodeEnum.FAIL.toString(),"申请金额不是整千!申请失败!",null);
     	}
+
     	
     	
+    	String cacheCode=redisService.get(ConstParam.FUNCTION_NAME_APPLY_ADD+userPhone.trim());
+    	if(!specialPhones.contains(userPhone)) {
+    		if(!checkService.isPhone(apply.getPhone())) {
+    			LogFactory.info(this, "申请人["+apply.getCustomerManagerName()+"]手机号码["+apply.getPhone()+"]校验不通过！");
+    			return new RetMessage(RetCodeEnum.FAIL,"申请人号码格式校验不通过！",ConstParam.TEST_FLAG?checkService.getPhoneInfo(apply.getPhone()):null);
+    		}
+    		if(!checkService.isId(apply.getIdNumber())) {
+    			LogFactory.info(this, "申请人["+apply.getCustomerManagerName()+"]身份证号码["+apply.getIdNumber()+"]校验不通过！");
+    			return new RetMessage(RetCodeEnum.FAIL,"申请人身份证号码格式校验不通过！",ConstParam.TEST_FLAG?checkService.getIdInfo(apply.getApplyId()):null);
+    		}
+	    	if(!apply.getVerifyCode().equals(cacheCode)){
+	    		LogFactory.info(this, "用户["+phone+"]添加的订单申请者手机验证码校验不通过!输入验证码["+apply.getVerifyCode()+"],缓存验证码["+cacheCode+"]");
+	    		return new RetMessage(RetCodeEnum.FAIL.toString(),"手机验证码校验不通过!",null);
+	    	}
+    	}
+    	LogFactory.info(this, "用户["+phone+"]添加的订单["+userPhone+"]手机验证码校验通过!删除缓存验证码!");
+    	SystemAccount systemAccount=dao.getSystemAccountDao().selectSystemAccountByUniqueIndexOnAccountId("1001");
+    	redisService.delete(ConstParam.FUNCTION_NAME_APPLY_ADD+userPhone.trim());
     	Map<String, Object> param=new HashMap<String, Object>();
     	Date date=new Date();
     	date.setMonth(date.getMonth()-3);
@@ -102,11 +128,6 @@ public class ApplyOrderAddFunction extends AbstractFunction{
     	param.put("end_time",TimeUtil.getDateTime());
     	List<Apply> applys=dao.getApplyDao().selectApplyByParam(param);
     	
-    	List<String> specialPhones=new ArrayList<>();
-    	specialPhones.add("15757129562");
-    	specialPhones.add("18368720758");
-    	specialPhones.add("18667041905");
-    	specialPhones.add("18557536069");
     	//TODO  测试专用手机号不经过3个月校验 待删除
     	if(!specialPhones.contains(userPhone))
     	if(!applys.isEmpty()) {
@@ -117,14 +138,7 @@ public class ApplyOrderAddFunction extends AbstractFunction{
     		LogFactory.info(this, "申请人员["+userPhone+"]在["+buffer.substring(0, buffer.length()-1)+"]有申请记录,无法再次申请!");
     		return new RetMessage(RetCodeEnum.FAIL.toString(), "用户最近三个月有申请记录,无法再次申请!", null);
     	}
-    	String cacheCode=redisService.get(ConstParam.FUNCTION_NAME_APPLY_ADD+userPhone.trim());
-    	if(!apply.getVerifyCode().equals(cacheCode)){
-    		LogFactory.info(this, "用户["+phone+"]添加的订单申请者手机验证码校验不通过!输入验证码["+apply.getVerifyCode()+"],缓存验证码["+cacheCode+"]");
-    		return new RetMessage(RetCodeEnum.FAIL.toString(),"手机验证码校验不通过!",null);
-    	}
-    	LogFactory.info(this, "用户["+phone+"]添加的订单["+userPhone+"]手机验证码校验通过!删除缓存验证码!");
-    	SystemAccount systemAccount=dao.getSystemAccountDao().selectSystemAccountByUniqueIndexOnAccountId("1001");
-    	redisService.delete(ConstParam.FUNCTION_NAME_APPLY_ADD+userPhone.trim());
+
     	apply.setApplyTime(TimeUtil.getDateTime());
     	apply.setState(ConstParam.APPLY_STATE_WAIT_CHECK);
     	apply.setApplyId(TimeUtil.getDate()+TimeUtil.getNanoTime()+RandomUtil.getRandomNumber(6));

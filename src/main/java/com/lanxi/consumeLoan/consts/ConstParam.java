@@ -1,6 +1,9 @@
 package com.lanxi.consumeLoan.consts;
 
 public interface ConstParam {
+	
+	/**测试标记*/
+	public static final boolean TEST_FLAG=true;
 	/** 应用名称 */
 	public static final String APP_NAME = "com.lanxi.consumeloan";
 	/** 应用版本 */

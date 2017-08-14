@@ -57,6 +57,7 @@ public class AdminUserQueryFunction extends AbstractFunction {
 		String merchantName = (String) args.get("merchantName");
 		String special = (String) args.get("special");
 		String state = (String) args.get("state");
+		String where = (String) args.get("where");
 		user.setPhone(userPhone);
 		user.setRoleName(roleName);
 		if (merchantName != null && !merchantName.isEmpty())
@@ -77,16 +78,28 @@ public class AdminUserQueryFunction extends AbstractFunction {
 			user.setRoleName(ConstParam.USER_ROLE_NAME_SHOP_KEEPER);
 			userList.addAll(dao.selectUserByClassLike(user));
 		}
+		
 		PageBean page = new PageBean();
 		int pageSize = Integer.parseInt((String) args.get("pageSize"));
 		int pageCode = Integer.parseInt((String) args.get("pageCode"));
 		page.setPageSize(pageSize);
 		page.setPageCode(pageCode);
+		List<User> list = new ArrayList<>();
+		if (where != null && !where.equals("")) {
+			for (User user2 : userList) {
+				if (ConstParam.USER_STATE_NORMAL.equals(user2.get("state").getValue()) || ConstParam.USER_STATE_FREEZE.equals(user2.get("state").getValue())) {
+					list.add(user2);
+				}
+			}
+		}else {
+			list =userList;
+		}
+	
 		List<User> users = new ArrayList<>();
 
-		System.err.println("没有删除之前:" + userList + ",用户数据：" + userList.size());
+		System.err.println("没有删除之前:" + list + ",用户数据：" + list);
 		if((startTime!=null)||(endTime!=null)) {		
-			for (User each : userList) {
+			for (User each : list) {
 				if (startTime != null && !startTime.isEmpty()) {
 					if(startTime.matches("[0-9]{8}"))
 						startTime+="000000";
@@ -95,15 +108,16 @@ public class AdminUserQueryFunction extends AbstractFunction {
 				}
 				if (endTime != null && !endTime.isEmpty()) {
 					if(endTime.matches("[0-9]{8}"))
-						endTime+="000000";
-					if (endTime.compareTo((String) each.get("createTime").getValue()) < 0)
+						endTime+="595959";
+					if (endTime.compareTo((String) each.get("createTime").getValue()) < 0 || endTime.compareTo((String) each.get("createTime").getValue()) == 0)
 						continue;
 				}
 				users.add(each);
 			}
+		}else {
+			users =list;
 		}
-		page.setTotalRecord(users.size());
-		System.err.println("删除之后:" + users + ",用户数据：" + users.size());
+//		System.err.println("删除之后:" + users + ",用户数据：" + users.size());
 		LogFactory.info(this, "管理员[" + phone + "]尝试根据条件[" + args + "]查询结果[" + users + "]!");
 		List<Map<String, Object>> userProxy = new ArrayList<>();
 		if (!users.isEmpty()) {
@@ -135,6 +149,8 @@ public class AdminUserQueryFunction extends AbstractFunction {
 				}
 				LogFactory.info(this, "管理员[" + phone + "]转换结果[" + userProxy + "]");
 			}
+			page.setTotalRecord(userProxy.size());
+			LogFactory.info(this, "管理员[" + phone + "],page["+page+"],start = ["+page.getStart()+"], end = ["+page.getEnd()+"],userProxy=["+ userProxy.size()+"]");
 			userProxy = userProxy.subList(page.getStart(), page.getEnd());
 			Map<String, Object> resultMap = new HashMap<String, Object>();
 			resultMap.put("page", page);

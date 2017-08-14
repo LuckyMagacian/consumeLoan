@@ -84,7 +84,7 @@ public class MerchantApplyOrderQueryFunction extends AbstractFunction {
     	statistics.put("moneyAmount", moneyAmount);
     	LogFactory.info(this, "用户["+phone+"]根据条件["+args+"]查询到的申请订单统计结果["+statistics+"]");
     	Map<String, Object> result=new HashMap<>();
-    	result.put("applys", applys);
+    	result.put("applys", list);
     	result.put("statistics", statistics);
     	result.put("page", page);
     	LogFactory.info(this, "用户["+phone+"]根据条件["+args+"]查询申请订单成功!");

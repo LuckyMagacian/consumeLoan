@@ -92,32 +92,41 @@ public class CustomerManagerUserQueryFunction extends AbstractFunction {
 			}
 			LogFactory.info(this, "管理员[" + phone + "]下所有的用户为[" + list + "]!");
 
-			if (list == null || list.isEmpty()) {
-				LogFactory.info(this, "管理员[" + phone + "]尝试根据条件[" + args
-						+ "]未查询到数据!");
-				return new RetMessage(RetCodeEnum.FAIL.toString(), "未查询到数据",
-						userProxy);
-			}
+//			if (list == null || list.isEmpty()) {
+//				LogFactory.info(this, "管理员[" + phone + "]尝试根据条件[" + args
+//						+ "]未查询到数据!");
+//				return new RetMessage(RetCodeEnum.FAIL.toString(), "未查询到数据",
+//						userProxy);
+//			}
 
+			List<User> users  =new ArrayList<>();
 			if ((startTime != null && !startTime.isEmpty())
 					|| (endTime != null && !endTime.isEmpty())
-					|| (merchantName != null && !merchantName.isEmpty())) {
+					||(merchantName != null && !merchantName.isEmpty())) {
 				for (User each : list) {
-					if (startTime != null && !startTime.isEmpty())
-						if (startTime.compareTo((String) each.get("createTime")
-								.getValue()) > 0)
-							list.remove(each);
-					if (endTime != null && !endTime.isEmpty())
-						if (endTime.compareTo((String) each.get("createTime")
-								.getValue()) < 0)
-							list.remove(each);
+					if (startTime != null && !startTime.isEmpty()) {
+						if(startTime.matches("[0-9]{8}"))
+							startTime+="000000";
+						if (startTime.compareTo((String) each.get("createTime").getValue()) > 0)
+							continue;
+					}
+					if (endTime != null && !endTime.isEmpty()) {
+						if(endTime.matches("[0-9]{8}"))
+							endTime+="595959";
+						if (endTime.compareTo((String) each.get("createTime").getValue()) < 0 || endTime.compareTo((String) each.get("createTime").getValue()) == 0)
+							continue;
+					}
 					if (merchantName != null && !merchantName.isEmpty())
-						if (merchantName != (String) each.get("merchantName")
-								.getValue())
-							list.remove(each);
+					if (merchantName != (String) each.get("merchantName")
+							.getValue())
+						continue;
+			
+					users.add(each);
 				}
+			}else {
+				users =list;
 			}
-			for (User user : list) {
+			for (User user : users) {
 				if (user.getRoleName().equals("salesMan")
 						|| user.getRoleName().equals("shopKeeper")) {
 					userProxy.add(user.toProxy().toSalesMan());
@@ -127,7 +136,7 @@ public class CustomerManagerUserQueryFunction extends AbstractFunction {
 					userProxy.add(user.toProxy().toAdmin());
 				}
 			}
-			page.setTotalRecord(list.size());
+			page.setTotalRecord(userProxy.size());
 			userProxy = userProxy.subList(page.getStart(), page.getEnd());
 			
 			resultMap.put("page", page);

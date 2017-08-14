@@ -40,7 +40,7 @@ public class LogoutFunction extends AbstractFunction {
     		redisService.delete(ConstParam.USER_STATE_LOGIN+phone);
     	}else {
     		LogFactory.info(this, "用户["+phone+"]尚未登录,无法登出!");
-    		return new RetMessage(RetCodeEnum.FAIL.toString(), "登出失败!", null);
+    		return new RetMessage(RetCodeEnum.FAIL.toString(), "尚未登录，无法退出!", null);
     	}
         return new RetMessage(RetCodeEnum.SUCCESS.toString(),"登出成功!", null);
     }

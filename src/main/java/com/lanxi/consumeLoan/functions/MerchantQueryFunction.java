@@ -75,10 +75,10 @@ public class MerchantQueryFunction extends AbstractFunction {
 		LogFactory.info(this, "用户["+phone+"],请求参数："+ parm.toString());
 		List<Merchant> merchants = dao.getMerchantDao().selectAdminMerchantByParm(parm);
 		LogFactory.info(this, "用户["+phone+"],根据请求参数查询的结果为："+ merchants.toString()+",总条数为：" + merchants.size());
-		if(merchants ==null || merchants.size()<=0){
-			LogFactory.info(this, "用户["+phone+"],没查询到数据!");
-			return new RetMessage(RetCodeEnum.FAIL.toString(), "没查询到数据!", null);
-		}
+//		if(merchants ==null || merchants.size()<=0){
+//			LogFactory.info(this, "用户["+phone+"],没查询到数据!");
+//			return new RetMessage(RetCodeEnum.FAIL.toString(), "没查询到数据!", null);
+//		}
 		int merchantTotal = merchants.size();
 		BigDecimal applyMoneyAmountTotal = new BigDecimal(0);
 		Integer applyAmountTotal = 0;

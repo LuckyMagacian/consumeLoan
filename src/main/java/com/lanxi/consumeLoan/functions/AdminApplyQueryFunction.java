@@ -60,6 +60,9 @@ public class AdminApplyQueryFunction extends AbstractFunction{
 		if(args.get("end_time") != "" && args.get("end_time") !=null){
 			parm.put("end_time", args.get("end_time"));
 		}
+		if(args.get("state") != "" && args.get("state") !=null){
+			parm.put("state", args.get("state"));
+		}
 		LogFactory.info(this, "管理员["+phone+"]，请求参数：" + parm.toString());
 		List<Apply> applys = dao.getApplyDao().selectApplyByParam(parm);
 		if(applys ==null || applys.size()<=0){
