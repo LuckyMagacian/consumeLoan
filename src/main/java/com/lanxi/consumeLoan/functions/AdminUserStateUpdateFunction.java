@@ -56,7 +56,7 @@ public class AdminUserStateUpdateFunction extends AbstractFunction {
 			if (ConstParam.USER_STATE_NORMAL.equals(oldAttributes.trim())) {
 				LogFactory.info(this, "管理员["+phone+"]尝试将用户["+userPhone+"]从[正常]状态改为[冻结]状态!");
 				user.set("state", ConstParam.USER_STATE_FREEZE);
-				redisService.delete(ConstParam.USER_STATE_LOGIN+phone);
+				redisService.delete(ConstParam.USER_STATE_LOGIN+userPhone);
 			}else {
 				LogFactory.info(this, "用户["+userPhone+"]当前不是[正常]状态,无法转换为[冻结]状态!"); 
 				return new RetMessage(RetCodeEnum.FAIL.toString(), "用户当前不是正常状态,无法冻结!", null);
