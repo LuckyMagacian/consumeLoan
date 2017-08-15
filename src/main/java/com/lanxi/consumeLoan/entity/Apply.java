@@ -1,17 +1,17 @@
 package com.lanxi.consumeLoan.entity;
 
-import java.lang.reflect.Field;
 import java.math.BigDecimal;
 import java.util.List;
 
-import org.apache.camel.language.Bean;
-
 import com.lanxi.util.utils.BeanUtil;
+
+import java.lang.String;
+import java.lang.reflect.Field;
 
 /**
  * no comment
  * @author yyj | auto generator
- * @version 1.0.0 2017-07-31 16:45:13
+ * @version 1.0.0 2017-08-15 09:37:38
  */
 
 public class Apply{
@@ -101,10 +101,9 @@ public class Apply{
 	
 	/**驳回原因*/
 	private String reason;
-
-	public Apply() {
-		init(this);
-	}
+	
+	/**消耗风险保证金*/
+	private BigDecimal loseMoney;
 	
 	/**获取申请编号*/
 	public String getApplyId(){
@@ -396,10 +395,19 @@ public class Apply{
 		this.reason=reason;
 		
 	}
+	/**获取消耗风险保证金*/
+	public BigDecimal getLoseMoney(){
+		return this.loseMoney;
+	}
+	
+	/**设置消耗风险保证金*/
+	public void setLoseMoney(BigDecimal loseMoney){
+		this.loseMoney=loseMoney;
+		
+	}
 	@Override
 	public String toString(){
-		return "com.lanxi.consumeLoan.entity.Apply:["+"applyId="+applyId+","+"name="+name+","+"sex="+sex+","+"address="+address+","+"idNumber="+idNumber+","+"applyMoney="+applyMoney+","+"phone="+phone+","+"verifyCode="+verifyCode+","+"merchantId="+merchantId+","+"salesManPhone="+salesManPhone+","+"applyTime="+applyTime+","+"loanTime="+loanTime+","+"loanMoney="+loanMoney+","+"isOverdue="+isOverdue+","+"overdueMoney="+overdueMoney+","+"state="+state+","+"brokerageRate="+brokerageRate+","+"brokerage="+brokerage+","+"serviceRate="+serviceRate+","+"serviceCharge="+serviceCharge+","+"depositeRate="+depositeRate+","+"breakTime="+breakTime+","+"breakMoney="+breakMoney+","+"merchantName="+merchantName+","+"merchantType="+merchantType+","+"isAssurance="+isAssurance+","+"customerManagerPhone="+customerManagerPhone+","+"customerManagerName="+customerManagerName+","+"reason="+reason+"]";
-		
+		return "com.lanxi.consumeLoan.entity.Apply:["+"applyId="+applyId+","+"name="+name+","+"sex="+sex+","+"address="+address+","+"idNumber="+idNumber+","+"applyMoney="+applyMoney+","+"phone="+phone+","+"verifyCode="+verifyCode+","+"merchantId="+merchantId+","+"salesManPhone="+salesManPhone+","+"applyTime="+applyTime+","+"loanTime="+loanTime+","+"loanMoney="+loanMoney+","+"isOverdue="+isOverdue+","+"overdueMoney="+overdueMoney+","+"state="+state+","+"brokerageRate="+brokerageRate+","+"brokerage="+brokerage+","+"serviceRate="+serviceRate+","+"serviceCharge="+serviceCharge+","+"depositeRate="+depositeRate+","+"breakTime="+breakTime+","+"breakMoney="+breakMoney+","+"merchantName="+merchantName+","+"merchantType="+merchantType+","+"isAssurance="+isAssurance+","+"customerManagerPhone="+customerManagerPhone+","+"customerManagerName="+customerManagerName+","+"reason="+reason+","+"loseMoney="+loseMoney+"]";
 	}
 	/**
 	 * 商户佣金查询时隐藏信息

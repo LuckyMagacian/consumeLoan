@@ -65,6 +65,11 @@ public class OverdueRecordFunction extends AbstractFunction {
         
         merchant.setBreakAmount(breakAmount + 1);
         merchant.setBreakMoneyAmount(breakMoneyAmount);
+        if("true".equals(merchant.getIsAssurance())){
+        	apply.setLoseMoney(new BigDecimal("0"));
+        }else{
+        	apply.setLoseMoney(apply.getBreakMoney());
+        }
         if(update(apply, merchant))
         	return new RetMessage(RetCodeEnum.SUCCESS.toString(),"违约操作成功!",null);
         else

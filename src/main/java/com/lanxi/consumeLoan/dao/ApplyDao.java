@@ -6,7 +6,7 @@ import java.util.*;
 /**
  * no comment
  * @author yyj | auto generator
- * @version 1.0.0 2017-07-28 17:23:40
+ * @version 1.0.0 2017-08-15 09:37:38
  */
 
 public interface ApplyDao{
@@ -30,6 +30,12 @@ public interface ApplyDao{
 	 * @param phone 索引:申请者手机号码
 	 */
 	public void deleteApplyByUniqueIndexOnIdNumberAndApplyTimeAndPhone(@Param(value="idNumber")String idNumber,@Param(value="applyTime")String applyTime,@Param(value="phone")String phone);
+	/**根据索引从数据库中删除数据
+	 * @param name 索引:申请者姓名
+	 * @param sex 索引:申请者性别
+	 * @param address 索引:申请者居住地址
+	 */
+	public void deleteApplyByIndexOnNameAndSexAndAddress(@Param(value="name")String name,@Param(value="sex")String sex,@Param(value="address")String address);
 	
 	/**更新数据库中符合条件的数据
 	 * @param apply 更新后的数据
@@ -47,6 +53,13 @@ public interface ApplyDao{
 	 * @param phone 索引:申请者手机号码
 	 */
 	public void updateApplyByUniqueIndexOnIdNumberAndApplyTimeAndPhone(@Param(value="apply")Apply apply,@Param(value="idNumber")String idNumber,@Param(value="applyTime")String applyTime,@Param(value="phone")String phone);
+	/**根据索引更新数据库中符合条件的数据
+	 * @param apply 更新后的数据
+	 * @param name 索引:申请者姓名
+	 * @param sex 索引:申请者性别
+	 * @param address 索引:申请者居住地址
+	 */
+	public void updateApplyByIndexOnNameAndSexAndAddress(@Param(value="apply")Apply apply,@Param(value="name")String name,@Param(value="sex")String sex,@Param(value="address")String address);
 	
 	/**选中数据库中符合条件的数据|数据本身
 	 * @param Apply 选中的条件|数据本身 * @return 符合条件的数据列表 */
@@ -61,6 +74,12 @@ public interface ApplyDao{
 	 * @param phone 索引:申请者手机号码
 	 * @return 符合条件的数据对象 */
 	public Apply selectApplyByUniqueIndexOnIdNumberAndApplyTimeAndPhone(@Param(value="idNumber")String idNumber,@Param(value="applyTime")String applyTime,@Param(value="phone")String phone);
+	/**根据索引选中数据库中的符合条件数据
+	 * @param Name 索引:申请者姓名
+	 * @param Sex 索引:申请者性别
+	 * @param Address 索引:申请者居住地址
+	 * @return 符合条件的数据列表 */
+	public List<Apply> selectApplyByIndexOnNameAndSexAndAddress(@Param(value="name")String name,@Param(value="sex")String sex,@Param(value="address")String address);
 	public List<Apply> selectApplyByParam(Map<String, Object> map);
 	
 

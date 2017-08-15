@@ -71,14 +71,20 @@ public class AdminChargeQueryFunction extends AbstractFunction{
 			return new RetMessage(RetCodeEnum.FAIL.toString(), "没查询到数据!", null);
 		}
 		BigDecimal brokerageTotal =new BigDecimal(0);//佣金总金额
+		//TODO 此处已经修改为消耗风险保证金
 		BigDecimal breakMoneyTotal =new BigDecimal(0);//逾期总金额
 		BigDecimal serviceChargeTotal =new BigDecimal(0);//服务费总金额
+		
+		
 		for (Apply apply : applys) {
 			if (apply.getBrokerage() !=null) {
 				brokerageTotal = brokerageTotal.add(apply.getBrokerage());
 			}
-			if (apply.getBreakMoney() !=null) {
-				breakMoneyTotal = breakMoneyTotal.add(apply.getBreakMoney());
+//			if (apply.getBreakMoney() !=null) {
+//				breakMoneyTotal = breakMoneyTotal.add(apply.getBreakMoney());
+//			}
+			if (apply.getLoseMoney() !=null) {
+				breakMoneyTotal = breakMoneyTotal.add(apply.getLoseMoney());
 			}
 			if (apply.getBrokerage() !=null) {
 				serviceChargeTotal = serviceChargeTotal.add(apply.getServiceCharge());
