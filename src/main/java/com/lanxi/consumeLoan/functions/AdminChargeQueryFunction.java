@@ -86,7 +86,7 @@ public class AdminChargeQueryFunction extends AbstractFunction{
 			if (apply.getLoseMoney() !=null) {
 				breakMoneyTotal = breakMoneyTotal.add(apply.getLoseMoney());
 			}
-			if (apply.getBrokerage() !=null) {
+			if (apply.getServiceCharge() !=null) {
 				serviceChargeTotal = serviceChargeTotal.add(apply.getServiceCharge());
 			}
 		}

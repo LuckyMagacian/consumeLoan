@@ -3,11 +3,13 @@ package com.lanxi.consumeLoan.functions;
 import com.lanxi.consumeLoan.basic.AbstractFunction;
 import com.lanxi.consumeLoan.basic.Attribute;
 import com.lanxi.consumeLoan.basic.RetMessage;
+import com.lanxi.consumeLoan.basic.UserProxy;
 import com.lanxi.consumeLoan.entity.Merchant;
 import com.lanxi.consumeLoan.entity.User;
 import com.lanxi.util.consts.RetCodeEnum;
 import com.lanxi.util.entity.LogFactory;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -53,11 +55,12 @@ public class MerchantDetailQueryFunction extends AbstractFunction {
     	String str = attr.toJson();
     	LogFactory.info(this, "管理员["+phone+"],查询的商户idjson串为：["+str+"]!");	
     	List<User> attibutes = dao.selectUserByAttibute(str);
+    	List<UserProxy> Proxy = new ArrayList<>();
     	for (User user : attibutes) {
-			user.hide1();
+			 Proxy.add(user.toProxy());
 		}
     	LogFactory.info(this, "管理员["+phone+"],商户的担保人信息为：["+attibutes+"]!");	
-    	resultMap.put("Users", attibutes);
+    	resultMap.put("Users", Proxy);
     	resultMap.put("merchant", merchant);
         LogFactory.info(this, "管理员["+phone+"],商户详情查询成功!");
         return new RetMessage(RetCodeEnum.SUCCESS.toString(),"商户详情查询成功!",resultMap);

@@ -42,7 +42,10 @@ public class CustomerManagerUserQueryFunction extends AbstractFunction {
 
 	@Override
 	public RetMessage excuted(Map<String, Object> args) {
+
 		String phone = (String) args.get("phone");
+		LogFactory.info(this, "管理员[" + phone + "]请求条件[" + args
+				+ "]!");
 		String startTime = (String) args.get("startTime");
 		String endTime = (String) args.get("endTime");
 		String userPhone = (String) args.get("userPhone");

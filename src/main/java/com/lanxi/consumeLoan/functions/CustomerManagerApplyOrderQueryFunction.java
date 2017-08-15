@@ -43,10 +43,10 @@ public class CustomerManagerApplyOrderQueryFunction extends AbstractFunction {
 		Map<String, Object> parm = new HashMap<String, Object>();
 		parm.put("customerPhone", phone);
 		List<Apply> applyList = dao.getApplyDao().selectApplyByParam(parm);
-		if (applyList ==null) {
-			LogFactory.info(this, "客户经理["+phone+"],没查询到数据!");
-			return new RetMessage(RetCodeEnum.SUCCESS.toString(), "没查询到数据!", null);
-		}
+//		if (applyList == null || applyList.size()<=0) {
+//			LogFactory.info(this, "客户经理["+phone+"],没查询到数据!");
+//			return new RetMessage(RetCodeEnum.SUCCESS.toString(), "没查询到数据!", null);
+//		}
 		
 		
 		if(args.get("name") != "" && args.get("name") !=null){
@@ -73,10 +73,10 @@ public class CustomerManagerApplyOrderQueryFunction extends AbstractFunction {
 		
 		LogFactory.info(this, "客户经理["+phone+"],请求参数：" + parm.toString());
 		List<Apply> applys = dao.getApplyDao().selectApplyByParam(parm);
-		if(applys ==null || applys.size()<=0){
-			LogFactory.info(this, "客户经理["+phone+"],没查询到数据!");
-			return new RetMessage(RetCodeEnum.FAIL.toString(), "没查询到数据!", null);
-		}
+//		if(applys ==null || applys.size()<=0){
+//			LogFactory.info(this, "客户经理["+phone+"],没查询到数据!");
+//			return new RetMessage(RetCodeEnum.SUCCESS.toString(), "没查询到数据!", null);
+//		}
 		page.setTotalRecord(applys.size());		
 		parm.put("start", page.getStart());
 		parm.put("size", page.getPageSize());
