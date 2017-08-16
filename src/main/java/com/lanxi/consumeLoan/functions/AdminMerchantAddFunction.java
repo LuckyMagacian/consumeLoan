@@ -59,9 +59,22 @@ public class AdminMerchantAddFunction extends AbstractFunction {
     		return new RetMessage(RetCodeEnum.FAIL.toString(),"商户信息为空,添加失败!",null);
     	}
     	Merchant merchant=JSONObject.parseObject(merchantJson,Merchant.class);
-    	System.err.println(merchant.getProvideDeposit());
+//    	System.err.println(merchant.getProvideDeposit());
     	String managerPhone=merchant.getCustomerManagerPhone();
     	String managerName=merchant.getCustomerManagerName();
+    	switch (merchant.getMerchantType()) {
+			case ConstParam.MERCHANT_TYPE_HOUSEHOLD:break;
+			case ConstParam.MERCHANT_TYPE_ELECTRIC_APPLIANCE:break;
+			case ConstParam.MERCHANT_TYPE_NUMERAL:break;
+			case ConstParam.MERCHANT_TYPE_ENTERAINMENT:break;
+			case ConstParam.MERCHANT_TYPE_JEWELS:break;
+			case ConstParam.MERCHANT_TYPE_MEDICAL_TREATMENT:break;
+			case ConstParam.MERCHANT_TYPE_BEAUTY:break;
+			case ConstParam.MERCHANT_TYPE_MOTOR_CAR:break;
+			case ConstParam.MERCHANT_TYPE_EDUCATION:break;
+			case ConstParam.MERCHANT_TYPE_OTHERS:break;		
+			default:return new RetMessage(RetCodeEnum.FAIL, "商户类型不存在!", null);
+		}
     	User userTemp=dao.getUserDao().selectUserByUniqueIndexOnPhone(managerPhone);
     	if(userTemp==null) {
     		LogFactory.info(this, "用户["+phone+"]添加的商户负责客户经理["+managerPhone+"]不存在为空!");
@@ -81,6 +94,7 @@ public class AdminMerchantAddFunction extends AbstractFunction {
     	merchant.setState(ConstParam.MERCHANT_STATE_SHELVED);
     	merchant.setCustomerManagerPhone(managerPhone);
     	merchant.setPartnerTime(TimeUtil.getDateTime());
+    	merchant.setBrokerageRate(merchant.getSharedRate());
     	dao.getMerchantDao().addMerchant(merchant);
     	LogFactory.info(this, "用户["+phone+"]添加商户["+merchant.getMerchantId()+"]成功!");
     	String shopKeeperJson=(String) args.get("shopKeepers");

@@ -50,6 +50,7 @@ public class MerchantAddFunction extends AbstractFunction {
     	Merchant merchant=JSONObject.parseObject(merchantJson,Merchant.class);
     	merchant.setMerchantId(TimeUtil.getDate()+TimeUtil.getNanoTime());
     	merchant.setState(ConstParam.MERCHANT_STATE_WAIT_SHELVE);
+    	merchant.setBrokerageRate(merchant.getSharedRate());
     	dao.getMerchantDao().addMerchant(merchant);
     	
     	String shopKeeperJson=(String) args.get("shopKeepers");

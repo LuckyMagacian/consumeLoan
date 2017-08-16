@@ -11,7 +11,7 @@ public class PageBean {
 	private int pageSize=20;// 每页记录数
 	private int end; 
 	private boolean previous;
-	private boolean next;
+	private boolean next; 
 	public int getEnd() {
 		if(pageCode*pageSize>totalRecord)
 			return totalRecord ;
@@ -75,6 +75,7 @@ public class PageBean {
 	
 	public void setTotalRecord(int totalRecord) {
 		this.totalRecord = totalRecord;
+		setTotalPage(getTotalPage());
 	}
 
 	public int getPageSize() {

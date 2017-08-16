@@ -58,6 +58,12 @@ public class CustomerManagerUserQueryFunction extends AbstractFunction {
 		List<Map<String, Object>> userProxy = new ArrayList<>();
 		if (userPhone != null && !userPhone.equals("")) {
 			User user = dao.getUserDao().selectUserByUniqueIndexOnPhone(userPhone);
+			
+			if(user==null){
+				page.setTotalRecord(0);
+				resultMap.put("page", page);
+				return new RetMessage(RetCodeEnum.SUCCESS,"查询成功",page);
+			}
 			if (user.getRoleName().equals("salesMan")
 					|| user.getRoleName().equals("shopKeeper")) {
 				userProxy.add(user.toProxy().toSalesMan());
@@ -66,8 +72,7 @@ public class CustomerManagerUserQueryFunction extends AbstractFunction {
 			} else {
 				userProxy.add(user.toProxy().toAdmin());
 			}
-			page.setTotalRecord(1);
-			resultMap.put("page", page);
+
 			resultMap.put("userProxy", userProxy);
 			LogFactory.info(this, "管理员[" + phone + "]尝试根据条件[" + args
 					+ "]查询结果转换[" + userProxy + "]!");
@@ -86,14 +91,14 @@ public class CustomerManagerUserQueryFunction extends AbstractFunction {
 						null);
 			}
 			LogFactory.info(this, "管理员[" + phone + "],根据查询的商户条件[" + phone
-					+ "],查询到的数据为[" + merchants + "]!");
+					+ "],查询到的数据为[" + "暂不显示" + "]!");
 			for (Merchant merchant : merchants) {
 				String attribute = new Attribute<String>("merchantId",
 						merchant.getMerchantId()).toJson();
 				List<User> users = dao.selectUserByAttibute(attribute);
 				list.addAll(users);
 			}
-			LogFactory.info(this, "管理员[" + phone + "]下所有的用户为[" + list + "]!");
+			LogFactory.info(this, "管理员[" + phone + "]下所有的用户为[" + "暂不显示" + "]!");
 
 //			if (list == null || list.isEmpty()) {
 //				LogFactory.info(this, "管理员[" + phone + "]尝试根据条件[" + args

@@ -105,6 +105,10 @@ public class Apply{
 	/**消耗风险保证金*/
 	private BigDecimal loseMoney;
 	
+	public Apply() {
+		init(this);
+	}
+	
 	/**获取申请编号*/
 	public String getApplyId(){
 		return this.applyId;

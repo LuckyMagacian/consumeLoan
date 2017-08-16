@@ -40,16 +40,16 @@ public class IpCheck {
 			String phone=req.getParameter("phone");
 			String userPhone=req.getParameter("userPhone");
 			LogFactory.info(this, "用户["+phone+"]进行登录校验!");
-
+//			if(phone!=null&&!phone.isEmpty())
 //			if(!checkService.isPhone(phone)) {
 //    			LogFactory.info(this, "登录手机号码["+phone+"]校验不通过！");
 //    			return new RetMessage(RetCodeEnum.FAIL.toString(),"登录手机号码格式校验不通过！",ConstParam.TEST_FLAG?checkService.getPhoneInfo(phone):null).toJson();
 //    		}
-			
-//			if(!checkService.isPhone(userPhone)) {
-//    			LogFactory.info(this, "手机号码["+userPhone+"]校验不通过！");
-//    			return new RetMessage(RetCodeEnum.FAIL.toString(),"手机号码格式校验不通过！",ConstParam.TEST_FLAG?checkService.getPhoneInfo(userPhone):null).toJson();
-//    		}
+			if(userPhone!=null&&!userPhone.isEmpty())
+			if(!checkService.isPhone(userPhone)) {
+    			LogFactory.info(this, "手机号码["+userPhone+"]校验不通过！");
+    			return new RetMessage(RetCodeEnum.FAIL.toString(),"手机号码格式校验不通过！",ConstParam.TEST_FLAG?checkService.getPhoneInfo(userPhone):null).toJson();
+    		}
 			
 			if(phone==null){
 				return new RetMessage(RetCodeEnum.FAIL.toString(),"用户为空!",null).toJson();

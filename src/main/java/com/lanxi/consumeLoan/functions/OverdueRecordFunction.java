@@ -38,7 +38,8 @@ public class OverdueRecordFunction extends AbstractFunction {
     @Override
     public RetMessage excuted(Map<String, Object> args) {
         String phone=(String) args.get("phone");
-        BigDecimal breakMoney = new BigDecimal((String) args.get("breakMoney"));
+        String argBreakMoney  = (String) args.get("breakMoney");
+        BigDecimal breakMoney = new BigDecimal(argBreakMoney==null||argBreakMoney.isEmpty()?"0":argBreakMoney);
         String merchantId  = (String)args.get("merchantId");
         String applyId  = (String) args.get("applyId");
         String breakTime = (String)args.get("breakTime");

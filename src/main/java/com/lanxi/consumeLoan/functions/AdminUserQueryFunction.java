@@ -97,7 +97,7 @@ public class AdminUserQueryFunction extends AbstractFunction {
 	
 		List<User> users = new ArrayList<>();
 
-		System.err.println("没有删除之前:" + list + ",用户数据：" + list);
+//		System.err.println("没有删除之前:" + list + ",用户数据：" + list);
 		if((startTime!=null)||(endTime!=null)) {		
 			for (User each : list) {
 				if (startTime != null && !startTime.isEmpty()) {
@@ -118,7 +118,7 @@ public class AdminUserQueryFunction extends AbstractFunction {
 			users =list;
 		}
 //		System.err.println("删除之后:" + users + ",用户数据：" + users.size());
-		LogFactory.info(this, "管理员[" + phone + "]尝试根据条件[" + args + "]查询结果[" + users + "]!");
+		LogFactory.info(this, "管理员[" + phone + "]尝试根据条件[" + args + "]查询结果[" + "暂不显示" + "]!");
 		List<Map<String, Object>> userProxy = new ArrayList<>();
 		if (!users.isEmpty()) {
 			if ((merchantName == null || merchantName.isEmpty()) && (roleName == null || roleName.isEmpty())
