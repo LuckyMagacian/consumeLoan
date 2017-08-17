@@ -530,7 +530,7 @@ public class TestController {
 			if(req.getParameter("pageSize") !=null && req.getParameter("pageSize") != ""){
 				args.put("pageSize",req.getParameter("pageSize"));
 			}
-			if(req.getParameter("pageCode") !=null && req.getParameter("pageCode") != ""){
+			if(req.getParameter("pageCode") !=null && req.getParameter("pageCode").isEmpty()){
 				args.put("pageCode",req.getParameter("pageCode"));
 			}
 			return fun.excuted(args).toJson();
