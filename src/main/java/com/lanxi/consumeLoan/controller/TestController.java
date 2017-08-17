@@ -661,6 +661,13 @@ public class TestController {
 				case ConstParam.MERCHANT_STATE_SHELVED:merchant.setState("已上架");break;
 				default:merchant.setState("未知");break;
 				}
+				switch (merchant.getIsAssurance()) {
+				case "true":merchant.setIsAssurance("担保");break;
+				case "false":merchant.setIsAssurance("不担保");break;
+		
+				default:merchant.setState("未知");break;
+				}
+				
 			}
 			LogFactory.info (this, "用户["+phone+"]已获得商户查询结果列表!");
 			Map<String, String> map=new HashMap<>();
