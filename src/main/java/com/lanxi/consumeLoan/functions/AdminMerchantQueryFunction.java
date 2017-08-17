@@ -35,8 +35,8 @@ public class AdminMerchantQueryFunction extends AbstractFunction{
 	@Override
 	public RetMessage excuted(Map<String, Object> args) {
 		String phone = (String) args.get("phone");
-		int pageCode = Integer.parseInt((String)args.get("pageCode"));
-		int pageSize = Integer.parseInt((String)args.get("pageSize"));
+		int pageCode = Integer.parseInt((String)args.get("pageCode")==null?"1":(String)args.get("pageCode"));
+		int pageSize = Integer.parseInt((String)args.get("pageSize")==null?"1":(String)args.get("pageSize"));
 		PageBean page = new PageBean();
 		page.setPageSize(pageSize);
 		page.setPageCode(pageCode);
@@ -111,7 +111,10 @@ public class AdminMerchantQueryFunction extends AbstractFunction{
 			merchant.hide4();
 		}
 		Map<String, Object> resultMap = new HashMap<String, Object>();
-		resultMap.put("merchants", list);
+		if(args.get("excel")!=null)
+			resultMap.put("merchants", dao.getMerchantDao().selectMerchantByParm(parm));
+		else 
+			resultMap.put("merchants", list);
 		resultMap.put("total", totalMap);
 		resultMap.put("page", page);
 		

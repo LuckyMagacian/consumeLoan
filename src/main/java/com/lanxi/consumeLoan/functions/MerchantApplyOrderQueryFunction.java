@@ -64,24 +64,28 @@ public class MerchantApplyOrderQueryFunction extends AbstractFunction {
     		applys.addAll(dao.getApplyDao().selectApplyByParam(args));
     	}else{
     		applys=dao.getApplyDao().selectApplyByParam(args);
+    		System.err.println(applys.size());
     	}
+    	
 //    	if (args.get("pageSize") == null && args.get("pageCode") == null) {
 //    		LogFactory.info(this, "用户["+phone+"]，导出excel");
 //    		Map<String, Object> result=new HashMap<>();
 //    		result.put("applys", applys);
 //    		return new RetMessage(RetCodeEnum.SUCCESS.toString(),"查询订单成功！", result);
 //		}
+//    	System.err.println(applys.size());
+//    	System.err.println(applys);
     	PageBean page = new PageBean();  
     	int pageSize = Integer.parseInt((String) args.get("pageSize")==null?"1":(String) args.get("pageSize"));
 		int pageCode = Integer.parseInt((String) args.get("pageCode")==null?"1":(String) args.get("pageCode"));
 		page.setPageSize(pageSize);
 		page.setPageCode(pageCode);
-		
+		page.setTotalRecord(applys.size());
     	LogFactory.info(this, "用户["+phone+"]根据条件["+args+"]查询到的申请订单["+"暂不显示"+"]");
     	int count=applys.size();
     	BigDecimal moneyAmount=new BigDecimal(0);
     	for(Apply each:applys){
-    		moneyAmount=moneyAmount.add(each.getApplyMoney());
+    		moneyAmount=moneyAmount.add(each.getApplyMoney()); 
     	}
     	
     	args.put("start", page.getStart());
@@ -98,20 +102,18 @@ public class MerchantApplyOrderQueryFunction extends AbstractFunction {
 //			System.err.println("list:"+list);
 		}else{
 			list=dao.getApplyDao().selectApplyByPage(args);
-			page.setTotalRecord(list.size());
-			System.err.println("page:"+page);
-//			System.err.println("applys:"+applys);
-			System.err.println("list:"+list);
+		
 		}
-	
+//		System.err.println(list.size());
     	Map<String,Object> statistics=new HashMap<>();
     	statistics.put("applyAmount", count);
     	statistics.put("moneyAmount", moneyAmount);
     	LogFactory.info(this, "用户["+phone+"]根据条件["+args+"]查询到的申请订单统计结果["+statistics+"]");
     	Map<String, Object> result=new HashMap<>();
     	result.put("applys", list);
-    	if(args.get("excel")!=null)
+    	if(args.get("excel")!=null) {
     		result.put("applys", applys);
+    	}
     	result.put("statistics", statistics);
     	result.put("page", page);
     	LogFactory.info(this, "用户["+phone+"]根据条件["+args+"]查询申请订单成功!");

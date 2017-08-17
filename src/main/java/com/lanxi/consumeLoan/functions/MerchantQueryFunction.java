@@ -44,8 +44,8 @@ public class MerchantQueryFunction extends AbstractFunction {
 		String isAssurance = (String) args.get("isAssurance");
 		String start_time = (String) args.get("start_time");
 		String end_time = (String) args.get("end_time");
-		int pageCode = Integer.parseInt((String)args.get("pageCode"));
-		int pageSize = Integer.parseInt((String)args.get("pageSize"));
+		int pageCode = Integer.parseInt((String)args.get("pageCode")==null?"1":(String)args.get("pageCode"));
+		int pageSize = Integer.parseInt((String)args.get("pageSize")==null?"1":(String)args.get("pageSize"));
 		PageBean page = new PageBean();
 		page.setPageSize(pageSize);
 		page.setPageCode(pageCode);
@@ -119,7 +119,11 @@ public class MerchantQueryFunction extends AbstractFunction {
 		
 		
 		Map<String, Object> resultMap = new HashMap<String, Object>();
-		resultMap.put("merchants", list);
+		if (args.get("excel") != null)
+			resultMap.put("merchants", merchants);
+		else
+			resultMap.put("merchants", list);
+		
 		resultMap.put("total", totalMap);
 		resultMap.put("page", page);
 		

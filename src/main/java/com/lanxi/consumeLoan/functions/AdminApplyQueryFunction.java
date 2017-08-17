@@ -40,30 +40,32 @@ public class AdminApplyQueryFunction extends AbstractFunction{
 	@Override
 	public RetMessage excuted(Map<String, Object> args) {
 		String phone = (String) args.get("phone");
+		LogFactory.info(this, "管理员["+phone+"]，请求参数：" + args);
+		
 		PageBean page = new PageBean();
-		page.setPageSize(Integer.parseInt((String) args.get("pageSize")));
-		page.setPageCode(Integer.parseInt((String) args.get("pageCode")));
+		page.setPageSize(Integer.parseInt((String) args.get("pageSize")==null?"1":(String) args.get("pageSize")));
+		page.setPageCode(Integer.parseInt((String) args.get("pageCode")==null?"1":(String) args.get("pageCode")));
 		Map<String, Object> parm = new HashMap<String, Object>();
 		
 		if(args.get("isAssurance") != "" && args.get("isAssurance") !=null){
-			parm.put("isAssurance", args.get("isAssurance"));
+			parm.put("isAssurance", (String)args.get("isAssurance"));
 		}
 		if(args.get("userPhone") != "" && args.get("userPhone") !=null){
-			parm.put("userPhone", args.get("userPhone"));
+			parm.put("userPhone", (String)args.get("userPhone"));
 		}
 		if(args.get("merchantName") != "" && args.get("merchantName") !=null){
-			parm.put("merchantName", args.get("merchantName"));
+			parm.put("merchantName", (String)args.get("merchantName"));
 		}
 		if(args.get("start_time") != "" && args.get("start_time") !=null){
-			parm.put("start_time", args.get("start_time"));
+			parm.put("start_time",(String)args.get("start_time"));
 		}
 		if(args.get("end_time") != "" && args.get("end_time") !=null){
-			parm.put("end_time", args.get("end_time"));
+			parm.put("end_time", (String)args.get("end_time"));
 		}
 		if(args.get("state") != "" && args.get("state") !=null){
-			parm.put("state", args.get("state"));
+			parm.put("state", (String)args.get("state"));
 		}
-		LogFactory.info(this, "管理员["+phone+"]，请求参数：" + parm.toString());
+		
 		List<Apply> applys = dao.getApplyDao().selectApplyByParam(parm);
 		if(applys ==null || applys.size()<=0){
 			LogFactory.info(this, "管理员["+phone+"],没查询到数据!");
@@ -77,7 +79,10 @@ public class AdminApplyQueryFunction extends AbstractFunction{
 			apply.hide4();
 		}
 		Map<String, Object> resultMap =new HashMap<>();
-		resultMap.put("applys", list);
+		if(args.get("excel")!=null)
+			resultMap.put("applys", applys);
+		else
+			resultMap.put("applys", list);
 		resultMap.put("page", page);
 		LogFactory.info(this, "管理员["+phone+"],商户查询成功!");
 		return new RetMessage(RetCodeEnum.SUCCESS.toString(), "商户查询成功!", resultMap);	

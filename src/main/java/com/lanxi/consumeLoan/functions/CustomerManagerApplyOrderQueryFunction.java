@@ -10,7 +10,6 @@ import com.lanxi.consumeLoan.basic.AbstractFunction;
 import com.lanxi.consumeLoan.basic.RetMessage;
 import com.lanxi.consumeLoan.entity.Apply;
 import com.lanxi.consumeLoan.entity.PageBean;
-import com.lanxi.consumeLoan.service.CheckService;
 import com.lanxi.util.consts.RetCodeEnum;
 import com.lanxi.util.entity.LogFactory;
 
@@ -36,13 +35,13 @@ public class CustomerManagerApplyOrderQueryFunction extends AbstractFunction {
 	public RetMessage excuted(Map<String, Object> args) {
 		String phone = (String) args.get("phone");
 		PageBean page = new PageBean();
-		int pageSize = Integer.parseInt((String) args.get("pageSize"));
-		int pageCode = Integer.parseInt((String) args.get("pageCode"));
+		int pageCode = Integer.parseInt((String)args.get("pageCode")==null?"1":(String)args.get("pageCode"));
+		int pageSize = Integer.parseInt((String)args.get("pageSize")==null?"1":(String)args.get("pageSize"));
 		page.setPageSize(pageSize);
 		page.setPageCode(pageCode);
 		Map<String, Object> parm = new HashMap<String, Object>();
 		parm.put("customerPhone", phone);
-		List<Apply> applyList = dao.getApplyDao().selectApplyByParam(parm);
+//		List<Apply> applyList = dao.getApplyDao().selectApplyByParam(parm);
 //		if (applyList == null || applyList.size()<=0) {
 //			LogFactory.info(this, "客户经理["+phone+"],没查询到数据!");
 //			return new RetMessage(RetCodeEnum.SUCCESS.toString(), "没查询到数据!", null);
@@ -83,7 +82,11 @@ public class CustomerManagerApplyOrderQueryFunction extends AbstractFunction {
 		List<Apply> list = dao.getApplyDao().selectApplyByPage(parm);
 		
 		Map<String, Object> resultMap = new HashMap<String, Object>();
-		resultMap.put("applys", list);
+		if (args.get("excel") != null) 
+			resultMap.put("applys", applys);
+		else
+			resultMap.put("applys", list);
+		
 		resultMap.put("page", page);
 		LogFactory.info(this, "客户经理["+phone+"],客户经理申请订单列表查询成功!");
 		return new RetMessage(RetCodeEnum.SUCCESS.toString(), "客户经理申请订单列表查询成功!", resultMap);

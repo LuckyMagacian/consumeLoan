@@ -44,13 +44,14 @@ public class AdminChargeQueryFunction extends AbstractFunction{
 	@Override
 	public RetMessage excuted(Map<String, Object> args) {
 		String phone = (String) args.get("phone");
+		LogFactory.info(this, "管理员["+phone+"]，请求参数：" + args);
 		String  isOverdue   =(String) args.get("isOverdue");
 		Map<String, Object> resultMap = new HashMap<String, Object>();
 		Map<String, Object> totalMap = new HashMap<String, Object>();
 		PageBean page = new PageBean();
-		page.setPageSize(Integer.parseInt((String) args.get("pageSize")));
-		page.setPageCode(Integer.parseInt((String) args.get("pageCode")));
-		
+		page.setPageSize(Integer.parseInt((String) args.get("pageSize")==null?"1":(String) args.get("pageSize")));
+		page.setPageCode(Integer.parseInt((String) args.get("pageCode")==null?"1":(String) args.get("pageCode")));
+		LogFactory.info(this, "管理员["+phone+"],请求参数："+args);
 		Map<String, Object> parm = new HashMap<String, Object>();
 		if(args.get("merchantName") !=null&&((String)args.get("merchantName")).isEmpty()){
 			parm.put("merchantName", args.get("merchantName"));
@@ -113,7 +114,10 @@ public class AdminChargeQueryFunction extends AbstractFunction{
 		for (Apply apply : list) {
 			apply.hide5();
 		}
-		resultMap.put("applys", list);
+		if (args.get("excel") != null) 
+			resultMap.put("applys", applys1);
+		else
+			resultMap.put("applys", list);
 		resultMap.put("page", page);
 		LogFactory.info(this, "管理员["+phone+"],查询成功!");
 		return new RetMessage(RetCodeEnum.SUCCESS.toString(), "查询成功!", resultMap);	

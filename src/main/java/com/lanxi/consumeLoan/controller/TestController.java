@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSONObject;
+import com.lanxi.consumeLoan.basic.Function;
 import com.lanxi.consumeLoan.basic.RetMessage;
 import com.lanxi.consumeLoan.consts.ConstParam;
 import com.lanxi.consumeLoan.dao.ApplyDao;
@@ -317,14 +318,15 @@ public class TestController {
 			if(req.getParameter("special")!=null){
 				args.put("special", "true");
 			}
+			args.put("excel", "excel");
 			RetMessage message=fun.excuted(args);
 			if(!message.getCode().equals(RetCodeEnum.SUCCESS.toString())){
 				LogFactory.info(this, "用户["+phone+"]尝试导出商户订单查询失败,不生成excel文件!");
 				return ;
 			}
-			args.put("excel", "excel");
+			
 			List<Apply> list=(List<Apply>)((Map<String,Object>)message.getResult()).get("applys");
-			System.err.println(list);
+//			System.err.println("fdsfdsfdfds"+list);
 			for(Apply each:list){
 				switch (each.getState()) {
 				case ConstParam.APPLY_STATE_WAIT_CHECK:each.setState("待审核");break;
@@ -538,7 +540,7 @@ public class TestController {
 			if(req.getParameter("pageSize") !=null && req.getParameter("pageSize") != ""){
 				args.put("pageSize",req.getParameter("pageSize"));
 			}
-			if(req.getParameter("pageCode") !=null && req.getParameter("pageCode").isEmpty()){
+			if(req.getParameter("pageCode") !=null && req.getParameter("pageCode")!=""){
 				args.put("pageCode",req.getParameter("pageCode"));
 			}
 			return fun.excuted(args).toJson();
@@ -618,15 +620,16 @@ public class TestController {
 			return new RetMessage(RetCodeEnum.EXCEPTION.toString(),"客户经理查询时发生异常!",null).toJson();
 		}
 	}
+	@SuppressWarnings("unchecked")
 	@RequestMapping(value="merchantQueryFunctionExport")
 	public void merchantQueryFunctionExport(HttpServletRequest req,HttpServletResponse res){
 		String phone=req.getParameter("phone");
 		try { 
 			LogFactory.info(this, "用户["+phone+"]尝试导出商户订单查询内容为excel文件!");
-			MerchantDao fun=ac.getBean(MerchantDao.class);
+			MerchantQueryFunction fun=ac.getBean(MerchantQueryFunction.class);
 			Map<String, Object> args=new HashMap<>();
 			args.put("phone",phone);
-			
+			args.put("customerManagerPhone", phone);
 			if(req.getParameter("state") !=null && req.getParameter("state") != ""){
 				args.put("state", req.getParameter("state"));
 			}
@@ -645,8 +648,20 @@ public class TestController {
 			if(req.getParameter("endTime") !=null && req.getParameter("endTime") != ""){
 				args.put("end_time",req.getParameter("endTime"));
 			}
-		
-			List<Merchant> list=fun.selectAdminMerchantByParm(args);
+			args.put("excel","excel");
+
+			RetMessage result=fun.excuted(args);
+			List<Merchant> list=(List<Merchant>)((Map<String, Object>)result.getResult()).get("merchants");
+			for (Merchant merchant : list) {
+				switch (merchant.getState()) {
+				case ConstParam.MERCHANT_STATE_WAIT_CHECK:merchant.setState("待审核");break;
+				case ConstParam.MERCHANT_STATE_WAIT_SHELVE:merchant.setState("待上架 ");break;
+				case ConstParam.MERCHANT_STATE_REJECT:merchant.setState("拒绝 ");break;
+				case ConstParam.MERCHANT_STATE_UNSHELVED:merchant.setState("已下架 ");break;
+				case ConstParam.MERCHANT_STATE_SHELVED:merchant.setState("已上架");break;
+				default:merchant.setState("未知");break;
+				}
+			}
 			LogFactory.info (this, "用户["+phone+"]已获得商户查询结果列表!");
 			Map<String, String> map=new HashMap<>();
 			map.put("merchantId", "商家编号");
@@ -666,12 +681,13 @@ public class TestController {
 		}
 	}
 
+	@SuppressWarnings("unchecked")
 	@RequestMapping(value="customerManagerApplyOrderQueryExport")
 	public void customerManagerApplyOrderQueryExport(HttpServletRequest req,HttpServletResponse res){
 		String phone=req.getParameter("phone");
 		try { 
 			LogFactory.info(this, "用户["+phone+"]尝试导出商户订单查询内容为excel文件!");
-			ApplyDao fun=ac.getBean(ApplyDao.class);
+			CustomerManagerApplyOrderQueryFunction fun=ac.getBean(CustomerManagerApplyOrderQueryFunction.class);
 			Map<String, Object> args=new HashMap<>();
 			args.put("phone",phone);
 			String userPhone=req.getParameter("userPhone");
@@ -697,8 +713,25 @@ public class TestController {
 				args.put("end_time", end_time);
 			if(req.getParameter("special")!=null)
 				args.put("special", "true");
-			List<Apply> list=fun.selectApplyByParam(args);
+			args.put("excel", "excel");
+			RetMessage result = fun.excuted(args);
+			List<Apply> list=(List<Apply>)((Map<String, Object>)result.getResult()).get("applys");
 			LogFactory.info (this, "用户["+phone+"]已获得商户订单查询结果列表!");
+			for(Apply each:list){
+				switch (each.getState()) {
+				case ConstParam.APPLY_STATE_WAIT_CHECK:each.setState("待审核");break;
+				case ConstParam.APPLY_STATE_REJECT:each.setState("已驳回");break;
+				case ConstParam.APPLY_STATE_LOAN:each.setState("已放款");break;
+				case ConstParam.APPLY_STATE_OVERDUE:each.setState("已违约");break;
+				case ConstParam.APPLY_STATE_FINISH:each.setState("已完成");break;
+				default:each.setState("未知");break;
+				}
+				switch (each.getIsAssurance()) {
+				case "true":each.setIsAssurance("担保");break;
+				case "false":each.setIsAssurance("不担保");break;
+				default:each.setState("未知");break;
+				}
+			}
 			Map<String, String> map=new HashMap<>();
 			map.put("applyId", "申请编号");
 			map.put("name", "申请者姓名");
@@ -1061,19 +1094,22 @@ public class TestController {
 			return new RetMessage(RetCodeEnum.EXCEPTION.toString(),"管理员添加管理员时发生异常!",null).toJson();
 		}
 	}
+	@SuppressWarnings("unchecked")
 	@RequestMapping(value="adminApplyQueryFunctionExport")
-	public void adminApplyQueryFunctionExport(HttpServletRequest req,HttpServletResponse res){
+	public void adminApplyQueryFunctionExport1(HttpServletRequest req,HttpServletResponse res){
 		String phone=req.getParameter("phone");
-		try { 
-			LogFactory.info(this, "用户["+phone+"]尝试导出商户订单查询内容为excel文件!");
-			ApplyDao fun=ac.getBean(ApplyDao.class);
+		try {
+			AdminApplyQueryFunction fun=ac.getBean(AdminApplyQueryFunction.class);
 			Map<String, Object> args=new HashMap<>();
 			args.put("phone",phone);
-			
+			args.put("pageSize", req.getParameter("pageSize"));
+			args.put("pageCode", req.getParameter("pageCode"));
 			if(req.getParameter("merchantName") !=null && req.getParameter("merchantName") != ""){
 				args.put("merchantName", req.getParameter("merchantName"));
 			}
 			if(req.getParameter("userPhone") !=null && req.getParameter("userPhone") != ""){
+//				if(!check.isPhone(req.getParameter("userPhone")))
+//					return new RetMessage(RetCodeEnum.FAIL.toString(),"手机号码校验不通过！",null).toJson();
 				args.put("userPhone", req.getParameter("userPhone"));
 			}
 			if(req.getParameter("isAssurance") !=null && req.getParameter("isAssurance") != ""){
@@ -1085,35 +1121,121 @@ public class TestController {
 			if(req.getParameter("endTime") !=null && req.getParameter("endTime") != ""){
 				args.put("end_time",req.getParameter("endTime"));
 			}
-			List<Apply> list=fun.selectApplyByParam(args);
-			LogFactory.info (this, "用户["+phone+"]已获得商户查询结果列表!");
+			if(req.getParameter("state") !=null && req.getParameter("state") != ""){
+				args.put("state",req.getParameter("state"));
+			}
+			args.put("excel", "excel");
+			RetMessage result=fun.excuted(args);
+			List<Apply> applys=(List<Apply>)((Map<String, Object>)result.getResult()).get("applys");
+			for(Apply each:applys){
+				switch (each.getState()) {
+				case ConstParam.APPLY_STATE_WAIT_CHECK:each.setState("待审核");break;
+				case ConstParam.APPLY_STATE_REJECT:each.setState("已驳回");break;
+				case ConstParam.APPLY_STATE_LOAN:each.setState("已放款");break;
+				case ConstParam.APPLY_STATE_OVERDUE:each.setState("已违约");break;
+				case ConstParam.APPLY_STATE_FINISH:each.setState("已完成");break;
+				default:each.setState("未知");break;
+				}
+				switch (each.getIsAssurance()) {
+				case "true":each.setIsAssurance("担保");break;
+				case "false":each.setIsAssurance("不担保");break;
+				default:each.setState("未知");break;
+				}
+			}
+			LogFactory.info (this, "用户["+phone+"]已获得贷款管理列表!");
 			Map<String, String> map=new HashMap<>();
-			map.put("merchantId", "商家编号");
-			map.put("merchantName", "商家名称");
-			map.put("merchantAddress", "经营地址");
-			map.put("partnerTime", "合作时间");
+			map.put("applyId", "申请编号");
+			map.put("name", "姓名");
+			map.put("phone", "手机号码");
+			map.put("idNumber", "身份证号码");
+			map.put("applyMoney", "申请金额");
+			map.put("applyTime", "申请时间");
+			map.put("merchantName", "所属商家名称");
 			map.put("isAssurance", "是否担保");
-			map.put("state", "商家状态");
+			map.put("customerManagerPhone", "客户经理手机号");
 			map.put("customerManagerName", "客户经理姓名");
-			map.put("customerManagerPhone", "客户经理手机号码");
+			map.put("state", "申请状态");
+			if(ConstParam.APPLY_STATE_LOAN.equals(req.getParameter("state"))) {
+				map.put("loanMoney", "放款金额");
+				map.put("loanTime", "放款时间");
+			}else if(ConstParam.APPLY_STATE_OVERDUE.equals(req.getParameter("state"))) {
+				map.put("breakMoney", "违约金额");
+				map.put("breakTime", "违约时间");
+			}
+			
+//			map.put("merchantId", "商家编号");
+//			map.put("merchantName", "商家名称");
+//			map.put("merchantAddress", "经营地址");
+//			map.put("partnerTime", "合作时间");
+//			map.put("isAssurance", "是否担保");
+//			map.put("state", "商家状态");
+//			map.put("customerManagerName", "客户经理姓名");
+//			map.put("customerManagerPhone", "客户经理手机号码");
 			LogFactory.info (this, "用户["+phone+"]已生成excel文件!"); 
 			res.setContentType("octets/stream");
 			res.setHeader("Content-Disposition", "attachment;fileName="+TimeUtil.getDateTime()+".xls");
-			ExcelUtil.exportExcelFile(list, map, res.getOutputStream());
-			LogFactory.info (this, "用户["+phone+"]excel文件发送完成!");
+			ExcelUtil.exportExcelFile(applys, map, res.getOutputStream());
 		} catch (Exception e) {
-			LogFactory.error(this, "用户["+phone+"]导出管理员商户列表查询查询excel时发生异常!",e);
+			LogFactory.error(this, "用户["+phone+"]导出管理员贷款管理查询excel时发生异常!",e);
 		}
+		
 	}
 	
 	
+//	@RequestMapping(value="adminApplyQueryFunctionExport")
+//	public void adminApplyQueryFunctionExport(HttpServletRequest req,HttpServletResponse res){
+//		String phone=req.getParameter("phone");
+//		try { 
+//			LogFactory.info(this, "用户["+phone+"]尝试导出商户订单查询内容为excel文件!");
+//			ApplyDao fun=ac.getBean(ApplyDao.class);
+//			Map<String, Object> args=new HashMap<>();
+//			args.put("phone",phone);
+//			
+//			if(req.getParameter("merchantName") !=null && req.getParameter("merchantName") != ""){
+//				args.put("merchantName", req.getParameter("merchantName"));
+//			}
+//			if(req.getParameter("userPhone") !=null && req.getParameter("userPhone") != ""){
+//				args.put("userPhone", req.getParameter("userPhone"));
+//			}
+//			if(req.getParameter("isAssurance") !=null && req.getParameter("isAssurance") != ""){
+//				args.put("isAssurance", req.getParameter("isAssurance"));
+//			}
+//			if(req.getParameter("startTime") !=null && req.getParameter("startTime") != ""){
+//				args.put("start_time",req.getParameter("startTime"));
+//			}
+//			if(req.getParameter("endTime") !=null && req.getParameter("endTime") != ""){
+//				args.put("end_time",req.getParameter("endTime"));
+//			}
+//			List<Apply> list=fun.selectApplyByParam(args);
+//			LogFactory.info (this, "用户["+phone+"]已获得商户查询结果列表!");
+//			Map<String, String> map=new HashMap<>();
+//			map.put("merchantId", "商家编号");
+//			map.put("merchantName", "商家名称");
+//			map.put("merchantAddress", "经营地址");
+//			map.put("partnerTime", "合作时间");
+//			map.put("isAssurance", "是否担保");
+//			map.put("state", "商家状态");
+//			map.put("customerManagerName", "客户经理姓名");
+//			map.put("customerManagerPhone", "客户经理手机号码");
+//			LogFactory.info (this, "用户["+phone+"]已生成excel文件!"); 
+//			res.setContentType("octets/stream");
+//			res.setHeader("Content-Disposition", "attachment;fileName="+TimeUtil.getDateTime()+".xls");
+//			ExcelUtil.exportExcelFile(list, map, res.getOutputStream());
+//			LogFactory.info (this, "用户["+phone+"]excel文件发送完成!");
+//		} catch (Exception e) {
+//			LogFactory.error(this, "用户["+phone+"]导出管理员商户列表查询查询excel时发生异常!",e);
+//		}
+//	}
+//	
+//	
 	
+	@SuppressWarnings("unchecked")
 	@RequestMapping(value="adminChargeQueryFunctionExport")
-	public void adminChargeQueryFunctionExport(HttpServletRequest req,HttpServletResponse res){
+	public void adminChargeQueryFunctionExport1(HttpServletRequest req,HttpServletResponse res){
 		String phone=req.getParameter("phone");
 		try { 
 			LogFactory.info(this, "用户["+phone+"]尝试导出商户订单查询内容为excel文件!");
-			ApplyDao fun=ac.getBean(ApplyDao.class);
+			Function fun=ac.getBean(AdminChargeQueryFunction.class);
 			Map<String, Object> args=new HashMap<>();
 			args.put("phone",phone);
 			
@@ -1132,7 +1254,9 @@ public class TestController {
 			if(req.getParameter("endTime") !=null && req.getParameter("endTime") != ""){
 				args.put("end_time",req.getParameter("endTime"));
 			}
-			List<Apply> list = fun.selectApplyByParam(args);
+			args.put("excel", "excel");
+			RetMessage result=fun.excuted(args);
+			List<Apply> list=(List<Apply>)((Map<String, Object>)result.getResult()).get("applys");
 			LogFactory.info (this, "用户["+phone+"]已获得商户查询结果列表!");
 			Map<String, String> map=new HashMap<>();
 			map.put("applyId", "申请编号");
@@ -1157,6 +1281,57 @@ public class TestController {
 			LogFactory.error(this, "用户["+phone+"]导出管理员商户列表查询查询excel时发生异常!",e);
 		}
 	}
+	
+//	@RequestMapping(value="adminChargeQueryFunctionExport")
+//	public void adminChargeQueryFunctionExport(HttpServletRequest req,HttpServletResponse res){
+//		String phone=req.getParameter("phone");
+//		try { 
+//			LogFactory.info(this, "用户["+phone+"]尝试导出商户订单查询内容为excel文件!");
+//			ApplyDao fun=ac.getBean(ApplyDao.class);
+//			Map<String, Object> args=new HashMap<>();
+//			args.put("phone",phone);
+//			
+//			if(req.getParameter("merchantName") !=null && req.getParameter("merchantName") != ""){
+//				args.put("merchantName", req.getParameter("merchantName"));
+//			}
+//			if(req.getParameter("customerPhone") !=null && req.getParameter("customerPhone") != ""){
+//				args.put("customerPhone", req.getParameter("customerPhone"));
+//			}
+//			if(req.getParameter("isOverdue") !=null && req.getParameter("isOverdue") != ""){
+//				args.put("isOverdue", req.getParameter("isOverdue"));
+//			}
+//			if(req.getParameter("startTime") !=null && req.getParameter("startTime") != ""){
+//				args.put("start_time",req.getParameter("startTime"));
+//			}
+//			if(req.getParameter("endTime") !=null && req.getParameter("endTime") != ""){
+//				args.put("end_time",req.getParameter("endTime"));
+//			}
+//			args.put("excel", "excel");
+//			List<Apply> list = fun.selectApplyByParam(args);
+//			LogFactory.info (this, "用户["+phone+"]已获得商户查询结果列表!");
+//			Map<String, String> map=new HashMap<>();
+//			map.put("applyId", "申请编号");
+//			map.put("name", "姓名");
+//			map.put("phone", "手机号码");
+//			map.put("idNumber", "身份证号码");
+//			map.put("applyMoney", "申请金额");
+//			map.put("merchantName", "所属商家名称");
+//			map.put("merchantType", "所属商家类别");
+//			
+//			map.put("loanMoney", "放款金额");
+//			map.put("loanTime", "放款时间");
+//			map.put("brokerage", "佣金金额");
+//			map.put("serviceCharge", "服务费金额");
+//			map.put("breakMoney", "消耗保证金金额");
+//			LogFactory.info (this, "用户["+phone+"]已生成excel文件!"); 
+//			res.setContentType("octets/stream");
+//			res.setHeader("Content-Disposition", "attachment;fileName="+TimeUtil.getDateTime()+".xls");
+//			ExcelUtil.exportExcelFile(list, map, res.getOutputStream());
+//			LogFactory.info (this, "用户["+phone+"]excel文件发送完成!");
+//		} catch (Exception e) {
+//			LogFactory.error(this, "用户["+phone+"]导出管理员商户列表查询查询excel时发生异常!",e);
+//		}
+//	}
 	
 	
 	@RequestMapping(value="loanFunction",produces = {"application/json;charset=UTF-8"})
