@@ -54,8 +54,26 @@ public interface ConstParam {
 	/** 用户状态-冻结 */
 	public static final String USER_STATE_FREEZE = "21";
 
-	/** 商户类型 */
-	public static final String MERCHANT_TYPE = "";
+	/** 商户类型-家居 */
+	public static final String MERCHANT_TYPE_HOUSEHOLD = "1001";
+	/** 商户类型-电器*/
+	public static final String MERCHANT_TYPE_ELECTRIC_APPLIANCE  = "1002";
+	/** 商户类型-数码*/
+	public static final String MERCHANT_TYPE_NUMERAL = "1003";
+	/** 商户类型-娱乐*/
+	public static final String MERCHANT_TYPE_ENTERAINMENT = "1004";
+	/** 商户类型-珠宝*/
+	public static final String MERCHANT_TYPE_JEWELS= "1005";
+	/** 商户类型-医疗*/
+	public static final String MERCHANT_TYPE_MEDICAL_TREATMENT= "1006";
+	/** 商户类型-美容*/
+	public static final String MERCHANT_TYPE_BEAUTY = "1007";
+	/** 商户类型-汽车*/
+	public static final String MERCHANT_TYPE_MOTOR_CAR = "1008";
+	/** 商户类型-教育*/
+	public static final String MERCHANT_TYPE_EDUCATION = "1009";
+	/** 商户类型-其他*/
+	public static final String MERCHANT_TYPE_OTHERS = "1010";
 
 	/**用户角色名-销售员*/
 	public static final String USER_ROLE_NAME_SALESMAN="salesMan";
@@ -67,4 +85,7 @@ public interface ConstParam {
 	public static final String USER_ROLE_NAME_ADMIN="admin";
 	/**用户角色名-root(仅限测试用)*/
 	public static final String USER_ROLE_NAME_ROOT="root";
+	
+	
+	
 }

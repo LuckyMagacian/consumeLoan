@@ -48,7 +48,7 @@ public class LoanFunction extends AbstractFunction {
 		String applyId = (String) args.get("applyId");
 		// 修改申请放款金额
 		String loanMoney = (String) args.get("loanMoney");
-		String loanTime = (String) args.get("loanTime");
+		String loanTime = (String) args.get("loanTime"); 
 		LogFactory.info(this, "管理员[" + phone + "],放款的请求参数为：[" + args + "]");
 		Apply apply = dao.getApplyDao().selectApplyByUniqueIndexOnApplyId(applyId);
 		if (apply == null) {
@@ -72,12 +72,14 @@ public class LoanFunction extends AbstractFunction {
 			merchant.setBrokerageLess(merchant.getBrokerageLess().add(apply.getBrokerage()));
 			// 修改系统
 			SystemAccount account = dao.getSystemAccountDao().selectSystemAccountByUniqueIndexOnAccountId("1001");
+			apply.setServiceCharge(apply.getLoanMoney().multiply(account.getBrokerageRate()));
 			LogFactory.info(this, "管理员[" + phone + "],放款之前的佣金值：" + account.getBrokerage() + ",放款之前的服务费"
 					+ account.getServiceCharge() + ",放款之前的风险准备金" + account.getProvisionsOfRisk());
 			BigDecimal newBrokerge = new BigDecimal(0);
 			newBrokerge = loan.add(account.getBrokerage().multiply(account.getBrokerageRate()));
 			BigDecimal newServiceCharge = new BigDecimal(0);
-			newServiceCharge = loan.add(account.getServiceCharge().multiply(account.getServiceChargeRate()));
+			newServiceCharge = loan.add(apply.getLoanMoney().multiply(account.getServiceChargeRate()));
+			
 			BigDecimal newProvisionsOfRisk = new BigDecimal(0);
 			newProvisionsOfRisk = loan.add(account.getProvisionsOfRisk().multiply(account.getProvisionsOfRiskRate()));
 			BigDecimal oldVersion = account.getVersion();

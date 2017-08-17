@@ -54,6 +54,10 @@ public class MerchantHomeFunction extends AbstractFunction {
     		return new RetMessage(RetCodeEnum.FAIL.toString(),"当前用户未绑定商户或不是商户工作人员！",null);
     	}
     	Merchant merchant=dao.getMerchantDao().selectMerchantByUniqueIndexOnMerchantId(merchantId.getValue());
+    	if(merchant==null){
+    		LogFactory.info(this, "查询商户["+merchantId.getValue()+"]不存在!");
+    		return new RetMessage(RetCodeEnum.FAIL, "商户不存在!", null);
+    	}
     	LogFactory.info(this, "用户["+phone+"]获取商户信息["+merchant+"]成功!");
     	List<User> users=dao.selectUserByAttibute(new Attribute<String>("merchantId", merchant.getMerchantId()).toJson());
     	List<UserProxy> proxies=new ArrayList<>();

@@ -269,6 +269,9 @@ public class TestController {
 			String pageCode=req.getParameter("pageCode");
 			if(pageCode!=null&&!pageCode.isEmpty())
 				args.put("pageCode", pageCode);
+			if(req.getParameter("special")!=null){
+				args.put("special", "true");
+			}
 			RetMessage result= fun.excuted(args);
 			if(!result.getCode().equals(RetCodeEnum.SUCCESS.toString())){
 				LogFactory.info(this, "用户["+phone+"]商户订单查询失败直接返回!");
@@ -311,12 +314,17 @@ public class TestController {
 			String endTime=req.getParameter("endTime");
 			if(endTime!=null&&!endTime.isEmpty())
 				args.put("endTime", endTime);
+			if(req.getParameter("special")!=null){
+				args.put("special", "true");
+			}
 			RetMessage message=fun.excuted(args);
 			if(!message.getCode().equals(RetCodeEnum.SUCCESS.toString())){
 				LogFactory.info(this, "用户["+phone+"]尝试导出商户订单查询失败,不生成excel文件!");
 				return ;
 			}
+			args.put("excel", "excel");
 			List<Apply> list=(List<Apply>)((Map<String,Object>)message.getResult()).get("applys");
+			System.err.println(list);
 			for(Apply each:list){
 				switch (each.getState()) {
 				case ConstParam.APPLY_STATE_WAIT_CHECK:each.setState("待审核");break;
@@ -334,7 +342,7 @@ public class TestController {
 //			map.put("sex", "申请者性别");
 //			map.put("address", "申请者地址");
 			map.put("idNumber", "申请者身份证号码");
-			map.put("phone", "申请者手机号码");
+			map.put("phone", "联系方式");
 			map.put("applyMoney", "申请金额");
 //			map.put("verifyCode", "申请时所填验证码");
 //			map.put("merchantId", "申请商户编号");
@@ -687,7 +695,8 @@ public class TestController {
 			String end_time=req.getParameter("endTime");
 			if(end_time!=null&&!end_time.isEmpty())
 				args.put("end_time", end_time);
-			
+			if(req.getParameter("special")!=null)
+				args.put("special", "true");
 			List<Apply> list=fun.selectApplyByParam(args);
 			LogFactory.info (this, "用户["+phone+"]已获得商户订单查询结果列表!");
 			Map<String, String> map=new HashMap<>();
@@ -745,6 +754,8 @@ public class TestController {
 			String pageCode=req.getParameter("pageCode");
 			if(pageCode!=null&&!pageCode.isEmpty())
 				args.put("pageCode", pageCode);
+			if(req.getParameter("special")!=null)
+				args.put("special", "true");
 			RetMessage result= fun.excuted(args);
 			if(!result.getCode().equals(RetCodeEnum.SUCCESS.toString())){
 				LogFactory.info(this, "用户["+phone+"]商户佣金查询失败,直接返回查询结果!");
@@ -797,15 +808,18 @@ public class TestController {
 			args.put("phone",phone);
 			String userPhone=req.getParameter("userPhone");
 			if(userPhone!=null&&!userPhone.isEmpty())
-				args.put("userPhone", userPhone);
+				args.put("userPhone", userPhone); 
 //			String state=req.getParameter("state");
-			args.put("state", ConstParam.APPLY_STATE_LOAN);
+//			args.put("state", ConstParam.APPLY_STATE_LOAN);
 			String startTime=req.getParameter("startTime");
 			if(startTime!=null&&!startTime.isEmpty())
 				args.put("startTime", startTime);
 			String endTime=req.getParameter("endTime");
 			if(endTime!=null&&!endTime.isEmpty())
 				args.put("endTime", endTime);
+			if(req.getParameter("special")!=null)
+				args.put("special", "true");
+			args.put("excel", "excel");
 			RetMessage result= fun.excuted(args);
 			if(!result.getCode().equals(RetCodeEnum.SUCCESS.toString())){
 				LogFactory.info(this, "用户["+phone+"]商户佣金查询失败,不生成excel文件!");
