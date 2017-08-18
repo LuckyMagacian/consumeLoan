@@ -57,7 +57,9 @@ public class MerchantDetailQueryFunction extends AbstractFunction {
     	List<User> attibutes = dao.selectUserByAttibute(str);
     	List<UserProxy> Proxy = new ArrayList<>();
     	for (User user : attibutes) {
-			 Proxy.add(user.toProxy());
+    		if ("salesMan".equals(user.getRoleName()) || "shopKeeper".equals(user.getRoleName())) {
+    			Proxy.add(user.toProxy());
+			}
 		}
     	LogFactory.info(this, "管理员["+phone+"],商户的担保人信息为：["+attibutes+"]!");	
     	resultMap.put("Users", Proxy);
