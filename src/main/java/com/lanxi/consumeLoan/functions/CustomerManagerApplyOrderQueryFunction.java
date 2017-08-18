@@ -63,11 +63,11 @@ public class CustomerManagerApplyOrderQueryFunction extends AbstractFunction {
 		if(args.get("merchantType") != "" && args.get("merchantType") !=null){
 			parm.put("merchantType", args.get("merchantType"));
 		}
-		if(args.get("start_time") != "" && args.get("start_time") !=null){
-			parm.put("start_time", args.get("start_time"));
+		if(args.get("startTime") != "" && args.get("startTime") !=null){
+			parm.put("startTime", args.get("startTime"));
 		}
-		if(args.get("end_time") != "" && args.get("end_time") !=null){
-			parm.put("end_time", args.get("end_time"));
+		if(args.get("endTime") != "" && args.get("endTime") !=null){
+			parm.put("endTime", args.get("endTime"));
 		}
 		
 		LogFactory.info(this, "客户经理["+phone+"],请求参数：" + parm.toString());

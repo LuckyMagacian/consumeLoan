@@ -56,11 +56,11 @@ public class AdminApplyQueryFunction extends AbstractFunction{
 		if(args.get("merchantName") != "" && args.get("merchantName") !=null){
 			parm.put("merchantName", (String)args.get("merchantName"));
 		}
-		if(args.get("start_time") != "" && args.get("start_time") !=null){
-			parm.put("start_time",(String)args.get("start_time"));
+		if(args.get("startTime") != "" && args.get("startTime") !=null){
+			parm.put("startTime",(String)args.get("startTime"));
 		}
-		if(args.get("end_time") != "" && args.get("end_time") !=null){
-			parm.put("end_time", (String)args.get("end_time"));
+		if(args.get("endTime") != "" && args.get("endTime") !=null){
+			parm.put("endTime", (String)args.get("endTime"));
 		}
 		if(args.get("state") != "" && args.get("state") !=null){
 			parm.put("state", (String)args.get("state"));

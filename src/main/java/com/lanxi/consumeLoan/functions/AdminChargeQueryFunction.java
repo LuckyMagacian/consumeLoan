@@ -56,11 +56,11 @@ public class AdminChargeQueryFunction extends AbstractFunction{
 		if(args.get("merchantName") !=null&&((String)args.get("merchantName")).isEmpty()){
 			parm.put("merchantName", args.get("merchantName"));
 		}
-		if(args.get("start_time") !=null&&((String)args.get("start_time")).isEmpty()){
-			parm.put("start_time", args.get("start_time"));
+		if(args.get("startTime") !=null&&((String)args.get("startTime")).isEmpty()){
+			parm.put("startTime", args.get("startTime"));
 		}
-		if(args.get("end_time") !=null&&((String)args.get("end_time")).isEmpty()){
-			parm.put("end_time", args.get("end_time"));
+		if(args.get("endTime") !=null&&((String)args.get("endTime")).isEmpty()){
+			parm.put("endTime", args.get("endTime"));
 		}
 		if(args.get("customerPhone") !=null&&((String)args.get("customerPhone")).isEmpty()){
 			parm.put("customerPhone", args.get("customerPhone"));

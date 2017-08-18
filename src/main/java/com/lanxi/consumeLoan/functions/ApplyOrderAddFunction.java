@@ -124,8 +124,8 @@ public class ApplyOrderAddFunction extends AbstractFunction{
     	Date date=new Date();
     	date.setMonth(date.getMonth()-3);
     	param.put("userPhone", userPhone);
-    	param.put("start_time",new SimpleDateFormat("yyyyMMddHHmmss").format(date));
-    	param.put("end_time",TimeUtil.getDateTime());
+    	param.put("startTime",new SimpleDateFormat("yyyyMMddHHmmss").format(date));
+    	param.put("endTime",TimeUtil.getDateTime());
     	List<Apply> applys=dao.getApplyDao().selectApplyByParam(param);
     	
     	//TODO  测试专用手机号不经过3个月校验 待删除

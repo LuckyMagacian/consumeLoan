@@ -239,8 +239,8 @@
 				<if test="merchantName != null"> AND merchant_name = #{merchantName}</if>
 				<if test="merchantType != null"> AND merchant_type = #{merchantType}</if>
 				<if test="isAssurance != null"> AND is_assurance = #{isShared}</if>
-				<if test="start_time != null"> AND partner_time &gt;= #{start_time}</if>
-				<if test="end_time != null"> AND partner_time &lt;= #{end_time}</if>
+				<if test="startTime != null"> AND partner_time &gt;= #{startTime}</if>
+				<if test="endTime != null"> AND partner_time &lt;= #{endTime}</if>
 				<if test="customerManagerPhone != null"> AND customer_manager_phone = #{customerManagerPhone}</if>
 		</where>
 	</select>
@@ -254,8 +254,8 @@
 				<if test="merchantName != null"> AND merchant_name = #{merchantName}</if>
 				<if test="merchantType != null"> AND merchant_type = #{merchantType}</if>
 				<if test="isAssurance != null"> AND is_assurance = #{isShared}</if>
-				<if test="start_time != null"> AND partner_time &gt;= #{start_time}</if>
-				<if test="end_time != null"> AND partner_time &lt;= #{end_time}</if>
+				<if test="startTime != null"> AND partner_time &gt;= #{startTime}</if>
+				<if test="endTime != null"> AND partner_time &lt;= #{endTime}</if>
 				<if test="customerManagerPhone != null"> AND customer_manager_phone = #{customerManagerPhone}</if>
 		</where>
 	</select>
@@ -291,8 +291,8 @@
 			<if test="state != null"> AND state = #{state}</if>
 			<if test="customerManagerPhone != null"> AND customer_manager_phone = #{customerManagerPhone}</if>
 			<if test="customerManagerName != null"> AND customer_manager_name = #{customerManagerName}</if>
-			<if test="start_time != null"> AND partner_time &gt;= #{start_time}</if>
-			<if test="end_time != null"> AND partner_time &lt;= #{end_time}</if>
+			<if test="startTime != null"> AND partner_time &gt;= #{startTime}</if>
+			<if test="endTime != null"> AND partner_time &lt;= #{endTime}</if>
 		</where>
 		limit #{start},#{size};
 	</select>

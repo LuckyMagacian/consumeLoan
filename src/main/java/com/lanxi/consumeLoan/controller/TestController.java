@@ -448,8 +448,8 @@ public class TestController {
 			args.put("merchantName",req.getParameter("merchantName"));
 			args.put("merchantType",req.getParameter("merchantType"));
 			args.put("isAssurance",req.getParameter("isAssurance"));
-			args.put("start_time",req.getParameter("startTime"));
-			args.put("end_time",req.getParameter("endTime"));
+			args.put("startTime",req.getParameter("startTime"));
+			args.put("endTime",req.getParameter("endTime"));
 			args.put("pageCode",req.getParameter("pageCode"));
 			args.put("pageSize",req.getParameter("pageSize"));
 			return fun.excuted(args).toJson();
@@ -499,10 +499,10 @@ public class TestController {
 				args.put("isAssurance", req.getParameter("isAssurance"));
 			}
 			if(req.getParameter("startTime") !=null && req.getParameter("startTime") != ""){
-				args.put("start_time",req.getParameter("startTime"));
+				args.put("startTime",req.getParameter("startTime"));
 			}
 			if(req.getParameter("endTime") !=null && req.getParameter("endTime") != ""){
-				args.put("end_time",req.getParameter("endTime"));
+				args.put("endTime",req.getParameter("endTime"));
 			}
 			if(req.getParameter("state") !=null && req.getParameter("state") != ""){
 				args.put("state",req.getParameter("state"));
@@ -532,10 +532,10 @@ public class TestController {
 				args.put("isOverdue", req.getParameter("isOverdue"));
 			}
 			if(req.getParameter("startTime") !=null && req.getParameter("startTime") != ""){
-				args.put("start_time",req.getParameter("startTime"));
+				args.put("startTime",req.getParameter("startTime"));
 			}
 			if(req.getParameter("endTime") !=null && req.getParameter("endTime") != ""){
-				args.put("end_time",req.getParameter("endTime"));
+				args.put("endTime",req.getParameter("endTime"));
 			}
 			if(req.getParameter("pageSize") !=null && req.getParameter("pageSize") != ""){
 				args.put("pageSize",req.getParameter("pageSize"));
@@ -577,10 +577,10 @@ public class TestController {
 				args.put("isAssurance", req.getParameter("isAssurance"));
 			}
 			if(req.getParameter("startTime") !=null && req.getParameter("startTime") != ""){
-				args.put("start_time",req.getParameter("startTime"));
+				args.put("startTime",req.getParameter("startTime"));
 			}
 			if(req.getParameter("endTime") !=null && req.getParameter("endTime") != ""){
-				args.put("end_time",req.getParameter("endTime"));
+				args.put("endTime",req.getParameter("endTime"));
 			}
 			if(req.getParameter("customerManagerPhone") !=null && req.getParameter("customerManagerPhone") != ""){
 				args.put("customerManagerPhone",req.getParameter("customerManagerPhone"));
@@ -610,8 +610,8 @@ public class TestController {
 			args.put("merchantType",req.getParameter("merchantType"));
 			args.put("name",req.getParameter("name"));
 			args.put("state",req.getParameter("state"));
-			args.put("start_time",req.getParameter("startTime"));
-			args.put("end_time",req.getParameter("endTime"));
+			args.put("startTime",req.getParameter("startTime"));
+			args.put("endTime",req.getParameter("endTime"));
 			args.put("pageCode",req.getParameter("pageCode"));
 			args.put("pageSize",req.getParameter("pageSize")); 
 			return fun.excuted(args).toJson();
@@ -643,10 +643,10 @@ public class TestController {
 				args.put("isAssurance", req.getParameter("isAssurance"));
 			}
 			if(req.getParameter("startTime") !=null && req.getParameter("startTime") != ""){
-				args.put("start_time",req.getParameter("startTime"));
+				args.put("startTime",req.getParameter("startTime"));
 			}
 			if(req.getParameter("endTime") !=null && req.getParameter("endTime") != ""){
-				args.put("end_time",req.getParameter("endTime"));
+				args.put("endTime",req.getParameter("endTime"));
 			}
 			args.put("excel","excel");
 
@@ -712,12 +712,12 @@ public class TestController {
 			String state=req.getParameter("state");
 			if(state!=null&&!state.isEmpty())
 				args.put("state", state);
-			String start_time=req.getParameter("startTime");
-			if(start_time!=null&&!start_time.isEmpty())
-				args.put("start_time", start_time);
-			String end_time=req.getParameter("endTime");
-			if(end_time!=null&&!end_time.isEmpty())
-				args.put("end_time", end_time);
+			String startTime=req.getParameter("startTime");
+			if(startTime!=null&&!startTime.isEmpty())
+				args.put("startTime", startTime);
+			String endTime=req.getParameter("endTime");
+			if(endTime!=null&&!endTime.isEmpty())
+				args.put("endTime", endTime);
 			if(req.getParameter("special")!=null)
 				args.put("special", "true");
 			args.put("excel", "excel");
@@ -937,10 +937,10 @@ public class TestController {
 				args.put("isAssurance", req.getParameter("isAssurance"));
 			}
 			if(req.getParameter("startTime") !=null && req.getParameter("startTime") != ""){
-				args.put("start_time",req.getParameter("startTime"));
+				args.put("startTime",req.getParameter("startTime"));
 			}
 			if(req.getParameter("endTime") !=null && req.getParameter("endTime") != ""){
-				args.put("end_time",req.getParameter("endTime"));
+				args.put("endTime",req.getParameter("endTime"));
 			}
 			if(req.getParameter("customerManagerPhone") !=null && req.getParameter("customerManagerPhone") != ""){
 				args.put("customerManagerPhone",req.getParameter("customerManagerPhone"));
@@ -1123,10 +1123,10 @@ public class TestController {
 				args.put("isAssurance", req.getParameter("isAssurance"));
 			}
 			if(req.getParameter("startTime") !=null && req.getParameter("startTime") != ""){
-				args.put("start_time",req.getParameter("startTime"));
+				args.put("startTime",req.getParameter("startTime"));
 			}
 			if(req.getParameter("endTime") !=null && req.getParameter("endTime") != ""){
-				args.put("end_time",req.getParameter("endTime"));
+				args.put("endTime",req.getParameter("endTime"));
 			}
 			if(req.getParameter("state") !=null && req.getParameter("state") != ""){
 				args.put("state",req.getParameter("state"));
@@ -1208,10 +1208,10 @@ public class TestController {
 //				args.put("isAssurance", req.getParameter("isAssurance"));
 //			}
 //			if(req.getParameter("startTime") !=null && req.getParameter("startTime") != ""){
-//				args.put("start_time",req.getParameter("startTime"));
+//				args.put("startTime",req.getParameter("startTime"));
 //			}
 //			if(req.getParameter("endTime") !=null && req.getParameter("endTime") != ""){
-//				args.put("end_time",req.getParameter("endTime"));
+//				args.put("endTime",req.getParameter("endTime"));
 //			}
 //			List<Apply> list=fun.selectApplyByParam(args);
 //			LogFactory.info (this, "用户["+phone+"]已获得商户查询结果列表!");
@@ -1256,10 +1256,10 @@ public class TestController {
 				args.put("isOverdue", req.getParameter("isOverdue"));
 			}
 			if(req.getParameter("startTime") !=null && req.getParameter("startTime") != ""){
-				args.put("start_time",req.getParameter("startTime"));
+				args.put("startTime",req.getParameter("startTime"));
 			}
 			if(req.getParameter("endTime") !=null && req.getParameter("endTime") != ""){
-				args.put("end_time",req.getParameter("endTime"));
+				args.put("endTime",req.getParameter("endTime"));
 			}
 			args.put("excel", "excel");
 			RetMessage result=fun.excuted(args);
@@ -1308,10 +1308,10 @@ public class TestController {
 //				args.put("isOverdue", req.getParameter("isOverdue"));
 //			}
 //			if(req.getParameter("startTime") !=null && req.getParameter("startTime") != ""){
-//				args.put("start_time",req.getParameter("startTime"));
+//				args.put("startTime",req.getParameter("startTime"));
 //			}
 //			if(req.getParameter("endTime") !=null && req.getParameter("endTime") != ""){
-//				args.put("end_time",req.getParameter("endTime"));
+//				args.put("endTime",req.getParameter("endTime"));
 //			}
 //			args.put("excel", "excel");
 //			List<Apply> list = fun.selectApplyByParam(args);

@@ -42,8 +42,8 @@ public class MerchantQueryFunction extends AbstractFunction {
 		String merchantName = (String) args.get("merchantName");
 		String merchantType = (String) args.get("merchantType");
 		String isAssurance = (String) args.get("isAssurance");
-		String start_time = (String) args.get("start_time");
-		String end_time = (String) args.get("end_time");
+		String startTime = (String) args.get("startTime");
+		String endTime = (String) args.get("endTime");
 		int pageCode = Integer.parseInt((String)args.get("pageCode")==null?"1":(String)args.get("pageCode"));
 		int pageSize = Integer.parseInt((String)args.get("pageSize")==null?"1":(String)args.get("pageSize"));
 		PageBean page = new PageBean();
@@ -66,11 +66,11 @@ public class MerchantQueryFunction extends AbstractFunction {
 		if(isAssurance !=null && isAssurance != ""){
 			parm.put("isAssurance", isAssurance);
 		}
-		if(start_time !=null && start_time != ""){
-			parm.put("start_time",start_time);
+		if(startTime !=null && startTime != ""){
+			parm.put("startTime",startTime);
 		}
-		if(end_time !=null && end_time != ""){
-			parm.put("end_time",end_time);
+		if(endTime !=null && endTime != ""){
+			parm.put("endTime",endTime);
 		}
 		LogFactory.info(this, "用户["+phone+"],请求参数："+ parm.toString());
 		List<Merchant> merchants = dao.getMerchantDao().selectAdminMerchantByParm(parm);

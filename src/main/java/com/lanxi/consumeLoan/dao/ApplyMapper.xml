@@ -333,8 +333,8 @@
             <if test="merchantName != null"> AND merchant_name = #{merchantName}</if>
             <if test="merchantType != null"> AND merchant_type = #{merchantType}</if>
             <if test="isAssurance !=null ">AND is_assurance = #{isAssurance}</if>
-            <if test="start_time !=null ">AND apply_time &gt;= #{start_time}</if>
-            <if test="end_time !=null ">AND apply_time &lt;= #{end_time}</if>
+            <if test="startTime !=null ">AND apply_time &gt;= #{startTime}</if>
+            <if test="endTime !=null ">AND apply_time &lt;= #{endTime}</if>
             <if test="customerPhone !=null "> AND customer_manager_phone=#{customerPhone}</if>
             <!-- <if test="customerPhone !=null ">AND phone= #{customerPhone} or customer_manager_phone=#{customerPhone}</if> -->
         </where>
@@ -375,10 +375,10 @@
             <if test="customerManagerPhone != null"> AND customer_manager_phone = #{customerManagerPhone}</if>
             <if test="customerManagerName != null"> AND customer_manager_name = #{customerManagerName}</if>
             <if test="reason != null"> AND reason = #{reason}</if>
-            <if test="start_time !=null ">AND apply_time &gt;= #{startTime}</if>
-            <if test="end_time !=null ">AND apply_time &lt;= #{endTime}</if>
+            <if test="startTime !=null ">AND apply_time &gt;= #{startTime}</if>
+            <if test="endTime !=null ">AND apply_time &lt;= #{endTime}</if>
 <!--             <if test="customerPhone !=null ">AND phone= #{customerPhone} or customer_manager_phone=#{customerPhone}</if> -->
-            <if test="customerPhone !=null ">customer_manager_phone=#{customerPhone}</if>
+            <if test="customerPhone !=null ">AND customer_manager_phone=#{customerPhone}</if>
             <if test="loseMoney != null"> AND lose_money = #{loseMoney}</if>
         </where>
         ORDER BY apply_time limit #{start},#{size}  
