@@ -73,7 +73,7 @@ public class MerchantQueryFunction extends AbstractFunction {
 			parm.put("endTime",endTime);
 		}
 		LogFactory.info(this, "用户["+phone+"],请求参数："+ parm.toString());
-		List<Merchant> merchants = dao.getMerchantDao().selectAdminMerchantByParm(parm);
+		List<Merchant> merchants = dao.selectAdminMerchantByParm(parm);
 		LogFactory.info(this, "用户["+phone+"],根据请求参数查询的结果为："+ merchants.toString()+",总条数为：" + merchants.size());
 //		if(merchants ==null || merchants.size()<=0){
 //			LogFactory.info(this, "用户["+phone+"],没查询到数据!");
@@ -115,7 +115,7 @@ public class MerchantQueryFunction extends AbstractFunction {
 		page.setTotalRecord(merchants.size());		
 		parm.put("start", page.getStart());
 		parm.put("size", page.getPageSize());
-		List<Merchant> list = dao.getMerchantDao().selectMerchantByPage(parm);
+		List<Merchant> list = dao.selectMerchantByPage(parm);
 		
 		
 		Map<String, Object> resultMap = new HashMap<String, Object>();

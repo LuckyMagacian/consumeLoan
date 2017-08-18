@@ -68,7 +68,7 @@ public class AdminChargeQueryFunction extends AbstractFunction{
 		if(isOverdue!=null&&(isOverdue.equals("true"))){
 			parm.put("isOverdue", isOverdue);
 		}
-		List<Apply> applys = dao.getApplyDao().selectApplyByParam(parm);
+		List<Apply> applys = dao.selectApplyByParam(parm);
 		List<Apply> applys1 =new ArrayList<>();
 		
 		if(applys ==null || applys.size()<=0){

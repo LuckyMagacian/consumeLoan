@@ -56,6 +56,7 @@ import com.lanxi.consumeLoan.functions.SalesManHomeFunction;
 import com.lanxi.consumeLoan.functions.ValidateCodeSendFunction;
 import com.lanxi.consumeLoan.manager.ApplicationContextProxy;
 import com.lanxi.consumeLoan.service.CheckService;
+import com.lanxi.consumeLoan.service.DaoService;
 import com.lanxi.util.consts.RetCodeEnum;
 import com.lanxi.util.entity.LogFactory;
 import com.lanxi.util.utils.ExcelUtil;
@@ -920,7 +921,7 @@ public class TestController {
 		String phone=req.getParameter("phone");
 		try { 
 			LogFactory.info(this, "用户["+phone+"]尝试导出商户订单查询内容为excel文件!");
-			MerchantDao fun=ac.getBean(MerchantDao.class);
+			DaoService fun=ac.getBean(DaoService.class);
 			Map<String, Object> args=new HashMap<>();
 			args.put("phone",phone);
 			

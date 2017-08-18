@@ -57,7 +57,7 @@ public class MerchantApplyOrderQueryFunction extends AbstractFunction {
     	List<Apply> applys=null;
     	if(args.get("special")!=null){
     		args.put("state", ConstParam.APPLY_STATE_LOAN);
-    		applys=dao.getApplyDao().selectApplyByParam(args);
+    		applys=dao.selectApplyByParam(args);
     		args.put("state", ConstParam.APPLY_STATE_OVERDUE);
     		applys.addAll(dao.getApplyDao().selectApplyByParam(args));
     		args.put("state", ConstParam.APPLY_STATE_FINISH);
@@ -101,7 +101,7 @@ public class MerchantApplyOrderQueryFunction extends AbstractFunction {
 //			System.err.println("applys:"+applys);
 //			System.err.println("list:"+list);
 		}else{
-			list=dao.getApplyDao().selectApplyByPage(args);
+			list=dao.selectApplyByPage(args);
 		
 		}
 //		System.err.println(list.size());

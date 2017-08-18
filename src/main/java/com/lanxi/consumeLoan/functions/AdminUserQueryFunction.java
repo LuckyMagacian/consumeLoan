@@ -96,7 +96,7 @@ public class AdminUserQueryFunction extends AbstractFunction {
 			list =userList;
 			
 		}
-		System.err.println(list.size());
+//		System.err.println(list.size());
 		List<User> users = new ArrayList<>();
 
 //		System.err.println("没有删除之前:" + list + ",用户数据：" + list);
@@ -119,8 +119,6 @@ public class AdminUserQueryFunction extends AbstractFunction {
 		}else {
 			users =list;
 		}
-		System.err.println(users.size());
-//		System.err.println("删除之后:" + users + ",用户数据：" + users.size());
 		LogFactory.info(this, "管理员[" + phone + "]尝试根据条件[" + args + "]查询结果[" + "暂不显示" + "]!");
 		List<Map<String, Object>> userProxy = new ArrayList<>();
 		if (!users.isEmpty()) {
@@ -131,7 +129,7 @@ public class AdminUserQueryFunction extends AbstractFunction {
 					System.err.println(each);
 					userProxy.add(each.toProxy().getMap());
 				}
-				LogFactory.info(this, "管理员[" + phone + "]转换结果[" + userProxy + "]");
+				LogFactory.info(this, "管理员[" + phone + "]转换结果[" + "暂不显示" + "]");
 			} else if ((special != null && !special.isEmpty()) || (merchantName != null && !merchantName.isEmpty())
 					|| ConstParam.USER_ROLE_NAME_SHOP_KEEPER.equals(roleName)
 					|| ConstParam.USER_ROLE_NAME_SALESMAN.equals(roleName)) {
@@ -139,7 +137,7 @@ public class AdminUserQueryFunction extends AbstractFunction {
 				for (User each : users) {
 					userProxy.add(each.toProxy().toSalesMan());
 				}
-				LogFactory.info(this, "管理员[" + phone + "]转换结果[" + userProxy + "]");
+				LogFactory.info(this, "管理员[" + phone + "]转换结果[" + "暂不显示" + "]");
 			} else if (ConstParam.USER_ROLE_NAME_CUSTOMER_MANAGER.equals(roleName)) {
 				LogFactory.info(this, "管理员[" + phone + "]查询结果转客户经理属性");
 				for (User each : users) {
@@ -163,7 +161,7 @@ public class AdminUserQueryFunction extends AbstractFunction {
 			Map<String, Object> resultMap = new HashMap<String, Object>();
 			resultMap.put("page", page);
 			resultMap.put("users", userProxy);
-			LogFactory.info(this, "管理员[" + phone + "]尝试根据条件[" + args + "]查询结果转换[" + userProxy + "]!");
+			LogFactory.info(this, "管理员[" + phone + "]尝试根据条件[" + args + "]查询结果转换["+ "暂不显示" + "]!");
 			return new RetMessage(RetCodeEnum.SUCCESS.toString(), "查询成功", resultMap);
 		}
 		return new RetMessage(RetCodeEnum.SUCCESS.toString(), "查询成功", users);

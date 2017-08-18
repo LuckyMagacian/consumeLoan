@@ -321,7 +321,7 @@ public class ApplicationTest {
 		DaoService dao=ac.getBean(DaoService.class);
 		Map<String, Object> map = new HashMap<>();
 		map.put("state", "01");
-		List<Merchant> list = dao.getMerchantDao().selectAdminMerchantByParm(map);
+		List<Merchant> list = dao.selectAdminMerchantByParm(map);
 		System.err.println(list);
 		
 	}

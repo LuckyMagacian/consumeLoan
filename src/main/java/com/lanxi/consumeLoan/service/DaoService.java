@@ -11,6 +11,8 @@ import com.lanxi.consumeLoan.dao.RoleDao;
 import com.lanxi.consumeLoan.dao.SystemAccountDao;
 import com.lanxi.consumeLoan.dao.SystemAccountRecordDao;
 import com.lanxi.consumeLoan.dao.UserDao;
+import com.lanxi.consumeLoan.entity.Apply;
+import com.lanxi.consumeLoan.entity.Merchant;
 import com.lanxi.consumeLoan.entity.User;
 
 public interface DaoService {
@@ -27,4 +29,12 @@ public interface DaoService {
 	public List<User> selectUserByAttributes(List<Attribute<?>> attributes);
 	public List<User> selectUserByAttributes(Map<String, Attribute<?>> attributes);
 	public List<User> selectUserByClassLike(User user);
+
+	public List<Merchant> selectMerchantByParm(Map<String,Object> parm);
+	public List<Merchant> selectAdminMerchantByParm(Map<String,Object> parm);
+	public List<Merchant> selectMerchantByPage(Map<String,Object> parm);
+	public List<Apply> selectApplyByParam(Map<String, Object> map);
+	
+
+	public List<Apply> selectApplyByPage(Map<String, Object> map);
 }

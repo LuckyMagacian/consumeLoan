@@ -82,8 +82,7 @@ public class CustomerManagerUserQueryFunction extends AbstractFunction {
 			Map<String, Object> parm = new HashMap<String, Object>();
 			List<User> list = new ArrayList<User>();
 			parm.put("customerManagerPhone", phone);
-			List<Merchant> merchants = dao.getMerchantDao()
-					.selectMerchantByParm(parm);
+			List<Merchant> merchants = dao.selectMerchantByParm(parm);
 			if (merchants == null) {
 				LogFactory.info(this, "管理员[" + phone + "],根据查询的商户条件[" + phone
 						+ "]未查询到数据!");

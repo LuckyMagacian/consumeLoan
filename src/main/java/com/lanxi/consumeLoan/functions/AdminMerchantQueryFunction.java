@@ -64,7 +64,7 @@ public class AdminMerchantQueryFunction extends AbstractFunction{
 			parm.put("endTime", args.get("endTime"));
 		}
 		LogFactory.info(this, "管理员["+phone+"],请求参数：" + args.toString());
-		List<Merchant> merchants = dao.getMerchantDao().selectMerchantByParm(parm);
+		List<Merchant> merchants = dao.selectMerchantByParm(parm);
 //		if(merchants ==null || merchants.size()<=0){
 //			LogFactory.info(this, "管理员["+phone+"],没查询到数据!");
 //			return new RetMessage(RetCodeEnum.FAIL.toString(), "没查询到数据!", null);
@@ -106,7 +106,7 @@ public class AdminMerchantQueryFunction extends AbstractFunction{
 		page.setTotalRecord(merchants.size());		
 		parm.put("start", page.getStart());
 		parm.put("size", page.getPageSize());
-		List<Merchant> list = dao.getMerchantDao().selectMerchantByPage(parm);
+		List<Merchant> list = dao.selectMerchantByPage(parm);
 		for (Merchant merchant : list) {
 			merchant.hide4();
 		}

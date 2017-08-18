@@ -126,8 +126,10 @@ public class ApplyOrderAddFunction extends AbstractFunction{
     	param.put("userPhone", userPhone);
     	param.put("startTime",new SimpleDateFormat("yyyyMMddHHmmss").format(date));
     	param.put("endTime",TimeUtil.getDateTime());
-    	List<Apply> applys=dao.getApplyDao().selectApplyByParam(param);
-    	
+    	List<Apply> applys=dao.selectApplyByParam(param);
+    	param.remove("userPhone");
+    	param.put("idNumber", apply.getIdNumber());
+    	applys.addAll(dao.getApplyDao().selectApplyByParam(param));
     	//TODO  测试专用手机号不经过3个月校验 待删除
     	if(!specialPhones.contains(userPhone))
     	if(!applys.isEmpty()) {

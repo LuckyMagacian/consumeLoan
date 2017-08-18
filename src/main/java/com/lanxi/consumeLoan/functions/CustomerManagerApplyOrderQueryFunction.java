@@ -71,7 +71,7 @@ public class CustomerManagerApplyOrderQueryFunction extends AbstractFunction {
 		}
 		
 		LogFactory.info(this, "客户经理["+phone+"],请求参数：" + parm.toString());
-		List<Apply> applys = dao.getApplyDao().selectApplyByParam(parm);
+		List<Apply> applys = dao.selectApplyByParam(parm);
 //		if(applys ==null || applys.size()<=0){
 //			LogFactory.info(this, "客户经理["+phone+"],没查询到数据!");
 //			return new RetMessage(RetCodeEnum.SUCCESS.toString(), "没查询到数据!", null);
@@ -79,7 +79,7 @@ public class CustomerManagerApplyOrderQueryFunction extends AbstractFunction {
 		page.setTotalRecord(applys.size());		
 		parm.put("start", page.getStart());
 		parm.put("size", page.getPageSize());
-		List<Apply> list = dao.getApplyDao().selectApplyByPage(parm);
+		List<Apply> list = dao.selectApplyByPage(parm);
 		
 		Map<String, Object> resultMap = new HashMap<String, Object>();
 		if (args.get("excel") != null) 
