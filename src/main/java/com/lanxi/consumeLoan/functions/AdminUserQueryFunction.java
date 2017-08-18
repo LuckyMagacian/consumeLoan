@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+
 import org.springframework.stereotype.Service;
 
 import com.lanxi.consumeLoan.basic.AbstractFunction;
@@ -93,8 +94,9 @@ public class AdminUserQueryFunction extends AbstractFunction {
 			}
 		}else {
 			list =userList;
+			
 		}
-	
+		System.err.println(list.size());
 		List<User> users = new ArrayList<>();
 
 //		System.err.println("没有删除之前:" + list + ",用户数据：" + list);
@@ -117,6 +119,7 @@ public class AdminUserQueryFunction extends AbstractFunction {
 		}else {
 			users =list;
 		}
+		System.err.println(users.size());
 //		System.err.println("删除之后:" + users + ",用户数据：" + users.size());
 		LogFactory.info(this, "管理员[" + phone + "]尝试根据条件[" + args + "]查询结果[" + "暂不显示" + "]!");
 		List<Map<String, Object>> userProxy = new ArrayList<>();
@@ -125,7 +128,8 @@ public class AdminUserQueryFunction extends AbstractFunction {
 					&& (special == null || special.isEmpty())) {
 				LogFactory.info(this, "管理员[" + phone + "]查询结果转用户通用属性");
 				for (User each : users) {
-					userProxy.add(each.toProxy().toUser());
+					System.err.println(each);
+					userProxy.add(each.toProxy().getMap());
 				}
 				LogFactory.info(this, "管理员[" + phone + "]转换结果[" + userProxy + "]");
 			} else if ((special != null && !special.isEmpty()) || (merchantName != null && !merchantName.isEmpty())
@@ -151,6 +155,10 @@ public class AdminUserQueryFunction extends AbstractFunction {
 			}
 			page.setTotalRecord(userProxy.size());
 			LogFactory.info(this, "管理员[" + phone + "],page["+page+"],start = ["+page.getStart()+"], end = ["+page.getEnd()+"],userProxy=["+ userProxy.size()+"]");
+			if (page.getStart()>page.getEnd()) {
+				LogFactory.info(this, "管理员[" + phone + "]传值错误[" + userProxy + "]");
+				return new RetMessage(RetCodeEnum.FAIL.toString(), "页码传值错误", null);
+			}
 			userProxy = userProxy.subList(page.getStart(), page.getEnd());
 			Map<String, Object> resultMap = new HashMap<String, Object>();
 			resultMap.put("page", page);

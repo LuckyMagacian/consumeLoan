@@ -67,10 +67,10 @@ public class AdminApplyQueryFunction extends AbstractFunction{
 		}
 		
 		List<Apply> applys = dao.getApplyDao().selectApplyByParam(parm);
-		if(applys ==null || applys.size()<=0){
-			LogFactory.info(this, "管理员["+phone+"],没查询到数据!");
-			return new RetMessage(RetCodeEnum.FAIL.toString(), "没查询到数据!", null);
-		}
+//		if(applys ==null || applys.size()<=0){
+//			LogFactory.info(this, "管理员["+phone+"],没查询到数据!");
+//			return new RetMessage(RetCodeEnum.FAIL.toString(), "没查询到数据!", null);
+//		}
 		page.setTotalRecord(applys.size());		
 		parm.put("start", page.getStart());
 		parm.put("size", page.getPageSize());
