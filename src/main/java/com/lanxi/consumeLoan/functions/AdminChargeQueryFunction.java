@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.springframework.stereotype.Service;
 
@@ -45,6 +46,8 @@ public class AdminChargeQueryFunction extends AbstractFunction{
 	public RetMessage excuted(Map<String, Object> args) {
 		String phone = (String) args.get("phone");
 		LogFactory.info(this, "管理员["+phone+"]，请求参数：" + args);
+		String startTime=null;
+		String endTime=null;
 		String  isOverdue   =(String) args.get("isOverdue");
 		Map<String, Object> resultMap = new HashMap<String, Object>();
 		Map<String, Object> totalMap = new HashMap<String, Object>();
@@ -57,10 +60,10 @@ public class AdminChargeQueryFunction extends AbstractFunction{
 			parm.put("merchantName", args.get("merchantName"));
 		}
 		if(args.get("startTime") !=null&&!((String)args.get("startTime")).isEmpty()){
-			parm.put("startTime", args.get("startTime"));
+			startTime=(String) args.get("startTime");
 		}
 		if(args.get("endTime") !=null&&!((String)args.get("endTime")).isEmpty()){
-			parm.put("endTime", args.get("endTime"));
+			endTime=(String) args.get("endTime");
 		}
 		if(args.get("customerPhone") !=null&&!((String)args.get("customerPhone")).isEmpty()){
 			parm.put("userPhone", args.get("customerPhone"));
@@ -68,11 +71,8 @@ public class AdminChargeQueryFunction extends AbstractFunction{
 		if(isOverdue!=null&&(isOverdue.equals("true"))){
 			parm.put("isOverdue", isOverdue);
 		}
-		System.err.println(parm);
 		List<Apply> applys = dao.selectApplyByParam(parm);
-		System.err.println(applys);
 		List<Apply> applys1 =new ArrayList<>();
-		
 		if(applys ==null || applys.size()<=0){
 			LogFactory.info(this, "管理员["+phone+"],没查询到数据!");
 			return new RetMessage(RetCodeEnum.FAIL.toString(), "没查询到数据!", null);
@@ -81,6 +81,18 @@ public class AdminChargeQueryFunction extends AbstractFunction{
 		//TODO 此处已经修改为消耗风险保证金
 		BigDecimal breakMoneyTotal =new BigDecimal(0);//逾期总金额
 		BigDecimal serviceChargeTotal =new BigDecimal(0);//服务费总金额
+		if(startTime!=null) {
+			if(startTime.length()==8)
+				applys=applys.stream().filter(a->a.getApplyTime().compareTo(args.get("startTime")+"000000")>=0).collect(Collectors.toList());
+			else
+				applys=applys.stream().filter(a->a.getApplyTime().compareTo((String) args.get("startTime"))>=0).collect(Collectors.toList());
+		}
+		if(endTime!=null) {
+			if(endTime.length()==8)
+				applys=applys.stream().filter(a->a.getApplyTime().compareTo(args.get("endTime")+"999999")<=0).collect(Collectors.toList());
+			else
+				applys=applys.stream().filter(a->a.getApplyTime().compareTo((String) args.get("endTime"))<=0).collect(Collectors.toList());
+		}
 		
 		
 		for (Apply apply : applys) {
