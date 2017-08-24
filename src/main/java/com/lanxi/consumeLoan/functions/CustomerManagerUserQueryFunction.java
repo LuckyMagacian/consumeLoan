@@ -64,6 +64,7 @@ public class CustomerManagerUserQueryFunction extends AbstractFunction {
 				resultMap.put("page", page);
 				return new RetMessage(RetCodeEnum.SUCCESS,"查询成功",page);
 			}
+
 			if (user.getRoleName().equals("salesMan")
 					|| user.getRoleName().equals("shopKeeper")) {
 				userProxy.add(user.toProxy().toSalesMan());
@@ -72,8 +73,9 @@ public class CustomerManagerUserQueryFunction extends AbstractFunction {
 			} else {
 				userProxy.add(user.toProxy().toAdmin());
 			}
-
+			page.setTotalRecord(1);
 			resultMap.put("userProxy", userProxy);
+			resultMap.put("page", page);
 			LogFactory.info(this, "管理员[" + phone + "]尝试根据条件[" + args
 					+ "]查询结果转换[" + userProxy + "]!");
 			return new RetMessage(RetCodeEnum.SUCCESS.toString(), "查询成功",resultMap);
@@ -83,7 +85,7 @@ public class CustomerManagerUserQueryFunction extends AbstractFunction {
 			List<User> list = new ArrayList<User>();
 			parm.put("customerManagerPhone", phone);
 			List<Merchant> merchants = dao.selectMerchantByParm(parm);
-			if (merchants == null) {
+			if (merchants == null||merchants.isEmpty()) {
 				LogFactory.info(this, "管理员[" + phone + "],根据查询的商户条件[" + phone
 						+ "]未查询到数据!");
 				return new RetMessage(RetCodeEnum.FAIL.toString(), "商户不存在!",
@@ -92,13 +94,11 @@ public class CustomerManagerUserQueryFunction extends AbstractFunction {
 			LogFactory.info(this, "管理员[" + phone + "],根据查询的商户条件[" + phone
 					+ "],查询到的数据为[" + "暂不显示" + "]!");
 			for (Merchant merchant : merchants) {
-				String attribute = new Attribute<String>("merchantId",
-						merchant.getMerchantId()).toJson();
-				List<User> users = dao.selectUserByAttibute(attribute);
+				List<User> users = dao.selectUserByAttibute(merchant.getMerchantId());
 				list.addAll(users);
 			}
 			LogFactory.info(this, "管理员[" + phone + "]下所有的用户为[" + "暂不显示" + "]!");
-
+//			System.err.println(list);
 //			if (list == null || list.isEmpty()) {
 //				LogFactory.info(this, "管理员[" + phone + "]尝试根据条件[" + args
 //						+ "]未查询到数据!");
@@ -124,15 +124,15 @@ public class CustomerManagerUserQueryFunction extends AbstractFunction {
 							continue;
 					}
 					if (merchantName != null && !merchantName.isEmpty())
-					if (merchantName != (String) each.get("merchantName")
-							.getValue())
+					if (!merchantName .equals( (String) each.get("merchantName")
+							.getValue()))
 						continue;
-			
 					users.add(each);
 				}
 			}else {
 				users =list;
 			}
+//			System.err.println(users);
 			for (User user : users) {
 				if (user.getRoleName().equals("salesMan")
 						|| user.getRoleName().equals("shopKeeper")) {
@@ -143,6 +143,7 @@ public class CustomerManagerUserQueryFunction extends AbstractFunction {
 					userProxy.add(user.toProxy().toAdmin());
 				}
 			}
+//			System.err.println(users);
 			page.setTotalRecord(userProxy.size());
 			userProxy = userProxy.subList(page.getStart(), page.getEnd());
 			

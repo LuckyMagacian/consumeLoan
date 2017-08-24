@@ -50,9 +50,12 @@ public class AuthorityCheck {
 			String roleName=user.getRoleName();
 			Role role=dao.getRoleDao().selectRoleByUniqueIndexOnRoleName(roleName);
 			List<String> authority=role.getAuthorityObject();	
+//			System.err.println(authority.contains(targetName));
+//			System.err.println(authority);
+//			System.err.println(targetName);
 			if(!authority.contains(targetName)){
 				LogFactory.info(this, "用户["+phone+"]无权访问["+targetName+"]接口!");
-				return new RetMessage(RetCodeEnum.FAIL.toString(),"用户["+phone+"]无权访问["+targetName+"]接口!",null);
+				return new RetMessage(RetCodeEnum.FAIL.toString(),"用户["+phone+"]无权访问该接口!",null);
 			}
 			LogFactory.info(this, "用户["+phone+"]接口["+targetName+"]权限校验通过!");
 		}

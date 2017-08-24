@@ -408,9 +408,9 @@ public class Merchant implements ToJson,ToMap{
 	 * 详情查询隐藏字段
 	 */
 	public void hide3() {
-		this.setMerchantName(null);
-		this.setMerchantType(null);
-		this.setMerchantAddress(null);
+//		this.setMerchantName(null);
+//		this.setMerchantType(null);
+//		this.setMerchantAddress(null);
 		this.setDepositeAmount(null);
 		this.setDepositeBalance(null);
 		this.setIsShared(null);
@@ -423,7 +423,7 @@ public class Merchant implements ToJson,ToMap{
 		this.setLoanMoneyAmount(null);
 		this.setBreakAmount(null);
 		this.setBreakMoneyAmount(null);
-		this.setPartnerTime(null);
+//		this.setPartnerTime(null);
 		this.setStopTime(null);
 		this.setState(null);
 		this.setCustomerManagerPhone(null);

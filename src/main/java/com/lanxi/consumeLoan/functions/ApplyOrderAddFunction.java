@@ -144,6 +144,7 @@ public class ApplyOrderAddFunction extends AbstractFunction{
     	apply.setApplyTime(TimeUtil.getDateTime());
     	apply.setState(ConstParam.APPLY_STATE_WAIT_CHECK);
     	apply.setApplyId(TimeUtil.getDate()+TimeUtil.getNanoTime()+RandomUtil.getRandomNumber(6));
+    	LogFactory.debug(this, "date:"+TimeUtil.getDate()+"\n"+"nano:"+TimeUtil.getNanoTime()+"\n"+"random:"+RandomUtil.getRandomNumber(6));
     	apply.setMerchantId(merchantId.getValue());
     	apply.setSalesManPhone(phone);
     	apply.setBrokerageRate(merchant.getBrokerageRate());
@@ -165,7 +166,7 @@ public class ApplyOrderAddFunction extends AbstractFunction{
       	smsTemplate=smsTemplate.replace("[name]", apply.getName());
 //      	smsTemplate=smsTemplate.replace("[id]", apply.getIdNumber());
       	smsTemplate=smsTemplate.replace("[phone]", apply.getPhone());
-      	smsTemplate=smsTemplate.replaceAll("[time]", apply.getApplyTime());
+      	smsTemplate=smsTemplate.replace("[time]", apply.getApplyTime());
       	smsService.sendSms(smsTemplate, merchant.getCustomerManagerPhone());
       	LogFactory.info(this, "给客户经理["+merchant.getCustomerManagerName()+":"+merchant.getCustomerManagerPhone()+"]发送通知短信["+smsTemplate+"]");
     	

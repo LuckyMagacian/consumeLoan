@@ -74,7 +74,7 @@ public class AdminMerchantAddFunction extends AbstractFunction {
 			case ConstParam.MERCHANT_TYPE_EDUCATION:break;
 			case ConstParam.MERCHANT_TYPE_OTHERS:break;		
 			default:return new RetMessage(RetCodeEnum.FAIL, "商户类型不存在!", null);
-		}
+		}    	
     	User userTemp=dao.getUserDao().selectUserByUniqueIndexOnPhone(managerPhone);
     	if(userTemp==null) {
     		LogFactory.info(this, "用户["+phone+"]添加的商户负责客户经理["+managerPhone+"]不存在为空!");
@@ -88,7 +88,7 @@ public class AdminMerchantAddFunction extends AbstractFunction {
     	Merchant tempMerchent=dao.getMerchantDao().selectMerchantByUniqueIndexOnMerchantNameAndMerchantAddressAndMerchantType(merchant.getMerchantName(), merchant.getMerchantAddress(), merchant.getMerchantType());
     	if(tempMerchent!=null) {
     		LogFactory.info(this, "根据商户名,地址,商户类型,判定当前已存在相似度极高的商户,["+tempMerchent+"],添加商户["+merchant+"]失败");
-    		return new RetMessage(RetCodeEnum.FAIL.toString(),"当前地址已存在同名同类商户!",null);
+    		return new RetMessage(RetCodeEnum.FAIL.toString(),"当前地址已存在同名同类商户!添加商户失败!",null);
     	}
     	merchant.setMerchantId(TimeUtil.getDate()+TimeUtil.getNanoTime()+RandomUtil.getRandomNumber(6));
     	merchant.setState(ConstParam.MERCHANT_STATE_SHELVED);
@@ -98,20 +98,33 @@ public class AdminMerchantAddFunction extends AbstractFunction {
     	dao.getMerchantDao().addMerchant(merchant);
     	LogFactory.info(this, "用户["+phone+"]添加商户["+merchant.getMerchantId()+"]成功!");
     	String shopKeeperJson=(String) args.get("shopKeepers");
+    	StringBuffer successBuffer=new StringBuffer("添加商户成功!\n");
+    	StringBuffer failBuffer=new StringBuffer();
     	if(shopKeeperJson!=null&&!shopKeeperJson.isEmpty()){
     		LogFactory.info(this, "用户["+phone+"]尝试添加店长["+shopKeeperJson+"]");
 	    	List<JSONObject> shopKeepers=JSONObject.parseObject(shopKeeperJson, ArrayList.class);
 	    	Role role=dao.getRoleDao().selectRoleByUniqueIndexOnRoleName("shopKeeper");
 	    	if(role==null){
 	    		LogFactory.info(this, "用户["+phone+"]添加店长,店长角色不存在!");
-	    		return new RetMessage(RetCodeEnum.FAIL.toString(), "添加商户成功,添加店长时发现店长角色不存在!", null);
+	    		failBuffer.append("添加负责人失败,负责人角色不存在!\n");
+//	    		return new RetMessage(RetCodeEnum.FAIL.toString(), "添加商户成功,添加店长时发现店长角色不存在!", null);
 	    	}
+	    	if(role!=null)
 	    	for(JSONObject each:shopKeepers){
 	    		String userPhone=each.getString("phone");
 	    		User user=dao.getUserDao().selectUserByUniqueIndexOnPhone(userPhone);
+	    		if(userPhone==null)
+	    			continue;
 	    		if(user!=null) {
-	    			LogFactory.info(this, "添加用户["+userPhone+"]时用户已存在!");
-	    			return new RetMessage(RetCodeEnum.WARNING.toString(), "商户添加成功!添加用户["+userPhone+"]时,用户已存在!", null);
+	    			LogFactory.info(this, "添加负责人["+userPhone+"]时用户已存在!");
+	    			failBuffer.append("添加负责人:"+userPhone+"失败,原因:用户已存在!\n");
+		    		continue;
+//	    			return new RetMessage(RetCodeEnum.WARNING.toString(), "商户添加成功!添加用户["+userPhone+"]时,用户已存在!", null);
+	    		}
+	    		if(!checkService.isPhone(userPhone)) {
+	    			LogFactory.info(this, "添加负责人["+userPhone+"]时手机号码校验不通过!");
+	    			failBuffer.append("添加负责人:"+userPhone+"失败,原因:手机号码校验不通过!\n");
+		    		continue;
 	    		}
 	    		user=new User();
 	    		user.setRoleName(role.getRoleName());
@@ -125,8 +138,10 @@ public class AdminMerchantAddFunction extends AbstractFunction {
 	    		user.set("createBy", phone);
 	    		user.set("state",ConstParam.USER_STATE_NORMAL);
 	    		dao.getUserDao().addUser(user);
+	    		successBuffer.append("添加负责人:"+userPhone+"成功\n");
+	    		LogFactory.info(this, "用户["+phone+"]添加负责人["+userPhone+"]成功!");
 	    	}
-	    	LogFactory.info(this, "用户["+phone+"]添加店长成功!");
+//	    	LogFactory.info(this, "用户["+phone+"]添加店长成功!");
     	}
     	
     	String salesManJson=(String)args.get("salesMans");
@@ -135,14 +150,25 @@ public class AdminMerchantAddFunction extends AbstractFunction {
     		Role role=dao.getRoleDao().selectRoleByUniqueIndexOnRoleName("salesMan");
     		if(role==null){
     			LogFactory.info(this, "用户["+phone+"]添加销售员,销售员角色不存在!");
-	    		return new RetMessage(RetCodeEnum.FAIL.toString(), "添加商户成功,添加销售员时发现销售员角色不存在!", null);
+    			failBuffer.append("添加销售员失败,销售员角色不存在!\n");
+//	    		return new RetMessage(RetCodeEnum.FAIL.toString(), "添加商户成功,添加销售员时发现销售员角色不存在!", null);
     		}
+    		if(role!=null)
     		for(JSONObject each:salesMan){
     			String userPhone=each.getString("phone");
+	    		if(userPhone==null)
+	    			continue;
     			User user=dao.getUserDao().selectUserByUniqueIndexOnPhone(userPhone);
     			if(user!=null) {
-	    			LogFactory.info(this, "商户添加成功!添加用户["+userPhone+"]时用户已存在!");
-	    			return new RetMessage(RetCodeEnum.WARNING.toString(), "添加用户["+userPhone+"]时,用户已存在!", null);
+	    			LogFactory.info(this, "商户添加成功!添加销售["+userPhone+"]时用户已存在!");
+	    			failBuffer.append("添加销售:"+userPhone+"失败,原因:用户已存在!\n");
+	    			continue;
+//	    			return new RetMessage(RetCodeEnum.WARNING.toString(), "添加用户["+userPhone+"]时,用户已存在!", null);
+	    		}
+    			if(!checkService.isPhone(userPhone)) {
+	    			LogFactory.info(this, "添加销售["+userPhone+"]时手机号码校验不通过!");
+	    			failBuffer.append("添加销售:"+userPhone+"失败,原因:手机号码校验不通过!\n");
+	    			continue;
 	    		}
     			user=new User();
     			user.setRoleName(role.getRoleName());
@@ -156,8 +182,10 @@ public class AdminMerchantAddFunction extends AbstractFunction {
 	    		user.set("createBy", phone);
 	    		user.set("state",ConstParam.USER_STATE_NORMAL);
     			dao.getUserDao().addUser(user);
+    			successBuffer.append("添加销售:"+userPhone+"成功\n");
+	    		LogFactory.info(this, "用户["+phone+"]添加销售["+userPhone+"]成功!");
     		}
-    		LogFactory.info(this, "用户["+phone+"]添加销售员成功!");
+//    		LogFactory.info(this, "用户["+phone+"]添加销售员成功!");
     	}
     	User temp=new User();
     	temp.setRoleName("salesMan");
@@ -176,6 +204,9 @@ public class AdminMerchantAddFunction extends AbstractFunction {
     	result.put("salesMans", salesMansProxy);
     	result.put("shopKeepers", shopkeepersProxy);
     	result.put("merchant", merchant);
-        return new RetMessage(RetCodeEnum.SUCCESS.toString(), "添加成功!", result);
+    	if(failBuffer.toString().contains("失败"))
+    		return new RetMessage(RetCodeEnum.SUCCESS.toString(), successBuffer+"\n"+failBuffer, result);
+    	else
+    		return new RetMessage(RetCodeEnum.SUCCESS.toString(), "添加成功!", result);
     }
 }

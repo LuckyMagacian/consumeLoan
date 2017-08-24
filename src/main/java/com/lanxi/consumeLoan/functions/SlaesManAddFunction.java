@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
  * Created by yangyuanjian on 2017/7/13.
  * 销售员增加
  */
+@Deprecated
 @Service
 public class SlaesManAddFunction extends AbstractFunction{
     @Override

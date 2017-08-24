@@ -1562,12 +1562,15 @@ public class TestController {
 //					return new RetMessage(RetCodeEnum.FAIL.toString(),"手机号码校验不通过！",null).toJson();
 				args.put("userPhone", userPhone);
 			}
+			
 //			args.put("userPhone",req.getParameter("userPhone"));
 			args.put("password", req.getParameter("password"));
 			args.put("name", req.getParameter("name"));
 			args.put("netAddress", req.getParameter("netAddress"));
 			args.put("merchantId", req.getParameter("merchantId"));
 			args.put("merchantName", req.getParameter("merchantName"));
+			if(req.getParameter("resetPassword")!=null)
+				args.put("password", "123456");
 			return fun.excuted(args).toJson();
 		} catch (Exception e) {
 			LogFactory.error(this, "管理员["+phone+"]修改用户信息时发生异常!",e);

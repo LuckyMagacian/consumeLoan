@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import com.lanxi.consumeLoan.basic.AbstractFunction;
 import com.lanxi.consumeLoan.basic.Attribute;
 import com.lanxi.consumeLoan.basic.RetMessage;
+import com.lanxi.consumeLoan.consts.ConstParam;
 import com.lanxi.consumeLoan.entity.Merchant;
 import com.lanxi.consumeLoan.entity.Role;
 import com.lanxi.consumeLoan.entity.User;
@@ -78,6 +79,7 @@ public class CustomerShopEmployeeAddFunction extends AbstractFunction{
 		user.set("createBy", phone);
 		user.set("merchantName", merchant.getMerchantName());
 		user.set("merchantAddress", merchant.getMerchantAddress());
+		user.set("status", ConstParam.USER_STATE_WAIT_CHECK);
 		dao.getUserDao().addUser(user);
 		LogFactory.info(this, "客户经理["+phone+"]为商户["+merchantId+"]添加工作人员["+user.getPhone()+"]成功!");
 		return new RetMessage(RetCodeEnum.SUCCESS.toString(), "添加商户工作人员成功!", null);

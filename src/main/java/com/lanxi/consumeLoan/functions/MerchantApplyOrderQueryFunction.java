@@ -64,7 +64,7 @@ public class MerchantApplyOrderQueryFunction extends AbstractFunction {
     		applys.addAll(dao.getApplyDao().selectApplyByParam(args));
     	}else{
     		applys=dao.getApplyDao().selectApplyByParam(args);
-    		System.err.println(applys.size());
+//    		System.err.println(applys.size());
     	}
     	
 //    	if (args.get("pageSize") == null && args.get("pageCode") == null) {

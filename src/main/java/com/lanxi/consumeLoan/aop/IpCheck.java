@@ -39,6 +39,8 @@ public class IpCheck {
 			String ip=HttpUtil.getRealIp(req);
 			String phone=req.getParameter("phone");
 			String userPhone=req.getParameter("userPhone");
+			String pageSize=req.getParameter("pageSize");
+			String pageCode=req.getParameter("pageCode");
 			LogFactory.info(this, "用户["+phone+"]进行登录校验!");
 //			if(phone!=null&&!phone.isEmpty())
 //			if(!checkService.isPhone(phone)) {
@@ -50,6 +52,13 @@ public class IpCheck {
     			LogFactory.info(this, "手机号码["+userPhone+"]校验不通过！");
     			return new RetMessage(RetCodeEnum.FAIL.toString(),"手机号码格式校验不通过！",ConstParam.TEST_FLAG?checkService.getPhoneInfo(userPhone):null).toJson();
     		}
+			if(pageCode!=null&&!pageCode.isEmpty())
+				if(pageCode.equals("0"))
+					pageCode="1";
+			if(pageSize!=null&&!pageSize.isEmpty())
+				if(pageSize.equals("0"))
+					pageSize="1";
+			
 			
 			if(phone==null){
 				return new RetMessage(RetCodeEnum.FAIL.toString(),"用户为空!",null).toJson();

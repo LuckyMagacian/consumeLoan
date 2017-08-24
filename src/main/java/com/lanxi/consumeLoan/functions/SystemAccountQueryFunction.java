@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
  * Created by yangyuanjian on 2017/7/13.
  * 系统账户查询
  */
+@Deprecated
 @Service
 public class SystemAccountQueryFunction extends AbstractFunction {
     @Override

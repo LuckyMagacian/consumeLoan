@@ -8,37 +8,12 @@
     <servlet-class>com.lanxi.consumeLoan.servlet.InitServlet</servlet-class>
     <load-on-startup>1</load-on-startup>
   </servlet>
-  <!-- 配置静态资源使用tomcat默认的servlet响应 -->
-  <servlet-mapping>
-    <servlet-name>default</servlet-name>
-    <url-pattern>*.html</url-pattern>
-  </servlet-mapping>
-  <servlet-mapping>
-    <servlet-name>default</servlet-name>
-    <url-pattern>*.css</url-pattern>
-  </servlet-mapping>
-  <servlet-mapping>
-    <servlet-name>default</servlet-name>
-    <url-pattern>*.js</url-pattern>
-  </servlet-mapping>  
-  <servlet-mapping>
-    <servlet-name>default</servlet-name>
-    <url-pattern>*.jpg</url-pattern>
-  </servlet-mapping>   
-    <!-- 配置过滤器  -->
-  <filter>
-    <filter-name>requestFilter</filter-name>
-    <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
-  </filter>
-  <filter-mapping>
-    <filter-name>requestFilter</filter-name>
-    <url-pattern>/*</url-pattern>
-  </filter-mapping>
+
   <!-- 配置spring的servlet响应 -->
   <servlet>
     <servlet-name>dispatcher</servlet-name>
     <servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
-    <!-- 配置spring配置文件 -->
+    <!-- 配置spring配置文件    -->
     <init-param>
       <param-name>contextConfigLocation</param-name>
       <param-value>classpath:xml/spring-mvc.xml</param-value>

@@ -30,6 +30,8 @@
         http://www.springframework.org/schema/data/jpa
         http://www.springframework.org/schema/data/jpa/spring-jpa-1.8.xsd"
 >
+    <!-- 启用事务管理 -->
+    <tx:annotation-driven transaction-manager="txManager" />
 	<!-- 数据库配置文件 -->
 	<!--<util:properties id="dbconfig" location="classpath:properties/configMysql.properties"></util:properties>-->
 	<!-- 数据库配置 -->
@@ -56,8 +58,6 @@
 	<bean id="txManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
 	   <property name="dataSource" ref="ds"></property>
 	</bean>
-	<!-- 启用事务管理 -->
-	<tx:annotation-driven transaction-manager="txManager" />
 	<!-- mapper扫描 -->
 	<bean id="mappers" class="org.mybatis.spring.mapper.MapperScannerConfigurer">
 	    <property name="basePackage" value="com.lanxi.consumeLoan.dao"></property>

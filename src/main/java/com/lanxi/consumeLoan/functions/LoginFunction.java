@@ -10,6 +10,7 @@ import com.lanxi.consumeLoan.basic.RetMessage;
 import com.lanxi.consumeLoan.consts.ConstParam;
 import com.lanxi.consumeLoan.entity.User;
 import com.lanxi.util.consts.RetCodeEnum;
+import com.lanxi.util.entity.ConfigManager;
 import com.lanxi.util.entity.LogFactory;
 import com.lanxi.util.utils.TimeUtil;
 import com.sun.xml.bind.v2.runtime.reflect.opt.Const;
@@ -77,6 +78,10 @@ public class LoginFunction extends AbstractFunction{
 //		case ConstParam.USER_STATE_LOGIN:break;
 		default:break;
 		}
+        if(redisService.get(ConstParam.USER_STATE_LOGIN+phone)!=null&&!redisService.get(ConstParam.USER_STATE_LOGIN+phone).equals(ip)) {
+        	LogFactory.info(this, "["+phone+"]已经在["+redisService.get(ConstParam.USER_STATE_LOGIN+phone)+"]登录,无法登录!");
+        	return new RetMessage(RetCodeEnum.FAIL, "登录失败!该帐号已在其他地方登录!只有上次登录ip才允许重复登录!", null);
+        }
 //        if(user==null){
 //        	LogFactory.info(this, "用户["+phone+"]不存在!");
 //        	return new RetMessage(RetCodeEnum.FAIL.toString(),"用户不存在!请检查帐号是否正确!",null);
@@ -93,7 +98,7 @@ public class LoginFunction extends AbstractFunction{
         if(ip==null){
         	throw new RuntimeException("user ip can't be null !");
         }  
-        redisService.set(ConstParam.USER_STATE_LOGIN+phone, ip);  
+        redisService.set(ConstParam.USER_STATE_LOGIN+phone, ip,Long.parseLong(ConfigManager.get("param.properties","loginLife")));  
         LogFactory.info(this, "用户["+phone+"]ip锁定["+ip+"]!"); 
         LogFactory.info(this, "用户["+phone+user.toProxy()+"]于["+TimeUtil.getPreferDateTime()+"]登录本系统!");
         return new RetMessage(RetCodeEnum.SUCCESS.toString(),"登录成功!",user.toProxy().toUser());

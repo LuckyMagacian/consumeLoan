@@ -42,6 +42,7 @@ public class AdminMerchantQueryFunction extends AbstractFunction{
 		page.setPageCode(pageCode);
 		
 		Map<String, Object> parm = new HashMap<String, Object>();
+		
 		if(args.get("isAssurance") != "" && args.get("isAssurance") !=null){
 			parm.put("isAssurance", args.get("isAssurance"));
 		}
@@ -65,6 +66,8 @@ public class AdminMerchantQueryFunction extends AbstractFunction{
 		}
 		LogFactory.info(this, "管理员["+phone+"],请求参数：" + args.toString());
 		List<Merchant> merchants = dao.selectMerchantByParm(parm);
+//		System.err.println(parm);
+//		System.err.println("totalSize:"+merchants.size());
 //		if(merchants ==null || merchants.size()<=0){
 //			LogFactory.info(this, "管理员["+phone+"],没查询到数据!");
 //			return new RetMessage(RetCodeEnum.FAIL.toString(), "没查询到数据!", null);
@@ -101,9 +104,9 @@ public class AdminMerchantQueryFunction extends AbstractFunction{
 		totalMap.put("loanAmountTotal", loanAmountTotal);
 		totalMap.put("breakMoneyAmountTotal", breakMoneyAmountTotal);
 		totalMap.put("breakAmountTotal", breakAmountTotal);
-		
-		
-		page.setTotalRecord(merchants.size());		
+//		
+//		System.err.println("returnSize:"+merchants.size());
+		page.setTotalRecord(merchantTotal);		
 		parm.put("start", page.getStart());
 		parm.put("size", page.getPageSize());
 		List<Merchant> list = dao.selectMerchantByPage(parm);

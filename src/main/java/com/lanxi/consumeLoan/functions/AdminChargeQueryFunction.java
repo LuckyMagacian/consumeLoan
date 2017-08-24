@@ -51,24 +51,26 @@ public class AdminChargeQueryFunction extends AbstractFunction{
 		PageBean page = new PageBean();
 		page.setPageSize(Integer.parseInt((String) args.get("pageSize")==null?"1":(String) args.get("pageSize")));
 		page.setPageCode(Integer.parseInt((String) args.get("pageCode")==null?"1":(String) args.get("pageCode")));
-		LogFactory.info(this, "管理员["+phone+"],请求参数："+args);
+//		LogFactory.info(this, "管理员["+phone+"],请求参数："+args);
 		Map<String, Object> parm = new HashMap<String, Object>();
-		if(args.get("merchantName") !=null&&((String)args.get("merchantName")).isEmpty()){
+		if(args.get("merchantName") !=null&&!((String)args.get("merchantName")).isEmpty()){
 			parm.put("merchantName", args.get("merchantName"));
 		}
-		if(args.get("startTime") !=null&&((String)args.get("startTime")).isEmpty()){
+		if(args.get("startTime") !=null&&!((String)args.get("startTime")).isEmpty()){
 			parm.put("startTime", args.get("startTime"));
 		}
-		if(args.get("endTime") !=null&&((String)args.get("endTime")).isEmpty()){
+		if(args.get("endTime") !=null&&!((String)args.get("endTime")).isEmpty()){
 			parm.put("endTime", args.get("endTime"));
 		}
-		if(args.get("customerPhone") !=null&&((String)args.get("customerPhone")).isEmpty()){
-			parm.put("customerPhone", args.get("customerPhone"));
+		if(args.get("customerPhone") !=null&&!((String)args.get("customerPhone")).isEmpty()){
+			parm.put("userPhone", args.get("customerPhone"));
 		}
 		if(isOverdue!=null&&(isOverdue.equals("true"))){
 			parm.put("isOverdue", isOverdue);
 		}
+		System.err.println(parm);
 		List<Apply> applys = dao.selectApplyByParam(parm);
+		System.err.println(applys);
 		List<Apply> applys1 =new ArrayList<>();
 		
 		if(applys ==null || applys.size()<=0){

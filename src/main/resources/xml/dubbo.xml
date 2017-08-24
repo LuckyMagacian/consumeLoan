@@ -32,8 +32,11 @@
         http://code.alibabatech.com/schema/dubbo/dubbo.xsd">
      <!-- dubbo 服务配置 -->
     <dubbo:application name="consume-loan"></dubbo:application>      
+    <!-- 测试注册中心
     <dubbo:registry address="zookeeper://192.168.17.186:2181"></dubbo:registry>
-    <dubbo:protocol name="dubbo" port="20770"></dubbo:protocol>
+     -->
+    <!-- 生产注册中心     -->
+    <dubbo:registry address="zookeeper://192.168.1.82:2181"></dubbo:registry>
     <!-- 蓝喜短信平台服务 -->
     <dubbo:reference interface="com.lanxi.common.interfaces.SmsSendServiceInterface" id="SmsService" check="false"></dubbo:reference>
     <!-- redis缓存服务 -->

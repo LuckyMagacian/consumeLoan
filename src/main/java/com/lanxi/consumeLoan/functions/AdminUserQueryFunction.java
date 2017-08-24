@@ -126,7 +126,7 @@ public class AdminUserQueryFunction extends AbstractFunction {
 					&& (special == null || special.isEmpty())) {
 				LogFactory.info(this, "管理员[" + phone + "]查询结果转用户通用属性");
 				for (User each : users) {
-					System.err.println(each);
+//					System.err.println(each);
 					userProxy.add(each.toProxy().getMap());
 				}
 				LogFactory.info(this, "管理员[" + phone + "]转换结果[" + "暂不显示" + "]");
@@ -149,7 +149,7 @@ public class AdminUserQueryFunction extends AbstractFunction {
 				for (User each : users) {
 					userProxy.add(each.toProxy().toAdmin());
 				}
-				LogFactory.info(this, "管理员[" + phone + "]转换结果[" + userProxy + "]");
+				LogFactory.info(this, "管理员[" + phone + "]转换结果[" + userProxy.size() + "]");
 			}
 			page.setTotalRecord(userProxy.size());
 			LogFactory.info(this, "管理员[" + phone + "],page["+page+"],start = ["+page.getStart()+"], end = ["+page.getEnd()+"],userProxy=["+ userProxy.size()+"]");

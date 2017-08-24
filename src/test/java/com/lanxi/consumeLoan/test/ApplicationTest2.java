@@ -28,6 +28,7 @@ import com.lanxi.consumeLoan.functions.AdminUserAddFunction;
 import com.lanxi.consumeLoan.functions.AdminUserCheckBackFunction;
 import com.lanxi.consumeLoan.functions.AdminUserCheckFunction;
 import com.lanxi.consumeLoan.functions.AdminUserDeleteFunction;
+import com.lanxi.consumeLoan.functions.AdminUserModifyFunction;
 //import com.lanxi.consumeLoan.functions.AdminUserModifyFunction;
 import com.lanxi.consumeLoan.functions.AdminUserQueryFunction;
 import com.lanxi.consumeLoan.functions.AdminUserStateUpdateFunction;
@@ -123,8 +124,12 @@ public class ApplicationTest2 {
 		admin.add(AdminMerchantQueryFunction.class);
 		admin.add(AdminMerchantAddFunction.class);
 		admin.add(AdminUserAddFunction.class);
-		admin.add(AdminUserCheckFunction.class);		
+		admin.add(AdminUserCheckBackFunction.class);
+		admin.add(AdminUserCheckFunction.class);
+		admin.add(AdminUserDeleteFunction.class);
+		admin.add(AdminUserModifyFunction.class);
 		admin.add(AdminUserQueryFunction.class);
+		admin.add(AdminUserStateUpdateFunction.class);
 		admin.add(LoanFunction.class);
 		admin.add(MerchantAddFunction.class);
 		admin.add(MerchantDeleteFunction.class);
@@ -139,11 +144,7 @@ public class ApplicationTest2 {
 		admin.add(SystemAccountQueryFunction.class);
 		admin.add(SystemHomeFunction.class);
 		admin.add(UserAddFunction.class);
-//		admin.add(AdminUserModifyFunction.class);
-		admin.add(AdminUserCheckFunction.class);
-		admin.add(AdminUserCheckBackFunction.class);
-		admin.add(AdminUserDeleteFunction.class);
-		admin.add(AdminUserStateUpdateFunction.class);
+		
 		admin.addAll(common);
 		//添加root权限接口
 		List<Function> root=new ArrayList<>();
@@ -218,28 +219,28 @@ public class ApplicationTest2 {
 //		user.set("createBy", "yyj");
 //		dao.getUserDao().addUser(user);
 //管理员属性
-//		user.setRoleName("admin");
-//		manager.addAttributesForUser(user);
-//		user.setPhone("4003");
-//		user.set("phone", "4003");
-//		user.set("name", "测试帐号管理员4003");
-//		user.set("createBy", "yyj");
-//		dao.getUserDao().addUser(user);
-//root属性
-		user.setRoleName("root");
+		user.setRoleName("admin");
 		manager.addAttributesForUser(user);
-		user.setPhone("5003");
-		user.set("phone", "5003");
-		user.set("adminId", "5003");
-		user.set("salesManId", "5003");
-		user.set("shopKeeperId", "5003");
-		user.set("customerManagerId", "5003");
-		user.set("name", "测试帐号root5003");
-		user.set("merchantId", "1003");
-		user.set("merchantName", "测试商户1003");
-		user.set("netAddress", "测试地址5003");
+		user.setPhone("1001");
+		user.set("phone", "1001");
+		user.set("name", "测试帐号管理员1001");
 		user.set("createBy", "yyj");
 		dao.getUserDao().addUser(user);
+//root属性
+//		user.setRoleName("root");
+//		manager.addAttributesForUser(user);
+//		user.setPhone("5003");
+//		user.set("phone", "5003");
+//		user.set("adminId", "5003");
+//		user.set("salesManId", "5003");
+//		user.set("shopKeeperId", "5003");
+//		user.set("customerManagerId", "5003");
+//		user.set("name", "测试帐号root5003");
+//		user.set("merchantId", "1003");
+//		user.set("merchantName", "测试商户1003");
+//		user.set("netAddress", "测试地址5003");
+//		user.set("createBy", "yyj");
+//		dao.getUserDao().addUser(user);
 //		System.err.println(user.toProxy().toUser());
 //		System.err.println(user.toProxy().toAdmin());
 //		System.err.println(user.toProxy().toShopKeeper());
@@ -339,18 +340,6 @@ public class ApplicationTest2 {
 	
 	@Test
 	public void userQueryTest() {
-		Function fun=ac.getBean(AdminUserQueryFunction.class);
-		String startTime="20170801";
-		String endTime="20170807";
-		String phone="4001";
-		String pageCode="1";
-		String pageSize="10";
-		Map<String, Object> args=new HashMap<>();
-		args.put("startTime", startTime);
-		args.put("endTime", endTime);
-		args.put("phone", phone);
-		args.put("pageCode", pageCode);
-		args.put("pageSize", pageSize);
-		System.out.println(fun.excuted(args));
+		System.err.println(dao.getUserDao().selectUserByClass(new User()));
 	}
 }

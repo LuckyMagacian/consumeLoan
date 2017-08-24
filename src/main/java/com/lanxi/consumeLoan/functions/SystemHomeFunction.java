@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
  * Created by yangyuanjian on 2017/7/13.
  * 系统主页
  */
+@Deprecated
 @Service
 public class SystemHomeFunction extends AbstractFunction {
     @Override

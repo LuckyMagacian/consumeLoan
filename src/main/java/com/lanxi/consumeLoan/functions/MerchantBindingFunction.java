@@ -20,6 +20,7 @@ import org.springframework.stereotype.Service;
  * Created by yangyuanjian on 2017/7/13.
  * 商户绑定
  */
+@Deprecated
 @Service
 public class MerchantBindingFunction extends AbstractFunction {
     @Override
