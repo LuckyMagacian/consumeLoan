@@ -59,6 +59,7 @@ public class UserProxy implements ToMap,ToJson{
 		temp.put("roleName", map.get("roleName"));
 		temp.put("name", map.get("name"));
 		temp.put("createTime", map.get("createTime"));
+		temp.put("status", map.get("status"));
 		temp.put("state", map.get("state"));
 		temp.put("createBy", map.get("createBy"));
 		return temp;

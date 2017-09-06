@@ -43,25 +43,25 @@ public class AdminMerchantQueryFunction extends AbstractFunction{
 		
 		Map<String, Object> parm = new HashMap<String, Object>();
 		
-		if(args.get("isAssurance") != "" && args.get("isAssurance") !=null){
+		if(args.get("isAssurance") !=null){
 			parm.put("isAssurance", args.get("isAssurance"));
 		}
-		if(args.get("customerManagerPhone") != "" && args.get("customerManagerPhone") !=null){
+		if(args.get("customerManagerPhone") !=null){
 			parm.put("customerManagerPhone", args.get("customerManagerPhone"));
 		}
-		if(args.get("state") != "" && args.get("state") !=null){
+		if(args.get("state") !=null){
 			parm.put("state", args.get("state"));
 		}
-		if(args.get("merchantName") != "" && args.get("merchantName") !=null){
+		if(args.get("merchantName") !=null){
 			parm.put("merchantName", args.get("merchantName"));
 		}
-		if(args.get("merchantType") != "" && args.get("merchantType") !=null){
+		if(args.get("merchantType") !=null){
 			parm.put("merchantType", args.get("merchantType"));
 		}
-		if(args.get("startTime") != "" && args.get("startTime") !=null){
+		if(args.get("startTime") !=null){
 			parm.put("startTime", args.get("startTime"));
 		}
-		if(args.get("endTime") != "" && args.get("endTime") !=null){
+		if(args.get("endTime") !=null){
 			parm.put("endTime", args.get("endTime"));
 		}
 		LogFactory.info(this, "管理员["+phone+"],请求参数：" + args.toString());

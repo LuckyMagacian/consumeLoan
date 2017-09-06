@@ -2,6 +2,7 @@ package com.lanxi.consumeLoan.test;
 
 import org.junit.Test;
 
+import com.lanxi.consumeLoan.consts.ConstParam;
 import com.lanxi.util.utils.RandomUtil;
 import com.lanxi.util.utils.TimeUtil;
 
@@ -17,5 +18,14 @@ public class Test20170815 {
 		System.out.println((TimeUtil.getDate()+TimeUtil.getNanoTime()+RandomUtil.getRandomNumber(6)).length());
 		System.out.println("2017082263334211140319350906398".length());
 		System.out.println("2017082293452191468734670843".length());
+	}
+	@Test
+	public void test3() {
+		String dateTime="20170809112365";
+		System.out.println(TimeUtil.toPreferDate(dateTime));
+	}
+	@Test
+	public void test4() {
+		System.out.println(ConstParam.USER_STATE_LOGIN+"1001");
 	}
 }

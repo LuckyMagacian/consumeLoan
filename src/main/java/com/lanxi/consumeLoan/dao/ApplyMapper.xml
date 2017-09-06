@@ -288,7 +288,7 @@
 			<if test="apply.reason != null"> AND reason = #{apply.reason}</if>
 			<if test="apply.loseMoney != null"> AND lose_money = #{apply.loseMoney}</if>
 		</where>
-		    ORDER BY apply_time
+		    ORDER BY apply_time DESC
 	</select>
 	<select id="selectApplyByUniqueIndexOnApplyId" resultType="com.lanxi.consumeLoan.entity.Apply" resultMap="applyMap" >
 		select
@@ -297,7 +297,7 @@
 		<where>
 			AND apply_id=#{applyId}
 		</where>
-		ORDER BY apply_time
+		ORDER BY apply_time DESC
 	</select>
 	<select id="selectApplyByUniqueIndexOnIdNumberAndApplyTimeAndPhone" resultType="com.lanxi.consumeLoan.entity.Apply" resultMap="applyMap" >
 		select
@@ -308,7 +308,7 @@
 			AND apply_time=#{applyTime}
 			AND phone=#{phone}
 		</where>
-		ORDER BY apply_time
+		ORDER BY apply_time DESC
 	</select>
 	<select id="selectApplyByIndexOnNameAndSexAndAddress" resultType="com.lanxi.consumeLoan.entity.Apply" resultMap="applyMap" >
 		select
@@ -319,7 +319,7 @@
 			AND sex=#{sex}
 			AND address=#{address}
 		</where>
-		ORDER BY apply_time
+		ORDER BY apply_time DESC
 	</select>
 	<select id="selectApplyByParam" resultMap="applyMap"  resultType="com.lanxi.consumeLoan.entity.Apply" parameterType="java.util.Map">
         select
@@ -339,7 +339,7 @@
             <if test="idNumber != null"> AND id_number = #{idNumber}</if>
             <!-- <if test="customerPhone !=null ">AND phone= #{customerPhone} or customer_manager_phone=#{customerPhone}</if> -->
         </where>
-        ORDER BY apply_time
+        ORDER BY apply_time DESC
     </select>
     
     <select id="selectApplyByPage" resultMap="applyMap"   parameterType="map">
@@ -382,7 +382,7 @@
             <if test="customerPhone !=null ">AND customer_manager_phone=#{customerPhone}</if>
             <if test="loseMoney != null"> AND lose_money = #{loseMoney}</if>
         </where>
-        ORDER BY apply_time limit #{start},#{size}  
+        ORDER BY apply_time DESC limit #{start},#{size}  
     </select>
 	<resultMap id="applyMap" type="com.lanxi.consumeLoan.entity.Apply">
 		<result property="applyId" 			column="apply_id"></result>

@@ -209,6 +209,7 @@
 			<if test="merchant.customerManagerName != null"> AND customer_manager_name = #{merchant.customerManagerName}</if>
 			<if test="merchant.provideDeposit != null"> AND provide_deposit = #{merchant.provideDeposit}</if>
 		</where>
+		ORDER BY partner_time DESC
 	</select>
 	<select id="selectMerchantByUniqueIndexOnMerchantId" resultType="com.lanxi.consumeLoan.entity.Merchant" resultMap="merchantMap" >
 		select
@@ -217,6 +218,7 @@
 		<where>
 			AND merchant_id=#{merchantId}
 		</where>
+		ORDER BY partner_time DESC
 	</select>
 	<select id="selectMerchantByUniqueIndexOnMerchantNameAndMerchantAddressAndMerchantType" resultType="com.lanxi.consumeLoan.entity.Merchant" resultMap="merchantMap" >
 		select
@@ -227,6 +229,7 @@
 			AND merchant_address=#{merchantAddress}
 			AND merchant_type=#{merchantType}
 		</where>
+		ORDER BY partner_time DESC
 	</select>
 	
 		<select id="selectMerchantByParm" resultMap="merchantMap" parameterType="map">
@@ -243,6 +246,7 @@
 				<if test="endTime != null"> AND partner_time &lt;= #{endTime}</if>
 				<if test="customerManagerPhone != null"> AND customer_manager_phone = #{customerManagerPhone}</if>
 		</where>
+		ORDER BY partner_time DESC
 	</select>
 	
 		<select id="selectAdminMerchantByParm" resultMap="merchantMap" parameterType="map">
@@ -258,6 +262,7 @@
 				<if test="endTime != null"> AND partner_time &lt;= #{endTime}</if>
 				<if test="customerManagerPhone != null"> AND customer_manager_phone = #{customerManagerPhone}</if>
 		</where>
+		ORDER BY partner_time DESC
 	</select>
 	
 	
@@ -294,7 +299,7 @@
 			<if test="startTime != null"> AND partner_time &gt;= #{startTime}</if>
 			<if test="endTime != null"> AND partner_time &lt;= #{endTime}</if>
 		</where>
-		limit #{start},#{size};
+		ORDER BY partner_time DESC limit #{start},#{size};
 	</select>
 	<resultMap id="merchantMap" type="com.lanxi.consumeLoan.entity.Merchant">
 		<result property="merchantId" 			column="merchant_id"></result>

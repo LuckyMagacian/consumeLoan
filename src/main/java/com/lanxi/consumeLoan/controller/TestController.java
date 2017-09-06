@@ -1,6 +1,7 @@
 package com.lanxi.consumeLoan.controller;
 
 import java.math.BigDecimal;
+import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -8,8 +9,10 @@ import java.util.Map;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.ws.rs.PathParam;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -63,14 +66,14 @@ import com.lanxi.util.utils.ExcelUtil;
 import com.lanxi.util.utils.HttpUtil;
 import com.lanxi.util.utils.SignUtil;
 import com.lanxi.util.utils.TimeUtil;
-
+import static com.lanxi.consumeLoan.consts.ConstParam.*;
 @Controller
 @RequestMapping("test")
 public class TestController {
 	@Resource
 	private ApplicationContextProxy ac;
 	@Resource
-	private CheckService check;
+	private CheckService check;	
 	@RequestMapping(value="test",produces = {"application/json;charset=UTF-8"})
 	@ResponseBody
 	protected String test1(HttpServletRequest req,HttpServletResponse res){  
@@ -947,23 +950,55 @@ public class TestController {
 				args.put("customerManagerPhone",req.getParameter("customerManagerPhone"));
 			}
 			List<Merchant> list=fun.selectMerchantByParm(args);
+			for(Merchant each:list) {
+				each.setPartnerTime(TimeUtil.toPreferDate(each.getPartnerTime()));
+				switch (each.getMerchantType()) {
+				case MERCHANT_TYPE_HOUSEHOLD:each.setMerchantType("家居");break;
+				case MERCHANT_TYPE_ELECTRIC_APPLIANCE:each.setMerchantType("电器");break;
+				case MERCHANT_TYPE_NUMERAL:each.setMerchantType("数码");break;
+				case MERCHANT_TYPE_ENTERAINMENT:each.setMerchantType("娱乐");break;
+				case MERCHANT_TYPE_JEWELS:each.setMerchantType("珠宝");break;
+				case MERCHANT_TYPE_MEDICAL_TREATMENT:each.setMerchantType("医疗");break;
+				case MERCHANT_TYPE_BEAUTY:each.setMerchantType("美容");break;
+				case MERCHANT_TYPE_MOTOR_CAR:each.setMerchantType("汽车");break;
+				case MERCHANT_TYPE_EDUCATION:each.setMerchantType("教育");break;
+				case MERCHANT_TYPE_OTHERS:each.setMerchantType("其他");break;
+				default:break;
+				}
+				switch (each.getState()) {
+				case ConstParam.MERCHANT_STATE_WAIT_CHECK:each.setState("待审核");break;
+				case ConstParam.MERCHANT_STATE_WAIT_SHELVE:each.setState("待上架");break;
+				case ConstParam.MERCHANT_STATE_REJECT:each.setState("已拒绝");break;
+				case ConstParam.MERCHANT_STATE_SHELVED:each.setState("已上架");break;
+				case ConstParam.MERCHANT_STATE_UNSHELVED:each.setState("冻结");break;
+				default:each.setState("未知");break;
+				}
+				switch (each.getIsAssurance()) {
+				case "true":each.setIsAssurance("担保");break;
+				case "false":each.setIsAssurance("不担保");break;
+				default:break;
+				}
+				switch (each.getIsShared()) {
+				case "true":each.setIsShared("分润");break;
+				case "false":each.setIsShared("不分润");break;
+				default:break;
+				}
+			}
+//			System.err.println(list);
 			LogFactory.info (this, "用户["+phone+"]已获得商户查询结果列表!");
 			Map<String, String> map=new HashMap<>();
-			map.put("applyId", "申请编号");
-			map.put("name", "申请者姓名");
-			map.put("phone", "申请者手机号码");
-			map.put("idNumber", "申请者身份证号码");
-			map.put("merchantName", "申请商户名称");
-			map.put("merchantType", "申请商户类别");
-			map.put("applyMoney", "申请金额");
-			map.put("applyTime", "申请时间");
+			map.put("merchantName", "商户名称");
+			map.put("merchantType", "商户类别");
+			map.put("partnerTime", "合作时间");
 			map.put("isAssurance", "是否担保");
-			map.put("state", "申请状态");
-			map.put("loanTime", "客户经理手机号码");
-			map.put("loanMoney", "客户经理姓名");
+			map.put("state", "商户状态");
+			map.put("customerManagerPhone", "客户经理手机号码");
+			map.put("customerManagerName", "客户经理姓名");
+			map.put("merchantAddress", "商户地址");
+			map.put("isShared", "是否分润");
 			LogFactory.info (this, "用户["+phone+"]已生成excel文件!"); 
 			res.setContentType("octets/stream");
-			res.setHeader("Content-Disposition", "attachment;fileName="+TimeUtil.getDateTime()+".xls");
+			res.setHeader("Content-Disposition", "attachment;fileName="+URLEncoder.encode("管理员商户导出"+TimeUtil.getPreferDateTime(),"utf-8")+".xls");
 			ExcelUtil.exportExcelFile(list, map, res.getOutputStream());
 			LogFactory.info (this, "用户["+phone+"]excel文件发送完成!");
 		} catch (Exception e) {
@@ -1564,13 +1599,15 @@ public class TestController {
 			}
 			
 //			args.put("userPhone",req.getParameter("userPhone"));
-			args.put("password", req.getParameter("password"));
+			if(req.getParameter("password")!=null)
+				args.put("password", SignUtil.md5LowerCase("123456", "utf-8"));
+//			args.put("password", req.getParameter("password"));
 			args.put("name", req.getParameter("name"));
 			args.put("netAddress", req.getParameter("netAddress"));
 			args.put("merchantId", req.getParameter("merchantId"));
 			args.put("merchantName", req.getParameter("merchantName"));
 			if(req.getParameter("resetPassword")!=null)
-				args.put("password", "123456");
+				args.put("password", SignUtil.md5LowerCase("123456", "utf-8"));
 			return fun.excuted(args).toJson();
 		} catch (Exception e) {
 			LogFactory.error(this, "管理员["+phone+"]修改用户信息时发生异常!",e);

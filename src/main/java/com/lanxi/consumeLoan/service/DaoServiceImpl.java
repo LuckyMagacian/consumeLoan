@@ -163,12 +163,15 @@ public class DaoServiceImpl implements DaoService{
 	}
 	
 	public List<Merchant> selectMerchantByParm(Map<String,Object> parm){
+		dealTime(parm);
 		return merchant.selectMerchantByParm(dealTime(parm));
 	}
 	public List<Merchant> selectAdminMerchantByParm(Map<String,Object> parm){
+		dealTime(parm);
 		return merchant.selectAdminMerchantByParm(dealTime(parm));
 	}
 	public List<Merchant> selectMerchantByPage(Map<String,Object> parm){
+		dealTime(parm);
 		return merchant.selectMerchantByPage(dealTime(parm));
 	}
 	
@@ -180,6 +183,7 @@ public class DaoServiceImpl implements DaoService{
 	
 
 	public List<Apply> selectApplyByPage(Map<String, Object> map){
+		dealTime(map);
 		return apply.selectApplyByPage(dealTime(map));
 	}
 	

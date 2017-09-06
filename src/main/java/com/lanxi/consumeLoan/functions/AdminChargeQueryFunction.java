@@ -82,35 +82,37 @@ public class AdminChargeQueryFunction extends AbstractFunction{
 		BigDecimal breakMoneyTotal =new BigDecimal(0);//逾期总金额
 		BigDecimal serviceChargeTotal =new BigDecimal(0);//服务费总金额
 		if(startTime!=null) {
-			if(startTime.length()==8)
-				applys=applys.stream().filter(a->a.getApplyTime().compareTo(args.get("startTime")+"000000")>=0).collect(Collectors.toList());
+			if(startTime.length()!=8)
+				applys=applys.stream().filter(a->a.getLoanTime().substring(0, 8).compareTo((String) args.get("startTime"))>=0).collect(Collectors.toList());
 			else
-				applys=applys.stream().filter(a->a.getApplyTime().compareTo((String) args.get("startTime"))>=0).collect(Collectors.toList());
+				applys=applys.stream().filter(a->a.getLoanTime().compareTo((String) args.get("startTime"))>=0).collect(Collectors.toList());
 		}
 		if(endTime!=null) {
-			if(endTime.length()==8)
-				applys=applys.stream().filter(a->a.getApplyTime().compareTo(args.get("endTime")+"999999")<=0).collect(Collectors.toList());
+			if(endTime.length()!=8)
+				applys=applys.stream().filter(a->a.getLoanTime().substring(0, 8).compareTo((String) args.get("endTime"))<=0).collect(Collectors.toList());
 			else
-				applys=applys.stream().filter(a->a.getApplyTime().compareTo((String) args.get("endTime"))<=0).collect(Collectors.toList());
+				applys=applys.stream().filter(a->a.getLoanTime().compareTo((String) args.get("endTime"))<=0).collect(Collectors.toList());
 		}
-		
-		
 		for (Apply apply : applys) {
-			if (apply.getBrokerage() !=null) {
-				brokerageTotal = brokerageTotal.add(apply.getBrokerage());
-			}
-//			if (apply.getBreakMoney() !=null) {
-//				breakMoneyTotal = breakMoneyTotal.add(apply.getBreakMoney());
-//			}
-			if (apply.getLoseMoney() !=null) {
-				breakMoneyTotal = breakMoneyTotal.add(apply.getLoseMoney());
-			}
-			if (apply.getServiceCharge() !=null) {
-				serviceChargeTotal = serviceChargeTotal.add(apply.getServiceCharge());
-			}
-			if(ConstParam.APPLY_STATE_LOAN.equals(apply.getState())||ConstParam.APPLY_STATE_OVERDUE.equals(apply.getState())||ConstParam.APPLY_STATE_FINISH.equals(apply.getState()))
+			
+			if(ConstParam.APPLY_STATE_LOAN.equals(apply.getState())||ConstParam.APPLY_STATE_OVERDUE.equals(apply.getState())||ConstParam.APPLY_STATE_FINISH.equals(apply.getState())) {
 				applys1.add(apply);
+				if (apply.getBrokerage() !=null) {
+					brokerageTotal = brokerageTotal.add(apply.getBrokerage());
+				}
+//				if (apply.getBreakMoney() !=null) {
+//					breakMoneyTotal = breakMoneyTotal.add(apply.getBreakMoney());
+//				}
+				if (apply.getLoseMoney() !=null) {
+					breakMoneyTotal = breakMoneyTotal.add(apply.getLoseMoney());
+				}
+				if (apply.getServiceCharge() !=null) {
+					serviceChargeTotal = serviceChargeTotal.add(apply.getServiceCharge());
+				}
+			}
+				
 		}
+		
 		totalMap.put("serviceChargeTotal", serviceChargeTotal);
 		totalMap.put("breakMoneyTotal", breakMoneyTotal);  
 		totalMap.put("brokerageTotal", brokerageTotal);

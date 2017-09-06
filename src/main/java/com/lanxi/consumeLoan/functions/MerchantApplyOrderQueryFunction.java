@@ -104,6 +104,7 @@ public class MerchantApplyOrderQueryFunction extends AbstractFunction {
 			list=dao.selectApplyByPage(args);
 		
 		}
+		page.setTotalRecord(applys.size());
 //		System.err.println(list.size());
     	Map<String,Object> statistics=new HashMap<>();
     	statistics.put("applyAmount", count);

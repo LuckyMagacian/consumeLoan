@@ -417,6 +417,8 @@ public class Apply{
 	 * 商户佣金查询时隐藏信息
 	 */
 	public void hide1(){
+		this.setIdNumber(this.getIdNumber().substring(0,6)+"******"+this.getIdNumber().substring(12));
+		this.setPhone(this.getPhone().substring(0, 3)+"******"+this.getPhone().substring(9));
 		this.setSex(null);
 		this.setAddress(null);
 		this.setVerifyCode(null);
@@ -436,6 +438,8 @@ public class Apply{
 	 * 商户订单查询时隐藏信息
 	 */
 	public void hide2(){
+		this.setIdNumber(this.getIdNumber().substring(0,6)+"******"+this.getIdNumber().substring(12));
+		this.setPhone(this.getPhone().substring(0, 3)+"******"+this.getPhone().substring(9));
 		this.setServiceRate(null);
 		this.setServiceCharge(null);
 		this.setSex(null);
@@ -458,6 +462,8 @@ public class Apply{
 	 * 查询时隐藏信息 --总
 	 */
 	public void hide3(){
+		this.setIdNumber(this.getIdNumber().substring(0,6)+"******"+this.getIdNumber().substring(12));
+		this.setPhone(this.getPhone().substring(0, 3)+"******"+this.getPhone().substring(9));
 		this.setApplyId(null);
 		this.setName(null);
 		this.setSex(null);
@@ -494,6 +500,8 @@ public class Apply{
 	 * 管理员 --申请列表
 	 */
 	public void hide4(){
+//		this.setIdNumber(this.getIdNumber().substring(0,6)+"******"+this.getIdNumber().substring(12));
+//		this.setPhone(this.getPhone().substring(0, 3)+"******"+this.getPhone().substring(9));
 		this.setSex(null);
 		this.setAddress(null);
 //		this.setApplyMoney(null);
@@ -513,6 +521,8 @@ public class Apply{
 	 * 管理员--账户管理
 	 */
 	public void hide5(){
+//		this.setIdNumber(this.getIdNumber().substring(0,6)+"******"+this.getIdNumber().substring(12));
+//		this.setPhone(this.getPhone().substring(0, 3)+"******"+this.getPhone().substring(9));
 		this.setSex(null);
 //		this.setAddress(null);
 		this.setVerifyCode(null);

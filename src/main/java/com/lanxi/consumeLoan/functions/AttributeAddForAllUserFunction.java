@@ -16,6 +16,7 @@ public class AttributeAddForAllUserFunction extends AbstractFunction{
 			addAttribute(new Attribute<String>("phone", ""));
 			addAttribute(new Attribute<String>("name", ""));
 		 	addAttribute(new Attribute<String>("password",SignUtil.md5LowerCase("123456", "utf-8")));
+	        addAttribute(new Attribute<String>("status",ConstParam.USER_STATE_WAIT_CHECK));
 	        addAttribute(new Attribute<String>("state",ConstParam.USER_STATE_WAIT_CHECK));
 	        addAttribute(new Attribute<String>("createBy",""));
 	        addAttribute(new Attribute<String>("createTime",TimeUtil.getDateTime()));
