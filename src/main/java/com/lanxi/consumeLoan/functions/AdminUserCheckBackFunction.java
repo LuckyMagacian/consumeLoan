@@ -71,7 +71,7 @@ public class AdminUserCheckBackFunction extends AbstractFunction {
 //		}
 		user.set("state", ConstParam.USER_STATE_REJECT);
 		LogFactory.info(this, "管理员["+phone+"]拒绝了用户["+userPhone+"]的审核");
-		redisService.delete(ConstParam.USER_STATE_LOGIN+phone);
+		redisService.delete(ConstParam.USER_STATE_LOGIN+userPhone);
 		dao.getUserDao().updateUserByUniqueIndexOnPhone(user, userPhone);
 		return new RetMessage(RetCodeEnum.SUCCESS.toString(), "审核操作完成!", null);
 	}

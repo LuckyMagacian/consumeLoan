@@ -60,9 +60,18 @@ public class CustomerManagerUserQueryFunction extends AbstractFunction {
 			User user = dao.getUserDao().selectUserByUniqueIndexOnPhone(userPhone);
 			
 			if(user==null){
+				resultMap.put("page", page);
+				resultMap.put("userProxy", userProxy);
 				page.setTotalRecord(0);
 				resultMap.put("page", page);
-				return new RetMessage(RetCodeEnum.SUCCESS,"查询成功",page);
+				return new RetMessage(RetCodeEnum.SUCCESS,"查询成功",resultMap);
+			}
+			if(phone.equals(user.getPhone())) {
+				resultMap.put("page", page);
+				resultMap.put("userProxy", userProxy);
+				page.setTotalRecord(0);
+				resultMap.put("page", page);
+				return new RetMessage(RetCodeEnum.SUCCESS,"查询成功",resultMap);
 			}
 
 			if (user.getRoleName().equals("salesMan")

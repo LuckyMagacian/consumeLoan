@@ -1,6 +1,9 @@
 package com.lanxi.consumeLoan.service;
 
 import java.util.List;
+import java.util.concurrent.Future;
+import java.util.concurrent.FutureTask;
+import java.util.concurrent.TimeUnit;
 
 import javax.annotation.Resource;
 
@@ -65,7 +68,31 @@ public class CheckService {
 		return token;
 	}
 	
+	public boolean isPhoneNew(String phone) {
+		long start=System.currentTimeMillis();
+		try {
+			FutureTask<Boolean> future=new FutureTask<>(()->{
+				if(!phone.matches("1[0-9]{10}"))
+					return false;
+				PhoneNumAnalyst analyst=new PhoneNumAnalyst(phone);
+				LogFactory.debug(this, analyst.getPhoneInfo());
+				if(analyst.getAddress()==null||analyst.getCompany()==null)
+					return false;
+				return true;
+			});
+			new Thread(future).start();
+			return future.get(1000,TimeUnit.MILLISECONDS);
+		} catch (Exception e) {
+			LogFactory.debug(this,"手机号码校验时发生异常", e);
+			return isPhoneNew(phone);
+		}finally {
+			System.out.println(System.currentTimeMillis()-start);
+		}
+	}
+	
 	public boolean isPhone(String phone) {
+		
+		
 		try {
 			if(!phone.matches("1[0-9]{10}"))
 				return false;

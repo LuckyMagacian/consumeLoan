@@ -121,11 +121,11 @@ public class AdminMerchantAddFunction extends AbstractFunction {
 		    		continue;
 //	    			return new RetMessage(RetCodeEnum.WARNING.toString(), "商户添加成功!添加用户["+userPhone+"]时,用户已存在!", null);
 	    		}
-	    		if(!checkService.isPhone(userPhone)) {
-	    			LogFactory.info(this, "添加负责人["+userPhone+"]时手机号码校验不通过!");
-	    			failBuffer.append("添加负责人:"+userPhone+"失败,原因:手机号码校验不通过!\n");
-		    		continue;
-	    		}
+//	    		if(!checkService.isPhone(userPhone)) {
+//	    			LogFactory.info(this, "添加负责人["+userPhone+"]时手机号码校验不通过!");
+//	    			failBuffer.append("添加负责人:"+userPhone+"失败,原因:手机号码校验不通过!\n");
+//		    		continue;
+//	    		}
 	    		user=new User();
 	    		user.setRoleName(role.getRoleName());
 	    		user.setPhone(userPhone);
@@ -165,11 +165,11 @@ public class AdminMerchantAddFunction extends AbstractFunction {
 	    			continue;
 //	    			return new RetMessage(RetCodeEnum.WARNING.toString(), "添加用户["+userPhone+"]时,用户已存在!", null);
 	    		}
-    			if(!checkService.isPhone(userPhone)) {
-	    			LogFactory.info(this, "添加销售["+userPhone+"]时手机号码校验不通过!");
-	    			failBuffer.append("添加销售:"+userPhone+"失败,原因:手机号码校验不通过!\n");
-	    			continue;
-	    		}
+//    			if(!checkService.isPhone(userPhone)) {
+//	    			LogFactory.info(this, "添加销售["+userPhone+"]时手机号码校验不通过!");
+//	    			failBuffer.append("添加销售:"+userPhone+"失败,原因:手机号码校验不通过!\n");
+//	    			continue;
+//	    		}
     			user=new User();
     			user.setRoleName(role.getRoleName());
     			user.setPhone(userPhone);

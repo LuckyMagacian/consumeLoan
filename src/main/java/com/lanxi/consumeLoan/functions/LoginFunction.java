@@ -78,7 +78,7 @@ public class LoginFunction extends AbstractFunction{
 //		case ConstParam.USER_STATE_LOGIN:break;
 		default:break;
 		}
-        if(redisService.get()!=null&&!redisService.get(ConstParam.USER_STATE_LOGIN+phone).equals(ip)) {
+        if(redisService.get(ConstParam.USER_STATE_LOGIN+phone)!=null&&!redisService.get(ConstParam.USER_STATE_LOGIN+phone).equals(ip)) {
         	LogFactory.info(this, "["+phone+"]已经在["+redisService.get(ConstParam.USER_STATE_LOGIN+phone)+"]登录,无法登录!");
         	return new RetMessage(RetCodeEnum.FAIL, "登录失败!该帐号已在其他地方登录!只有上次登录ip才允许重复登录!", null);
         }

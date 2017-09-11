@@ -104,10 +104,10 @@ public class ApplyOrderAddFunction extends AbstractFunction{
     	
     	String cacheCode=redisService.get(ConstParam.FUNCTION_NAME_APPLY_ADD+userPhone.trim());
     	if(!specialPhones.contains(userPhone)) {
-    		if(!checkService.isPhone(apply.getPhone())) {
-    			LogFactory.info(this, "申请人["+apply.getCustomerManagerName()+"]手机号码["+apply.getPhone()+"]校验不通过！");
-    			return new RetMessage(RetCodeEnum.FAIL,"申请人号码格式校验不通过！",ConstParam.TEST_FLAG?checkService.getPhoneInfo(apply.getPhone()):null);
-    		}
+//    		if(!checkService.isPhone(apply.getPhone())) {
+//    			LogFactory.info(this, "申请人["+apply.getCustomerManagerName()+"]手机号码["+apply.getPhone()+"]校验不通过！");
+//    			return new RetMessage(RetCodeEnum.FAIL,"申请人号码格式校验不通过！",ConstParam.TEST_FLAG?checkService.getPhoneInfo(apply.getPhone()):null);
+//    		}
     		if(!checkService.isId(apply.getIdNumber())) {
     			LogFactory.info(this, "申请人["+apply.getCustomerManagerName()+"]身份证号码["+apply.getIdNumber()+"]校验不通过！");
     			return new RetMessage(RetCodeEnum.FAIL,"申请人身份证号码格式校验不通过！",ConstParam.TEST_FLAG?checkService.getIdInfo(apply.getApplyId()):null);

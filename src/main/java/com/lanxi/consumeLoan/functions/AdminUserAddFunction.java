@@ -65,6 +65,7 @@ public class AdminUserAddFunction extends AbstractFunction{
 		}
 		if(roleName.equals("salesMan")||roleName.equals("shopKeeper")){
 			String merchantId=(String) args.get("merchantId");
+			LogFactory.info(this, "管理员为["+merchantId+"]添加["+roleName+"]");
 			if(merchantId==null||merchantId.isEmpty()){
 				LogFactory.info(this, "管理员["+phone+"]添加用户["+userPhone+"]为["+roleName+"]时,商户["+merchantId+"]为空!");
 				return new RetMessage(RetCodeEnum.FAIL.toString(),"商户编号为空!",null);

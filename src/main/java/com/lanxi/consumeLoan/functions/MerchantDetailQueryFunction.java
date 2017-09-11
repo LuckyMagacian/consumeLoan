@@ -4,6 +4,7 @@ import com.lanxi.consumeLoan.basic.AbstractFunction;
 import com.lanxi.consumeLoan.basic.Attribute;
 import com.lanxi.consumeLoan.basic.RetMessage;
 import com.lanxi.consumeLoan.basic.UserProxy;
+import com.lanxi.consumeLoan.consts.ConstParam;
 import com.lanxi.consumeLoan.entity.Merchant;
 import com.lanxi.consumeLoan.entity.User;
 import com.lanxi.util.consts.RetCodeEnum;
@@ -58,6 +59,8 @@ public class MerchantDetailQueryFunction extends AbstractFunction {
     	List<UserProxy> Proxy = new ArrayList<>();
     	for (User user : attibutes) {
     		if ("salesMan".equals(user.getRoleName()) || "shopKeeper".equals(user.getRoleName())) {
+    			if(ConstParam.USER_STATE_REJECT.equals(user.get("state").getValue()))
+    				continue;
     			Proxy.add(user.toProxy());
 			}
 		}

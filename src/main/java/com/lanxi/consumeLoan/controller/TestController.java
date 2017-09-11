@@ -435,8 +435,8 @@ public class TestController {
 			args.put("merchantId",req.getParameter("merchantId"));
 			return fun.excuted(args).toJson();
 		} catch (Exception e) {
-			LogFactory.error(this, "商户["+req.getParameter("merchantId")+"]上架时发生异常!",e);
-			return new RetMessage(RetCodeEnum.EXCEPTION.toString(),"商户上架时发生异常!",null).toJson();
+			LogFactory.error(this, "删除商户["+req.getParameter("merchantId")+"]时发生异常!",e);
+			return new RetMessage(RetCodeEnum.EXCEPTION.toString(),"删除商户时发生异常!",null).toJson();
 		}
 	}
 	

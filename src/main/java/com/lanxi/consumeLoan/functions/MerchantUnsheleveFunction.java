@@ -1,13 +1,16 @@
 package com.lanxi.consumeLoan.functions;
 
 import com.lanxi.consumeLoan.basic.AbstractFunction;
+import com.lanxi.consumeLoan.basic.Attribute;
 import com.lanxi.consumeLoan.basic.RetMessage;
 import com.lanxi.consumeLoan.consts.ConstParam;
 import com.lanxi.consumeLoan.entity.Merchant;
+import com.lanxi.consumeLoan.entity.User;
 import com.lanxi.util.consts.RetCodeEnum;
 import com.lanxi.util.entity.LogFactory;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -31,7 +34,8 @@ public class MerchantUnsheleveFunction extends AbstractFunction{
         return null;
     }
 
-    @Override
+    @SuppressWarnings("unchecked")
+	@Override
     public RetMessage excuted(Map<String, Object> args) {
         String phone=(String) args.get("phone");
         String merchant_id = (String) args.get("merchantId");
@@ -46,6 +50,27 @@ public class MerchantUnsheleveFunction extends AbstractFunction{
         if (state.equals(ConstParam.MERCHANT_STATE_SHELVED)){
             merchant.setState(ConstParam.MERCHANT_STATE_UNSHELVED);
             dao.getMerchantDao().updateMerchantByUniqueIndexOnMerchantId(merchant,merchant_id);
+            LogFactory.info(this, "商户下架成功,开始冻结相关正常商户人员");
+            List<User> users=dao.selectUserByAttibute(new Attribute<String>("merchantId",merchant.getMerchantId()));
+            users.stream()
+            .filter(user->{
+            	boolean flag=false;
+            	Attribute<String> userStatus=(Attribute<String>) user.get("status");
+            	Attribute<String> userState=(Attribute<String>) user.get("state");
+            	if(userStatus!=null) {
+            		flag|=ConstParam.USER_STATE_NORMAL.equals(userStatus.getValue());
+            	}
+            	if(userState!=null) {
+            		flag|=ConstParam.USER_STATE_NORMAL.equals(userState.getValue());
+            	}
+            	return flag;
+            })
+            .forEach(user->{
+            	user.set("state", ConstParam.USER_STATE_FREEZE);
+            	user.set("status", ConstParam.USER_STATE_FREEZE);
+            	dao.getUserDao().updateUserByUniqueIndexOnPhone(user, user.getPhone());
+            	LogFactory.info(this, "冻结商户["+merchant.getMerchantId()+":"+merchant.getMerchantName()+"]人员["+user.getRoleName()+"]["+user.getPhone()+"]成功");
+            });
         }else {
             LogFactory.info(this,"用户["+phone+"],下架的商户["+merchant_id+"]不满足下架条件!");
             return new RetMessage(RetCodeEnum.FAIL.toString(),"商户不满足下架条件!",null);
