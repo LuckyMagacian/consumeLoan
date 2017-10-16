@@ -38,7 +38,7 @@ public class Merchant implements ToJson,ToMap{
 	/**担保比例*/
 	private BigDecimal depositeRate;
 	
-	/**保证金余额*/
+	/**保证金余额--已改为消耗风险保证金总额*/
 	private BigDecimal depositeBalance;
 	
 	/**是否合作分润*/

@@ -88,6 +88,7 @@ public class MerchantModifyFunction extends AbstractFunction {
 		}
 		if (merchant.getSharedRate() != null) {
 			temp.setSharedRate(merchant.getSharedRate());
+			temp.setBrokerageRate(merchant.getSharedRate());
 		}
 		if (merchant.getCustomerManagerPhone() != null && merchant.getCustomerManagerPhone() !="") {
 			User user=dao.getUserDao().selectUserByUniqueIndexOnPhone(merchant.getCustomerManagerPhone());
@@ -104,6 +105,7 @@ public class MerchantModifyFunction extends AbstractFunction {
 				return new RetMessage(RetCodeEnum.FAIL, "修改失败,该客户经理状态不为正常状态!", null);
 			}
 			temp.setCustomerManagerPhone(merchant.getCustomerManagerPhone());
+			temp.setCustomerManagerName((String) user.get("name").getValue());
 		}
 //		if (merchant.getCustomerManagerName() != null && merchant.getCustomerManagerName() !="") {
 //			temp.setCustomerManagerName(merchant.getCustomerManagerName());

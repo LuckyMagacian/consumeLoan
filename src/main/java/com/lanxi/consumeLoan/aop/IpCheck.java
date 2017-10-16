@@ -18,29 +18,40 @@ import com.lanxi.consumeLoan.entity.User;
 import com.lanxi.consumeLoan.service.CheckService;
 import com.lanxi.consumeLoan.service.DaoService;
 import com.lanxi.util.consts.RetCodeEnum;
+import com.lanxi.util.entity.ConfigManager;
 import com.lanxi.util.entity.LogFactory;
 import com.lanxi.util.utils.HttpUtil;
 
 @Aspect
 @Component
 @Order(100)
+/**
+ * aop ip校验类
+ * @author yangyuanjian
+ *
+ */
 public class IpCheck {
+	//controller下任意方法切入点
 	@Pointcut("execution(public String com.lanxi.consumeLoan.controller.*.*(..))")
 	private void anyMethod(){};
+	//redis缓存服务
 	@Resource
 	private RedisCacheServiceInterface redisService;
+	//校验服务
 	@Resource
 	private CheckService checkService;
+	//dao服务
 	@Resource
 	private DaoService dao;
+	//参数为req,res的切入点
 	@Around("anyMethod() && args(req,res)")
 	public String ipCheck(ProceedingJoinPoint point,HttpServletRequest req,HttpServletResponse res){
 			LogFactory.info(this,"使用切面进行ip和用户登录状态校验!");		
 			String ip=HttpUtil.getRealIp(req);
 			String phone=req.getParameter("phone");
 			String userPhone=req.getParameter("userPhone");
-			String pageSize=req.getParameter("pageSize");
-			String pageCode=req.getParameter("pageCode");
+//			String pageSize=req.getParameter("pageSize");
+//			String pageCode=req.getParameter("pageCode");
 			LogFactory.info(this, "用户["+phone+"]进行登录校验!");
 //			if(phone!=null&&!phone.isEmpty())
 //			if(!checkService.isPhone(phone)) {
@@ -49,19 +60,19 @@ public class IpCheck {
 //    		}
 
 			if(userPhone!=null&&!userPhone.isEmpty()) {
-//				if(!checkService.isPhone(userPhone)) {
-//	    			LogFactory.info(this, "手机号码["+userPhone+"]校验不通过！");
-//	    			return new RetMessage(RetCodeEnum.FAIL.toString(),"手机号码格式校验不通过！",ConstParam.TEST_FLAG?checkService.getPhoneInfo(userPhone):null).toJson();
-//	    		}
+				if(!checkService.isPhone(userPhone)) {
+	    			LogFactory.info(this, "手机号码["+userPhone+"]校验不通过！");
+	    			return new RetMessage(RetCodeEnum.FAIL.toString(),"手机号码格式校验不通过！",ConstParam.TEST_FLAG?checkService.getPhoneInfo(userPhone):null).toJson();
+	    		}
 			}
-			if(pageCode!=null&&!pageCode.isEmpty()) {
-				if(pageCode.equals("0"))
-					pageCode="1";
-			}
-			if(pageSize!=null&&!pageSize.isEmpty()) {
-				if(pageSize.equals("0"))
-					pageSize="1";
-			}
+//			if(pageCode!=null&&!pageCode.isEmpty()) {
+//				if(pageCode.trim().equals("0"))
+//					pageCode="1";
+//			}
+//			if(pageSize!=null&&!pageSize.isEmpty()) {
+//				if(pageSize.equals("0"))
+//					pageSize="1";
+//			}
 			if(phone==null){
 				return new RetMessage(RetCodeEnum.FAIL.toString(),"用户为空!",null).toJson();
 			}
@@ -73,7 +84,6 @@ public class IpCheck {
 				return new RetMessage(RetCodeEnum.FAIL.toString(),"用户不存在!",null).toJson();
 			}
 			LogFactory.debug(this, "用户["+phone+"]存在性校验通过!");
-			System.out.println("flag 1");
 			String cacheIp=redisService.get(ConstParam.USER_STATE_LOGIN+phone);
 			if(cacheIp==null){
 				LogFactory.info(this, "用户["+phone+"]未登录!");
@@ -84,9 +94,11 @@ public class IpCheck {
 //			System.err.println("cacheIP:"+cacheIp);
 			if(!cacheIp.equals(ip)){
 				LogFactory.info(this, "用户["+phone+"]登录ip["+ip+"]于缓存ip["+cacheIp+"]不匹配,删除缓存ip["+cacheIp+"],要求用户重新登录!");
-				System.err.println("flag 2");
 				redisService.delete(ConstParam.USER_STATE_LOGIN+phone);
 				return new RetMessage(RetCodeEnum.WARNING.toString(),"用户在其他地点登录!",null).toJson();
+			}else {
+				LogFactory.info(this, "用户["+phone+"]操作,延长ip["+cacheIp+"]锁定时间!");
+				redisService.setKeyLife(ConstParam.USER_STATE_LOGIN+phone, Long.parseLong(ConfigManager.get("param.properties","loginLife")));
 			}
 			try {
 				LogFactory.info(this, "用户["+phone+"]登录校验通过!");

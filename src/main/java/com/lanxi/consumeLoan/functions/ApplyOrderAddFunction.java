@@ -22,6 +22,7 @@ import com.lanxi.consumeLoan.entity.User;
 import com.lanxi.util.consts.RetCodeEnum;
 import com.lanxi.util.entity.ConfigManager;
 import com.lanxi.util.entity.LogFactory;
+import com.lanxi.util.utils.CheckReplaceUtil;
 import com.lanxi.util.utils.RandomUtil;
 import com.lanxi.util.utils.TimeUtil;
 
@@ -55,13 +56,10 @@ public class ApplyOrderAddFunction extends AbstractFunction{
 	@Override
     public RetMessage excuted(Map<String, Object> args) {
     	List<String> specialPhones=new ArrayList<>();
-    	specialPhones.add("15757129562");
-    	specialPhones.add("18368720758");
-    	specialPhones.add("18667041905");
-    	specialPhones.add("18557536069");
-    	specialPhones.add("13456915077");
-    	specialPhones.add("15024634281");
-    	
+    	specialPhones.add(ConfigManager.get("param", "specialNumber1"));
+       	specialPhones.add(ConfigManager.get("param", "specialNumber2"));
+       	specialPhones.add(ConfigManager.get("param", "specialNumber3"));
+//    	
     	String phone=(String) args.get("phone");
     	LogFactory.info(this, "用户["+phone+"]尝试添加新订单!");
     	String applyJson=(String) args.get("apply");
@@ -103,20 +101,21 @@ public class ApplyOrderAddFunction extends AbstractFunction{
     	
     	
     	String cacheCode=redisService.get(ConstParam.FUNCTION_NAME_APPLY_ADD+userPhone.trim());
-    	if(!specialPhones.contains(userPhone)) {
-//    		if(!checkService.isPhone(apply.getPhone())) {
-//    			LogFactory.info(this, "申请人["+apply.getCustomerManagerName()+"]手机号码["+apply.getPhone()+"]校验不通过！");
-//    			return new RetMessage(RetCodeEnum.FAIL,"申请人号码格式校验不通过！",ConstParam.TEST_FLAG?checkService.getPhoneInfo(apply.getPhone()):null);
-//    		}
-    		if(!checkService.isId(apply.getIdNumber())) {
-    			LogFactory.info(this, "申请人["+apply.getCustomerManagerName()+"]身份证号码["+apply.getIdNumber()+"]校验不通过！");
-    			return new RetMessage(RetCodeEnum.FAIL,"申请人身份证号码格式校验不通过！",ConstParam.TEST_FLAG?checkService.getIdInfo(apply.getApplyId()):null);
-    		}
+    	if(!specialPhones.contains(userPhone))
+    	{
 	    	if(!apply.getVerifyCode().equals(cacheCode)){
 	    		LogFactory.info(this, "用户["+phone+"]添加的订单申请者手机验证码校验不通过!输入验证码["+apply.getVerifyCode()+"],缓存验证码["+cacheCode+"]");
 	    		return new RetMessage(RetCodeEnum.FAIL.toString(),"手机验证码校验不通过!",null);
 	    	}
     	}
+		if(!checkService.isPhone(userPhone)) {
+			LogFactory.info(this, "申请人["+apply.getCustomerManagerName()+"]手机号码["+apply.getPhone()+"]校验不通过！");
+			return new RetMessage(RetCodeEnum.FAIL,"申请人号码格式校验不通过！",ConstParam.TEST_FLAG?checkService.getPhoneInfo(apply.getPhone()):null);
+		}
+		if(!checkService.isId(apply.getIdNumber())) {
+			LogFactory.info(this, "申请人["+apply.getCustomerManagerName()+"]身份证号码["+apply.getIdNumber()+"]校验不通过！");
+			return new RetMessage(RetCodeEnum.FAIL,"申请人身份证号码格式校验不通过！",ConstParam.TEST_FLAG?checkService.getIdInfo(apply.getApplyId()):null);
+		}
     	LogFactory.info(this, "用户["+phone+"]添加的订单["+userPhone+"]手机验证码校验通过!删除缓存验证码!");
     	SystemAccount systemAccount=dao.getSystemAccountDao().selectSystemAccountByUniqueIndexOnAccountId("1001");
     	redisService.delete(ConstParam.FUNCTION_NAME_APPLY_ADD+userPhone.trim());
@@ -143,7 +142,7 @@ public class ApplyOrderAddFunction extends AbstractFunction{
 
     	apply.setApplyTime(TimeUtil.getDateTime());
     	apply.setState(ConstParam.APPLY_STATE_WAIT_CHECK);
-    	apply.setApplyId(TimeUtil.getDate()+(System.nanoTime()%10000)+RandomUtil.getRandomNumber(6));
+    	apply.setApplyId(TimeUtil.getDate()+(CheckReplaceUtil.pad(System.nanoTime()%10000+"", "0", 4, true))+RandomUtil.getRandomNumber(6));
     	LogFactory.debug(this, "date:"+TimeUtil.getDate()+"\n"+"nano:"+TimeUtil.getNanoTime()+"\n"+"random:"+RandomUtil.getRandomNumber(6));
     	apply.setMerchantId(merchantId.getValue());
     	apply.setSalesManPhone(phone);

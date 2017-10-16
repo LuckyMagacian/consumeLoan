@@ -17,6 +17,7 @@ import com.lanxi.consumeLoan.entity.Role;
 import com.lanxi.consumeLoan.entity.User;
 import com.lanxi.token.EasyToken;
 import com.lanxi.util.entity.LogFactory;
+import com.lanxi.util.utils.CheckReplaceUtil;
 import com.lanxi.util.utils.LoggerUtil;
 import com.lanxi.util.utils.LoggerUtil.LogLevel;
 import com.lanxi.util.utils.OtherUtil.IdAnalyst;
@@ -91,20 +92,20 @@ public class CheckService {
 	}
 	
 	public boolean isPhone(String phone) {
-		
-		
-		try {
-			if(!phone.matches("1[0-9]{10}"))
-				return false;
-			PhoneNumAnalyst analyst=new PhoneNumAnalyst(phone);
-			LogFactory.debug(this, analyst.getPhoneInfo());
-			if(analyst.getAddress()==null||analyst.getCompany()==null)
-				return false;
-			return true;
-		} catch (Exception e) {
-			LogFactory.info(this,"手机号码校验时发生异常", e);
-			return true;
-		}
+		return CheckReplaceUtil.possiblePhone(phone);
+//		
+//		try {
+//			if(!phone.matches("1[0-9]{10}"))
+//				return false;
+//			PhoneNumAnalyst analyst=new PhoneNumAnalyst(phone);
+//			LogFactory.debug(this, analyst.getPhoneInfo());
+//			if(analyst.getAddress()==null||analyst.getCompany()==null)
+//				return false;
+//			return true;
+//		} catch (Exception e) {
+//			LogFactory.info(this,"手机号码校验时发生异常", e);
+//			return true;
+//		}
 	}
 	
 	public String getPhoneInfo(String phone) {
@@ -120,16 +121,22 @@ public class CheckService {
 	}
 	
 	public boolean isId(String idNum) {
-		if(!ConstParam.TEST_FLAG)
-			throw new IllegalArgumentException("非测试模式下，当前方法不可用！");
 		try {
+			if(idNum==null)
+				return false;
+			if(idNum.length()!=18)
+				return false;
 			if(!idNum.matches("[0-9]{17}[0-9xX]{1}"))
 				return false;
 			IdAnalyst analyst=new IdAnalyst(idNum);
 			LogFactory.debug(this, analyst.getIdInfo());
 			return analyst.validateId();
-		} catch (Exception e) {
-			LogFactory.info(this,"身份证校验时发生异常", e);
+		}catch (NullPointerException e) {
+			return false;
+		} catch (IllegalArgumentException e) {
+			return false;
+		}catch (Exception e) {
+			LogFactory.error(this,"身份证校验时发生异常", e);
 			return true;
 		}
 	}

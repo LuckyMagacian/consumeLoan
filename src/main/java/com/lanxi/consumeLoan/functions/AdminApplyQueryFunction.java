@@ -43,8 +43,8 @@ public class AdminApplyQueryFunction extends AbstractFunction{
 		LogFactory.info(this, "管理员["+phone+"]，请求参数：" + args);
 		
 		PageBean page = new PageBean();
-		page.setPageSize(Integer.parseInt((String) args.get("pageSize")==null?"1":(String) args.get("pageSize")));
-		page.setPageCode(Integer.parseInt((String) args.get("pageCode")==null?"1":(String) args.get("pageCode")));
+		page.setPageSize(Integer.parseInt((String) args.get("pageSize")==null||"0".equals(args.get("pageSize"))?"10":(String) args.get("pageSize")));
+		page.setPageCode(Integer.parseInt((String) args.get("pageCode")==null||"0".equals(args.get("pageSize"))?"1":(String) args.get("pageCode")));
 		Map<String, Object> parm = new HashMap<String, Object>();
 		
 		if(args.get("isAssurance") != "" && args.get("isAssurance") !=null){

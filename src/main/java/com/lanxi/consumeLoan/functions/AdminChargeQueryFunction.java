@@ -52,8 +52,8 @@ public class AdminChargeQueryFunction extends AbstractFunction{
 		Map<String, Object> resultMap = new HashMap<String, Object>();
 		Map<String, Object> totalMap = new HashMap<String, Object>();
 		PageBean page = new PageBean();
-		page.setPageSize(Integer.parseInt((String) args.get("pageSize")==null?"1":(String) args.get("pageSize")));
-		page.setPageCode(Integer.parseInt((String) args.get("pageCode")==null?"1":(String) args.get("pageCode")));
+		page.setPageSize(Integer.parseInt((String) args.get("pageSize")==null||"0".equals(args.get("pageSize"))?"10":(String) args.get("pageSize")));
+		page.setPageCode(Integer.parseInt((String) args.get("pageCode")==null||"0".equals(args.get("pageCode"))?"1":(String) args.get("pageCode")));
 //		LogFactory.info(this, "管理员["+phone+"],请求参数："+args);
 		Map<String, Object> parm = new HashMap<String, Object>();
 		if(args.get("merchantName") !=null&&!((String)args.get("merchantName")).isEmpty()){
@@ -120,11 +120,11 @@ public class AdminChargeQueryFunction extends AbstractFunction{
 		resultMap.put("total", totalMap);
 		
 		page.setTotalRecord(applys1.size());	
-		parm.put("start", page.getStart());
+		parm.put("start", page.getStart()>=0?page.getStart():0);
 		parm.put("size", page.getPageSize());
 		LogFactory.info(this, "管理员["+phone+"],查询条件为" + parm.toString()+",分页:"+page+" 结果总数:"+applys1.size());
 		List<Apply> list = new ArrayList<>();
-		for(int i=page.getStart();i<page.getEnd();i++){
+		for(int i=page.getStart()>=0?page.getStart():0;i<page.getEnd();i++){
 			list.add(applys1.get(i));
 		}
 		for (Apply apply : list) {

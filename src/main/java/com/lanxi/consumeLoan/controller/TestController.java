@@ -1,10 +1,12 @@
 package com.lanxi.consumeLoan.controller;
 
 import java.math.BigDecimal;
+import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
@@ -340,6 +342,23 @@ public class TestController {
 				case ConstParam.APPLY_STATE_FINISH:each.setState("已完成");break;
 				default:each.setState("未知");break;
 				}
+				switch (each.getMerchantType()) {
+				case ConstParam.MERCHANT_TYPE_HOUSEHOLD:each.setMerchantType("家居");break;
+				case ConstParam.MERCHANT_TYPE_ELECTRIC_APPLIANCE:each.setMerchantType("电器");break;
+				case ConstParam.MERCHANT_TYPE_NUMERAL:each.setMerchantType("数码");break;
+				case ConstParam.MERCHANT_TYPE_ENTERAINMENT:each.setMerchantType("娱乐");break;
+				case ConstParam.MERCHANT_TYPE_JEWELS:each.setMerchantType("珠宝");break;
+				case ConstParam.MERCHANT_TYPE_MEDICAL_TREATMENT:each.setMerchantType("医疗");break;
+				case ConstParam.MERCHANT_TYPE_BEAUTY:each.setMerchantType("美容");break;
+				case ConstParam.MERCHANT_TYPE_MOTOR_CAR:each.setMerchantType("汽车");break;
+				case ConstParam.MERCHANT_TYPE_EDUCATION:each.setMerchantType("教育");break;
+				case ConstParam.MERCHANT_TYPE_OTHERS:each.setMerchantType("其他");break;
+				default:each.setMerchantType("其他");break;
+				}
+				if(each.getIdNumber().length()>12)
+					each.setIdNumber(each.getIdNumber().substring(0,4)+"********"+each.getIdNumber().substring(12));
+				if(each.getPhone().length()>7)
+					each.setPhone(each.getPhone().substring(0,3)+"****"+each.getPhone().substring(7));
 			}
 			LogFactory.info(this, "用户["+phone+"]已获得商户订单查询结果列表!");
 			Map<String, String> map=new HashMap<>();
@@ -625,7 +644,7 @@ public class TestController {
 		}
 	}
 	@SuppressWarnings("unchecked")
-	@RequestMapping(value="merchantQueryFunctionExport")
+	@RequestMapping(value="merchantQueryFunctionExport",produces = {"application/json;charset=UTF-8"})
 	public void merchantQueryFunctionExport(HttpServletRequest req,HttpServletResponse res){
 		String phone=req.getParameter("phone");
 		try { 
@@ -638,7 +657,7 @@ public class TestController {
 				args.put("state", req.getParameter("state"));
 			}
 			if(req.getParameter("merchantName") !=null && req.getParameter("merchantName") != ""){
-				args.put("merchantName", req.getParameter("merchantName"));
+				args.put("merchantName", new URLDecoder().decode(req.getParameter("merchantName"), "utf-8"));
 			}
 			if(req.getParameter("merchantType") !=null && req.getParameter("merchantType") != ""){
 				args.put("merchantType", req.getParameter("merchantType"));
@@ -658,20 +677,31 @@ public class TestController {
 			List<Merchant> list=(List<Merchant>)((Map<String, Object>)result.getResult()).get("merchants");
 			for (Merchant merchant : list) {
 				switch (merchant.getState()) {
-				case ConstParam.MERCHANT_STATE_WAIT_CHECK:merchant.setState("待审核");break;
-				case ConstParam.MERCHANT_STATE_WAIT_SHELVE:merchant.setState("待上架 ");break;
-				case ConstParam.MERCHANT_STATE_REJECT:merchant.setState("拒绝 ");break;
-				case ConstParam.MERCHANT_STATE_UNSHELVED:merchant.setState("已下架 ");break;
-				case ConstParam.MERCHANT_STATE_SHELVED:merchant.setState("已上架");break;
-				default:merchant.setState("未知");break;
+					case ConstParam.MERCHANT_STATE_WAIT_CHECK:merchant.setState("待审核");break;
+					case ConstParam.MERCHANT_STATE_WAIT_SHELVE:merchant.setState("待上架 ");break;
+					case ConstParam.MERCHANT_STATE_REJECT:merchant.setState("拒绝 ");break;
+					case ConstParam.MERCHANT_STATE_UNSHELVED:merchant.setState("已下架 ");break;
+					case ConstParam.MERCHANT_STATE_SHELVED:merchant.setState("已上架");break;
+					default:merchant.setState("未知");break;
 				}
 				switch (merchant.getIsAssurance()) {
-				case "true":merchant.setIsAssurance("担保");break;
-				case "false":merchant.setIsAssurance("不担保");break;
-		
-				default:merchant.setState("未知");break;
+					case "true":merchant.setIsAssurance("担保");break;
+					case "false":merchant.setIsAssurance("不担保");break;
+					default:merchant.setState("未知");break;
 				}
-				
+				switch (merchant.getMerchantType()) {
+					case ConstParam.MERCHANT_TYPE_HOUSEHOLD:merchant.setMerchantType("家居");break;
+					case ConstParam.MERCHANT_TYPE_ELECTRIC_APPLIANCE:merchant.setMerchantType("电器");break;
+					case ConstParam.MERCHANT_TYPE_NUMERAL:merchant.setMerchantType("数码");break;
+					case ConstParam.MERCHANT_TYPE_ENTERAINMENT:merchant.setMerchantType("娱乐");break;
+					case ConstParam.MERCHANT_TYPE_JEWELS:merchant.setMerchantType("珠宝");break;
+					case ConstParam.MERCHANT_TYPE_MEDICAL_TREATMENT:merchant.setMerchantType("医疗");break;
+					case ConstParam.MERCHANT_TYPE_BEAUTY:merchant.setMerchantType("美容");break;
+					case ConstParam.MERCHANT_TYPE_MOTOR_CAR:merchant.setMerchantType("汽车");break;
+					case ConstParam.MERCHANT_TYPE_EDUCATION:merchant.setMerchantType("教育");break;
+					case ConstParam.MERCHANT_TYPE_OTHERS:merchant.setMerchantType("其他");break;
+					default:merchant.setMerchantType("其他");break;
+				}
 			}
 			LogFactory.info (this, "用户["+phone+"]已获得商户查询结果列表!");
 			Map<String, String> map=new HashMap<>();
@@ -706,7 +736,7 @@ public class TestController {
 				args.put("userPhone", userPhone);
 			String merchantName=req.getParameter("merchantName");
 			if(merchantName!=null&&!merchantName.isEmpty())
-				args.put("merchantName", merchantName);
+				args.put("merchantName", new URLDecoder().decode(req.getParameter("merchantName"), "utf-8"));
 			String merchantType=req.getParameter("merchantType");
 			if(merchantType!=null&&!merchantType.isEmpty())
 				args.put("merchantType", merchantType);
@@ -737,11 +767,28 @@ public class TestController {
 				case ConstParam.APPLY_STATE_FINISH:each.setState("已完成");break;
 				default:each.setState("未知");break;
 				}
+				switch (each.getMerchantType()) {
+				case ConstParam.MERCHANT_TYPE_HOUSEHOLD:each.setMerchantType("家居");break;
+				case ConstParam.MERCHANT_TYPE_ELECTRIC_APPLIANCE:each.setMerchantType("电器");break;
+				case ConstParam.MERCHANT_TYPE_NUMERAL:each.setMerchantType("数码");break;
+				case ConstParam.MERCHANT_TYPE_ENTERAINMENT:each.setMerchantType("娱乐");break;
+				case ConstParam.MERCHANT_TYPE_JEWELS:each.setMerchantType("珠宝");break;
+				case ConstParam.MERCHANT_TYPE_MEDICAL_TREATMENT:each.setMerchantType("医疗");break;
+				case ConstParam.MERCHANT_TYPE_BEAUTY:each.setMerchantType("美容");break;
+				case ConstParam.MERCHANT_TYPE_MOTOR_CAR:each.setMerchantType("汽车");break;
+				case ConstParam.MERCHANT_TYPE_EDUCATION:each.setMerchantType("教育");break;
+				case ConstParam.MERCHANT_TYPE_OTHERS:each.setMerchantType("其他");break;
+				default:each.setMerchantType("其他");break;
+				}
 				switch (each.getIsAssurance()) {
 				case "true":each.setIsAssurance("担保");break;
 				case "false":each.setIsAssurance("不担保");break;
 				default:each.setState("未知");break;
 				}
+				if(each.getIdNumber().length()>12)
+					each.setIdNumber(each.getIdNumber().substring(0,4)+"********"+each.getIdNumber().substring(12));
+				if(each.getPhone().length()>7)
+					each.setPhone(each.getPhone().substring(0,3)+"****"+each.getPhone().substring(7));
 			}
 			Map<String, String> map=new HashMap<>();
 			map.put("applyId", "申请编号");
@@ -879,6 +926,23 @@ public class TestController {
 				case ConstParam.APPLY_STATE_FINISH:each.setState("已完成");break;
 				default:each.setState("未知");break;
 				}
+				switch (each.getMerchantType()) {
+				case ConstParam.MERCHANT_TYPE_HOUSEHOLD:each.setMerchantType("家居");break;
+				case ConstParam.MERCHANT_TYPE_ELECTRIC_APPLIANCE:each.setMerchantType("电器");break;
+				case ConstParam.MERCHANT_TYPE_NUMERAL:each.setMerchantType("数码");break;
+				case ConstParam.MERCHANT_TYPE_ENTERAINMENT:each.setMerchantType("娱乐");break;
+				case ConstParam.MERCHANT_TYPE_JEWELS:each.setMerchantType("珠宝");break;
+				case ConstParam.MERCHANT_TYPE_MEDICAL_TREATMENT:each.setMerchantType("医疗");break;
+				case ConstParam.MERCHANT_TYPE_BEAUTY:each.setMerchantType("美容");break;
+				case ConstParam.MERCHANT_TYPE_MOTOR_CAR:each.setMerchantType("汽车");break;
+				case ConstParam.MERCHANT_TYPE_EDUCATION:each.setMerchantType("教育");break;
+				case ConstParam.MERCHANT_TYPE_OTHERS:each.setMerchantType("其他");break;
+				default:each.setMerchantType("其他");break;
+				}
+				if(each.getIdNumber().length()>12)
+					each.setIdNumber(each.getIdNumber().substring(0,4)+"********"+each.getIdNumber().substring(12));
+				if(each.getPhone().length()>7)
+					each.setPhone(each.getPhone().substring(0,3)+"****"+each.getPhone().substring(7));
 			}
 			Map<String, String> map=new HashMap<>();
 			map.put("applyId", "申请编号");
@@ -919,6 +983,7 @@ public class TestController {
 			return new RetMessage(RetCodeEnum.EXCEPTION.toString(),"管理员添加商户及员工时发生异常!",null).toJson();
 		}
 	}
+	@SuppressWarnings("static-access")
 	@RequestMapping(value="adminMerchantQueryFunctionExport")
 	public void adminMerchantQueryFunctionExport(HttpServletRequest req,HttpServletResponse res){
 		String phone=req.getParameter("phone");
@@ -932,7 +997,7 @@ public class TestController {
 				args.put("state", req.getParameter("state"));
 			}
 			if(req.getParameter("merchantName") !=null && req.getParameter("merchantName") != ""){
-				args.put("merchantName", req.getParameter("merchantName"));
+				args.put("merchantName", new URLDecoder().decode(req.getParameter("merchantName"), "utf-8"));
 			}
 			if(req.getParameter("merchantType") !=null && req.getParameter("merchantType") != ""){
 				args.put("merchantType", req.getParameter("merchantType"));
@@ -1148,7 +1213,7 @@ public class TestController {
 			args.put("pageSize", req.getParameter("pageSize"));
 			args.put("pageCode", req.getParameter("pageCode"));
 			if(req.getParameter("merchantName") !=null && req.getParameter("merchantName") != ""){
-				args.put("merchantName", req.getParameter("merchantName"));
+				args.put("merchantName", new URLDecoder().decode(req.getParameter("merchantName"), "utf-8"));
 			}
 			if(req.getParameter("userPhone") !=null && req.getParameter("userPhone") != ""){
 //				if(!check.isPhone(req.getParameter("userPhone")))
@@ -1184,6 +1249,20 @@ public class TestController {
 				case "false":each.setIsAssurance("不担保");break;
 				default:each.setState("未知");break;
 				}
+				switch (each.getMerchantType()) {
+				case ConstParam.MERCHANT_TYPE_HOUSEHOLD:each.setMerchantType("家居");break;
+				case ConstParam.MERCHANT_TYPE_ELECTRIC_APPLIANCE:each.setMerchantType("电器");break;
+				case ConstParam.MERCHANT_TYPE_NUMERAL:each.setMerchantType("数码");break;
+				case ConstParam.MERCHANT_TYPE_ENTERAINMENT:each.setMerchantType("娱乐");break;
+				case ConstParam.MERCHANT_TYPE_JEWELS:each.setMerchantType("珠宝");break;
+				case ConstParam.MERCHANT_TYPE_MEDICAL_TREATMENT:each.setMerchantType("医疗");break;
+				case ConstParam.MERCHANT_TYPE_BEAUTY:each.setMerchantType("美容");break;
+				case ConstParam.MERCHANT_TYPE_MOTOR_CAR:each.setMerchantType("汽车");break;
+				case ConstParam.MERCHANT_TYPE_EDUCATION:each.setMerchantType("教育");break;
+				case ConstParam.MERCHANT_TYPE_OTHERS:each.setMerchantType("其他");break;
+				default:each.setMerchantType("其他");break;
+				}
+				
 			}
 			LogFactory.info (this, "用户["+phone+"]已获得贷款管理列表!");
 			Map<String, String> map=new HashMap<>();
@@ -1283,7 +1362,7 @@ public class TestController {
 			args.put("phone",phone);
 			
 			if(req.getParameter("merchantName") !=null && req.getParameter("merchantName") != ""){
-				args.put("merchantName", req.getParameter("merchantName"));
+				args.put("merchantName", new URLDecoder().decode(req.getParameter("merchantName"), "utf-8"));
 			}
 			if(req.getParameter("customerPhone") !=null && req.getParameter("customerPhone") != ""){
 				args.put("customerPhone", req.getParameter("customerPhone"));
@@ -1301,6 +1380,22 @@ public class TestController {
 			RetMessage result=fun.excuted(args);
 			List<Apply> list=(List<Apply>)((Map<String, Object>)result.getResult()).get("applys");
 			LogFactory.info (this, "用户["+phone+"]已获得商户查询结果列表!");
+			list=list.parallelStream().map(each->{
+				switch (each.getMerchantType()) {
+				case ConstParam.MERCHANT_TYPE_HOUSEHOLD:each.setMerchantType("家居");break;
+				case ConstParam.MERCHANT_TYPE_ELECTRIC_APPLIANCE:each.setMerchantType("电器");break;
+				case ConstParam.MERCHANT_TYPE_NUMERAL:each.setMerchantType("数码");break;
+				case ConstParam.MERCHANT_TYPE_ENTERAINMENT:each.setMerchantType("娱乐");break;
+				case ConstParam.MERCHANT_TYPE_JEWELS:each.setMerchantType("珠宝");break;
+				case ConstParam.MERCHANT_TYPE_MEDICAL_TREATMENT:each.setMerchantType("医疗");break;
+				case ConstParam.MERCHANT_TYPE_BEAUTY:each.setMerchantType("美容");break;
+				case ConstParam.MERCHANT_TYPE_MOTOR_CAR:each.setMerchantType("汽车");break;
+				case ConstParam.MERCHANT_TYPE_EDUCATION:each.setMerchantType("教育");break;
+				case ConstParam.MERCHANT_TYPE_OTHERS:each.setMerchantType("其他");break;
+				default:each.setMerchantType("其他");break;
+				}
+				return each;
+			}).collect(Collectors.toList());
 			Map<String, String> map=new HashMap<>();
 			map.put("applyId", "申请编号");
 			map.put("name", "姓名");

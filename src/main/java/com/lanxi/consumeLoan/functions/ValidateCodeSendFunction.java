@@ -44,12 +44,12 @@ public class ValidateCodeSendFunction extends AbstractFunction {
 	@Override
 	public RetMessage excuted(Map<String, Object> args) {
 		List<String> specialPhones = new ArrayList<>();
-		specialPhones.add("15757129562");
-		specialPhones.add("18368720758");
-		specialPhones.add("18667041905");
-		specialPhones.add("18557536069");
-		specialPhones.add("13456915077");
-		specialPhones.add("15024634281");
+//		specialPhones.add("15757129562");
+//		specialPhones.add("18368720758");
+//		specialPhones.add("18667041905");
+//		specialPhones.add("18557536069");
+//		specialPhones.add("13456915077");
+//		specialPhones.add("15024634281");
 		String phone = (String) args.get("phone");
 		String userPhone = (String) args.get("userPhone");
 		if (specialPhones.contains(userPhone)) {

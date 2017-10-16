@@ -53,6 +53,8 @@ public interface ConstParam {
 	public static final String USER_STATE_REJECT = "11";
 	/** 用户状态-冻结 */
 	public static final String USER_STATE_FREEZE = "21";
+	/** 用户状态-随商户冻结*/
+	public static final String USER_STATE_SPECIAL_FREEZE = "22";
 
 	/** 商户类型-家居 */
 	public static final String MERCHANT_TYPE_HOUSEHOLD = "1001";

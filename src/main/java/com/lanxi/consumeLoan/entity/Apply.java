@@ -417,7 +417,9 @@ public class Apply{
 	 * 商户佣金查询时隐藏信息
 	 */
 	public void hide1(){
+		if(this.getIdNumber().length()>15)
 		this.setIdNumber(this.getIdNumber().substring(0,6)+"******"+this.getIdNumber().substring(12));
+		if(this.getPhone().length()>10)
 		this.setPhone(this.getPhone().substring(0, 3)+"******"+this.getPhone().substring(9));
 		this.setSex(null);
 		this.setAddress(null);
@@ -438,7 +440,9 @@ public class Apply{
 	 * 商户订单查询时隐藏信息
 	 */
 	public void hide2(){
+		if(this.getIdNumber().length()>15)
 		this.setIdNumber(this.getIdNumber().substring(0,6)+"******"+this.getIdNumber().substring(12));
+		if(this.getPhone().length()>10)
 		this.setPhone(this.getPhone().substring(0, 3)+"******"+this.getPhone().substring(9));
 		this.setServiceRate(null);
 		this.setServiceCharge(null);
@@ -462,7 +466,9 @@ public class Apply{
 	 * 查询时隐藏信息 --总
 	 */
 	public void hide3(){
+		if(this.getIdNumber().length()>15)
 		this.setIdNumber(this.getIdNumber().substring(0,6)+"******"+this.getIdNumber().substring(12));
+		if(this.getPhone().length()>10)
 		this.setPhone(this.getPhone().substring(0, 3)+"******"+this.getPhone().substring(9));
 		this.setApplyId(null);
 		this.setName(null);

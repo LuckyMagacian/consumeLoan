@@ -110,24 +110,26 @@ public class LoanFunction extends AbstractFunction {
 	@Transactional
 	private boolean update(Apply apply, Merchant merchant, SystemAccount systemAccount) {
 		try {
-			LogFactory.info(this, "尝试更新系统账户!");
-			dao.getSystemAccountDao().updateSystemAccountByUniqueIndexOnAccountId(systemAccount,
-					systemAccount.getAccountId());
-			LogFactory.info(this, "更新系统账户信息成功!");
-			LogFactory.info(this, "尝试更新商户账户!");
-			dao.getMerchantDao().updateMerchantByUniqueIndexOnMerchantId(merchant, merchant.getMerchantId());
-			LogFactory.info(this, "更新商户佣金信息成功!");
-			LogFactory.info(this, "尝试更新申请订单!");
-			dao.getApplyDao().updateApplyByUniqueIndexOnApplyId(apply, apply.getApplyId());
-			LogFactory.info(this, "更新订单放款信息成功!");
-			// String smsTemplate=ConfigManager.get("sms","customerLoanNotice");
-			// smsTemplate=smsTemplate.replace("[merchantName]",
-			// merchant.getMerchantName());
-			// smsTemplate=smsTemplate.replace("[money]", apply.getLoanMoney().toString());
-			// smsService.sendSms(smsTemplate, apply.getPhone());
-			// LogFactory.info(this,
-			// "放款成功,短信通知申请者["+apply.getName()+":"+apply.getPhone()+"],内容["+smsTemplate+"]");
-			return true;
+			synchronized (dao) {
+				LogFactory.info(this, "尝试更新系统账户!");
+				dao.getSystemAccountDao().updateSystemAccountByUniqueIndexOnAccountId(systemAccount,
+						systemAccount.getAccountId());
+				LogFactory.info(this, "更新系统账户信息成功!");
+				LogFactory.info(this, "尝试更新商户账户!");
+				dao.getMerchantDao().updateMerchantByUniqueIndexOnMerchantId(merchant, merchant.getMerchantId());
+				LogFactory.info(this, "更新商户佣金信息成功!");
+				LogFactory.info(this, "尝试更新申请订单!");
+				dao.getApplyDao().updateApplyByUniqueIndexOnApplyId(apply, apply.getApplyId());
+				LogFactory.info(this, "更新订单放款信息成功!");
+				// String smsTemplate=ConfigManager.get("sms","customerLoanNotice");
+				// smsTemplate=smsTemplate.replace("[merchantName]",
+				// merchant.getMerchantName());
+				// smsTemplate=smsTemplate.replace("[money]", apply.getLoanMoney().toString());
+				// smsService.sendSms(smsTemplate, apply.getPhone());
+				// LogFactory.info(this,
+				// "放款成功,短信通知申请者["+apply.getName()+":"+apply.getPhone()+"],内容["+smsTemplate+"]");
+				return true;
+			}
 		} catch (Exception e) {
 			return false;
 		}

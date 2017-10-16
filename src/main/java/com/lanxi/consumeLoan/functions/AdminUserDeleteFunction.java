@@ -37,6 +37,8 @@ public class AdminUserDeleteFunction extends AbstractFunction {
 	public RetMessage excuted(Map<String, Object> args) {
 		String phone=(String) args.get("phone");
         String userPhone = (String) args.get("userPhone");
+        if(userPhone.equals(phone))
+        	return new RetMessage(RetCodeEnum.FAIL, "无法删除当前用户!", null);
         LogFactory.info(this,"管理员["+phone+"],用户电话为：" + userPhone);
         User user = dao.getUserDao().selectUserByUniqueIndexOnPhone(userPhone);
         if (user == null ){

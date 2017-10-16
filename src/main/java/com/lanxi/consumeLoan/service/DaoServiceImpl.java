@@ -190,6 +190,8 @@ public class DaoServiceImpl implements DaoService{
 	private Map<String, Object> dealTime(Map<String, Object> map){
 		String startTime=(String) map.get("startTime");
 		String endTime=(String) map.get("endTime");
+		String pageSize=(String) map.get("pageSize");
+		String pageCode=(String) map.get("pageCode");
 		if(startTime!=null){
 			while(startTime.length()<14)
 				startTime+="0";
@@ -201,6 +203,22 @@ public class DaoServiceImpl implements DaoService{
 				endTime+="9";
 			map.put("endTime", endTime);
 		}
+		
+		if(pageCode!=null&&pageCode.matches("[0-9]+")) {
+			int temp=Integer.parseInt(pageCode);
+			if(temp<=0) {
+				pageCode="1";
+				map.put("pageCode", pageCode);
+			}
+		}
+		if(pageSize!=null&&pageCode.matches("[0-9]+")) {
+			int temp=Integer.parseInt(pageSize);
+			if(temp<=0) {
+				pageCode="10";
+				map.put("pageSize", pageSize);
+			}
+		}
+		
 		return map;
 	}
 }

@@ -44,7 +44,7 @@ public class OverdueRecordFunction extends AbstractFunction {
         String applyId  = (String) args.get("applyId");
         String breakTime = (String)args.get("breakTime");
         LogFactory.info(this,"用户["+phone+"],逾期的请求参数为：["+ args.toString()+ "]");
- 
+        
         Apply apply = dao.getApplyDao().selectApplyByUniqueIndexOnApplyId(applyId);
         if (apply == null ){
             LogFactory.info(this,"用户["+phone+"],逾期的申请id["+applyId+"]不存在!");
@@ -55,6 +55,11 @@ public class OverdueRecordFunction extends AbstractFunction {
         apply.setIsOverdue("true");
         apply.setState(ConstParam.APPLY_STATE_OVERDUE);
         Merchant merchant = dao.getMerchantDao().selectMerchantByUniqueIndexOnMerchantId(merchantId);
+        System.err.println(merchantId+":"+apply.getMerchantId());
+        if(!merchant.getMerchantId().equals(apply.getMerchantId())) {
+        	LogFactory.info(this, "商户id与申请中商户id不一致");
+        	return new RetMessage(RetCodeEnum.FAIL, "商户id与申请中商户id不一致", null);
+        }
         Integer breakAmount = merchant.getBreakAmount();
         BigDecimal breakMoneyAmount = merchant.getBreakMoneyAmount();
         if(breakAmount == null){
@@ -63,7 +68,11 @@ public class OverdueRecordFunction extends AbstractFunction {
         LogFactory.info(this,"用户["+phone+"],逾期之前的违约总金额为：" + breakMoneyAmount+ ",逾期之前的违约总人数为："+(breakAmount+ 1));
     
         breakMoneyAmount = breakMoneyAmount.add(breakMoney);
-        
+        //此处保证金余额已经改为消耗风险保证金金额
+        if("true".equals(merchant.getIsAssurance()))
+        	merchant.setDepositeBalance(merchant.getDepositeBalance().add(new BigDecimal(0)));
+        else
+        	merchant.setDepositeBalance(merchant.getDepositeBalance().add(breakMoney));
         merchant.setBreakAmount(breakAmount + 1);
         merchant.setBreakMoneyAmount(breakMoneyAmount);
         if("true".equals(merchant.getIsAssurance())){
@@ -77,15 +86,17 @@ public class OverdueRecordFunction extends AbstractFunction {
         	return new RetMessage(RetCodeEnum.FAIL.toString(),"违约操作失败,请重试!",null);
     }
 	@Transactional
-    public boolean update(Apply apply,Merchant merchant) {
+    public boolean  update(Apply apply,Merchant merchant) {
     	try {
-			LogFactory.info(this, "尝试更新商户账户!");
-			dao.getMerchantDao().updateMerchantByUniqueIndexOnMerchantId(merchant, merchant.getMerchantId());
-			LogFactory.info(this, "更新商户违约信息成功!");
-			LogFactory.info(this, "尝试更新申请订单!");
-			dao.getApplyDao().updateApplyByUniqueIndexOnApplyId(apply, apply.getApplyId());
-			LogFactory.info(this, "更新订单违约信息成功!");
-			return true;
+    		synchronized (dao) {				
+    			LogFactory.info(this, "尝试更新商户账户!");
+    			dao.getMerchantDao().updateMerchantByUniqueIndexOnMerchantId(merchant, merchant.getMerchantId());
+    			LogFactory.info(this, "更新商户违约信息成功!");
+    			LogFactory.info(this, "尝试更新申请订单!");
+    			dao.getApplyDao().updateApplyByUniqueIndexOnApplyId(apply, apply.getApplyId());
+    			LogFactory.info(this, "更新订单违约信息成功!");
+    			return true;
+			}
 		} catch (Exception e) {
 			return false;
 		}
